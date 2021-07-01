@@ -1,0 +1,26 @@
+{
+  "name": "davidroeger.com",
+  "version": "1.0.0",
+  "description": "david roeger personal site",
+  "private": true,
+  "scripts": {
+    "dev": ""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://david_roeger@github.com/david-roeger/davidroeger.com.git"
+  },
+  "keywords": [
+    "portfolio",
+    "blog",
+    "webdev"
+  ],
+  "author": "David Röger",
+  "bugs": {
+    "url": "https://github.com/david-roeger/davidroeger.com/issues"
+  },
+  "homepage": "https://davidroeger.com",
+  "dependencies": {
+    "prettier": "^2.3.2"
+  }
+}
