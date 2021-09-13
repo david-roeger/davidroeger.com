@@ -21,6 +21,6 @@
   },
   "homepage": "https://davidroeger.com",
   "dependencies": {
-    "prettier": "^2.3.2"
+    "prettier": "^2.4.0"
   }
 }
