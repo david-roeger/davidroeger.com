@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 
-function App() {
+import Index from '@/pages/index';
+
+const App = (): JSX.Element => {
     const [count, setCount] = useState<number>(0);
 
     return (
@@ -35,8 +37,9 @@ function App() {
                     </a>
                 </p>
             </header>
+            <Index />
         </div>
     );
-}
+};
 
 export default App;

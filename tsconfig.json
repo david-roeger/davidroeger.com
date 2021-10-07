@@ -1,11 +1,15 @@
 {
     "compilerOptions": {
+        "baseUrl": ".",
+        "paths": {
+            "@/*": ["src/*"]
+        },
         "target": "ESNext",
         "useDefineForClassFields": true,
         "lib": ["DOM", "DOM.Iterable", "ESNext"],
-        "allowJs": false,
-        "skipLibCheck": false,
-        "esModuleInterop": false,
+        "allowJs": true,
+        "skipLibCheck": true,
+        "esModuleInterop": true,
         "allowSyntheticDefaultImports": true,
         "strict": true,
         "forceConsistentCasingInFileNames": true,
@@ -14,7 +18,14 @@
         "resolveJsonModule": true,
         "isolatedModules": true,
         "noEmit": true,
-        "jsx": "react"
+        "jsx": "react",
+        "declaration": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "incremental": true
     },
-    "include": ["./src"]
+    "include": [
+        "src/**/*" // *** The files TypeScript should type check ***
+    ],
+    "exclude": ["node_modules", "build"] // *** The files to not type check ***
 }
