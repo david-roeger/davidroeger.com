@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import logo from './logo.svg';
 
 function App() {
-    const [count, setCount] = useState(0);
+    const [count, setCount] = useState<number>(0);
 
     return (
         <div>
@@ -20,7 +19,7 @@ function App() {
                 </p>
                 <p>
                     <a
-                        className="App-link"
+                        className=""
                         href="https://reactjs.org"
                         target="_blank"
                         rel="noopener noreferrer">
@@ -28,7 +27,7 @@ function App() {
                     </a>
                     {' | '}
                     <a
-                        className="App-link"
+                        className=""
                         href="https://vitejs.dev/guide/features.html"
                         target="_blank"
                         rel="noopener noreferrer">
