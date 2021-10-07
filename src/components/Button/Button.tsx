@@ -1,7 +1,11 @@
 import React from 'react';
 
-const Button = function (): JSX.Element {
-    return <button>Hallo</button>;
+interface ButtonProps {
+    children?: React.ReactNode;
+}
+
+const Button: React.FC<ButtonProps> = (children: React.ReactNode) => {
+    return <button>{children}</button>;
 };
 
 export default Button;

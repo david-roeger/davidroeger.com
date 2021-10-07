@@ -1,8 +1,7 @@
 import React from 'react';
-import { Button } from '@/components/Button';
 
-const index = (): JSX.Element => {
-    return <Button />;
+const Index: React.FC = () => {
+    return <h3>Hallo from Index</h3>;
 };
 
-export default index;
+export default Index;
