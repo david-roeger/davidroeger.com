@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import styled, { keyframes } from 'styled-components';
+
 import {
     getAccessToken,
     getTopTracks,
@@ -9,6 +9,7 @@ import {
 
 import { topTrack, topArtist, currentTrack, recentTrack } from './api/types';
 
+/*
 const sound = keyframes`
     0%,
     100% {
@@ -42,6 +43,7 @@ const Audio = styled.span`
         }
     }
 `;
+*/
 
 const Music: React.FC = () => {
     const [accessToken, setAccessToken] = useState<string>('');
@@ -104,7 +106,7 @@ const Music: React.FC = () => {
         getData();
     }, []);
     return (
-        <article className="mt-8">
+        <article className="mt-8 mx-4">
             <p>Loading: {loading ? 'true' : 'false'}</p>
 
             <section className="mt-8">
@@ -113,7 +115,7 @@ const Music: React.FC = () => {
                     lastTrack.map((track: currentTrack | recentTrack) => (
                         <div
                             key={track.id}
-                            className="flex border border-black border-b-0 last:border-b">
+                            className="flex border-t border-black border-b-0 last:border-b">
                             {track.album.images.length > 0 && (
                                 <img
                                     className="h-10 "
@@ -129,14 +131,14 @@ const Music: React.FC = () => {
                                 )
                             </p>
                             {track.hasOwnProperty('is_playable') && (
-                                <Audio className="h-10 flex py-2 pt-3 pr-2 space-x-0.5">
+                                <span className="h-10 flex py-2 pt-3 pr-2 space-x-0.5">
                                     <span className="bg-green-500 w-0.5 h-full hidden lg:inline"></span>
                                     <span className="bg-green-400 w-0.5 h-full"></span>
                                     <span className="bg-green-500 w-0.5 h-full"></span>
                                     <span className="bg-green-400 w-0.5 h-full"></span>
                                     <span className="bg-green-500 w-0.5 h-full"></span>
                                     <span className="bg-green-400 w-0.5 h-full hidden lg:inline"></span>
-                                </Audio>
+                                </span>
                             )}
                         </div>
                     ))}
