@@ -9,42 +9,6 @@ import {
 
 import { topTrack, topArtist, currentTrack, recentTrack } from './api/types';
 
-/*
-const sound = keyframes`
-    0%,
-    100% {
-        transform: scale(1, .4);
-        animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
-    }
-    50% {
-        transform: scale(1, 1);
-        animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
-    }
-`;
-
-const Audio = styled.span`
-    span {
-        transform-origin: bottom;
-        animation: ${sound} 1.2s -200ms linear infinite;
-        &:nth-child(2) {
-            animation: ${sound} 2.3s -300ms linear infinite;
-        }
-        &:nth-child(3) {
-            animation: ${sound} 1.8s -800ms linear infinite;
-        }
-        &:nth-child(4) {
-            animation: ${sound} 1.4s linear infinite;
-        }
-        &:nth-child(5) {
-            animation: ${sound} 2.9 -1.2s linear infinite;
-        }
-        &:nth-child(6) {
-            animation: ${sound} 2s -100ms linear infinite;
-        }
-    }
-`;
-*/
-
 const Music: React.FC = () => {
     const [accessToken, setAccessToken] = useState<string>('');
     const [lastTrack, setLastTrack] = useState<currentTrack[] | recentTrack[]>(
@@ -106,7 +70,7 @@ const Music: React.FC = () => {
         getData();
     }, []);
     return (
-        <article className="mt-8 mx-4">
+        <article className="mt-8">
             <p>Loading: {loading ? 'true' : 'false'}</p>
 
             <section className="mt-8">
@@ -132,12 +96,12 @@ const Music: React.FC = () => {
                             </p>
                             {track.hasOwnProperty('is_playable') && (
                                 <span className="h-10 flex py-2 pt-3 pr-2 space-x-0.5">
-                                    <span className="bg-green-500 w-0.5 h-full hidden lg:inline"></span>
-                                    <span className="bg-green-400 w-0.5 h-full"></span>
-                                    <span className="bg-green-500 w-0.5 h-full"></span>
-                                    <span className="bg-green-400 w-0.5 h-full"></span>
-                                    <span className="bg-green-500 w-0.5 h-full"></span>
-                                    <span className="bg-green-400 w-0.5 h-full hidden lg:inline"></span>
+                                    <span className="origin-bottom animate-sound-1 bg-green-500 w-0.5 h-full hidden lg:inline"></span>
+                                    <span className="origin-bottom animate-sound-2 bg-green-400 w-0.5 h-full"></span>
+                                    <span className="origin-bottom animate-sound-3 bg-green-500 w-0.5 h-full"></span>
+                                    <span className="origin-bottom animate-sound-4 bg-green-400 w-0.5 h-full"></span>
+                                    <span className="origin-bottom animate-sound-5 bg-green-500 w-0.5 h-full"></span>
+                                    <span className="origin-bottom animate-sound-6 bg-green-400 w-0.5 h-full hidden lg:inline"></span>
                                 </span>
                             )}
                         </div>
