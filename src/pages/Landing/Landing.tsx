@@ -1,7 +1,7 @@
 import React from 'react';
 
-const Index: React.FC = () => {
+const Landing: React.FC = () => {
     return <h3>Hallo from Index</h3>;
 };
 
-export default Index;
+export default Landing;

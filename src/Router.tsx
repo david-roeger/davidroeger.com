@@ -1,8 +1,8 @@
 import React from 'react';
 import { BrowserRouter, Link, Route, Switch } from 'react-router-dom';
 
-import Index from '@/pages/Index';
-import { Music } from '@/pages/Music';
+import { Landing } from './pages';
+import { Music } from './pages';
 
 const Router = () => (
     <BrowserRouter>
@@ -16,7 +16,7 @@ const Router = () => (
         </ul>
 
         <Switch>
-            <Route exact path="/" component={Index} />
+            <Route exact path="/" component={Landing} />
             <Route path="/music" component={Music} />
         </Switch>
     </BrowserRouter>

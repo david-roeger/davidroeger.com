@@ -2,7 +2,7 @@ const SPOTIFY_CLIENT_ID = import.meta.env.VITE_SPOTIFY_CLIENT_ID;
 const SPOTIFY_CLIENT_SECRET = import.meta.env.VITE_SPOTIFY_CLIENT_SECRET;
 const SPOTIFY_REFRESH_TOKEN = import.meta.env.VITE_SPOTIFY_REFRESH_TOKEN;
 
-import { request } from '@/utils/request';
+import { request } from '../../../utils/request';
 
 import { topTrack, topArtist, currentTrack, recentTrack } from './types';
 
