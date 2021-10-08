@@ -104,7 +104,7 @@ const Music: React.FC = () => {
         getData();
     }, []);
     return (
-        <article className="mt-8 mx-4">
+        <article className="mt-8">
             <p>Loading: {loading ? 'true' : 'false'}</p>
 
             <section className="mt-8">
