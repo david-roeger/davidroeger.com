@@ -114,7 +114,7 @@ const Music: React.FC = () => {
                     topTracks.map((track) => (
                         <div
                             key={track.id}
-                            className="flex border border-black border-b-0 last:border-b">
+                            className="flex border-t border-black border-b-0 last:border-b">
                             {track.album.images.length > 0 && (
                                 <img
                                     className="h-12 "
@@ -139,7 +139,7 @@ const Music: React.FC = () => {
                     topArtists.map((artist) => (
                         <div
                             key={artist.id}
-                            className="flex border border-black border-b-0 last:border-b">
+                            className="flex border-t border-black border-b-0 last:border-b">
                             {artist.images.length > 0 && (
                                 <img
                                     className="w-12 h-12 object-cover"
