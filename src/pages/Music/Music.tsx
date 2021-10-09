@@ -7,7 +7,134 @@ import {
     getLastTrack,
 } from './api/spotify';
 
+import { Album, Tag, Artist } from '../../components/Icon';
 import { topTrack, topArtist, currentTrack, recentTrack } from './api/types';
+import {
+    MusicSectionBody,
+    MusicSectionHeading,
+    MusicSectionRoot,
+    MusicSectionRow,
+    MusicSectionAtom,
+    MusicSectionImage,
+    MusicSectionDetail,
+    MusicSectionPlaying,
+} from 'src/slices/MusicSection';
+
+const LastTrackSection: React.FC<{
+    lastTrack: currentTrack[] | recentTrack[];
+}> = ({ lastTrack }) => {
+    return (
+        <MusicSectionRoot>
+            <MusicSectionHeading>Current Track</MusicSectionHeading>
+            <MusicSectionBody>
+                {lastTrack.length > 0 &&
+                    lastTrack.map((track: currentTrack | recentTrack) => (
+                        <MusicSectionRow classNames="flex" key={track.id}>
+                            {track.album.images.length > 0 && (
+                                <MusicSectionAtom>
+                                    <MusicSectionImage
+                                        url={track.album.images[0].url}
+                                        alt={`${track.album.name} Album Cover`}
+                                    />
+                                </MusicSectionAtom>
+                            )}
+                            <MusicSectionAtom classNames="flex-grow p-2 border-l-2 border-black min-w-0">
+                                <MusicSectionDetail
+                                    headline={track.name}
+                                    subline={[
+                                        track.artists
+                                            .map((artist) => artist.name)
+                                            .join(', '),
+                                        track.album.name,
+                                    ]}>
+                                    <Artist fill="icon-gray-200" />
+                                    <Album fill="icon-gray-200" />
+                                    {track.hasOwnProperty('is_playable') && (
+                                        <MusicSectionPlaying />
+                                    )}
+                                </MusicSectionDetail>
+                            </MusicSectionAtom>
+                        </MusicSectionRow>
+                    ))}
+            </MusicSectionBody>
+        </MusicSectionRoot>
+    );
+};
+
+const TopTracksSection: React.FC<{ topTracks: topTrack[] }> = ({
+    topTracks,
+}) => {
+    return (
+        <MusicSectionRoot>
+            <MusicSectionHeading>Top Tracks</MusicSectionHeading>
+            <MusicSectionBody>
+                {topTracks.length > 0 &&
+                    topTracks.map((track) => (
+                        <MusicSectionRow classNames="flex" key={track.id}>
+                            {track.album.images.length > 0 && (
+                                <MusicSectionAtom>
+                                    <MusicSectionImage
+                                        url={track.album.images[0].url}
+                                        alt={`${track.album.name} Album Cover`}
+                                    />
+                                </MusicSectionAtom>
+                            )}
+                            <MusicSectionAtom classNames="p-2 border-l-2 border-black min-w-0">
+                                <MusicSectionDetail
+                                    headline={track.name}
+                                    subline={[
+                                        track.artists
+                                            .map((artist) => artist.name)
+                                            .join(', '),
+                                        track.album.name,
+                                    ]}>
+                                    <Artist fill="icon-gray-200" />
+                                    <Album fill="icon-gray-200" />
+                                </MusicSectionDetail>
+                            </MusicSectionAtom>
+                        </MusicSectionRow>
+                    ))}
+            </MusicSectionBody>
+        </MusicSectionRoot>
+    );
+};
+
+const TopArtistsSection: React.FC<{ topArtists: topArtist[] }> = ({
+    topArtists,
+}) => {
+    return (
+        <MusicSectionRoot>
+            <MusicSectionHeading>Top Artists</MusicSectionHeading>
+            <MusicSectionBody>
+                {topArtists.length > 0 &&
+                    topArtists.map((artist) => (
+                        <MusicSectionRow classNames="flex" key={artist.id}>
+                            {artist.images.length > 0 && (
+                                <MusicSectionAtom>
+                                    <MusicSectionImage
+                                        url={
+                                            artist.images[
+                                                artist.images.length - 1
+                                            ].url
+                                        }
+                                        alt={`${artist.name} Artist Image`}
+                                    />
+                                </MusicSectionAtom>
+                            )}
+                            <MusicSectionAtom classNames="p-2 border-l-2 border-black min-w-0">
+                                <MusicSectionDetail
+                                    headline={artist.name}
+                                    subline={[artist.genres.join(', '), '']}>
+                                    <Tag fill="icon-gray-200" />
+                                    {''}
+                                </MusicSectionDetail>
+                            </MusicSectionAtom>
+                        </MusicSectionRow>
+                    ))}
+            </MusicSectionBody>
+        </MusicSectionRoot>
+    );
+};
 
 const Music: React.FC = () => {
     const [accessToken, setAccessToken] = useState<string>('');
@@ -70,96 +197,15 @@ const Music: React.FC = () => {
         getData();
     }, []);
     return (
-        <article className="mt-8">
+        <main className="mt-8">
             <p>Loading: {loading ? 'true' : 'false'}</p>
-
-            <section className="mt-8">
-                <h2>Current Track:</h2>
-                {lastTrack.length > 0 &&
-                    lastTrack.map((track: currentTrack | recentTrack) => (
-                        <div
-                            key={track.id}
-                            className="flex border-t border-black border-b-0 last:border-b">
-                            {track.album.images.length > 0 && (
-                                <img
-                                    className="h-10 "
-                                    src={track.album.images[0].url}
-                                    alt={`Album ${track.album.name} Cover`}
-                                />
-                            )}
-                            <p className="flex-1 p-2 border-l border-black truncate">
-                                {track.name} (
-                                {track.artists
-                                    .map((artist) => artist.name)
-                                    .join(' | ')}
-                                )
-                            </p>
-                            {track.hasOwnProperty('is_playable') && (
-                                <span className="h-10 flex py-2 pt-3 pr-2 space-x-0.5">
-                                    <span className="origin-bottom animate-sound-1 bg-green-500 w-0.5 h-full hidden lg:inline"></span>
-                                    <span className="origin-bottom animate-sound-2 bg-green-400 w-0.5 h-full"></span>
-                                    <span className="origin-bottom animate-sound-3 bg-green-500 w-0.5 h-full"></span>
-                                    <span className="origin-bottom animate-sound-4 bg-green-400 w-0.5 h-full"></span>
-                                    <span className="origin-bottom animate-sound-5 bg-green-500 w-0.5 h-full"></span>
-                                    <span className="origin-bottom animate-sound-6 bg-green-400 w-0.5 h-full hidden lg:inline"></span>
-                                </span>
-                            )}
-                        </div>
-                    ))}
-            </section>
-
-            <section className="mt-8">
-                <h2>Top Tracks:</h2>
-                {topTracks.length > 0 &&
-                    topTracks.map((track) => (
-                        <div
-                            key={track.id}
-                            className="flex border-t border-black border-b-0 last:border-b">
-                            {track.album.images.length > 0 && (
-                                <img
-                                    className="h-12 "
-                                    src={track.album.images[0].url}
-                                    alt={`Album ${track.album.name} Cover`}
-                                />
-                            )}
-                            <p className="p-2 border-l border-black truncate">
-                                {track.name} (
-                                {track.artists
-                                    .map((artist) => artist.name)
-                                    .join(' | ')}
-                                )
-                            </p>
-                        </div>
-                    ))}
-            </section>
-
-            <section className="mt-8">
-                <h2>Top Artists:</h2>
-                {topArtists.length > 0 &&
-                    topArtists.map((artist) => (
-                        <div
-                            key={artist.id}
-                            className="flex border-t border-black border-b-0 last:border-b">
-                            {artist.images.length > 0 && (
-                                <img
-                                    className="w-12 h-12 object-cover"
-                                    src={artist.images[0].url}
-                                    alt={`${artist.name} Image`}
-                                />
-                            )}
-                            <p className="p-2 border-l border-black truncate">
-                                {artist.name}
-                            </p>
-                        </div>
-                    ))}
-            </section>
-
-            <section className="mt-8">
-                <h2>Error:</h2>
-                {errors.length > 0 &&
-                    errors.map((error, index) => <p key={index}>{error}</p>)}
-            </section>
-        </article>
+            <p>Error:</p>
+            {errors.length > 0 &&
+                errors.map((error, index) => <p key={index}>{error}</p>)}
+            <LastTrackSection lastTrack={lastTrack} />
+            <TopTracksSection topTracks={topTracks} />
+            <TopArtistsSection topArtists={topArtists} />
+        </main>
     );
 };
 

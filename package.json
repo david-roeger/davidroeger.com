@@ -5,11 +5,14 @@
     "private": true,
     "scripts": {
         "dev": "vite",
+        "dev-host": "vite --host",
         "build": "tsc && vite build",
         "serve": "vite preview",
         "tsc": "tsc --noEmit"
     },
     "dependencies": {
+        "@capsizecss/core": "^3.0.0",
+        "inter-ui": "^3.19.3",
         "react": "^17.0.0",
         "react-dom": "^17.0.0",
         "react-router-dom": "^5.3.0"

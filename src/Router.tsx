@@ -6,14 +6,16 @@ import { Music } from './pages';
 
 const Router = () => (
     <BrowserRouter>
-        <ul>
-            <li>
-                <Link to="/">Index</Link>
-            </li>
-            <li>
-                <Link to="/music">music</Link>
-            </li>
-        </ul>
+        <nav>
+            <ul>
+                <li>
+                    <Link to="/">Index</Link>
+                </li>
+                <li>
+                    <Link to="/music">music</Link>
+                </li>
+            </ul>
+        </nav>
 
         <Switch>
             <Route exact path="/" component={Landing} />
