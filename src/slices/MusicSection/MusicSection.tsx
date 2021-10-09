@@ -53,7 +53,7 @@ export const MusicSectionImage: React.FC<{
 }> = ({ url, alt }) => {
     return (
         <img
-            className="h-[72px] w-[72px] md:h-24 md:w-24 object-cover"
+            className="h-[68px] w-[68px]  md:h-[92px] md:w-[92px] object-cover"
             src={url}
             alt={alt}
         />
@@ -71,16 +71,16 @@ export const MusicSectionDetail: React.FC<{
 }> = ({ headline, subline, children }) => {
     return (
         <>
-            <div className="flex w-full text-gray-600">
-                {children[2] && <div className="md:hidden">{children[2]}</div>}
-
+            <div className="flex w-full text-gray-500">
                 {children[0] && <div className="">{children[0]}</div>}
                 <p className="truncate">{subline[0]}</p>
                 <div className="md:hidden"></div>
             </div>
-            <h3 className=" text-2xl truncate">{headline}</h3>
-            <div className="hidden md:flex w-full text-gray-600 ">
-                {children[2] && <div>{children[2]}</div>}
+            <div className="flex items-center w-full">
+                {children[2] && <div>{children[2]}</div>}{' '}
+                <h3 className="text-xl truncate">{headline}</h3>
+            </div>
+            <div className="hidden md:flex w-full text-gray-500">
                 {children[1] && <div className="">{children[1]}</div>}
                 <p className="truncate">{subline[1]}</p>
             </div>

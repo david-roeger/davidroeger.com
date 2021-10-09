@@ -8,15 +8,6 @@ const Wave: React.FC<{ color?: string; fill?: string | string[] }> = ({
 }) => {
     return (
         <div className="w-6 h-6 grid grid-cols-1 grid-rows-1">
-            <Svg classNames="col-start-1 row-start-1">
-                <path
-                    fill-rule="evenodd"
-                    clip-rule="evenodd"
-                    d="M21 3H3V21H21V3ZM2 2V22H22V2H2Z"
-                    fill="currentColor"
-                    className={color}
-                />
-            </Svg>
             <Svg
                 height={14}
                 viewHeight={14}
