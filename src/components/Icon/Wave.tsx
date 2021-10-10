@@ -2,8 +2,7 @@ import React from 'react';
 
 import { Svg } from './index';
 
-const Wave: React.FC<{ color?: string; fill?: string | string[] }> = ({
-    color = '',
+const Wave: React.FC<{ fill?: string | string[] }> = ({
     fill = 'text-white',
 }) => {
     return (

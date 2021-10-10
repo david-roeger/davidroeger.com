@@ -61,7 +61,7 @@ export const MusicSectionImage: React.FC<{
 };
 
 export const MusicSectionDetail: React.FC<{
-    headline: string;
+    headline: string | React.ReactElement;
     subline: [string, string];
     children: [
         React.ReactChild | undefined,

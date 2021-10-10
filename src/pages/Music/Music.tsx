@@ -7,7 +7,8 @@ import {
     getLastTrack,
 } from './api/spotify';
 
-import { Album, Tag, Artist } from '../../components/Icon';
+import { ExternalLink } from '../../components/ExternalLink';
+import { Album, Tag, Artist, Score } from '../../components/Icon';
 import { topTrack, topArtist, currentTrack, recentTrack } from './api/types';
 import {
     MusicSectionBody,
@@ -32,15 +33,24 @@ const LastTrackSection: React.FC<{
                         <MusicSectionRow classNames="flex" key={track.id}>
                             {track.album.images.length > 0 && (
                                 <MusicSectionAtom>
-                                    <MusicSectionImage
-                                        url={track.album.images[0].url}
-                                        alt={`${track.album.name} Album Cover`}
-                                    />
+                                    <ExternalLink
+                                        href={track.external_urls.spotify}
+                                        ghost>
+                                        <MusicSectionImage
+                                            url={track.album.images[0].url}
+                                            alt={`${track.album.name} Album Cover`}
+                                        />
+                                    </ExternalLink>
                                 </MusicSectionAtom>
                             )}
                             <MusicSectionAtom classNames="flex-grow p-2 border-l-2 border-black min-w-0">
                                 <MusicSectionDetail
-                                    headline={track.name}
+                                    headline={
+                                        <ExternalLink
+                                            href={track.external_urls.spotify}>
+                                            {track.name}
+                                        </ExternalLink>
+                                    }
                                     subline={[
                                         track.artists
                                             .map((artist) => artist.name)
@@ -73,15 +83,24 @@ const TopTracksSection: React.FC<{ topTracks: topTrack[] }> = ({
                         <MusicSectionRow classNames="flex" key={track.id}>
                             {track.album.images.length > 0 && (
                                 <MusicSectionAtom>
-                                    <MusicSectionImage
-                                        url={track.album.images[0].url}
-                                        alt={`${track.album.name} Album Cover`}
-                                    />
+                                    <ExternalLink
+                                        href={track.external_urls.spotify}
+                                        ghost>
+                                        <MusicSectionImage
+                                            url={track.album.images[0].url}
+                                            alt={`${track.album.name} Album Cover`}
+                                        />
+                                    </ExternalLink>
                                 </MusicSectionAtom>
                             )}
                             <MusicSectionAtom classNames="p-2 border-l-2 border-black min-w-0">
                                 <MusicSectionDetail
-                                    headline={track.name}
+                                    headline={
+                                        <ExternalLink
+                                            href={track.external_urls.spotify}>
+                                            {track.name}
+                                        </ExternalLink>
+                                    }
                                     subline={[
                                         track.artists
                                             .map((artist) => artist.name)
@@ -111,22 +130,38 @@ const TopArtistsSection: React.FC<{ topArtists: topArtist[] }> = ({
                         <MusicSectionRow classNames="flex" key={artist.id}>
                             {artist.images.length > 0 && (
                                 <MusicSectionAtom>
-                                    <MusicSectionImage
-                                        url={
-                                            artist.images[
-                                                artist.images.length - 1
-                                            ].url
-                                        }
-                                        alt={`${artist.name} Artist Image`}
-                                    />
+                                    <ExternalLink
+                                        href={artist.external_urls.spotify}
+                                        ghost>
+                                        <MusicSectionImage
+                                            url={
+                                                artist.images[
+                                                    artist.images.length - 1
+                                                ].url
+                                            }
+                                            alt={`${artist.name} Artist Image`}
+                                        />
+                                    </ExternalLink>
                                 </MusicSectionAtom>
                             )}
                             <MusicSectionAtom classNames="p-2 border-l-2 border-black min-w-0">
                                 <MusicSectionDetail
-                                    headline={artist.name}
-                                    subline={[artist.genres.join(', '), '']}>
+                                    headline={
+                                        <ExternalLink
+                                            href={artist.external_urls.spotify}>
+                                            {artist.name}
+                                        </ExternalLink>
+                                    }
+                                    subline={[
+                                        artist.genres.join(', '),
+                                        `${artist.popularity} / 100`,
+                                    ]}>
                                     <Tag fill="icon-gray-200" />
-                                    {''}
+                                    <Score
+                                        id={artist.id}
+                                        fill="icon-gray-200"
+                                        score={artist.popularity}
+                                    />
                                 </MusicSectionDetail>
                             </MusicSectionAtom>
                         </MusicSectionRow>
@@ -189,6 +224,7 @@ const Music: React.FC = () => {
             }
         }
 
+        console.log(asyncTopArtists);
         setErrors([...asyncErrors]);
         setLoading(false);
     };
