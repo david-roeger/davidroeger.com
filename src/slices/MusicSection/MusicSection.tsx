@@ -16,26 +16,17 @@ export const MusicSectionHeading: React.FC<{ children: React.ReactNode }> = ({
 export const MusicSectionBody: React.FC<{ children: React.ReactNode }> = ({
     children,
 }) => {
-    return <div className="w-full border border-black">{children}</div>;
+    return <div className="w-full">{children}</div>;
 };
 
 export const MusicSectionRow: React.FC<{
-    href?: string;
     classNames?: string;
     children: React.ReactNode;
-}> = ({ href, classNames = '', children }) => {
-    if (href) {
-        return (
-            <a
-                href={href}
-                className={`border border-black ${classNames}`}
-                target="_blank">
-                {children}
-            </a>
-        );
-    }
+}> = ({ classNames = '', children }) => {
     return (
-        <div className={`border border-black ${classNames}`}>{children}</div>
+        <div className={`border-t last:border-b border-black ${classNames}`}>
+            {children}
+        </div>
     );
 };
 
@@ -53,6 +44,8 @@ export const MusicSectionImage: React.FC<{
 }> = ({ url, alt }) => {
     return (
         <img
+            width="68px"
+            height="68px"
             className="h-[68px] w-[68px]  md:h-[92px] md:w-[92px] object-cover"
             src={url}
             alt={alt}

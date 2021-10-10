@@ -6,21 +6,23 @@ import { Music } from './pages';
 
 const Router = () => (
     <BrowserRouter>
-        <nav>
-            <ul>
-                <li>
-                    <Link to="/">Index</Link>
-                </li>
-                <li>
-                    <Link to="/music">music</Link>
-                </li>
-            </ul>
-        </nav>
+        <div className="xl:container mx-auto xl:border-black xl:border-r xl:border-l">
+            <nav>
+                <ul>
+                    <li>
+                        <Link to="/">Index</Link>
+                    </li>
+                    <li>
+                        <Link to="/music">music</Link>
+                    </li>
+                </ul>
+            </nav>
 
-        <Switch>
-            <Route exact path="/" component={Landing} />
-            <Route path="/music" component={Music} />
-        </Switch>
+            <Switch>
+                <Route exact path="/" component={Landing} />
+                <Route path="/music" component={Music} />
+            </Switch>
+        </div>
     </BrowserRouter>
 );
 export default Router;

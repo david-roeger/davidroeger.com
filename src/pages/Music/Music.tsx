@@ -43,7 +43,7 @@ const LastTrackSection: React.FC<{
                                     </ExternalLink>
                                 </MusicSectionAtom>
                             )}
-                            <MusicSectionAtom classNames="flex-grow p-2 border-l-2 border-black min-w-0">
+                            <MusicSectionAtom classNames="flex-grow p-2 border-l border-black min-w-0">
                                 <MusicSectionDetail
                                     headline={
                                         <ExternalLink
@@ -93,7 +93,7 @@ const TopTracksSection: React.FC<{ topTracks: topTrack[] }> = ({
                                     </ExternalLink>
                                 </MusicSectionAtom>
                             )}
-                            <MusicSectionAtom classNames="p-2 border-l-2 border-black min-w-0">
+                            <MusicSectionAtom classNames="p-2 border-l border-black min-w-0">
                                 <MusicSectionDetail
                                     headline={
                                         <ExternalLink
@@ -144,7 +144,7 @@ const TopArtistsSection: React.FC<{ topArtists: topArtist[] }> = ({
                                     </ExternalLink>
                                 </MusicSectionAtom>
                             )}
-                            <MusicSectionAtom classNames="p-2 border-l-2 border-black min-w-0">
+                            <MusicSectionAtom classNames="p-2 border-l border-black min-w-0">
                                 <MusicSectionDetail
                                     headline={
                                         <ExternalLink
