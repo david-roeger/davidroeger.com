@@ -12,7 +12,7 @@ const ExternalLink: React.FC<{
             rel="noopener nofollow"
             tabIndex={ghost ? -1 : 0}
             className={`focus:outline-none ${
-                ghost ? '' : 'transition-bg growing-underline'
+                ghost ? '' : 'growing-underline'
             }`}>
             {children}
         </a>
