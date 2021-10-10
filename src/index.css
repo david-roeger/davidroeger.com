@@ -2,19 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
-.inter-xs {
-    font-size: 16.5px;
-    line-height: 24px;
-}
-
-.inter-xs::before {
-    content: '';
-    margin-bottom: -0.3636em;
-    display: table;
-}
-
-.inter-xs::after {
-    content: '';
-    margin-top: -0.3636em;
-    display: table;
+@layer utilities {
+    .growing-underline {
+        background-size: 0% 1px;
+        background-position: 0 100%;
+        background-image: linear-gradient(to right, currentColor, currentColor);
+        @apply bg-no-repeat;
+    }
+    .growing-underline:hover,
+    .growing-underline:focus {
+        background-size: 100% 1px;
+    }
 }

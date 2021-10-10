@@ -6,6 +6,9 @@ module.exports = {
     darkMode: false, // or 'media' or 'class'
     theme: {
         extend: {
+            transitionProperty: {
+                bg: 'background',
+            },
             keyframes: {
                 wave: {
                     '0%, 100%': {
