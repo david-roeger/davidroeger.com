@@ -6,7 +6,7 @@ import { Music } from './pages';
 
 const Router = () => (
     <BrowserRouter>
-        <div className="xl:container mx-auto xl:border-black xl:border-r xl:border-l">
+        <div className="font-neue-haas xl:container mx-auto xl:border-black xl:border-r xl:border-l">
             <nav>
                 <ul>
                     <li>

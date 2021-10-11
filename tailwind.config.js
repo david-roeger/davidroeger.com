@@ -6,6 +6,13 @@ module.exports = {
     darkMode: false, // or 'media' or 'class'
     theme: {
         extend: {
+            fontFamily: {
+                'neue-haas': [
+                    'neue-haas-grotesk-display',
+                    'ui-sans-serif',
+                    'system-ui',
+                ],
+            },
             keyframes: {
                 wave: {
                     '0%, 100%': {
