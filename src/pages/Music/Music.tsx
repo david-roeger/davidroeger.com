@@ -9,7 +9,6 @@ import {
 
 import { ExternalLink } from '../../components/ExternalLink';
 
-import { Button } from 'src/components';
 import * as Tabs from 'src/components/StyledTabs';
 import { Album, Tag, Artist, Score } from '../../components/Icon';
 import { topTrack, topArtist, currentTrack, recentTrack } from './api/types';
