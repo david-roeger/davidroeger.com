@@ -45,6 +45,11 @@ module.exports = {
                     'ui-sans-serif',
                     'system-ui',
                 ],
+                cstmx: ['CSTMX'],
+            },
+            fontSize: {
+                '10xl': '10rem',
+                '12xl': '12rem',
             },
             keyframes: {
                 wave: {

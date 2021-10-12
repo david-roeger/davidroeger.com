@@ -29,7 +29,6 @@ const LastTrackSection: React.FC<{
 }> = ({ lastTrack }) => {
     return (
         <MusicSectionRoot>
-            <MusicSectionHeading>Current Track</MusicSectionHeading>
             <MusicSectionBody>
                 {lastTrack.length > 0 &&
                     lastTrack.map((track: currentTrack | recentTrack) => (
@@ -79,7 +78,6 @@ const TopTracksSection: React.FC<{ topTracks: topTrack[] }> = ({
 }) => {
     return (
         <MusicSectionRoot>
-            <MusicSectionHeading>Top Tracks</MusicSectionHeading>
             <MusicSectionBody>
                 {topTracks.length > 0 &&
                     topTracks.map((track) => (
@@ -126,7 +124,6 @@ const TopArtistsSection: React.FC<{ topArtists: topArtist[] }> = ({
 }) => {
     return (
         <MusicSectionRoot>
-            <MusicSectionHeading>Top Artists</MusicSectionHeading>
             <MusicSectionBody>
                 {topArtists.length > 0 &&
                     topArtists.map((artist) => (
@@ -235,27 +232,55 @@ const Music: React.FC = () => {
     useEffect(() => {
         getData();
     }, []);
+
+    const [selected, setSelected] = useState('tracks');
     return (
-        <main className="xl:container xl:mx-auto">
-            <Tabs.Root defaultValue="0">
-                <Tabs.List>
-                    <Tabs.Trigger value="0">Hallo</Tabs.Trigger>
-                    <Tabs.Trigger value="1">Bye</Tabs.Trigger>
-                </Tabs.List>
-                <Tabs.Content className="bg-red-500" value="0">
-                    Content Hallo
-                </Tabs.Content>
-                <Tabs.Content value="1">Content Bye</Tabs.Content>
-            </Tabs.Root>
-            <Button>Button</Button>
-
-            <h1>MUSIC</h1>
-            <div className="m-8">
+        <main className="mx-2 my-16  md:mx-4 xl:container xl:mx-auto">
+            <div className="grid grid-cols-[1fr,fit-content(100%), 1fr] my-16 items-center space-x-2">
+                <h1 className="col-start-2 font-cstmx text-6xl md:text-8xl lg:text-10xl">
+                    MUSIC
+                </h1>
+                <div className="col-start-2 border-mauve-12 border-t" />
+            </div>
+            <div className="my-16">
+                <div className="mt-4 px-4 py-2 border border-b-0 border-mauve-12 bg-mauve-3">
+                    <MusicSectionHeading>Current Track</MusicSectionHeading>
+                </div>
                 <LastTrackSection lastTrack={lastTrack} />
-
-                <TopTracksSection topTracks={topTracks} />
-                <TopArtistsSection topArtists={topArtists} />
-
+            </div>
+            <Tabs.Root
+                defaultValue="tracks"
+                onValueChange={(value) => setSelected(value)}>
+                <Tabs.List>
+                    <Tabs.Trigger value="tracks" selected={selected}>
+                        <MusicSectionHeading>Top Tracks</MusicSectionHeading>
+                    </Tabs.Trigger>
+                    <Tabs.Trigger value="artists" selected={selected}>
+                        <MusicSectionHeading>Top Artists</MusicSectionHeading>
+                    </Tabs.Trigger>
+                </Tabs.List>
+                <Tabs.Content className="" value="tracks">
+                    <TopTracksSection topTracks={topTracks} />
+                </Tabs.Content>
+                <Tabs.Content value="artists">
+                    <TopArtistsSection topArtists={topArtists} />
+                </Tabs.Content>
+            </Tabs.Root>
+            <div className="my-16 grid grid-cols-2 space-x-2">
+                <div>
+                    <div className="mt-4 px-4 py-2 border border-b-0 border-mauve-12 bg-mauve-3">
+                        <MusicSectionHeading>Top Tracks</MusicSectionHeading>
+                    </div>
+                    <TopTracksSection topTracks={topTracks} />
+                </div>
+                <div>
+                    <div className="mt-4 px-4 py-2 border border-b-0 border-mauve-12 bg-mauve-3">
+                        <MusicSectionHeading>Top Artists</MusicSectionHeading>
+                    </div>
+                    <TopArtistsSection topArtists={topArtists} />
+                </div>
+            </div>
+            <div className="m-8">
                 <p>Loading: {loading ? 'true' : 'false'}</p>
                 <p>Error:</p>
                 {errors.length > 0 &&

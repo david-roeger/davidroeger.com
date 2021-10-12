@@ -10,7 +10,7 @@ export const MusicSectionRoot: React.FC<{
 export const MusicSectionHeading: React.FC<{ children: React.ReactNode }> = ({
     children,
 }) => {
-    return <h2 className="text-2xl">{children}</h2>;
+    return <h2 className="md:text-xl">{children}</h2>;
 };
 
 export const MusicSectionBody: React.FC<{ children: React.ReactNode }> = ({
@@ -72,7 +72,7 @@ export const MusicSectionDetail: React.FC<{
             </div>
             <div className="flex items-center w-full">
                 {children[2] && <div>{children[2]}</div>}{' '}
-                <h3 className="text-xl truncate">{headline}</h3>
+                <h3 className="md:text-xl truncate">{headline}</h3>
             </div>
             <div className="hidden md:flex w-full text-mauve-11">
                 {children[1] && <div className="">{children[1]}</div>}
