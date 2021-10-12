@@ -20,22 +20,22 @@ export const MusicSectionBody: React.FC<{ children: React.ReactNode }> = ({
 };
 
 export const MusicSectionRow: React.FC<{
-    classNames?: string;
+    className?: string;
     children: React.ReactNode;
-}> = ({ classNames = '', children }) => {
+}> = ({ className = '', children }) => {
     return (
         <div
-            className={`border border-b-0 last:border-b border-mauve-12 ${classNames}`}>
+            className={`border border-b-0 last:border-b border-mauve-12 ${className}`}>
             {children}
         </div>
     );
 };
 
 export const MusicSectionAtom: React.FC<{
-    classNames?: string;
+    className?: string;
     children: React.ReactNode;
-}> = ({ classNames = '', children }) => {
-    if (classNames) return <div className={`${classNames}`}>{children}</div>;
+}> = ({ className = '', children }) => {
+    if (className) return <div className={`${className}`}>{children}</div>;
     return <>{children}</>;
 };
 

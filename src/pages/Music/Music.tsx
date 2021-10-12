@@ -10,6 +10,7 @@ import {
 import { ExternalLink } from '../../components/ExternalLink';
 
 import { Button } from 'src/components';
+import * as Tabs from 'src/components/StyledTabs';
 import { Album, Tag, Artist, Score } from '../../components/Icon';
 import { topTrack, topArtist, currentTrack, recentTrack } from './api/types';
 import {
@@ -32,7 +33,7 @@ const LastTrackSection: React.FC<{
             <MusicSectionBody>
                 {lastTrack.length > 0 &&
                     lastTrack.map((track: currentTrack | recentTrack) => (
-                        <MusicSectionRow classNames="flex" key={track.id}>
+                        <MusicSectionRow className="flex" key={track.id}>
                             {track.album.images.length > 0 && (
                                 <MusicSectionAtom>
                                     <ExternalLink
@@ -45,7 +46,7 @@ const LastTrackSection: React.FC<{
                                     </ExternalLink>
                                 </MusicSectionAtom>
                             )}
-                            <MusicSectionAtom classNames="flex-1 p-2 border-l border-mauve-12 min-w-0">
+                            <MusicSectionAtom className="flex-1 p-2 border-l border-mauve-12 min-w-0">
                                 <MusicSectionDetail
                                     headline={
                                         <ExternalLink
@@ -82,7 +83,7 @@ const TopTracksSection: React.FC<{ topTracks: topTrack[] }> = ({
             <MusicSectionBody>
                 {topTracks.length > 0 &&
                     topTracks.map((track) => (
-                        <MusicSectionRow classNames="flex" key={track.id}>
+                        <MusicSectionRow className="flex" key={track.id}>
                             {track.album.images.length > 0 && (
                                 <MusicSectionAtom>
                                     <ExternalLink
@@ -95,7 +96,7 @@ const TopTracksSection: React.FC<{ topTracks: topTrack[] }> = ({
                                     </ExternalLink>
                                 </MusicSectionAtom>
                             )}
-                            <MusicSectionAtom classNames="flex-1 p-2 border-l border-mauve-12 min-w-0">
+                            <MusicSectionAtom className="flex-1 p-2 border-l border-mauve-12 min-w-0">
                                 <MusicSectionDetail
                                     headline={
                                         <ExternalLink
@@ -129,7 +130,7 @@ const TopArtistsSection: React.FC<{ topArtists: topArtist[] }> = ({
             <MusicSectionBody>
                 {topArtists.length > 0 &&
                     topArtists.map((artist) => (
-                        <MusicSectionRow classNames="flex" key={artist.id}>
+                        <MusicSectionRow className="flex" key={artist.id}>
                             {artist.images.length > 0 && (
                                 <MusicSectionAtom>
                                     <ExternalLink
@@ -146,7 +147,7 @@ const TopArtistsSection: React.FC<{ topArtists: topArtist[] }> = ({
                                     </ExternalLink>
                                 </MusicSectionAtom>
                             )}
-                            <MusicSectionAtom classNames="flex-1 p-2 border-l border-mauve-12 min-w-0">
+                            <MusicSectionAtom className="flex-1 p-2 border-l border-mauve-12 min-w-0">
                                 <MusicSectionDetail
                                     headline={
                                         <ExternalLink
@@ -236,7 +237,18 @@ const Music: React.FC = () => {
     }, []);
     return (
         <main className="xl:container xl:mx-auto">
+            <Tabs.Root defaultValue="0">
+                <Tabs.List>
+                    <Tabs.Trigger value="0">Hallo</Tabs.Trigger>
+                    <Tabs.Trigger value="1">Bye</Tabs.Trigger>
+                </Tabs.List>
+                <Tabs.Content className="bg-red-500" value="0">
+                    Content Hallo
+                </Tabs.Content>
+                <Tabs.Content value="1">Content Bye</Tabs.Content>
+            </Tabs.Root>
             <Button>Button</Button>
+
             <h1>MUSIC</h1>
             <div className="m-8">
                 <LastTrackSection lastTrack={lastTrack} />

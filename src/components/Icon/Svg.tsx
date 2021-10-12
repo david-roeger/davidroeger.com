@@ -5,7 +5,7 @@ interface SvgProps {
     height?: number;
     viewHeight?: number;
     viewWidth?: number;
-    classNames?: string;
+    className?: string;
     children: React.ReactNode;
 }
 const Svg: React.FC<SvgProps> = ({
@@ -13,12 +13,12 @@ const Svg: React.FC<SvgProps> = ({
     height = 24,
     viewHeight = 24,
     viewWidth = 24,
-    classNames = '',
+    className = '',
     children,
 }) => {
     return (
         <svg
-            className={classNames}
+            className={className}
             width={width}
             height={height}
             viewBox={`0 0 ${viewWidth} ${viewHeight}`}
