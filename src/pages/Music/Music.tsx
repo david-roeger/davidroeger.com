@@ -8,6 +8,8 @@ import {
 } from './api/spotify';
 
 import { ExternalLink } from '../../components/ExternalLink';
+
+import { Button } from 'src/components';
 import { Album, Tag, Artist, Score } from '../../components/Icon';
 import { topTrack, topArtist, currentTrack, recentTrack } from './api/types';
 import {
@@ -43,7 +45,7 @@ const LastTrackSection: React.FC<{
                                     </ExternalLink>
                                 </MusicSectionAtom>
                             )}
-                            <MusicSectionAtom classNames="flex-1 p-2 border-l border-black min-w-0">
+                            <MusicSectionAtom classNames="flex-1 p-2 border-l border-mauve-12 min-w-0">
                                 <MusicSectionDetail
                                     headline={
                                         <ExternalLink
@@ -57,8 +59,8 @@ const LastTrackSection: React.FC<{
                                             .join(', '),
                                         track.album.name,
                                     ]}>
-                                    <Artist fill="icon-gray-200" />
-                                    <Album fill="icon-gray-200" />
+                                    <Artist fill="icon-mauve-5" />
+                                    <Album fill="icon-mauve-5" />
                                     {track.hasOwnProperty('is_playable') && (
                                         <MusicSectionPlaying />
                                     )}
@@ -93,7 +95,7 @@ const TopTracksSection: React.FC<{ topTracks: topTrack[] }> = ({
                                     </ExternalLink>
                                 </MusicSectionAtom>
                             )}
-                            <MusicSectionAtom classNames="flex-1 p-2 border-l border-black min-w-0">
+                            <MusicSectionAtom classNames="flex-1 p-2 border-l border-mauve-12 min-w-0">
                                 <MusicSectionDetail
                                     headline={
                                         <ExternalLink
@@ -107,8 +109,8 @@ const TopTracksSection: React.FC<{ topTracks: topTrack[] }> = ({
                                             .join(', '),
                                         track.album.name,
                                     ]}>
-                                    <Artist fill="icon-gray-200" />
-                                    <Album fill="icon-gray-200" />
+                                    <Artist fill="icon-mauve-5" />
+                                    <Album fill="icon-mauve-5" />
                                 </MusicSectionDetail>
                             </MusicSectionAtom>
                         </MusicSectionRow>
@@ -144,7 +146,7 @@ const TopArtistsSection: React.FC<{ topArtists: topArtist[] }> = ({
                                     </ExternalLink>
                                 </MusicSectionAtom>
                             )}
-                            <MusicSectionAtom classNames="flex-1 p-2 border-l border-black min-w-0">
+                            <MusicSectionAtom classNames="flex-1 p-2 border-l border-mauve-12 min-w-0">
                                 <MusicSectionDetail
                                     headline={
                                         <ExternalLink
@@ -156,10 +158,10 @@ const TopArtistsSection: React.FC<{ topArtists: topArtist[] }> = ({
                                         artist.genres.join(', '),
                                         `${artist.popularity} / 100`,
                                     ]}>
-                                    <Tag fill="icon-gray-200" />
+                                    <Tag fill="icon-mauve-5" />
                                     <Score
                                         id={artist.id}
-                                        fill="icon-gray-200"
+                                        fill="icon-mauve-5"
                                         score={artist.popularity}
                                     />
                                 </MusicSectionDetail>
@@ -233,14 +235,20 @@ const Music: React.FC = () => {
         getData();
     }, []);
     return (
-        <main className="mt-8">
-            <p>Loading: {loading ? 'true' : 'false'}</p>
-            <p>Error:</p>
-            {errors.length > 0 &&
-                errors.map((error, index) => <p key={index}>{error}</p>)}
-            <LastTrackSection lastTrack={lastTrack} />
-            <TopTracksSection topTracks={topTracks} />
-            <TopArtistsSection topArtists={topArtists} />
+        <main className="xl:container xl:mx-auto">
+            <Button>Button</Button>
+            <h1>MUSIC</h1>
+            <div className="m-8">
+                <LastTrackSection lastTrack={lastTrack} />
+
+                <TopTracksSection topTracks={topTracks} />
+                <TopArtistsSection topArtists={topArtists} />
+
+                <p>Loading: {loading ? 'true' : 'false'}</p>
+                <p>Error:</p>
+                {errors.length > 0 &&
+                    errors.map((error, index) => <p key={index}>{error}</p>)}
+            </div>
         </main>
     );
 };

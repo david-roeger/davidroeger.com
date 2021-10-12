@@ -24,7 +24,8 @@ export const MusicSectionRow: React.FC<{
     children: React.ReactNode;
 }> = ({ classNames = '', children }) => {
     return (
-        <div className={`border-t last:border-b border-black ${classNames}`}>
+        <div
+            className={`border border-b-0 last:border-b border-mauve-12 ${classNames}`}>
             {children}
         </div>
     );
@@ -64,7 +65,7 @@ export const MusicSectionDetail: React.FC<{
 }> = ({ headline, subline, children }) => {
     return (
         <>
-            <div className="flex w-full text-gray-500">
+            <div className="flex w-full text-mauve-11">
                 {children[0] && <div className="">{children[0]}</div>}
                 <p className="truncate">{subline[0]}</p>
                 <div className="md:hidden"></div>
@@ -73,7 +74,7 @@ export const MusicSectionDetail: React.FC<{
                 {children[2] && <div>{children[2]}</div>}{' '}
                 <h3 className="text-xl truncate">{headline}</h3>
             </div>
-            <div className="hidden md:flex w-full text-gray-500">
+            <div className="hidden md:flex w-full text-mauve-11">
                 {children[1] && <div className="">{children[1]}</div>}
                 <p className="truncate">{subline[1]}</p>
             </div>
