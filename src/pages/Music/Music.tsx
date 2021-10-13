@@ -245,7 +245,7 @@ const Music: React.FC = () => {
             </div>
             <div className="my-16">
                 <div className="mt-4 grid grid-cols-2 space-x-2">
-                    <div className="flex-grow px-4 py-2 rounded-tl-3xl border-mauve-12 bg-mauve-3 border">
+                    <div className="flex-grow px-4 py-2 rounded-tl-3xl border border-b-0 border-mauve-12  bg-mauve-3">
                         <MusicSectionHeading>Current Track</MusicSectionHeading>
                     </div>
                 </div>
