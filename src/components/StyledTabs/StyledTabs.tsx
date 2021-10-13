@@ -8,7 +8,7 @@ const Root: React.FC<Tabs.TabsProps & React.RefAttributes<HTMLDivElement>> = ({
 
 const List: React.FC<Tabs.TabsListProps & React.RefAttributes<HTMLDivElement>> =
     ({ className = '', ...rest }) => (
-        <Tabs.List className={`flex space-x-0.5 ${className}`} {...rest} />
+        <Tabs.List className={`flex space-x-2 ${className}`} {...rest} />
     );
 
 interface StyledTabsTriggerProps extends Tabs.TabsTriggerProps {

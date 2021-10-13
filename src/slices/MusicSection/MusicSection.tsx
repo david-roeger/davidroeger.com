@@ -86,10 +86,10 @@ export const MusicSectionPlaying: React.FC = () => {
     return (
         <Wave
             fill={[
-                'icon-green-500',
-                'icon-green-500',
-                'icon-green-500',
-                'icon-green-500',
+                'icon-green-9',
+                'icon-green-9',
+                'icon-green-9',
+                'icon-green-9',
             ]}
         />
     );

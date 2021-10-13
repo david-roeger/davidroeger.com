@@ -31,7 +31,9 @@ const LastTrackSection: React.FC<{
             <MusicSectionBody>
                 {lastTrack.length > 0 &&
                     lastTrack.map((track: currentTrack | recentTrack) => (
-                        <MusicSectionRow className="flex" key={track.id}>
+                        <MusicSectionRow
+                            className="flex rounded-br-3xl "
+                            key={track.id}>
                             {track.album.images.length > 0 && (
                                 <MusicSectionAtom>
                                     <ExternalLink
@@ -242,8 +244,10 @@ const Music: React.FC = () => {
                 <div className="col-start-2 border-mauve-12 border-t" />
             </div>
             <div className="my-16">
-                <div className="mt-4 px-4 py-2 border border-b-0 border-mauve-12 bg-mauve-3">
-                    <MusicSectionHeading>Current Track</MusicSectionHeading>
+                <div className="mt-4 grid grid-cols-2 space-x-2">
+                    <div className="flex-grow px-4 py-2 rounded-tl-3xl border-mauve-12 bg-mauve-3 border">
+                        <MusicSectionHeading>Current Track</MusicSectionHeading>
+                    </div>
                 </div>
                 <LastTrackSection lastTrack={lastTrack} />
             </div>
@@ -267,13 +271,13 @@ const Music: React.FC = () => {
             </Tabs.Root>
             <div className="my-16 grid grid-cols-2 space-x-2">
                 <div>
-                    <div className="mt-4 px-4 py-2 border border-b-0 border-mauve-12 bg-mauve-3">
+                    <div className="mt-4 px-4 py-2 rounded-t-3xl border border-b-0 border-mauve-12 bg-mauve-3">
                         <MusicSectionHeading>Top Tracks</MusicSectionHeading>
                     </div>
                     <TopTracksSection topTracks={topTracks} />
                 </div>
                 <div>
-                    <div className="mt-4 px-4 py-2 border border-b-0 border-mauve-12 bg-mauve-3">
+                    <div className="mt-4 px-4 py-2 rounded-t-3xl border border-b-0 border-mauve-12 bg-mauve-3">
                         <MusicSectionHeading>Top Artists</MusicSectionHeading>
                     </div>
                     <TopArtistsSection topArtists={topArtists} />
