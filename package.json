@@ -13,6 +13,7 @@
     "dependencies": {
         "@capsizecss/core": "^3.0.0",
         "@radix-ui/react-tabs": "^0.1.0",
+        "@supabase/supabase-js": "^1.24.0",
         "inter-ui": "^3.19.3",
         "react": "^17.0.0",
         "react-dom": "^17.0.0",

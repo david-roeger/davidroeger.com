@@ -4,7 +4,7 @@ const SPOTIFY_REFRESH_TOKEN = import.meta.env.VITE_SPOTIFY_REFRESH_TOKEN;
 
 import { request } from '../../../utils/request';
 
-import { topTrack, topArtist, currentTrack, recentTrack } from './types';
+import { topTrack, topArtist, currentTrack, recentTrack } from '../../../types';
 
 export const getAccessToken = async () => {
     const { access_token } = await request(
@@ -38,21 +38,21 @@ const baseRequest = async (accessToken: string, params: string) => {
     return res;
 };
 
-const getTop = async (accessToken: string, type: string) => {
+const getTop = async (accessToken: string, type: string, range: string) => {
     const { items } = await baseRequest(
         accessToken,
-        `/top/${type}/?time_range=medium_term&limit=5&offset=0`,
+        `/top/${type}/?time_range=${range}_term&limit=5&offset=0`,
     );
     if (items) return items as any[];
     return [];
 };
 
-export const getTopTracks = async (accessToken: string) => {
-    return (await getTop(accessToken, 'tracks')) as topTrack[];
+export const getTopTracks = async (accessToken: string, range: string) => {
+    return (await getTop(accessToken, 'tracks', range)) as topTrack[];
 };
 
-export const getTopArtists = async (accessToken: string) => {
-    return (await getTop(accessToken, 'artists')) as topArtist[];
+export const getTopArtists = async (accessToken: string, range: string) => {
+    return (await getTop(accessToken, 'artists', range)) as topArtist[];
 };
 
 const getCurrentTrack = async (accessToken: string) => {

@@ -18,7 +18,7 @@ const Trigger: React.FC<
     StyledTabsTriggerProps & React.RefAttributes<HTMLDivElement>
 > = ({ className = '', selected, value, ...rest }) => (
     <Tabs.Trigger
-        className={`flex-grow min-w-0 p-4 py-2 hover:bg-mauve-4 focus:outline-none focus-visible:ring-1 focus-visible:ring-offset-2 focus:ring-mauve-12 cursor-pointer select-none border border-mauve-12 first:rounded-l-full last:rounded-r-full ${
+        className={`flex-grow min-w-0 p-4 py-2 hover:bg-mauve-4 focus:outline-none focus:ring-1 focus:ring-offset-2 focus:ring-mauve-12 cursor-pointer select-none border border-mauve-12 first:rounded-l-full last:rounded-r-full ${
             selected === value ? 'bg-purple-6 hover:bg-purple-6' : ''
         } ${className}`}
         value={value}

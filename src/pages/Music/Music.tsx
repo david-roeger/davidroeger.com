@@ -7,11 +7,16 @@ import {
     getLastTrack,
 } from './api/spotify';
 
+import { getSupabaseData } from './api/supabase';
+
 import { ExternalLink } from '../../components/ExternalLink';
 
 import * as Tabs from 'src/components/StyledTabs';
 import { Album, Tag, Artist, Score } from '../../components/Icon';
-import { topTrack, topArtist, currentTrack, recentTrack } from './api/types';
+
+import { ENUMS } from '../../ENUMS';
+import { topTrack, topArtist, currentTrack, recentTrack, responseSchema } from '../../types';
+
 import {
     MusicSectionBody,
     MusicSectionHeading,
@@ -181,8 +186,12 @@ const Music: React.FC = () => {
     const [topArtists, setTopArtists] = useState<topArtist[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [errors, setErrors] = useState<string[]>([]);
+
     const getData = async () => {
         const asyncErrors = [...errors];
+        const data = await getSupabaseData();
+
+        /*
         const asyncAccessToken = accessToken || (await getAccessToken());
         if (!accessToken) {
             if (asyncAccessToken) {
@@ -191,10 +200,11 @@ const Music: React.FC = () => {
                 asyncErrors.push('Something went wrong (Accesstoken) 🥺');
             }
         }
+        */
 
         const asyncLastTrack = lastTrack.length
             ? lastTrack
-            : await getLastTrack(asyncAccessToken);
+            : data.reduce((value) => value.type === ENUMS.type.last );
         if (!lastTrack.length) {
             if (asyncLastTrack.length) {
                 setLastTrack(asyncLastTrack);
@@ -205,7 +215,7 @@ const Music: React.FC = () => {
 
         const asyncTopTracks = topTracks.length
             ? topTracks
-            : await getTopTracks(asyncAccessToken);
+            : await getTopTracks(asyncAccessToken, 'long');
         if (!topTracks.length) {
             if (asyncTopTracks.length) {
                 setTopTracks(asyncTopTracks);
@@ -216,7 +226,7 @@ const Music: React.FC = () => {
 
         const asyncTopArtists = topArtists.length
             ? topArtists
-            : await getTopArtists(asyncAccessToken);
+            : await getTopArtists(asyncAccessToken, 'long');
         if (!topArtists.length) {
             if (asyncTopArtists.length) {
                 setTopArtists(asyncTopArtists);
@@ -228,7 +238,10 @@ const Music: React.FC = () => {
         console.log(asyncTopArtists);
         setErrors([...asyncErrors]);
         setLoading(false);
+        */
     };
+
+    useEffect(() => {}, []);
 
     useEffect(() => {
         getData();
@@ -236,7 +249,7 @@ const Music: React.FC = () => {
 
     const [selected, setSelected] = useState('tracks');
     return (
-        <main className="mx-2 my-16  md:mx-4 xl:container xl:mx-auto">
+        <main className="px-4 my-16  md:px-8 xl:px-16 xl:container xl:mx-auto">
             <div className="grid grid-cols-[1fr,fit-content(100%), 1fr] my-16 items-center space-x-2">
                 <h1 className="col-start-2 font-cstmx text-6xl md:text-8xl lg:text-10xl">
                     MUSIC
@@ -271,13 +284,13 @@ const Music: React.FC = () => {
             </Tabs.Root>
             <div className="my-16 grid grid-cols-2 space-x-2">
                 <div>
-                    <div className="mt-4 px-4 py-2 rounded-t-3xl border border-b-0 border-mauve-12 bg-mauve-3">
+                    <div className="mt-4 px-4 py-2 border border-b-0 border-mauve-12 bg-mauve-3">
                         <MusicSectionHeading>Top Tracks</MusicSectionHeading>
                     </div>
                     <TopTracksSection topTracks={topTracks} />
                 </div>
                 <div>
-                    <div className="mt-4 px-4 py-2 rounded-t-3xl border border-b-0 border-mauve-12 bg-mauve-3">
+                    <div className="mt-4 px-4 py-2 border border-b-0 border-mauve-12 bg-mauve-3">
                         <MusicSectionHeading>Top Artists</MusicSectionHeading>
                     </div>
                     <TopArtistsSection topArtists={topArtists} />
