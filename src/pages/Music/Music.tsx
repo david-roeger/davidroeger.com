@@ -1,12 +1,5 @@
 import React, { useEffect, useState } from 'react';
 
-import {
-    getAccessToken,
-    getTopTracks,
-    getTopArtists,
-    getLastTrack,
-} from './api/spotify';
-
 import { getSupabaseData } from './api/supabase';
 
 import { ExternalLink } from '../../components/ExternalLink';
@@ -14,8 +7,7 @@ import { ExternalLink } from '../../components/ExternalLink';
 import * as Tabs from 'src/components/StyledTabs';
 import { Album, Tag, Artist, Score } from '../../components/Icon';
 
-import { ENUMS } from '../../ENUMS';
-import { topTrack, topArtist, currentTrack, recentTrack, responseSchema } from '../../types';
+import { topTrack, topArtist, currentTrack, recentTrack } from '../../types';
 
 import {
     MusicSectionBody,
@@ -178,7 +170,6 @@ const TopArtistsSection: React.FC<{ topArtists: topArtist[] }> = ({
 };
 
 const Music: React.FC = () => {
-    const [accessToken, setAccessToken] = useState<string>('');
     const [lastTrack, setLastTrack] = useState<currentTrack[] | recentTrack[]>(
         [],
     );
@@ -189,8 +180,10 @@ const Music: React.FC = () => {
 
     const getData = async () => {
         const asyncErrors = [...errors];
-        const data = await getSupabaseData();
+        const { supabaseLastTrack, supabaseTopTracks, supaBaseTopArtists } =
+            await getSupabaseData();
 
+        console.log(supabaseLastTrack);
         /*
         const asyncAccessToken = accessToken || (await getAccessToken());
         if (!accessToken) {
@@ -204,7 +197,7 @@ const Music: React.FC = () => {
 
         const asyncLastTrack = lastTrack.length
             ? lastTrack
-            : data.reduce((value) => value.type === ENUMS.type.last );
+            : supabaseLastTrack[0];
         if (!lastTrack.length) {
             if (asyncLastTrack.length) {
                 setLastTrack(asyncLastTrack);
@@ -215,7 +208,7 @@ const Music: React.FC = () => {
 
         const asyncTopTracks = topTracks.length
             ? topTracks
-            : await getTopTracks(asyncAccessToken, 'long');
+            : supabaseTopTracks[0];
         if (!topTracks.length) {
             if (asyncTopTracks.length) {
                 setTopTracks(asyncTopTracks);
@@ -226,7 +219,7 @@ const Music: React.FC = () => {
 
         const asyncTopArtists = topArtists.length
             ? topArtists
-            : await getTopArtists(asyncAccessToken, 'long');
+            : supaBaseTopArtists[0];
         if (!topArtists.length) {
             if (asyncTopArtists.length) {
                 setTopArtists(asyncTopArtists);
@@ -234,11 +227,8 @@ const Music: React.FC = () => {
                 asyncErrors.push('Something went wrong (TopArtists) 🥺');
             }
         }
-
-        console.log(asyncTopArtists);
         setErrors([...asyncErrors]);
         setLoading(false);
-        */
     };
 
     useEffect(() => {}, []);

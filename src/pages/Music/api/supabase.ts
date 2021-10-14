@@ -7,7 +7,15 @@ import {
 } from './spotify';
 
 import { ENUMS } from '../../../ENUMS';
-import { schema, responseSchema } from '../../../types';
+import {
+    schema,
+    responseSchema,
+    recentTrack,
+    currentTrack,
+    topTrack,
+    topArtist,
+    responseData,
+} from '../../../types';
 
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 const supabaseKey = import.meta.env.VITE_SUPABASE_KEY;
@@ -16,17 +24,21 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 export const getSupabaseData = async () => {
     let { data, error } = await supabase.from('spotifydata').select();
     console.log(data);
+    let lastTrack: [recentTrack[] | currentTrack[]] = [[]];
+    let topTracks: [topTrack[]] = [[]];
+    let topArtists: [topArtist[]] = [[]];
     if (data && data.length) {
-        const lastTrack = getLastTrackFromResponse(data as responseSchema[]);
-        const topTrack: schema[] = await getTopTrackSchemas(accessToken);
-        const topArtist: schema[] = await getTopArtistSchemas(accessToken);
-        data.filter((value) => value.type === ENUMS.last);
+        lastTrack = getLastTrackFromResponse(data as responseSchema[]);
+        topTracks = getTopTracksFromResponse(data as responseSchema[]);
+        topArtists = getTopArtistsFromResponse(data as responseSchema[]);
     }
-    
-    return  data as responseSchema[]
-    
-    ;
-    return [] as responseSchema[];
+
+    return {
+        supabaseLastTrack: lastTrack,
+        supabaseTopTracks: topTracks,
+        supaBaseTopArtists: topArtists,
+    };
+
     /*if (data && data.length === 0) {
         // fetch spotify
         const spotifyData = await getSpotifyData();
@@ -59,7 +71,7 @@ const getSpotifyData = async () => {
 const ranges: ['short', 'medium', 'long'] = ['short', 'medium', 'long'];
 
 const getLastTrackSchema = async (accessToken: string) => {
-    const lastTrack = await getLastTrac(accessToken);
+    const lastTrack = await getLastTrack(accessToken);
     const schema: schema = getSchema(ENUMS.last, 0, lastTrack);
     return schema;
 };
@@ -101,13 +113,26 @@ const getSchema = (type: number, range: number, data: any[]) => {
     return schema;
 };
 
+const getLastTrackFromResponse = (data: responseSchema[]) => {
+    return getValueFromResponse(ENUMS.last, data) as [
+        recentTrack[] | currentTrack[],
+    ];
+};
 
+const getTopTracksFromResponse = (data: responseSchema[]) => {
+    return getValueFromResponse(ENUMS.tracks, data) as [topTrack[]];
+};
 
-const getLastTrackFromResponse = (data: responseSchema[]) {
-    const lastTrack = 
-}
+const getTopArtistsFromResponse = (data: responseSchema[]) => {
+    return getValueFromResponse(ENUMS.artists, data) as [topArtist[]];
+};
 
-
-const getTypeFromResponse = (type: number, data: responseSchema[]) {
-
-}
+const getValueFromResponse = (type: number, data: responseSchema[]) => {
+    const entries = data.filter((entry) => entry.type === type);
+    let value: any[] = [];
+    entries.forEach((entry) => {
+        const parsed: any[] = JSON.parse(entry.data);
+        value.push(parsed);
+    });
+    return value;
+};

@@ -1,21 +1,4 @@
 /**
- * Supabase Types
- */
-export interface schema {
-    type: number;
-    range: number;
-    data: string;
-}
-
-export interface responseSchema {
-    type: number;
-    range: number;
-    data: string;
-    inserted_at: string;
-    updated_at: string;
-}
-
-/**
  * Spotify Types
  */
 interface externalUrls {
@@ -78,4 +61,27 @@ export interface topArtist extends baseObject {
     genres: [string];
     images: [image];
     popularity: number;
+}
+
+/**
+ * Supabase Types
+ */
+export interface schema {
+    type: number;
+    range: number;
+    data: string;
+}
+
+export interface responseSchema {
+    type: number;
+    range: number;
+    data: string;
+    inserted_at: string;
+    updated_at: string;
+}
+
+export interface responseData {
+    lastTrack: currentTrack[] | recentTrack[];
+    topTracks: topTracks[];
+    topArtists: topArtist[];
 }
