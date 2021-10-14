@@ -9,48 +9,46 @@ import {
 import { ENUMS } from '../../../ENUMS';
 import {
     schema,
-    responseSchema,
     recentTrack,
     currentTrack,
     topTrack,
     topArtist,
     responseData,
+    responseSchema,
+    responseDataSchemas,
 } from '../../../types';
+
+const time = [86400000, 604800000, 2629746000];
 
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 const supabaseKey = import.meta.env.VITE_SUPABASE_KEY;
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-export const getSupabaseData = async () => {
+export const getSupabaseData = async (): Promise<responseData> => {
     let { data, error } = await supabase.from('spotifydata').select();
-    console.log(data);
-    let lastTrack: [recentTrack[] | currentTrack[]] = [[]];
-    let topTracks: [topTrack[]] = [[]];
-    let topArtists: [topArtist[]] = [[]];
+
     if (data && data.length) {
-        lastTrack = getLastTrackFromResponse(data as responseSchema[]);
-        topTracks = getTopTracksFromResponse(data as responseSchema[]);
-        topArtists = getTopArtistsFromResponse(data as responseSchema[]);
+        return await handleSupabaseData(data as responseSchema[]);
     }
 
-    return {
-        supabaseLastTrack: lastTrack,
-        supabaseTopTracks: topTracks,
-        supaBaseTopArtists: topArtists,
-    };
-
-    /*if (data && data.length === 0) {
+    if (data && data.length === 0) {
         // fetch spotify
-        const spotifyData = await getSpotifyData();
+        const spotifyData = await getInitialSpotifyData();
 
         const { data, error } = await supabase
             .from('spotifydata')
             .insert(spotifyData);
 
-        console.log(data);
-        console.log(error);
-        return data;
+        return await handleSupabaseData(data as responseSchema[]);
     }
+
+    return {
+        supabaseLastTrack: [[]],
+        supabaseTopTracks: [[]],
+        supaBaseTopArtists: [[]],
+    };
+
+    /*
     console.error(
         `Request to Data Base went wrong (Status: ${error?.code}) (Message: ${error?.message})`,
     );
@@ -58,7 +56,104 @@ export const getSupabaseData = async () => {
     */
 };
 
-const getSpotifyData = async () => {
+const handleSupabaseData = async (
+    data: responseSchema[],
+): Promise<responseData> => {
+    const lastTrackSchema = getLastTrackFromResponse(data);
+    const topTracksSchema = getTopTracksFromResponse(data);
+    const topArtistsSchemas = getTopArtistsFromResponse(data);
+
+    const updatedLastTrackSchemas = await updateData(
+        lastTrackSchema,
+        ENUMS.last,
+        true,
+        getLastTrack,
+        getLastTrackFromResponse,
+    );
+
+    const updatedTopTrackSchemas = await updateData(
+        topTracksSchema,
+        ENUMS.tracks,
+        false,
+        getTopTracks,
+        getTopTracksFromResponse,
+    );
+    const updatedTopArtistsSchemas = await updateData(
+        topArtistsSchemas,
+        ENUMS.artists,
+        false,
+        getTopArtists,
+        getTopArtistsFromResponse,
+    );
+    const parsedLastTrack = parseData(updatedLastTrackSchemas) as (
+        | currentTrack[]
+        | recentTrack[]
+    )[];
+
+    const parsedTopTracks = parseData(updatedTopTrackSchemas) as topTrack[][];
+    const parsedTopArtists = parseData(
+        updatedTopArtistsSchemas,
+    ) as topArtist[][];
+
+    return {
+        supabaseLastTrack: parsedLastTrack,
+        supabaseTopTracks: parsedTopTracks,
+        supaBaseTopArtists: parsedTopArtists,
+    };
+};
+
+// todo: add error handling
+const updateData = async (
+    responseSchemas: responseSchema[],
+    type: number,
+    isLastTrack: boolean,
+    getSpotify: (a: string, b?: any) => any,
+    getDataFromResponse: (a: [responseSchema]) => responseSchema[],
+) => {
+    const updatedResponseSchemas = [...responseSchemas];
+    for (let i = 0; i < updatedResponseSchemas.length; i++) {
+        let schema = updatedResponseSchemas[i];
+        const difference = isLastTrack ? 60000 * 5 : time[i];
+        console.log(difference, new Date(Date.parse(schema.updated_at)));
+        if (compareDates(schema.updated_at, difference)) {
+            const accessToken = await getAccessToken();
+            const spotifyData = isLastTrack
+                ? await getSpotify(accessToken)
+                : await getSpotify(accessToken, ranges[i]);
+            const { data, error } = await supabase
+                .from('spotifydata')
+                .update({
+                    data: JSON.stringify(spotifyData),
+                })
+                .match({ type: type, range: i });
+
+            if (data && data.length) {
+                schema = getDataFromResponse(data as [responseSchema])[0];
+            }
+        }
+    }
+
+    return updatedResponseSchemas;
+};
+
+const compareDates = (timeString: string, difference: number) => {
+    const now = Date.now();
+    const parsedTimeString = Date.parse(timeString);
+    return now - parsedTimeString > difference;
+};
+
+const parseData = (responseSchemas: responseSchema[]) => {
+    const parsed: any[][] = [];
+    responseSchemas.forEach((schema) => {
+        const data: any[] = JSON.parse(schema.data);
+        parsed.push(data);
+    });
+
+    if (!parsed.length) parsed.push([]);
+    return parsed;
+};
+
+const getInitialSpotifyData = async () => {
     const accessToken = await getAccessToken();
     const lastTrackSchema: schema = await getLastTrackSchema(accessToken);
     const topTrackSchemas: schema[] = await getTopTrackSchemas(accessToken);
@@ -114,25 +209,17 @@ const getSchema = (type: number, range: number, data: any[]) => {
 };
 
 const getLastTrackFromResponse = (data: responseSchema[]) => {
-    return getValueFromResponse(ENUMS.last, data) as [
-        recentTrack[] | currentTrack[],
-    ];
+    return getValueFromResponse(ENUMS.last, data);
 };
 
 const getTopTracksFromResponse = (data: responseSchema[]) => {
-    return getValueFromResponse(ENUMS.tracks, data) as [topTrack[]];
+    return getValueFromResponse(ENUMS.tracks, data);
 };
 
 const getTopArtistsFromResponse = (data: responseSchema[]) => {
-    return getValueFromResponse(ENUMS.artists, data) as [topArtist[]];
+    return getValueFromResponse(ENUMS.artists, data);
 };
 
 const getValueFromResponse = (type: number, data: responseSchema[]) => {
-    const entries = data.filter((entry) => entry.type === type);
-    let value: any[] = [];
-    entries.forEach((entry) => {
-        const parsed: any[] = JSON.parse(entry.data);
-        value.push(parsed);
-    });
-    return value;
+    return data.filter((entry) => entry.type === type);
 };

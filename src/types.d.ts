@@ -81,7 +81,13 @@ export interface responseSchema {
 }
 
 export interface responseData {
-    lastTrack: currentTrack[] | recentTrack[];
-    topTracks: topTracks[];
-    topArtists: topArtist[];
+    supabaseLastTrack: (currentTrack[] | recentTrack[])[];
+    supabaseTopTracks: topTracks[][];
+    supaBaseTopArtists: topArtist[][];
+}
+
+export interface responseDataSchemas {
+    lastTrackSchemas: responseSchema[];
+    topTracksSchemas: responseSchema[];
+    topArtistsSchemas: responseSchema[];
 }

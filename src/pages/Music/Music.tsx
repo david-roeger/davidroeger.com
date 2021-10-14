@@ -208,15 +208,15 @@ const Music: React.FC = () => {
 
         const asyncTopTracks = topTracks.length
             ? topTracks
-            : supabaseTopTracks[0];
+            : supabaseTopTracks[2];
         if (!topTracks.length) {
-            if (asyncTopTracks.length) {
+            if (asyncTopTracks?.length) {
                 setTopTracks(asyncTopTracks);
             } else {
                 asyncErrors.push('Something went wrong (TopTracks) 🥺');
             }
         }
-
+        console.log(supaBaseTopArtists);
         const asyncTopArtists = topArtists.length
             ? topArtists
             : supaBaseTopArtists[0];
