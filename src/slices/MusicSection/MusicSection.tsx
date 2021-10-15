@@ -10,7 +10,7 @@ export const MusicSectionRoot: React.FC<{
 export const MusicSectionHeading: React.FC<{ children: React.ReactNode }> = ({
     children,
 }) => {
-    return <h2 className="text-2xl">{children}</h2>;
+    return <h2 className="md:text-xl">{children}</h2>;
 };
 
 export const MusicSectionBody: React.FC<{ children: React.ReactNode }> = ({
@@ -20,21 +20,22 @@ export const MusicSectionBody: React.FC<{ children: React.ReactNode }> = ({
 };
 
 export const MusicSectionRow: React.FC<{
-    classNames?: string;
+    className?: string;
     children: React.ReactNode;
-}> = ({ classNames = '', children }) => {
+}> = ({ className = '', children }) => {
     return (
-        <div className={`border-t last:border-b border-black ${classNames}`}>
+        <div
+            className={`border border-b-0 last:border-b border-mauve-12 ${className}`}>
             {children}
         </div>
     );
 };
 
 export const MusicSectionAtom: React.FC<{
-    classNames?: string;
+    className?: string;
     children: React.ReactNode;
-}> = ({ classNames = '', children }) => {
-    if (classNames) return <div className={`${classNames}`}>{children}</div>;
+}> = ({ className = '', children }) => {
+    if (className) return <div className={`${className}`}>{children}</div>;
     return <>{children}</>;
 };
 
@@ -64,16 +65,16 @@ export const MusicSectionDetail: React.FC<{
 }> = ({ headline, subline, children }) => {
     return (
         <>
-            <div className="flex w-full text-gray-500">
+            <div className="flex w-full text-mauve-11">
                 {children[0] && <div className="">{children[0]}</div>}
                 <p className="truncate">{subline[0]}</p>
                 <div className="md:hidden"></div>
             </div>
             <div className="flex items-center w-full">
                 {children[2] && <div>{children[2]}</div>}{' '}
-                <h3 className="text-xl truncate">{headline}</h3>
+                <h3 className="md:text-xl truncate">{headline}</h3>
             </div>
-            <div className="hidden md:flex w-full text-gray-500">
+            <div className="hidden md:flex w-full text-mauve-11">
                 {children[1] && <div className="">{children[1]}</div>}
                 <p className="truncate">{subline[1]}</p>
             </div>
@@ -85,10 +86,10 @@ export const MusicSectionPlaying: React.FC = () => {
     return (
         <Wave
             fill={[
-                'icon-green-500',
-                'icon-green-500',
-                'icon-green-500',
-                'icon-green-500',
+                'icon-green-9',
+                'icon-green-9',
+                'icon-green-9',
+                'icon-green-9',
             ]}
         />
     );

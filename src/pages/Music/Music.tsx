@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from 'react';
 
-import {
-    getAccessToken,
-    getTopTracks,
-    getTopArtists,
-    getLastTrack,
-} from './api/spotify';
+import { getSupabaseData } from './api/supabase';
 
 import { ExternalLink } from '../../components/ExternalLink';
+
+import * as Tabs from 'src/components/StyledTabs';
 import { Album, Tag, Artist, Score } from '../../components/Icon';
-import { topTrack, topArtist, currentTrack, recentTrack } from './api/types';
+
+import { topTrack, topArtist, currentTrack, recentTrack } from '../../types';
+
 import {
     MusicSectionBody,
     MusicSectionHeading,
@@ -26,11 +25,12 @@ const LastTrackSection: React.FC<{
 }> = ({ lastTrack }) => {
     return (
         <MusicSectionRoot>
-            <MusicSectionHeading>Current Track</MusicSectionHeading>
             <MusicSectionBody>
                 {lastTrack.length > 0 &&
                     lastTrack.map((track: currentTrack | recentTrack) => (
-                        <MusicSectionRow classNames="flex" key={track.id}>
+                        <MusicSectionRow
+                            className="flex rounded-br-3xl "
+                            key={track.id}>
                             {track.album.images.length > 0 && (
                                 <MusicSectionAtom>
                                     <ExternalLink
@@ -43,7 +43,7 @@ const LastTrackSection: React.FC<{
                                     </ExternalLink>
                                 </MusicSectionAtom>
                             )}
-                            <MusicSectionAtom classNames="flex-1 p-2 border-l border-black min-w-0">
+                            <MusicSectionAtom className="flex-1 p-2 border-l border-mauve-12 min-w-0">
                                 <MusicSectionDetail
                                     headline={
                                         <ExternalLink
@@ -57,8 +57,8 @@ const LastTrackSection: React.FC<{
                                             .join(', '),
                                         track.album.name,
                                     ]}>
-                                    <Artist fill="icon-gray-200" />
-                                    <Album fill="icon-gray-200" />
+                                    <Artist fill="icon-mauve-5" />
+                                    <Album fill="icon-mauve-5" />
                                     {track.hasOwnProperty('is_playable') && (
                                         <MusicSectionPlaying />
                                     )}
@@ -76,11 +76,10 @@ const TopTracksSection: React.FC<{ topTracks: topTrack[] }> = ({
 }) => {
     return (
         <MusicSectionRoot>
-            <MusicSectionHeading>Top Tracks</MusicSectionHeading>
             <MusicSectionBody>
                 {topTracks.length > 0 &&
                     topTracks.map((track) => (
-                        <MusicSectionRow classNames="flex" key={track.id}>
+                        <MusicSectionRow className="flex" key={track.id}>
                             {track.album.images.length > 0 && (
                                 <MusicSectionAtom>
                                     <ExternalLink
@@ -93,7 +92,7 @@ const TopTracksSection: React.FC<{ topTracks: topTrack[] }> = ({
                                     </ExternalLink>
                                 </MusicSectionAtom>
                             )}
-                            <MusicSectionAtom classNames="flex-1 p-2 border-l border-black min-w-0">
+                            <MusicSectionAtom className="flex-1 p-2 border-l border-mauve-12 min-w-0">
                                 <MusicSectionDetail
                                     headline={
                                         <ExternalLink
@@ -107,8 +106,8 @@ const TopTracksSection: React.FC<{ topTracks: topTrack[] }> = ({
                                             .join(', '),
                                         track.album.name,
                                     ]}>
-                                    <Artist fill="icon-gray-200" />
-                                    <Album fill="icon-gray-200" />
+                                    <Artist fill="icon-mauve-5" />
+                                    <Album fill="icon-mauve-5" />
                                 </MusicSectionDetail>
                             </MusicSectionAtom>
                         </MusicSectionRow>
@@ -123,11 +122,10 @@ const TopArtistsSection: React.FC<{ topArtists: topArtist[] }> = ({
 }) => {
     return (
         <MusicSectionRoot>
-            <MusicSectionHeading>Top Artists</MusicSectionHeading>
             <MusicSectionBody>
                 {topArtists.length > 0 &&
                     topArtists.map((artist) => (
-                        <MusicSectionRow classNames="flex" key={artist.id}>
+                        <MusicSectionRow className="flex" key={artist.id}>
                             {artist.images.length > 0 && (
                                 <MusicSectionAtom>
                                     <ExternalLink
@@ -144,7 +142,7 @@ const TopArtistsSection: React.FC<{ topArtists: topArtist[] }> = ({
                                     </ExternalLink>
                                 </MusicSectionAtom>
                             )}
-                            <MusicSectionAtom classNames="flex-1 p-2 border-l border-black min-w-0">
+                            <MusicSectionAtom className="flex-1 p-2 border-l border-mauve-12 min-w-0">
                                 <MusicSectionDetail
                                     headline={
                                         <ExternalLink
@@ -156,10 +154,10 @@ const TopArtistsSection: React.FC<{ topArtists: topArtist[] }> = ({
                                         artist.genres.join(', '),
                                         `${artist.popularity} / 100`,
                                     ]}>
-                                    <Tag fill="icon-gray-200" />
+                                    <Tag fill="icon-mauve-5" />
                                     <Score
                                         id={artist.id}
-                                        fill="icon-gray-200"
+                                        fill="icon-mauve-5"
                                         score={artist.popularity}
                                     />
                                 </MusicSectionDetail>
@@ -172,7 +170,6 @@ const TopArtistsSection: React.FC<{ topArtists: topArtist[] }> = ({
 };
 
 const Music: React.FC = () => {
-    const [accessToken, setAccessToken] = useState<string>('');
     const [lastTrack, setLastTrack] = useState<currentTrack[] | recentTrack[]>(
         [],
     );
@@ -180,8 +177,14 @@ const Music: React.FC = () => {
     const [topArtists, setTopArtists] = useState<topArtist[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [errors, setErrors] = useState<string[]>([]);
+
     const getData = async () => {
         const asyncErrors = [...errors];
+        const { supabaseLastTrack, supabaseTopTracks, supaBaseTopArtists } =
+            await getSupabaseData();
+
+        console.log(supabaseLastTrack);
+        /*
         const asyncAccessToken = accessToken || (await getAccessToken());
         if (!accessToken) {
             if (asyncAccessToken) {
@@ -190,10 +193,11 @@ const Music: React.FC = () => {
                 asyncErrors.push('Something went wrong (Accesstoken) 🥺');
             }
         }
+        */
 
         const asyncLastTrack = lastTrack.length
             ? lastTrack
-            : await getLastTrack(asyncAccessToken);
+            : supabaseLastTrack[0];
         if (!lastTrack.length) {
             if (asyncLastTrack.length) {
                 setLastTrack(asyncLastTrack);
@@ -204,18 +208,18 @@ const Music: React.FC = () => {
 
         const asyncTopTracks = topTracks.length
             ? topTracks
-            : await getTopTracks(asyncAccessToken);
+            : supabaseTopTracks[0];
         if (!topTracks.length) {
-            if (asyncTopTracks.length) {
+            if (asyncTopTracks?.length) {
                 setTopTracks(asyncTopTracks);
             } else {
                 asyncErrors.push('Something went wrong (TopTracks) 🥺');
             }
         }
-
+        console.log(supaBaseTopArtists);
         const asyncTopArtists = topArtists.length
             ? topArtists
-            : await getTopArtists(asyncAccessToken);
+            : supaBaseTopArtists[0];
         if (!topArtists.length) {
             if (asyncTopArtists.length) {
                 setTopArtists(asyncTopArtists);
@@ -223,24 +227,71 @@ const Music: React.FC = () => {
                 asyncErrors.push('Something went wrong (TopArtists) 🥺');
             }
         }
-
-        console.log(asyncTopArtists);
         setErrors([...asyncErrors]);
         setLoading(false);
     };
 
+    useEffect(() => {}, []);
+
     useEffect(() => {
         getData();
     }, []);
+
+    const [selected, setSelected] = useState('tracks');
     return (
-        <main className="mt-8">
-            <p>Loading: {loading ? 'true' : 'false'}</p>
-            <p>Error:</p>
-            {errors.length > 0 &&
-                errors.map((error, index) => <p key={index}>{error}</p>)}
-            <LastTrackSection lastTrack={lastTrack} />
-            <TopTracksSection topTracks={topTracks} />
-            <TopArtistsSection topArtists={topArtists} />
+        <main className="px-4 my-16  md:px-8 xl:px-16 xl:container xl:mx-auto">
+            <div className="m-8">
+                <p>Loading: {loading ? 'true' : 'false'}</p>
+                <p>Error:</p>
+                {errors.length > 0 &&
+                    errors.map((error, index) => <p key={index}>{error}</p>)}
+            </div>
+            <div className="grid grid-cols-[1fr,fit-content(100%), 1fr] my-16 items-center space-x-2">
+                <h1 className="col-start-2 font-cstmx text-6xl md:text-8xl lg:text-10xl">
+                    MUSIC
+                </h1>
+                <div className="col-start-2 border-mauve-12 border-t" />
+            </div>
+            <div className="my-16">
+                <div className="mt-4 grid grid-cols-2 space-x-2">
+                    <div className="flex-grow px-4 py-2 rounded-tl-3xl border border-b-0 border-mauve-12  bg-mauve-3">
+                        <MusicSectionHeading>Current Track</MusicSectionHeading>
+                    </div>
+                </div>
+                <LastTrackSection lastTrack={lastTrack} />
+            </div>
+            <Tabs.Root
+                defaultValue="tracks"
+                onValueChange={(value) => setSelected(value)}>
+                <Tabs.List>
+                    <Tabs.Trigger value="tracks" selected={selected}>
+                        <MusicSectionHeading>Top Tracks</MusicSectionHeading>
+                    </Tabs.Trigger>
+                    <Tabs.Trigger value="artists" selected={selected}>
+                        <MusicSectionHeading>Top Artists</MusicSectionHeading>
+                    </Tabs.Trigger>
+                </Tabs.List>
+                <Tabs.Content className="" value="tracks">
+                    <TopTracksSection topTracks={topTracks} />
+                </Tabs.Content>
+                <Tabs.Content value="artists">
+                    <TopArtistsSection topArtists={topArtists} />
+                </Tabs.Content>
+            </Tabs.Root>
+            <div className="my-16 grid grid-cols-2 space-x-2">
+                <div>
+                    <div className="mt-4 px-4 py-2 border border-b-0 border-mauve-12 bg-mauve-3">
+                        <MusicSectionHeading>Top Tracks</MusicSectionHeading>
+                    </div>
+                    <TopTracksSection topTracks={topTracks} />
+                </div>
+                <div>
+                    <div className="mt-4 px-4 py-2 border border-b-0 border-mauve-12 bg-mauve-3">
+                        <MusicSectionHeading>Top Artists</MusicSectionHeading>
+                    </div>
+                    <TopArtistsSection topArtists={topArtists} />
+                </div>
+            </div>
         </main>
     );
 };

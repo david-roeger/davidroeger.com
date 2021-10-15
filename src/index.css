@@ -2,6 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+    @font-face {
+        font-family: CSTMX;
+        src: url(../fonts/CSTMX.woff) format('woff');
+    }
+}
+
 @layer utilities {
     .growing-underline {
         background-size: 0% 1px;
