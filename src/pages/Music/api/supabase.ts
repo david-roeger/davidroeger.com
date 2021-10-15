@@ -15,7 +15,6 @@ import {
     topArtist,
     responseData,
     responseSchema,
-    responseDataSchemas,
 } from '../../../types';
 
 const time = [86400000, 604800000, 2629746000];
@@ -114,8 +113,10 @@ const updateData = async (
     for (let i = 0; i < updatedResponseSchemas.length; i++) {
         let schema = updatedResponseSchemas[i];
         const difference = isLastTrack ? 60000 * 5 : time[i];
-        console.log(difference, new Date(Date.parse(schema.updated_at)));
         if (compareDates(schema.updated_at, difference)) {
+            console.log(difference, new Date(Date.parse(schema.updated_at)));
+            console.log(type, ranges[i]);
+
             const accessToken = await getAccessToken();
             const spotifyData = isLastTrack
                 ? await getSpotify(accessToken)
@@ -128,7 +129,9 @@ const updateData = async (
                 .match({ type: type, range: i });
 
             if (data && data.length) {
-                schema = getDataFromResponse(data as [responseSchema])[0];
+                updatedResponseSchemas[i] = getDataFromResponse(
+                    data as [responseSchema],
+                )[0];
             }
         }
     }

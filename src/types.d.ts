@@ -85,9 +85,3 @@ export interface responseData {
     supabaseTopTracks: topTracks[][];
     supaBaseTopArtists: topArtist[][];
 }
-
-export interface responseDataSchemas {
-    lastTrackSchemas: responseSchema[];
-    topTracksSchemas: responseSchema[];
-    topArtistsSchemas: responseSchema[];
-}

@@ -208,7 +208,7 @@ const Music: React.FC = () => {
 
         const asyncTopTracks = topTracks.length
             ? topTracks
-            : supabaseTopTracks[2];
+            : supabaseTopTracks[0];
         if (!topTracks.length) {
             if (asyncTopTracks?.length) {
                 setTopTracks(asyncTopTracks);
@@ -240,6 +240,12 @@ const Music: React.FC = () => {
     const [selected, setSelected] = useState('tracks');
     return (
         <main className="px-4 my-16  md:px-8 xl:px-16 xl:container xl:mx-auto">
+            <div className="m-8">
+                <p>Loading: {loading ? 'true' : 'false'}</p>
+                <p>Error:</p>
+                {errors.length > 0 &&
+                    errors.map((error, index) => <p key={index}>{error}</p>)}
+            </div>
             <div className="grid grid-cols-[1fr,fit-content(100%), 1fr] my-16 items-center space-x-2">
                 <h1 className="col-start-2 font-cstmx text-6xl md:text-8xl lg:text-10xl">
                     MUSIC
@@ -285,12 +291,6 @@ const Music: React.FC = () => {
                     </div>
                     <TopArtistsSection topArtists={topArtists} />
                 </div>
-            </div>
-            <div className="m-8">
-                <p>Loading: {loading ? 'true' : 'false'}</p>
-                <p>Error:</p>
-                {errors.length > 0 &&
-                    errors.map((error, index) => <p key={index}>{error}</p>)}
             </div>
         </main>
     );

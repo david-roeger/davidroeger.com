@@ -142,8 +142,9 @@ module.exports = {
                     'neue-haas-grotesk-display',
                     'ui-sans-serif',
                     'system-ui',
+                    'sans-serif',
                 ],
-                cstmx: ['CSTMX'],
+                cstmx: ['CSTMX', 'ui-sans-serif', 'system-ui', 'sans-serif'],
             },
             fontSize: {
                 '10xl': '10rem',
