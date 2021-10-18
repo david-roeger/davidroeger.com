@@ -23,6 +23,8 @@ const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 const supabaseKey = import.meta.env.VITE_SUPABASE_KEY;
 const supabase = createClient(supabaseUrl, supabaseKey);
 
+let spotifyAccessToken = '';
+
 export const getSupabaseData = async (): Promise<responseData> => {
     let { data, error } = await supabase.from('spotifydata').select();
 
@@ -114,13 +116,12 @@ const updateData = async (
         let schema = updatedResponseSchemas[i];
         const difference = isLastTrack ? 60000 * 5 : time[i];
         if (compareDates(schema.updated_at, difference)) {
-            console.log(difference, new Date(Date.parse(schema.updated_at)));
-            console.log(type, ranges[i]);
-
-            const accessToken = await getAccessToken();
+            if (!spotifyAccessToken)
+                spotifyAccessToken = await getAccessToken();
             const spotifyData = isLastTrack
-                ? await getSpotify(accessToken)
-                : await getSpotify(accessToken, ranges[i]);
+                ? await getSpotify(spotifyAccessToken)
+                : await getSpotify(spotifyAccessToken, ranges[i]);
+
             const { data, error } = await supabase
                 .from('spotifydata')
                 .update({
@@ -157,10 +158,16 @@ const parseData = (responseSchemas: responseSchema[]) => {
 };
 
 const getInitialSpotifyData = async () => {
-    const accessToken = await getAccessToken();
-    const lastTrackSchema: schema = await getLastTrackSchema(accessToken);
-    const topTrackSchemas: schema[] = await getTopTrackSchemas(accessToken);
-    const topArtistSchemas: schema[] = await getTopArtistSchemas(accessToken);
+    if (!spotifyAccessToken) spotifyAccessToken = await getAccessToken();
+    const lastTrackSchema: schema = await getLastTrackSchema(
+        spotifyAccessToken,
+    );
+    const topTrackSchemas: schema[] = await getTopTrackSchemas(
+        spotifyAccessToken,
+    );
+    const topArtistSchemas: schema[] = await getTopArtistSchemas(
+        spotifyAccessToken,
+    );
 
     // error handling ???
     return [...topTrackSchemas, ...topArtistSchemas, lastTrackSchema];
