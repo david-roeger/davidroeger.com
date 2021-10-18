@@ -253,7 +253,7 @@ const Music: React.FC = () => {
             </div>
             {breakpoint && breakpoint.lg === false && (
                 <Tabs.Root
-                    defaultValue="tracks"
+                    defaultValue={selected}
                     onValueChange={(value) => setSelected(value)}>
                     <Tabs.List>
                         <Tabs.Trigger value="tracks" selected={selected}>
