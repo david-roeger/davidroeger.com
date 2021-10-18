@@ -1,13 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 
 import { getSupabaseData } from './api/supabase';
 
-import { ExternalLink } from '../../components/ExternalLink';
-
-import * as Tabs from 'src/components/StyledTabs';
-import { Album, Tag, Artist, Score } from '../../components/Icon';
-
-import { topTrack, topArtist, currentTrack, recentTrack } from '../../types';
+import { BreakpointContext } from 'src/providers';
 
 import {
     MusicSectionBody,
@@ -19,6 +14,12 @@ import {
     MusicSectionDetail,
     MusicSectionPlaying,
 } from 'src/slices/MusicSection';
+
+import { ExternalLink } from '../../components/ExternalLink';
+import * as Tabs from 'src/components/StyledTabs';
+import { Album, Tag, Artist, Score } from '../../components/Icon';
+
+import { topTrack, topArtist, currentTrack, recentTrack } from '../../types';
 
 const LastTrackSection: React.FC<{
     lastTrack: currentTrack[] | recentTrack[];
@@ -170,6 +171,8 @@ const TopArtistsSection: React.FC<{ topArtists: topArtist[] }> = ({
 };
 
 const Music: React.FC = () => {
+    const { breakpoint } = useContext(BreakpointContext);
+
     const [lastTrack, setLastTrack] = useState<currentTrack[] | recentTrack[]>(
         [],
     );
@@ -182,18 +185,6 @@ const Music: React.FC = () => {
         const asyncErrors = [...errors];
         const { supabaseLastTrack, supabaseTopTracks, supaBaseTopArtists } =
             await getSupabaseData();
-
-        console.log(supabaseLastTrack);
-        /*
-        const asyncAccessToken = accessToken || (await getAccessToken());
-        if (!accessToken) {
-            if (asyncAccessToken) {
-                setAccessToken(asyncAccessToken);
-            } else {
-                asyncErrors.push('Something went wrong (Accesstoken) 🥺');
-            }
-        }
-        */
 
         const asyncLastTrack = lastTrack.length
             ? lastTrack
@@ -216,7 +207,7 @@ const Music: React.FC = () => {
                 asyncErrors.push('Something went wrong (TopTracks) 🥺');
             }
         }
-        console.log(supaBaseTopArtists);
+
         const asyncTopArtists = topArtists.length
             ? topArtists
             : supaBaseTopArtists[0];
@@ -260,38 +251,50 @@ const Music: React.FC = () => {
                 </div>
                 <LastTrackSection lastTrack={lastTrack} />
             </div>
-            <Tabs.Root
-                defaultValue="tracks"
-                onValueChange={(value) => setSelected(value)}>
-                <Tabs.List>
-                    <Tabs.Trigger value="tracks" selected={selected}>
-                        <MusicSectionHeading>Top Tracks</MusicSectionHeading>
-                    </Tabs.Trigger>
-                    <Tabs.Trigger value="artists" selected={selected}>
-                        <MusicSectionHeading>Top Artists</MusicSectionHeading>
-                    </Tabs.Trigger>
-                </Tabs.List>
-                <Tabs.Content className="" value="tracks">
-                    <TopTracksSection topTracks={topTracks} />
-                </Tabs.Content>
-                <Tabs.Content value="artists">
-                    <TopArtistsSection topArtists={topArtists} />
-                </Tabs.Content>
-            </Tabs.Root>
-            <div className="my-16 grid grid-cols-2 space-x-2">
-                <div>
-                    <div className="mt-4 px-4 py-2 border border-b-0 border-mauve-12 bg-mauve-3">
-                        <MusicSectionHeading>Top Tracks</MusicSectionHeading>
+            {breakpoint && breakpoint.lg === false && (
+                <Tabs.Root
+                    defaultValue="tracks"
+                    onValueChange={(value) => setSelected(value)}>
+                    <Tabs.List>
+                        <Tabs.Trigger value="tracks" selected={selected}>
+                            <MusicSectionHeading>
+                                Top Tracks
+                            </MusicSectionHeading>
+                        </Tabs.Trigger>
+                        <Tabs.Trigger value="artists" selected={selected}>
+                            <MusicSectionHeading>
+                                Top Artists
+                            </MusicSectionHeading>
+                        </Tabs.Trigger>
+                    </Tabs.List>
+                    <Tabs.Content className="" value="tracks">
+                        <TopTracksSection topTracks={topTracks} />
+                    </Tabs.Content>
+                    <Tabs.Content value="artists">
+                        <TopArtistsSection topArtists={topArtists} />
+                    </Tabs.Content>
+                </Tabs.Root>
+            )}
+            {breakpoint && breakpoint.lg && (
+                <div className="my-16 grid grid-cols-2 space-x-2">
+                    <div>
+                        <div className="mt-4 px-4 py-2 border border-b-0 border-mauve-12 bg-mauve-3">
+                            <MusicSectionHeading>
+                                Top Tracks
+                            </MusicSectionHeading>
+                        </div>
+                        <TopTracksSection topTracks={topTracks} />
                     </div>
-                    <TopTracksSection topTracks={topTracks} />
-                </div>
-                <div>
-                    <div className="mt-4 px-4 py-2 border border-b-0 border-mauve-12 bg-mauve-3">
-                        <MusicSectionHeading>Top Artists</MusicSectionHeading>
+                    <div>
+                        <div className="mt-4 px-4 py-2 border border-b-0 border-mauve-12 bg-mauve-3">
+                            <MusicSectionHeading>
+                                Top Artists
+                            </MusicSectionHeading>
+                        </div>
+                        <TopArtistsSection topArtists={topArtists} />
                     </div>
-                    <TopArtistsSection topArtists={topArtists} />
                 </div>
-            </div>
+            )}
         </main>
     );
 };

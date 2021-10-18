@@ -85,3 +85,47 @@ export interface responseData {
     supabaseTopTracks: topTracks[][];
     supaBaseTopArtists: topArtist[][];
 }
+
+/**
+ * Provider Types
+ */
+
+export interface breakpointBaseObject {
+    DEFAULT: boolean;
+    sm: boolean;
+    md: boolean;
+    lg: boolean;
+    xl: boolean;
+    '2xl': boolean;
+}
+
+export interface breakpointValue {
+    width: number;
+    height: number;
+    breakpoint: breakpointBaseObject;
+    exact: breakpointBaseObject;
+    custom: {
+        breakpoint?: {
+            [key: string]: boolean;
+        };
+        exact?: {
+            [key: string]: boolean;
+        };
+    };
+}
+
+/**
+ * Utils
+ */
+
+export interface keyBoolean {
+    [key: string]: boolean;
+}
+
+export interface keyNumber {
+    [key: string]: number;
+}
+
+export interface keyAny {
+    [key: string]: any;
+}

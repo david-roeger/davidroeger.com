@@ -1,3 +1,5 @@
+import { keyAny } from 'src/types';
+
 export const PI = Math.PI;
 export const HALF_PI = Math.PI / 2;
 export const QUARTER_PI = Math.PI / 4;
@@ -39,4 +41,16 @@ export const adjustScale = (value: number, min: number, max: number) => {
     const mapped = mapToRange(computed, 0, 2, nullMin, nullMax);
 
     return min + mapped;
+};
+
+export const cloneObject = (obj: keyAny) => {
+    return JSON.parse(JSON.stringify(obj));
+};
+
+export const debounce = (func: { (): any }, ms: number) => {
+    let timer: NodeJS.Timeout;
+    return () => {
+        clearTimeout(timer);
+        timer = setTimeout(func, ms);
+    };
 };
