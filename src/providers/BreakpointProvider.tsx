@@ -39,11 +39,26 @@ const BreakpointProvider: React.FC<BreakpointProviderProps> = ({
         xl: false,
         '2xl': false,
     };
-    const baseCustomBreakpoints: keyNumber = { ...custom };
+
+    const baseCustomBreakpointsArray: [string, number][] = [];
+    const baseCustomBreakpoints: keyNumber = {};
     const baseCustomBreakpointsObject: keyBoolean = {};
-    for (const key in baseCustomBreakpoints) {
-        baseCustomBreakpointsObject[key] = false;
+
+    if (Object.keys(custom).length) {
+        for (const [key, value] of Object.entries(custom)) {
+            baseCustomBreakpointsArray.push([key, value]);
+        }
+        baseCustomBreakpointsArray.sort((a, b) => a[1] - b[1]);
+
+        baseCustomBreakpointsArray.forEach((breakpoint) => {
+            baseCustomBreakpoints[breakpoint[0]] = breakpoint[1];
+        });
+
+        for (const key in baseCustomBreakpoints) {
+            baseCustomBreakpointsObject[key] = false;
+        }
     }
+
     // *** *** *** *** *** *** *** *** *** *** *** *** *** //
 
     /**
@@ -56,7 +71,7 @@ const BreakpointProvider: React.FC<BreakpointProviderProps> = ({
         const { name, index } = getCurrentBreakpoint(baseBreakpoints, width);
 
         const { name: customName, index: customIndex } = getCurrentBreakpoint(
-            custom,
+            baseCustomBreakpoints,
             width,
         );
 
@@ -71,21 +86,23 @@ const BreakpointProvider: React.FC<BreakpointProviderProps> = ({
             },
         };
 
+        console.log(breakpointObject);
+
         return breakpointObject;
     };
 
     function getCurrentBreakpoint(object: keyNumber, width: number) {
         let index = getCurrentBreakpointIndex(Object.values(object), width);
-        let name = 'DEFAULT';
-        if (index) {
+        let name = '';
+        if (index !== -1) {
             let keys = Object.keys(object);
             name = keys[index];
         }
         return { name: name, index: index };
     }
     function getCurrentBreakpointIndex(array: number[], width: number) {
-        let index = 0;
-        for (let i = 1; i < array.length; i++) {
+        let index = -1;
+        for (let i = 0; i < array.length; i++) {
             const breakpoint = array[i];
             if (width >= breakpoint) {
                 index = i;
@@ -120,7 +137,7 @@ const BreakpointProvider: React.FC<BreakpointProviderProps> = ({
         return value;
     };
     const getCustomExactBreakpoint = (key: string) => {
-        const value = cloneObject(baseCustomBreakpoints);
+        const value = cloneObject(baseCustomBreakpointsObject);
         if (key in value) {
             value[key] = true;
         }
