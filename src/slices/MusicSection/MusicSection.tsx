@@ -10,7 +10,7 @@ export const MusicSectionRoot: React.FC<{
 export const MusicSectionHeading: React.FC<{ children: React.ReactNode }> = ({
     children,
 }) => {
-    return <h2 className="md:text-xl text-base inline">{children}</h2>;
+    return <h2 className="text-base lg:text-xl inline">{children}</h2>;
 };
 
 export const MusicSectionBody: React.FC<{ children: React.ReactNode }> = ({

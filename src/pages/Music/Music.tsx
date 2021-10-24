@@ -261,10 +261,10 @@ const Music: React.FC = () => {
                 <h1 className="col-start-3 font-cstmx text-6xl md:text-8xl lg:text-10xl">
                     MUSIC
                 </h1>
-                <div className="col-start-2 col-span-4 border-mauve-12 border-t" />
+                <div className="col-start-1 col-span-4 border-mauve-12 border-t" />
             </div>
             <div className="my-16">
-                <div className="ml-[60px] md:ml-[84px] px-4 py-2 border-l border-t border-mauve-12 bg-mauve-3">
+                <div className="ml-[60px] md:ml-[84px] p-2 border-l border-t border-mauve-12 bg-mauve-3">
                     <MusicSectionHeading>Current Track</MusicSectionHeading>
                 </div>
                 <LastTrackSection lastTrack={lastTrack} />
