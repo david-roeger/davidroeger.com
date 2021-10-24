@@ -58,8 +58,7 @@ const BreakpointProvider: React.FC<BreakpointProviderProps> = ({
             baseCustomBreakpointsObject[key] = false;
         }
     }
-
-    // *** *** *** *** *** *** *** *** *** *** *** *** *** //
+    /*** *** *** *** *** *** *** *** *** *** *** *** ***/
 
     /**
      * Get Breakpoint helper functions
@@ -143,7 +142,7 @@ const BreakpointProvider: React.FC<BreakpointProviderProps> = ({
         }
         return value;
     };
-    // *** *** *** *** *** *** *** *** *** *** *** *** *** //
+    /*** *** *** *** *** *** *** *** *** *** *** *** ***/
 
     const [breakpointObject, setBreakpointObject] = useState<breakpointValue>(
         getBreakpointObject(),

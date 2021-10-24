@@ -8,7 +8,7 @@ import { Music } from './pages';
 const Router = () => (
     <BrowserRouter>
         <BreakpointProvider>
-            <div className="font-neue-haas text-mauve-12 selection:bg-purple-6 selection:text-mauve-12">
+            <div className="noise font-neue-haas text-mauve-12 selection:bg-purple-6 selection:text-mauve-12">
                 <nav className="mx-auto bg-white drop-shadow-mauve xl:container">
                     <ul>
                         <li>

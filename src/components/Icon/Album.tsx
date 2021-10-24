@@ -2,12 +2,16 @@ import React from 'react';
 
 import { Svg } from './index';
 
-const Landing: React.FC<{ color?: string; fill?: string }> = ({
+import { iconProp } from 'src/types';
+
+const Landing: React.FC<iconProp> = ({
     color = '',
     fill = 'text-white',
+    width = 24,
+    height = 24,
 }) => {
     return (
-        <Svg>
+        <Svg width={width} height={height}>
             <path
                 fillRule="evenodd"
                 clipRule="evenodd"

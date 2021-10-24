@@ -2,12 +2,16 @@ import React from 'react';
 
 import { Svg } from './index';
 
-const Tag: React.FC<{ color?: string; fill?: string }> = ({
+import { iconProp } from 'src/types';
+
+const Tag: React.FC<iconProp> = ({
     color = '',
     fill = 'text-white',
+    width = 24,
+    height = 24,
 }) => {
     return (
-        <Svg>
+        <Svg width={width} height={height}>
             <path
                 d="M14.5 17.456C13.7389 17.8053 12.8922 18 12 18C8.68629 18 6 15.3137 6 12C6 8.68629 8.68629 6 12 6C12.8922 6 13.7389 6.19474 14.5 6.54404C12.4345 7.49205 11 9.57851 11 12C11 14.4215 12.4345 16.5079 14.5 17.456Z"
                 fill="currentColor"

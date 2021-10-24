@@ -29,9 +29,7 @@ const LastTrackSection: React.FC<{
             <MusicSectionBody>
                 {lastTrack.length > 0 &&
                     lastTrack.map((track: currentTrack | recentTrack) => (
-                        <MusicSectionRow
-                            className="flex rounded-br-3xl "
-                            key={track.id}>
+                        <MusicSectionRow className="flex" key={track.id}>
                             {track.album.images.length > 0 && (
                                 <MusicSectionAtom>
                                     <ExternalLink
@@ -44,7 +42,7 @@ const LastTrackSection: React.FC<{
                                     </ExternalLink>
                                 </MusicSectionAtom>
                             )}
-                            <MusicSectionAtom className="flex-1 p-2 border-l border-mauve-12 min-w-0">
+                            <MusicSectionAtom className="flex-1 p-2 border-l border-mauve-12 min-w-0 md:pr-8 xl:pr-16 ">
                                 <MusicSectionDetail
                                     headline={
                                         <ExternalLink
@@ -58,8 +56,16 @@ const LastTrackSection: React.FC<{
                                             .join(', '),
                                         track.album.name,
                                     ]}>
-                                    <Artist fill="icon-mauve-5" />
-                                    <Album fill="icon-mauve-5" />
+                                    <Artist
+                                        fill="icon-mauve-5"
+                                        width={20}
+                                        height={20}
+                                    />
+                                    <Album
+                                        fill="icon-mauve-5"
+                                        width={20}
+                                        height={20}
+                                    />
                                     {track.hasOwnProperty('is_playable') && (
                                         <MusicSectionPlaying />
                                     )}
@@ -107,8 +113,16 @@ const TopTracksSection: React.FC<{ topTracks: topTrack[] }> = ({
                                             .join(', '),
                                         track.album.name,
                                     ]}>
-                                    <Artist fill="icon-mauve-5" />
-                                    <Album fill="icon-mauve-5" />
+                                    <Artist
+                                        fill="icon-mauve-5"
+                                        width={20}
+                                        height={20}
+                                    />
+                                    <Album
+                                        fill="icon-mauve-5"
+                                        width={20}
+                                        height={20}
+                                    />
                                 </MusicSectionDetail>
                             </MusicSectionAtom>
                         </MusicSectionRow>
@@ -155,11 +169,17 @@ const TopArtistsSection: React.FC<{ topArtists: topArtist[] }> = ({
                                         artist.genres.join(', '),
                                         `${artist.popularity} / 100`,
                                     ]}>
-                                    <Tag fill="icon-mauve-5" />
+                                    <Tag
+                                        fill="icon-mauve-5"
+                                        width={20}
+                                        height={20}
+                                    />
                                     <Score
                                         id={artist.id}
-                                        fill="icon-mauve-5"
                                         score={artist.popularity}
+                                        fill="icon-mauve-5"
+                                        width={20}
+                                        height={20}
                                     />
                                 </MusicSectionDetail>
                             </MusicSectionAtom>
@@ -230,71 +250,46 @@ const Music: React.FC = () => {
 
     const [selected, setSelected] = useState('tracks');
     return (
-        <main className="px-4 my-16  md:px-8 xl:px-16 xl:container xl:mx-auto">
+        <main className="my-16">
             <div className="m-8">
                 <p>Loading: {loading ? 'true' : 'false'}</p>
                 <p>Error:</p>
                 {errors.length > 0 &&
                     errors.map((error, index) => <p key={index}>{error}</p>)}
             </div>
-            <div className="grid grid-cols-[1fr,fit-content(100%), 1fr] my-16 items-center space-x-2">
-                <h1 className="col-start-2 font-cstmx text-6xl md:text-8xl lg:text-10xl">
+            <div className="grid grid-cols-[60px,1fr,fit-content(100%),1fr,60px] md:grid-cols-[84px,1fr,fit-content(100%),1fr,84px] my-16 items-center">
+                <h1 className="col-start-3 font-cstmx text-6xl md:text-8xl lg:text-10xl">
                     MUSIC
                 </h1>
-                <div className="col-start-2 border-mauve-12 border-t" />
+                <div className="col-start-2 col-span-4 border-mauve-12 border-t" />
             </div>
             <div className="my-16">
-                <div className="mt-4 grid grid-cols-2 space-x-2">
-                    <div className="flex-grow px-4 py-2 rounded-tl-3xl border border-b-0 border-mauve-12  bg-mauve-3">
-                        <MusicSectionHeading>Current Track</MusicSectionHeading>
-                    </div>
+                <div className="ml-[60px] md:ml-[84px] px-4 py-2 border-l border-t border-mauve-12 bg-mauve-3">
+                    <MusicSectionHeading>Current Track</MusicSectionHeading>
                 </div>
                 <LastTrackSection lastTrack={lastTrack} />
             </div>
-            {breakpoint && breakpoint.lg === false && (
-                <Tabs.Root
-                    defaultValue={selected}
-                    onValueChange={(value) => setSelected(value)}>
-                    <Tabs.List>
-                        <Tabs.Trigger value="tracks" selected={selected}>
-                            <MusicSectionHeading>
-                                Top Tracks
-                            </MusicSectionHeading>
-                        </Tabs.Trigger>
-                        <Tabs.Trigger value="artists" selected={selected}>
-                            <MusicSectionHeading>
-                                Top Artists
-                            </MusicSectionHeading>
-                        </Tabs.Trigger>
-                    </Tabs.List>
-                    <Tabs.Content className="" value="tracks">
-                        <TopTracksSection topTracks={topTracks} />
-                    </Tabs.Content>
-                    <Tabs.Content value="artists">
-                        <TopArtistsSection topArtists={topArtists} />
-                    </Tabs.Content>
-                </Tabs.Root>
-            )}
-            {breakpoint && breakpoint.lg && (
-                <div className="my-16 grid grid-cols-2 space-x-2">
-                    <div>
-                        <div className="mt-4 px-4 py-2 border border-b-0 border-mauve-12 bg-mauve-3">
-                            <MusicSectionHeading>
-                                Top Tracks
-                            </MusicSectionHeading>
-                        </div>
-                        <TopTracksSection topTracks={topTracks} />
-                    </div>
-                    <div>
-                        <div className="mt-4 px-4 py-2 border border-b-0 border-mauve-12 bg-mauve-3">
-                            <MusicSectionHeading>
-                                Top Artists
-                            </MusicSectionHeading>
-                        </div>
-                        <TopArtistsSection topArtists={topArtists} />
-                    </div>
-                </div>
-            )}
+            <Tabs.Root
+                defaultValue={selected}
+                onValueChange={(value) => setSelected(value)}>
+                <Tabs.List>
+                    <Tabs.Trigger value="tracks" selected={selected}>
+                        <MusicSectionHeading>Top Tracks</MusicSectionHeading>
+                    </Tabs.Trigger>
+                    <Tabs.Trigger
+                        className="reversed"
+                        value="artists"
+                        selected={selected}>
+                        <MusicSectionHeading>Top Artists</MusicSectionHeading>
+                    </Tabs.Trigger>
+                </Tabs.List>
+                <Tabs.Content className="" value="tracks">
+                    <TopTracksSection topTracks={topTracks} />
+                </Tabs.Content>
+                <Tabs.Content value="artists">
+                    <TopArtistsSection topArtists={topArtists} />
+                </Tabs.Content>
+            </Tabs.Root>
         </main>
     );
 };

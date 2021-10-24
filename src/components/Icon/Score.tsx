@@ -3,16 +3,25 @@ import React from 'react';
 import { Svg } from './index';
 import { adjustScale, mapToRange } from '../../utils/utils';
 
-const Score: React.FC<{
+import { iconProp } from 'src/types';
+
+interface scoreProp extends iconProp {
     id: number | string;
     score?: number;
-    color?: string;
-    fill?: string;
-}> = ({ id, score = 100, color = '', fill = 'text-white' }) => {
+}
+
+const Score: React.FC<scoreProp> = ({
+    id,
+    score = 100,
+    color = '',
+    fill = 'text-white',
+    width = 24,
+    height = 24,
+}) => {
     const adjusted = adjustScale(score, 0, 100);
     const computed = mapToRange(adjusted, 0, 100, 0, 17.78);
     return (
-        <Svg>
+        <Svg width={width} height={height}>
             <mask id={`${id}_scoreMask`}>
                 <rect width={3.11 + computed} height="24" fill="white" />
             </mask>

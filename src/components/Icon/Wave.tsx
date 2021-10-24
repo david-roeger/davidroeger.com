@@ -21,7 +21,6 @@ const Wave: React.FC<{ fill?: string | string[] }> = ({
                     }
                 />
             </Svg>
-
             <Svg
                 height={14}
                 viewHeight={14}
