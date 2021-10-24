@@ -129,3 +129,10 @@ export interface keyNumber {
 export interface keyAny {
     [key: string]: any;
 }
+
+export interface iconProp {
+    color?: string;
+    fill?: string;
+    width?: number;
+    height?: number;
+}
