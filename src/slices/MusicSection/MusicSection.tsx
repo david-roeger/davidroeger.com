@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Wave } from '../../components/Icon';
+import { Wave, Loading } from '../../components/Icon';
 export const MusicSectionRoot: React.FC<{
     children: React.ReactNode;
 }> = ({ children }) => {
@@ -13,9 +13,24 @@ export const MusicSectionHeading: React.FC<{ children: React.ReactNode }> = ({
     return <h2 className="text-base lg:text-xl inline">{children}</h2>;
 };
 
-export const MusicSectionBody: React.FC<{ children: React.ReactNode }> = ({
-    children,
-}) => {
+export const MusicSectionBody: React.FC<{
+    children: React.ReactNode;
+    length: number;
+}> = ({ children, length }) => {
+    console.log(children);
+    if (
+        !children ||
+        (Array.isArray(children) && children.length === length - 1)
+    ) {
+        return (
+            <ul className="w-full">
+                {[...Array(length)].map((undef, index) => (
+                    <MusciLoadingSection key={index} index={index} />
+                ))}
+            </ul>
+        );
+    }
+
     return <ul className="w-full">{children}</ul>;
 };
 
@@ -47,7 +62,7 @@ export const MusicSectionImage: React.FC<{
         <img
             width="60px"
             height="60px"
-            className="h-[60px] md:h-[84px] w-[60px] md:w-[84px] object-cover"
+            className="h-[60px] md:h-[84px] w-[60px] md:w-[84px] object-cover bg-mauve-3"
             src={url}
             alt={alt}
         />
@@ -94,5 +109,24 @@ export const MusicSectionPlaying: React.FC = () => {
                 ]}
             />
         </>
+    );
+};
+
+const MusciLoadingSection: React.FC<{ index?: number }> = ({ index = 0 }) => {
+    return (
+        <MusicSectionRow className="flex">
+            <MusicSectionAtom>
+                <div className="h-[60px] md:h-[84px] w-[60px] md:w-[84px] grid justify-items-center items-center">
+                    <Loading fill="icon-purple-5" index={index} />
+                </div>
+            </MusicSectionAtom>
+            <MusicSectionAtom className="flex-1 p-2 border-l border-mauve-12 min-w-0 md:pr-8 xl:pr-16">
+                <div className="h-5"></div>
+                <div className="flex items-center w-full">
+                    <h3 className="md:text-xl truncate mx-2">Loading...</h3>
+                </div>
+                <div className="hidden md:block h-5"></div>
+            </MusicSectionAtom>
+        </MusicSectionRow>
     );
 };

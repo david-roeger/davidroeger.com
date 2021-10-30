@@ -23,10 +23,11 @@ import { topTrack, topArtist, currentTrack, recentTrack } from '../../types';
 
 const LastTrackSection: React.FC<{
     lastTrack: currentTrack[] | recentTrack[];
+    loading: boolean;
 }> = ({ lastTrack }) => {
     return (
         <MusicSectionRoot>
-            <MusicSectionBody>
+            <MusicSectionBody length={1}>
                 {lastTrack.length > 0 &&
                     lastTrack.map((track: currentTrack | recentTrack) => (
                         <MusicSectionRow className="flex" key={track.id}>
@@ -83,7 +84,7 @@ const TopTracksSection: React.FC<{ topTracks: topTrack[] }> = ({
 }) => {
     return (
         <MusicSectionRoot>
-            <MusicSectionBody>
+            <MusicSectionBody length={8}>
                 {topTracks.length > 0 &&
                     topTracks.map((track) => (
                         <MusicSectionRow className="flex" key={track.id}>
@@ -137,7 +138,7 @@ const TopArtistsSection: React.FC<{ topArtists: topArtist[] }> = ({
 }) => {
     return (
         <MusicSectionRoot>
-            <MusicSectionBody>
+            <MusicSectionBody length={8}>
                 {topArtists.length > 0 &&
                     topArtists.map((artist) => (
                         <MusicSectionRow className="flex" key={artist.id}>
@@ -191,8 +192,6 @@ const TopArtistsSection: React.FC<{ topArtists: topArtist[] }> = ({
 };
 
 const Music: React.FC = () => {
-    const { breakpoint } = useContext(BreakpointContext);
-
     const [lastTrack, setLastTrack] = useState<currentTrack[] | recentTrack[]>(
         [],
     );
@@ -252,7 +251,6 @@ const Music: React.FC = () => {
     return (
         <main className="my-16">
             <div className="m-8">
-                <p>Loading: {loading ? 'true' : 'false'}</p>
                 <p>Error:</p>
                 {errors.length > 0 &&
                     errors.map((error, index) => <p key={index}>{error}</p>)}

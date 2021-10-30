@@ -163,12 +163,24 @@ module.exports = {
                             'cubic-bezier(0, 0, 0.2, 1);',
                     },
                 },
+                loading: {
+                    '0%': {
+                        transform: 'rotate(0deg)',
+                    },
+                    '75%': {
+                        transform: 'rotate(360deg)',
+                    },
+                    '100%': {
+                        transform: 'rotate(360deg)',
+                    },
+                },
             },
             animation: {
                 'wave-1': 'wave 1.2s -200ms linear infinite',
                 'wave-2': 'wave 1.8s -800ms linear infinite',
                 'wave-3': 'wave 2.0s -500ms linear infinite',
                 'wave-4': 'wave 1.4s -2s linear infinite',
+                loading: 'loading 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;',
             },
         },
     },

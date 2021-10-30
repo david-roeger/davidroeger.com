@@ -6,7 +6,8 @@ interface SvgProps {
     viewHeight?: number;
     viewWidth?: number;
     className?: string;
-    children: React.ReactNode;
+    style?: React.CSSProperties;
+    children?: React.ReactNode;
 }
 const Svg: React.FC<SvgProps> = ({
     width = 24,
@@ -14,6 +15,7 @@ const Svg: React.FC<SvgProps> = ({
     viewHeight = 24,
     viewWidth = 24,
     className = '',
+    style = {},
     children,
 }) => {
     return (
@@ -23,6 +25,7 @@ const Svg: React.FC<SvgProps> = ({
             height={height}
             viewBox={`0 0 ${viewWidth} ${viewHeight}`}
             fill="none"
+            style={style}
             xmlns="http://www.w3.org/2000/svg">
             {children}
         </svg>
