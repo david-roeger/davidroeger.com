@@ -16,8 +16,6 @@ interface actionType extends optionalAsyncState {
 }
 
 const asyncReducer = (state: asyncState, action: actionType) => {
-    console.log(state);
-    console.log(action);
     switch (action.type) {
         case status.pending: {
             return {
@@ -61,7 +59,7 @@ export const useAsync = (
         dispatch({ type: status.pending });
         promise.then(
             (data: any) => {
-                console.log(data);
+                //console.log(data);
                 dispatch({ type: status.resolved, data });
             },
             (error: any) => {

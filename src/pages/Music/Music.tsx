@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import {
     getSupabaseLastTrack,
@@ -31,6 +31,7 @@ const Music: React.FC = () => {
     const topTracksState = useAsync({
         status: status.pending,
     });
+
     React.useEffect(() => {
         const promise = getSupabaseTopTracks();
         topTracksState.run(promise);
@@ -39,6 +40,7 @@ const Music: React.FC = () => {
     const topArtistsState = useAsync({
         status: status.pending,
     });
+
     React.useEffect(() => {
         const promise = getSupabaseTopArtists();
         topArtistsState.run(promise);

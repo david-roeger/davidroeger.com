@@ -1,3 +1,4 @@
+import React from 'react';
 import { createClient } from '@supabase/supabase-js';
 import {
     getAccessToken,
@@ -27,14 +28,26 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 
 let spotifyAccessToken = '';
 
-let supabaseData: responseData;
+interface supabaseAsyncState extends asyncState {
+    promise: Promise<responseSchema> | undefined;
+}
 
-const getSupabaseData = async (): Promise<void> => {
+const supabaseDataState: supabaseAsyncState = {
+    status: status.idle,
+    data: undefined,
+    error: undefined,
+    promise: undefined,
+};
+
+const getSupabaseData = async (): Promise<responseSchema> => {
+    supabaseDataState.status = status.pending;
     let { data, error } = await supabase.from('spotifydata').select();
-
     if (data && data.length) {
-        supabaseData = await handleSupabaseData(data as responseSchema[]);
-        return;
+        supabaseDataState.data = await handleSupabaseData(
+            data as responseSchema[],
+        );
+        supabaseDataState.status = status.resolved;
+        return supabaseDataState.data;
     }
 
     if (data && data.length === 0) {
@@ -45,15 +58,21 @@ const getSupabaseData = async (): Promise<void> => {
             .from('spotifydata')
             .insert(spotifyData);
 
-        supabaseData = await handleSupabaseData(data as responseSchema[]);
-        return;
+        supabaseDataState.data = await handleSupabaseData(
+            data as responseSchema[],
+        );
+        supabaseDataState.status = status.resolved;
+        return supabaseDataState.data;
     }
 
-    supabaseData = {
+    supabaseDataState.data = {
         supabaseLastTrack: [[]],
         supabaseTopTracks: [[]],
         supaBaseTopArtists: [[]],
     };
+    supabaseDataState.status = status.resolved;
+
+    return supabaseDataState.data;
 
     /*
     console.error(
@@ -254,26 +273,36 @@ const getValueFromResponse = (type: number, data: responseSchema[]) => {
 
 /*** */
 
-export const getSupabaseLastTrack = async (): Promise<any> => {
-    if (supabaseData?.supabaseLastTrack) {
-        return supabaseData.supabaseLastTrack;
-    }
-    await getSupabaseData();
-    return supabaseData.supabaseLastTrack;
+export const getSupabaseLastTrack = async (): Promise<
+    (currentTrack[] | recentTrack[])[]
+> => {
+    await supabasePromiseHelper();
+    return (
+        supabaseDataState.data.supabaseLastTrack ||
+        ([[]] as (currentTrack[] | recentTrack[])[])
+    );
 };
 
-export const getSupabaseTopTracks = async (): Promise<any> => {
-    if (supabaseData?.supabaseTopTracks) {
-        return supabaseData.supabaseTopTracks;
-    }
-    await getSupabaseData();
-    return supabaseData.supabaseTopTracks;
+export const getSupabaseTopTracks = async (): Promise<topTrack[][]> => {
+    await supabasePromiseHelper();
+    return supabaseDataState.data.supabaseTopTracks || ([[]] as topTrack[][]);
 };
 
 export const getSupabaseTopArtists = async (): Promise<any> => {
-    if (supabaseData?.supaBaseTopArtists) {
-        return supabaseData.supaBaseTopArtists;
+    await supabasePromiseHelper();
+    return supabaseDataState.data.supaBaseTopArtists || ([[]] as topArtist[][]);
+};
+
+const supabasePromiseHelper = async (): Promise<void> => {
+    if (supabaseDataState.status === status.idle) {
+        supabaseDataState.promise = getSupabaseData();
+        await supabaseDataState.promise;
+        supabaseDataState.promise = undefined;
     }
-    await getSupabaseData();
-    return supabaseData.supaBaseTopArtists;
+    if (supabaseDataState.status === status.pending) {
+        if (supabaseDataState.promise) {
+            await supabaseDataState.promise;
+            supabaseDataState.promise = undefined;
+        }
+    }
 };
