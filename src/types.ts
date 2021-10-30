@@ -82,7 +82,7 @@ export interface responseSchema {
 
 export interface responseData {
     supabaseLastTrack: (currentTrack[] | recentTrack[])[];
-    supabaseTopTracks: topTracks[][];
+    supabaseTopTracks: topTrack[][];
     supaBaseTopArtists: topArtist[][];
 }
 
@@ -135,4 +135,17 @@ export interface iconProp {
     fill?: string;
     width?: number;
     height?: number;
+}
+
+export enum status {
+    idle = 'idle',
+    pending = 'pending',
+    resolved = 'resolved',
+    rejected = 'rejected',
+}
+
+export interface asyncState {
+    status: status;
+    data: any;
+    error: any;
 }

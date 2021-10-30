@@ -15,6 +15,8 @@ import {
     topArtist,
     responseData,
     responseSchema,
+    asyncState,
+    status,
 } from '../../../types';
 
 const time = [86400000, 604800000, 2629746000];
@@ -25,11 +27,14 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 
 let spotifyAccessToken = '';
 
-export const getSupabaseData = async (): Promise<responseData> => {
+let supabaseData: responseData;
+
+const getSupabaseData = async (): Promise<void> => {
     let { data, error } = await supabase.from('spotifydata').select();
 
     if (data && data.length) {
-        return await handleSupabaseData(data as responseSchema[]);
+        supabaseData = await handleSupabaseData(data as responseSchema[]);
+        return;
     }
 
     if (data && data.length === 0) {
@@ -40,10 +45,11 @@ export const getSupabaseData = async (): Promise<responseData> => {
             .from('spotifydata')
             .insert(spotifyData);
 
-        return await handleSupabaseData(data as responseSchema[]);
+        supabaseData = await handleSupabaseData(data as responseSchema[]);
+        return;
     }
 
-    return {
+    supabaseData = {
         supabaseLastTrack: [[]],
         supabaseTopTracks: [[]],
         supaBaseTopArtists: [[]],
@@ -95,7 +101,6 @@ const handleSupabaseData = async (
     const parsedTopArtists = parseData(
         updatedTopArtistsSchemas,
     ) as topArtist[][];
-
     return {
         supabaseLastTrack: parsedLastTrack,
         supabaseTopTracks: parsedTopTracks,
@@ -116,6 +121,8 @@ const updateData = async (
         let schema = updatedResponseSchemas[i];
         const difference = isLastTrack ? 60000 * 5 : time[i];
         if (compareDates(schema.updated_at, difference)) {
+            console.log(new Date(Date.parse(schema.updated_at)));
+
             if (!spotifyAccessToken)
                 spotifyAccessToken = await getAccessToken();
             const spotifyData = isLastTrack
@@ -128,11 +135,22 @@ const updateData = async (
                     data: JSON.stringify(spotifyData),
                 })
                 .match({ type: type, range: i });
-
             if (data && data.length) {
+                console.log(
+                    new Date(
+                        Date.parse(
+                            getDataFromResponse(data as [responseSchema])[0]
+                                .updated_at,
+                        ),
+                    ),
+                );
                 updatedResponseSchemas[i] = getDataFromResponse(
                     data as [responseSchema],
                 )[0];
+                console.log(
+                    new Date(Date.parse(updatedResponseSchemas[i].updated_at)),
+                );
+                console.log('--------------------');
             }
         }
     }
@@ -232,4 +250,30 @@ const getTopArtistsFromResponse = (data: responseSchema[]) => {
 
 const getValueFromResponse = (type: number, data: responseSchema[]) => {
     return data.filter((entry) => entry.type === type);
+};
+
+/*** */
+
+export const getSupabaseLastTrack = async (): Promise<any> => {
+    if (supabaseData?.supabaseLastTrack) {
+        return supabaseData.supabaseLastTrack;
+    }
+    await getSupabaseData();
+    return supabaseData.supabaseLastTrack;
+};
+
+export const getSupabaseTopTracks = async (): Promise<any> => {
+    if (supabaseData?.supabaseTopTracks) {
+        return supabaseData.supabaseTopTracks;
+    }
+    await getSupabaseData();
+    return supabaseData.supabaseTopTracks;
+};
+
+export const getSupabaseTopArtists = async (): Promise<any> => {
+    if (supabaseData?.supaBaseTopArtists) {
+        return supabaseData.supaBaseTopArtists;
+    }
+    await getSupabaseData();
+    return supabaseData.supaBaseTopArtists;
 };
