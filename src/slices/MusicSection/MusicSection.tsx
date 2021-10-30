@@ -17,7 +17,6 @@ export const MusicSectionBody: React.FC<{
     children: React.ReactNode;
     length: number;
 }> = ({ children, length }) => {
-    console.log(children);
     if (
         !children ||
         (Array.isArray(children) && children.length === length - 1)

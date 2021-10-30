@@ -75,11 +75,9 @@ const getRecentTrack = async (accessToken: string) => {
 
 export const getLastTrack = async (accessToken: string) => {
     const current = await getCurrentTrack(accessToken);
-    console.log(current);
     if (current.length) return current;
 
     const recent = await getRecentTrack(accessToken);
-    console.log(recent);
     if (recent.length) return recent;
 
     return [];
