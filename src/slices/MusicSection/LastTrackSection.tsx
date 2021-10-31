@@ -18,6 +18,7 @@ import { currentTrack, recentTrack, status, asyncState } from 'src/types';
 export const LastTrackSection: React.FC<{
     lastTrackState: asyncState;
 }> = ({ lastTrackState }) => {
+    console.log(lastTrackState.status);
     switch (lastTrackState.status) {
         case status.idle:
         case status.pending:
@@ -29,7 +30,7 @@ export const LastTrackSection: React.FC<{
                 </MusicSectionRoot>
             );
         case status.rejected:
-            throw lastTrackState.error;
+            return <div>{lastTrackState.error.message}</div>;
         case status.resolved: {
             const lastTrack = lastTrackState.data[0] as
                 | currentTrack[]

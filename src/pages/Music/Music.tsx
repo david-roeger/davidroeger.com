@@ -37,6 +37,9 @@ const Music: React.FC = () => {
         topTracksState.run(promise);
     }, [topTracksState.run]);
 
+    React.useEffect(() => {
+        console.log(lastTrackState);
+    }, [lastTrackState.status]);
     const topArtistsState = useAsync({
         status: status.pending,
     });

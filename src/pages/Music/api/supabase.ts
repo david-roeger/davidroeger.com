@@ -26,7 +26,7 @@ const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 const supabaseKey = import.meta.env.VITE_SUPABASE_KEY;
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-let spotifyAccessToken = '';
+let spotifyAccessToken: string = '';
 
 interface supabaseAsyncState extends asyncState {
     promise: Promise<responseSchema> | undefined;
@@ -52,25 +52,39 @@ const getSupabaseData = async (): Promise<responseSchema> => {
 
     if (data && data.length === 0) {
         // fetch spotify
-        const spotifyData = await getInitialSpotifyData();
+        const initialSpotifyData = await getInitialSpotifyData();
+        if (initialSpotifyData.error) {
+            supabaseDataState.error = initialSpotifyData.error;
+            supabaseDataState.status = status.rejected;
+            return supabaseDataState.data;
+        }
+        if (!initialSpotifyData.data || initialSpotifyData.data.length === 0) {
+            supabaseDataState.error = initialSpotifyData.error;
+            supabaseDataState.status = status.rejected;
+            return supabaseDataState.data;
+        }
 
         const { data, error } = await supabase
             .from('spotifydata')
-            .insert(spotifyData);
+            .insert(initialSpotifyData.data);
 
-        supabaseDataState.data = await handleSupabaseData(
-            data as responseSchema[],
-        );
-        supabaseDataState.status = status.resolved;
-        return supabaseDataState.data;
+        if (data && data.length) {
+            supabaseDataState.data = await handleSupabaseData(
+                data as responseSchema[],
+            );
+            supabaseDataState.status = status.resolved;
+            return supabaseDataState.data;
+        }
+        if (error) {
+            supabaseDataState.error = error;
+            supabaseDataState.status = status.rejected;
+        }
     }
 
-    supabaseDataState.data = {
-        supabaseLastTrack: [[]],
-        supabaseTopTracks: [[]],
-        supaBaseTopArtists: [[]],
-    };
-    supabaseDataState.status = status.resolved;
+    if (error) {
+        supabaseDataState.error = error;
+        supabaseDataState.status = status.rejected;
+    }
 
     return supabaseDataState.data;
 
@@ -142,16 +156,27 @@ const updateData = async (
         if (compareDates(schema.updated_at, difference)) {
             console.log(new Date(Date.parse(schema.updated_at)));
 
-            if (!spotifyAccessToken)
-                spotifyAccessToken = await getAccessToken();
+            if (!spotifyAccessToken) {
+                const { data, error } = await getAccessToken();
+                if (error || !data) continue;
+                spotifyAccessToken = data;
+            }
+
             const spotifyData = isLastTrack
                 ? await getSpotify(spotifyAccessToken)
                 : await getSpotify(spotifyAccessToken, ranges[i]);
 
-            const { data, error } = await supabase
+            if (spotifyData.error) {
+                continue;
+            }
+            if (!spotifyData.data || spotifyData.data.length === 0) {
+                continue;
+            }
+
+            const { data } = await supabase
                 .from('spotifydata')
                 .update({
-                    data: JSON.stringify(spotifyData),
+                    data: JSON.stringify(spotifyData.data),
                 })
                 .match({ type: type, range: i });
             if (data && data.length) {
@@ -169,7 +194,6 @@ const updateData = async (
                 console.log(
                     new Date(Date.parse(updatedResponseSchemas[i].updated_at)),
                 );
-                console.log('--------------------');
             }
         }
     }
@@ -195,7 +219,13 @@ const parseData = (responseSchemas: responseSchema[]) => {
 };
 
 const getInitialSpotifyData = async () => {
-    if (!spotifyAccessToken) spotifyAccessToken = await getAccessToken();
+    if (!spotifyAccessToken) {
+        const { data, error } = await getAccessToken();
+        if (error) return { error };
+        if (!data) return { data: [] };
+        spotifyAccessToken = data;
+    }
+
     const lastTrackSchema: schema = await getLastTrackSchema(
         spotifyAccessToken,
     );
@@ -205,16 +235,16 @@ const getInitialSpotifyData = async () => {
     const topArtistSchemas: schema[] = await getTopArtistSchemas(
         spotifyAccessToken,
     );
-
-    // error handling ???
-    return [...topTrackSchemas, ...topArtistSchemas, lastTrackSchema];
+    return {
+        data: [...topTrackSchemas, ...topArtistSchemas, lastTrackSchema],
+    };
 };
 
 const ranges: ['short', 'medium', 'long'] = ['short', 'medium', 'long'];
 
 const getLastTrackSchema = async (accessToken: string) => {
     const lastTrack = await getLastTrack(accessToken);
-    const schema: schema = getSchema(ENUMS.last, 0, lastTrack);
+    const schema: schema = getSchema(ENUMS.last, 0, lastTrack.data);
     return schema;
 };
 
@@ -225,7 +255,7 @@ const getTopTrackSchemas = async (accessToken: string) => {
         const schema: schema = getSchema(
             ENUMS.tracks,
             ENUMS.ranges[range],
-            topTracks,
+            topTracks.data,
         );
         schemas.push(schema);
     }
@@ -239,7 +269,7 @@ const getTopArtistSchemas = async (accessToken: string) => {
         const schema: schema = getSchema(
             ENUMS.artists,
             ENUMS.ranges[range],
-            topArtists,
+            topArtists.data,
         );
         schemas.push(schema);
     }
@@ -276,33 +306,29 @@ const getValueFromResponse = (type: number, data: responseSchema[]) => {
 export const getSupabaseLastTrack = async (): Promise<
     (currentTrack[] | recentTrack[])[]
 > => {
-    await supabasePromiseHelper();
-    return (
-        supabaseDataState.data.supabaseLastTrack ||
-        ([[]] as (currentTrack[] | recentTrack[])[])
-    );
+    return await supabasePromiseHelper('supabaseLastTrack');
 };
 
 export const getSupabaseTopTracks = async (): Promise<topTrack[][]> => {
-    await supabasePromiseHelper();
-    return supabaseDataState.data.supabaseTopTracks || ([[]] as topTrack[][]);
+    return (await supabasePromiseHelper('supabaseTopTracks')) as topTrack[][];
 };
 
 export const getSupabaseTopArtists = async (): Promise<any> => {
-    await supabasePromiseHelper();
-    return supabaseDataState.data.supaBaseTopArtists || ([[]] as topArtist[][]);
+    return await supabasePromiseHelper('supaBaseTopArtists');
 };
 
-const supabasePromiseHelper = async (): Promise<void> => {
+const supabasePromiseHelper = async (key: any): Promise<any> => {
     if (supabaseDataState.status === status.idle) {
         supabaseDataState.promise = getSupabaseData();
         await supabaseDataState.promise;
-        supabaseDataState.promise = undefined;
     }
     if (supabaseDataState.status === status.pending) {
         if (supabaseDataState.promise) {
             await supabaseDataState.promise;
-            supabaseDataState.promise = undefined;
         }
     }
+    if (supabaseDataState.status === status.rejected) {
+        throw supabaseDataState.error;
+    }
+    return supabaseDataState.data[key];
 };

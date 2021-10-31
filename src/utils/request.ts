@@ -12,5 +12,5 @@ export async function request(input: RequestInfo, init?: RequestInit) {
         return res.json();
     }
     console.error(`Request went wrong (Status: ${res.status})`);
-    return {};
+    return { error: new Error(`Request went wrong (Status: ${res.status})`) };
 }

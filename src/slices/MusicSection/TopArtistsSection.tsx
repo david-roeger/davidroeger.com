@@ -28,7 +28,7 @@ export const TopArtistsSection: React.FC<{
                 </MusicSectionRoot>
             );
         case status.rejected:
-            throw topArtistsState.error;
+            return <div>Error</div>;
         case status.resolved: {
             const topArtists = topArtistsState.data[0] as topArtist[];
             return (
