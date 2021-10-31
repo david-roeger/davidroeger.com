@@ -152,7 +152,7 @@ const updateData = async (
     const updatedResponseSchemas = [...responseSchemas];
     for (let i = 0; i < updatedResponseSchemas.length; i++) {
         let schema = updatedResponseSchemas[i];
-        const difference = isLastTrack ? 0 * 5 : time[i];
+        const difference = isLastTrack ? 60000 * 5 : time[i];
         if (compareDates(schema.updated_at, difference)) {
             console.log(new Date(Date.parse(schema.updated_at)));
 

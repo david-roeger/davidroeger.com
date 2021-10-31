@@ -70,7 +70,7 @@ export const LastTrackSection: React.FC<{
                                             </ExternalLink>
                                         </MusicSectionAtom>
                                     )}
-                                    <MusicSectionAtom className="flex-1 p-2 border-l border-mauve-12 min-w-0 md:pr-8 xl:pr-16 ">
+                                    <MusicSectionAtom className="flex-1 p-2 border-l border-mauve-12 min-w-0 md:pr-8 xl:pr-16">
                                         <MusicSectionDetail
                                             headline={
                                                 <ExternalLink
