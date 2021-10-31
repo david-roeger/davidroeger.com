@@ -8,3 +8,4 @@ export { MusicSectionDetail } from './MusicSectionDetail';
 
 export { MusicSectionPlaying } from './MusicSectionPlaying';
 export { MusicSectionLoading } from './MusicSectionLoading';
+export { MusicSectionError } from './MusicSectionError';

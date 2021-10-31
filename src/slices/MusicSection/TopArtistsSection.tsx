@@ -8,6 +8,7 @@ import {
     MusicSectionImage,
     MusicSectionDetail,
     MusicSectionLoading,
+    MusicSectionError,
 } from '../../components/Music';
 import { ExternalLink } from 'src/components/ExternalLink';
 import { Tag, Score } from 'src/components/Icon';
@@ -28,7 +29,16 @@ export const TopArtistsSection: React.FC<{
                 </MusicSectionRoot>
             );
         case status.rejected:
-            return <div>Error</div>;
+            return (
+                <MusicSectionRoot>
+                    <MusicSectionBody>
+                        <MusicSectionError
+                            length={8}
+                            message={topArtistsState.error.message}
+                        />
+                    </MusicSectionBody>
+                </MusicSectionRoot>
+            );
         case status.resolved: {
             const topArtists = topArtistsState.data[0] as topArtist[];
             return (

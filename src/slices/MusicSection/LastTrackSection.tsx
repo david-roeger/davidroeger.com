@@ -9,6 +9,7 @@ import {
     MusicSectionDetail,
     MusicSectionLoading,
     MusicSectionPlaying,
+    MusicSectionError,
 } from '../../components/Music';
 import { ExternalLink } from 'src/components/ExternalLink';
 import { Artist, Album } from 'src/components/Icon';
@@ -30,7 +31,16 @@ export const LastTrackSection: React.FC<{
                 </MusicSectionRoot>
             );
         case status.rejected:
-            return <div>{lastTrackState.error.message}</div>;
+            return (
+                <MusicSectionRoot>
+                    <MusicSectionBody>
+                        <MusicSectionError
+                            length={1}
+                            message={lastTrackState.error.message}
+                        />
+                    </MusicSectionBody>
+                </MusicSectionRoot>
+            );
         case status.resolved: {
             const lastTrack = lastTrackState.data[0] as
                 | currentTrack[]

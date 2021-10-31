@@ -15,12 +15,10 @@ export const MusicSectionLoading: React.FC<{ length?: number }> = ({
                             <Loading fill="icon-purple-5" index={index} />
                         </div>
                     </MusicSectionAtom>
-                    <MusicSectionAtom>
+                    <MusicSectionAtom className="p-2 border-l border-mauve-12">
                         <div className="h-5"></div>
                         <div className="flex items-center w-full">
-                            <h3 className="md:text-xl truncate mx-2">
-                                Loading...
-                            </h3>
+                            <h3 className="md:text-xl truncate">Loading...</h3>
                         </div>
                         <div className="hidden md:block h-5"></div>
                     </MusicSectionAtom>
