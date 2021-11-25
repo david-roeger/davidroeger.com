@@ -92,10 +92,12 @@ const getRecentTrack = async (accessToken: string) => {
 
 export const getLastTrack = async (accessToken: string) => {
     const current = await getCurrentTrack(accessToken);
-    if (current.data.length && current.data[0]) return current;
+    if (current.data.length && current.data.some((d) => d != null))
+        return current;
 
     const recent = await getRecentTrack(accessToken);
-    if (recent.data.length && current.data[0]) return recent;
+    if (recent.data.length && current.data.some((d) => d != null))
+        return recent;
 
     if (current.error) return current;
     return recent;
