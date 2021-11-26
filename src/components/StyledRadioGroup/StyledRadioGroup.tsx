@@ -14,16 +14,19 @@ const Item: React.FC<
     let computedChildren: React.ReactNode;
     let computedLabel: React.ReactNode;
     if (Array.isArray(children)) {
-        computedChildren = children.filter(
-            (child) => child.type.name !== 'Label',
-        );
-        computedLabel = children.filter((child) => child.type.name === 'Label');
+        computedChildren = children.filter((child) => {
+            console.log(child.type !== Label);
+            return child.type !== Label;
+        });
+        computedLabel = children.filter((child) => child.type === Label);
     }
     console.log(computedLabel);
     return (
         <div className="flex space-x-2">
             <RadioGroup.Item
-                className={` w-6 h-6 rounded-full p-2 relative hover:bg-mauve-5 focus:ring-inset focus:outline-none focus:ring-1 focus:ring-offset-2 focus:ring-mauve-12 border border-r border-mauve-12${className}`}
+                className={`w-6 h-6 rounded-full p-2 relative focus:ring-inset focus:outline-none focus:ring-1 focus:ring-offset-2 focus:ring-mauve-12 border border-r border-mauve-12
+                hover:before:bg-mauve-5 :before:content-[''] before:rounded-full before:w-4 before:h-4 before:top-px before:left-px before:m-0.5 before:absolute
+                ${className}`}
                 id={computedId}
                 value={value}
                 {...rest}
