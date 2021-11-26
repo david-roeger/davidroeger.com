@@ -17,7 +17,8 @@ import { topArtist, status, asyncState } from 'src/types';
 
 export const TopArtistsSection: React.FC<{
     topArtistsState: asyncState;
-}> = ({ topArtistsState }) => {
+    range: number;
+}> = ({ topArtistsState, range }) => {
     switch (topArtistsState.status) {
         case status.idle:
         case status.pending:
@@ -40,7 +41,8 @@ export const TopArtistsSection: React.FC<{
                 </MusicSectionRoot>
             );
         case status.resolved: {
-            const topArtists = topArtistsState.data[0] as topArtist[];
+            const topArtists = (topArtistsState.data[range] ||
+                []) as topArtist[];
             return (
                 <MusicSectionRoot>
                     <MusicSectionBody>

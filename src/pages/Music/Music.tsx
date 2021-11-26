@@ -16,8 +16,13 @@ import {
 import { MusicSectionHeading } from 'src/components/Music';
 
 import * as Tabs from 'src/components/StyledTabs';
+import * as Popover from 'src/components/StyledPopover';
+import * as RadioGroup from 'src/components/StyledRadioGroup';
+import * as StyledSeperator from 'src/components/StyledSeperator';
 
+import { Filter } from 'src/components/Icon';
 import { status } from '../../types';
+import { ExternalLink } from 'src/components/ExternalLink';
 
 const Music: React.FC = () => {
     const lastTrackState = useAsync({
@@ -50,6 +55,10 @@ const Music: React.FC = () => {
     }, [topArtistsState.run]);
 
     const [selected, setSelected] = useState('tracks');
+
+    const ranges = ['short', 'medium', 'long'];
+    const [range, setRange] = useState('short');
+
     return (
         <main className="my-16">
             <div className="grid grid-cols-[60px,1fr,fit-content(100%),1fr,60px] md:grid-cols-[84px,1fr,fit-content(100%),1fr,84px] my-16 items-center">
@@ -77,14 +86,63 @@ const Music: React.FC = () => {
                         selected={selected}>
                         <MusicSectionHeading>Top Artists</MusicSectionHeading>
                     </Tabs.Trigger>
+                    <Popover.Root>
+                        <Popover.Trigger className="md:px-4">
+                            <Filter
+                                active={ranges.findIndex((r) => r === range)}
+                                fill="icon-purple-5"
+                            />
+                        </Popover.Trigger>
+                        <Popover.Content className="bg-white">
+                            <h3 className="mr-16">Timespan</h3>
+                            <StyledSeperator.Root />
+                            <RadioGroup.Root
+                                defaultValue={range}
+                                onValueChange={(value) => setRange(value)}>
+                                <RadioGroup.Item value="short">
+                                    <RadioGroup.Indicator></RadioGroup.Indicator>
+                                    <RadioGroup.Label>Short</RadioGroup.Label>
+                                </RadioGroup.Item>
+                                <RadioGroup.Item value="medium">
+                                    <RadioGroup.Indicator></RadioGroup.Indicator>
+                                    <RadioGroup.Label>Medium</RadioGroup.Label>
+                                </RadioGroup.Item>
+                                <RadioGroup.Item value="long">
+                                    <RadioGroup.Indicator></RadioGroup.Indicator>
+                                    <RadioGroup.Label>Long</RadioGroup.Label>
+                                </RadioGroup.Item>
+                            </RadioGroup.Root>
+                            <Popover.Close />
+                        </Popover.Content>
+                    </Popover.Root>
                 </Tabs.List>
                 <Tabs.Content className="" value="tracks">
-                    <TopTracksSection topTracksState={topTracksState} />
+                    <TopTracksSection
+                        topTracksState={topTracksState}
+                        range={ranges.findIndex((r) => r === range)}
+                    />
                 </Tabs.Content>
                 <Tabs.Content value="artists">
-                    <TopArtistsSection topArtistsState={topArtistsState} />
+                    <TopArtistsSection
+                        topArtistsState={topArtistsState}
+                        range={ranges.findIndex((r) => r === range)}
+                    />
                 </Tabs.Content>
             </Tabs.Root>
+            <p className="my-16 text-center">
+                Made with by{' '}
+                <a
+                    href="https://spotify.com"
+                    className="text-mauve-12 underline">
+                    Spotify
+                </a>
+                {' 💚 '}
+                <a
+                    href="https://supabase.com/"
+                    className="text-mauve-12 underline">
+                    Supabase
+                </a>{' '}
+            </p>
         </main>
     );
 };

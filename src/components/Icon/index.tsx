@@ -6,3 +6,5 @@ export { default as Artist } from './Artist';
 export { default as Wave } from './Wave';
 export { default as Score } from './Score';
 export { default as Loading } from './Loading';
+export { default as Filter } from './Filter';
+export { default as Close } from './Close';

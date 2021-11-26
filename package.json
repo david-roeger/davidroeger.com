@@ -11,6 +11,9 @@
         "tsc": "tsc --noEmit"
     },
     "dependencies": {
+        "@radix-ui/react-popover": "^0.1.1",
+        "@radix-ui/react-radio-group": "^0.1.1",
+        "@radix-ui/react-separator": "^0.1.1",
         "@radix-ui/react-tabs": "^0.1.1",
         "@supabase/supabase-js": "^1.24.0",
         "react": "^17.0.0",
