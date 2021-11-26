@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Link, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
 
 import { BreakpointProvider } from './providers';
 import { Landing } from './pages';
@@ -20,10 +20,10 @@ const Router = () => (
                     </ul>
                 </nav>
 
-                <Switch>
-                    <Route exact path="/" component={Landing} />
-                    <Route path="/music" component={Music} />
-                </Switch>
+                <Routes>
+                    <Route path="/" element={<Landing />} />
+                    <Route path="/music" element={<Music />} />
+                </Routes>
             </div>
         </BreakpointProvider>
     </BrowserRouter>
