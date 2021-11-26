@@ -22,7 +22,6 @@ import * as StyledSeperator from 'src/components/StyledSeperator';
 
 import { Filter } from 'src/components/Icon';
 import { status } from '../../types';
-import { ExternalLink } from 'src/components/ExternalLink';
 
 const Music: React.FC = () => {
     const lastTrackState = useAsync({
