@@ -22,6 +22,6 @@
         "incremental": true
     },
     "include": [
-        "src/**/*" // *** The files TypeScript should type check ***
+        "react/src/**/*" // *** The files TypeScript should type check ***
     ]
 }
