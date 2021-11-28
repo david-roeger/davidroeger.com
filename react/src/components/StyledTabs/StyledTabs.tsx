@@ -6,10 +6,11 @@ const Root: React.FC<Tabs.TabsProps & React.RefAttributes<HTMLDivElement>> = ({
     ...rest
 }) => <Tabs.Root className={`my-16 ${className}`} {...rest} />;
 
-const List: React.FC<Tabs.TabsListProps & React.RefAttributes<HTMLDivElement>> =
-    ({ className = '', ...rest }) => (
-        <Tabs.List className={`flex ${className}`} {...rest} />
-    );
+const List: React.FC<
+    Tabs.TabsListProps & React.RefAttributes<HTMLDivElement>
+> = ({ className = '', ...rest }) => (
+    <Tabs.List className={`flex ${className}`} {...rest} />
+);
 
 interface StyledTabsTriggerProps extends Tabs.TabsTriggerProps {
     selected: string;

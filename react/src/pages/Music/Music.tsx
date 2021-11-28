@@ -74,7 +74,8 @@ const Music: React.FC = () => {
             </div>
             <Tabs.Root
                 defaultValue={selected}
-                onValueChange={(value) => setSelected(value)}>
+                onValueChange={(value) => setSelected(value)}
+            >
                 <Tabs.List>
                     <Tabs.Trigger value="tracks" selected={selected}>
                         <MusicSectionHeading>Top Tracks</MusicSectionHeading>
@@ -82,7 +83,8 @@ const Music: React.FC = () => {
                     <Tabs.Trigger
                         className="reversed"
                         value="artists"
-                        selected={selected}>
+                        selected={selected}
+                    >
                         <MusicSectionHeading>Top Artists</MusicSectionHeading>
                     </Tabs.Trigger>
                     <Popover.Root>
@@ -97,7 +99,8 @@ const Music: React.FC = () => {
                             <StyledSeperator.Root />
                             <RadioGroup.Root
                                 defaultValue={range}
-                                onValueChange={(value) => setRange(value)}>
+                                onValueChange={(value) => setRange(value)}
+                            >
                                 <RadioGroup.Item value="short">
                                     <RadioGroup.Indicator></RadioGroup.Indicator>
                                     <RadioGroup.Label>Short</RadioGroup.Label>
@@ -134,7 +137,8 @@ const Music: React.FC = () => {
                     href="https://spotify.com"
                     className="text-mauve-12 underline"
                     rel="noopener noreferrer"
-                    target="_blank">
+                    target="_blank"
+                >
                     Spotify
                 </a>
                 {' 💚 '}
@@ -142,7 +146,8 @@ const Music: React.FC = () => {
                     href="https://supabase.com/"
                     className="text-mauve-12 underline"
                     rel="noopener noreferrer"
-                    target="_blank">
+                    target="_blank"
+                >
                     Supabase
                 </a>{' '}
             </p>

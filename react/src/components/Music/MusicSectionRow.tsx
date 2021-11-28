@@ -6,7 +6,8 @@ export const MusicSectionRow: React.FC<{
 }> = ({ className = '', children }) => {
     return (
         <li
-            className={`border-t border-b-0 last:border-b border-mauve-12 ${className}`}>
+            className={`border-t border-b-0 last:border-b border-mauve-12 ${className}`}
+        >
             {children}
         </li>
     );

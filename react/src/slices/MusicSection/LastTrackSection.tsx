@@ -52,14 +52,16 @@ export const LastTrackSection: React.FC<{
                             lastTrack.map((track) => (
                                 <MusicSectionRow
                                     className="flex"
-                                    key={track.id}>
+                                    key={track.id}
+                                >
                                     {track.album.images.length > 0 && (
                                         <MusicSectionAtom>
                                             <ExternalLink
                                                 href={
                                                     track.external_urls.spotify
                                                 }
-                                                ghost>
+                                                ghost
+                                            >
                                                 <MusicSectionImage
                                                     url={
                                                         track.album.images[0]
@@ -77,7 +79,8 @@ export const LastTrackSection: React.FC<{
                                                     href={
                                                         track.external_urls
                                                             .spotify
-                                                    }>
+                                                    }
+                                                >
                                                     {track.name}
                                                 </ExternalLink>
                                             }
@@ -88,7 +91,8 @@ export const LastTrackSection: React.FC<{
                                                     )
                                                     .join(', '),
                                                 track.album.name,
-                                            ]}>
+                                            ]}
+                                        >
                                             <Artist
                                                 fill="icon-mauve-5"
                                                 width={20}

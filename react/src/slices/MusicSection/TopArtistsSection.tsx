@@ -50,14 +50,16 @@ export const TopArtistsSection: React.FC<{
                             topArtists.map((artist) => (
                                 <MusicSectionRow
                                     className="flex"
-                                    key={artist.id}>
+                                    key={artist.id}
+                                >
                                     {artist.images.length > 0 && (
                                         <MusicSectionAtom>
                                             <ExternalLink
                                                 href={
                                                     artist.external_urls.spotify
                                                 }
-                                                ghost>
+                                                ghost
+                                            >
                                                 <MusicSectionImage
                                                     url={
                                                         artist.images[
@@ -77,14 +79,16 @@ export const TopArtistsSection: React.FC<{
                                                     href={
                                                         artist.external_urls
                                                             .spotify
-                                                    }>
+                                                    }
+                                                >
                                                     {artist.name}
                                                 </ExternalLink>
                                             }
                                             subline={[
                                                 artist.genres.join(', '),
                                                 `${artist.popularity} / 100`,
-                                            ]}>
+                                            ]}
+                                        >
                                             <Tag
                                                 fill="icon-mauve-5"
                                                 width={20}

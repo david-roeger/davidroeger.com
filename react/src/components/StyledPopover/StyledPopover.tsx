@@ -31,7 +31,8 @@ const Content: React.FC<
 cursor-pointer select-none 
 border border-mauve-12 
 ${className}`}
-        {...rest}>
+        {...rest}
+    >
         {children}
     </Popover.Content>
 );
@@ -42,7 +43,8 @@ const Close: React.FC<
     <Popover.PopoverClose
         aria-label="Close"
         className={`absolute top-0 right-0 min-w-0 m-2 focus-visible:ring-inset focus:outline-none focus-visible:ring-1 focus-visible:ring-offset-2 focus-visible:ring-mauve-12 border border-mauve-12 ${className}`}
-        {...rest}>
+        {...rest}
+    >
         <CloseIcon />
     </Popover.PopoverClose>
 );
