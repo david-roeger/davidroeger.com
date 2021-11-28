@@ -132,13 +132,17 @@ const Music: React.FC = () => {
                 Made with by{' '}
                 <a
                     href="https://spotify.com"
-                    className="text-mauve-12 underline">
+                    className="text-mauve-12 underline"
+                    rel="noopener noreferrer"
+                    target="_blank">
                     Spotify
                 </a>
                 {' 💚 '}
                 <a
                     href="https://supabase.com/"
-                    className="text-mauve-12 underline">
+                    className="text-mauve-12 underline"
+                    rel="noopener noreferrer"
+                    target="_blank">
                     Supabase
                 </a>{' '}
             </p>
