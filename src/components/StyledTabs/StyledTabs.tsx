@@ -20,7 +20,7 @@ const Trigger: React.FC<
 > = ({ className = '', selected, value, ...rest }) => {
     return (
         <Tabs.Trigger
-            className={`growing-underline-tabs flex-grow min-w-0 p-2 
+            className={`transition-colors growing-underline-tabs flex-grow min-w-0 p-2 
         hover:bg-mauve-3
         focus:ring-inset focus:outline-none focus:ring-1 focus:ring-offset-2 focus:ring-mauve-12 
         cursor-pointer select-none 

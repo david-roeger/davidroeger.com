@@ -87,7 +87,7 @@ const Music: React.FC = () => {
                         <MusicSectionHeading>Top Artists</MusicSectionHeading>
                     </Tabs.Trigger>
                     <Popover.Root>
-                        <Popover.Trigger className="md:px-4 border-t border-mauve-12 ">
+                        <Popover.Trigger className="flex justify-center md:px-4 border-t border-mauve-12 w-[60px] md:w-[84px]">
                             <AccessibleIcon label="Filter Content">
                                 <Icon.Filter
                                     active={ranges.findIndex(

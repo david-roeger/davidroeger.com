@@ -13,7 +13,7 @@ const Trigger: React.FC<
     return (
         <Popover.Trigger
             className={`min-w-0 p-2 
-        hover:bg-mauve-3
+            transition-colors hover:bg-mauve-3
         focus-visible:ring-inset focus:outline-none focus-visible:ring-1 focus-visible:ring-offset-2 focus-visible:ring-mauve-12 
         cursor-pointer select-none
         ${className}`}
@@ -26,10 +26,9 @@ const Content: React.FC<
     Popover.PopoverContentProps & React.RefAttributes<HTMLDivElement>
 > = ({ className = '', children, ...rest }) => (
     <Popover.Content
-        className={`font-neue-haas min-w-0 p-2 relative focus-visible:ring-inset focus:outline-none focus-visible:ring-1 focus-visible:ring-offset-2 focus-visible:ring-mauve-12 
-cursor-pointer select-none 
-border border-mauve-12 
-${className}`}
+        className={`font-neue-haas min-w-0 p-2 relative focus-visible:ring-inset focus:outline-none focus-visible:ring-1 focus-visible:ring-offset-2 focus-visible:ring-mauve-12  
+            border border-mauve-12 
+            ${className}`}
         {...rest}>
         {children}
     </Popover.Content>
