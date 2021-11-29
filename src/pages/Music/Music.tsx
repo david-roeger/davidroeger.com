@@ -87,7 +87,7 @@ const Music: React.FC = () => {
                         <MusicSectionHeading>Top Artists</MusicSectionHeading>
                     </Tabs.Trigger>
                     <Popover.Root>
-                        <Popover.Trigger className="md:px-4">
+                        <Popover.Trigger className="md:px-4 border-t border-mauve-12 ">
                             <AccessibleIcon label="Filter Content">
                                 <Icon.Filter
                                     active={ranges.findIndex(
@@ -98,7 +98,7 @@ const Music: React.FC = () => {
                             </AccessibleIcon>
                         </Popover.Trigger>
                         <Popover.Content className="bg-white">
-                            <h3 className="mr-16">Timespan</h3>
+                            <h3 className="mr-16">Time span</h3>
                             <StyledSeperator.Root />
                             <RadioGroup.Root
                                 defaultValue={range}

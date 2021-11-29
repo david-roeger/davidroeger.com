@@ -6,10 +6,11 @@ const Root: React.FC<Tabs.TabsProps & React.RefAttributes<HTMLDivElement>> = ({
     ...rest
 }) => <Tabs.Root className={`my-16 ${className}`} {...rest} />;
 
-const List: React.FC<Tabs.TabsListProps & React.RefAttributes<HTMLDivElement>> =
-    ({ className = '', ...rest }) => (
-        <Tabs.List className={`flex ${className}`} {...rest} />
-    );
+const List: React.FC<
+    Tabs.TabsListProps & React.RefAttributes<HTMLDivElement>
+> = ({ className = '', ...rest }) => (
+    <Tabs.List className={`flex ${className}`} {...rest} />
+);
 
 interface StyledTabsTriggerProps extends Tabs.TabsTriggerProps {
     selected: string;
@@ -36,7 +37,9 @@ const Content: React.FC<
     Tabs.TabsContentProps & React.RefAttributes<HTMLDivElement>
 > = ({ className = '', ...rest }) => (
     <Tabs.Content
-        className={`focus-visible:ring-inset focus:outline-none focus-visible:ring-1 focus-visible:ring-offset-2 focus-visible:ring-mauve-12 ${className}`}
+        className={`${
+            /*fade-in fade-out*/ ''
+        } focus-visible:ring-inset focus:outline-none focus-visible:ring-1 focus-visible:ring-offset-2 focus-visible:ring-mauve-12 ${className}`}
         {...rest}
     />
 );

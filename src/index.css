@@ -39,4 +39,33 @@
     .growing-underline-tabs.selected > * {
         background-size: 100% 1px;
     }
+
+    /*
+    Wait for Radix Support (https://github.com/radix-ui/primitives/pull/859)
+    @keyframes fadeInLeft {
+        from {
+            transform: translateX(-100%);
+        }
+        to {
+            transform: translateX(0%);
+        }
+    }
+
+    @keyframes fadeOutLeft {
+        from {
+            transform: translateX(0%);
+        }
+        to {
+            transform: translateX(-100%);
+        }
+    }
+
+    .fade-in[data-state='active'] {
+        animation: fadeInLeft 300ms ease-out;
+    }
+
+    .fade-out[data-state='inactive'] {
+        animation: fadeOut 300ms ease-out;
+    }
+    */
 }
