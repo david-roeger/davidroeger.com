@@ -1,7 +1,7 @@
 import React from 'react';
 
 import * as Popover from '@radix-ui/react-popover';
-import { Close as CloseIcon } from '../Icon';
+import * as Icon from '../Icon';
 
 const Root: React.FC<Popover.PopoverProps> = ({ ...rest }) => (
     <Popover.Root {...rest} />
@@ -43,7 +43,7 @@ const Close: React.FC<
         aria-label="Close"
         className={`absolute top-0 right-0 min-w-0 m-2 focus-visible:ring-inset focus:outline-none focus-visible:ring-1 focus-visible:ring-offset-2 focus-visible:ring-mauve-12 border border-mauve-12 ${className}`}
         {...rest}>
-        <CloseIcon />
+        <Icon.Close />
     </Popover.PopoverClose>
 );
 

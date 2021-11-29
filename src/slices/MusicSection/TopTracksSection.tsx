@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { AccessibleIcon } from '@radix-ui/react-accessible-icon';
 import {
     MusicSectionRoot,
     MusicSectionBody,
@@ -11,7 +12,7 @@ import {
     MusicSectionError,
 } from '../../components/Music';
 import { ExternalLink } from 'src/components/ExternalLink';
-import { Artist, Album } from 'src/components/Icon';
+import * as Icon from 'src/components/Icon';
 
 import { topTrack, status, asyncState } from 'src/types';
 
@@ -86,16 +87,20 @@ export const TopTracksSection: React.FC<{
                                                     .join(', '),
                                                 track.album.name,
                                             ]}>
-                                            <Artist
-                                                fill="icon-mauve-5"
-                                                width={20}
-                                                height={20}
-                                            />
-                                            <Album
-                                                fill="icon-mauve-5"
-                                                width={20}
-                                                height={20}
-                                            />
+                                            <AccessibleIcon label="Artist">
+                                                <Icon.Artist
+                                                    fill="icon-mauve-5"
+                                                    width={20}
+                                                    height={20}
+                                                />
+                                            </AccessibleIcon>
+                                            <AccessibleIcon label="Album">
+                                                <Icon.Album
+                                                    fill="icon-mauve-5"
+                                                    width={20}
+                                                    height={20}
+                                                />
+                                            </AccessibleIcon>
                                         </MusicSectionDetail>
                                     </MusicSectionAtom>
                                 </MusicSectionRow>

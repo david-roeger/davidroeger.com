@@ -20,8 +20,9 @@ import * as Popover from 'src/components/StyledPopover';
 import * as RadioGroup from 'src/components/StyledRadioGroup';
 import * as StyledSeperator from 'src/components/StyledSeperator';
 
-import { Filter } from 'src/components/Icon';
+import * as Icon from 'src/components/Icon';
 import { status } from '../../types';
+import { AccessibleIcon } from '@radix-ui/react-accessible-icon';
 
 const Music: React.FC = () => {
     const lastTrackState = useAsync({
@@ -87,10 +88,14 @@ const Music: React.FC = () => {
                     </Tabs.Trigger>
                     <Popover.Root>
                         <Popover.Trigger className="md:px-4">
-                            <Filter
-                                active={ranges.findIndex((r) => r === range)}
-                                fill="icon-purple-5"
-                            />
+                            <AccessibleIcon label="Filter Content">
+                                <Icon.Filter
+                                    active={ranges.findIndex(
+                                        (r) => r === range,
+                                    )}
+                                    fill="icon-purple-5"
+                                />
+                            </AccessibleIcon>
                         </Popover.Trigger>
                         <Popover.Content className="bg-white">
                             <h3 className="mr-16">Timespan</h3>

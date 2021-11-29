@@ -1,7 +1,9 @@
 import React from 'react';
 
+import { AccessibleIcon } from '@radix-ui/react-accessible-icon';
+
 import { MusicSectionRow, MusicSectionAtom } from '.';
-import { Loading } from '../Icon';
+import * as Icon from '../Icon';
 
 export const MusicSectionLoading: React.FC<{ length?: number }> = ({
     length = 1,
@@ -12,7 +14,12 @@ export const MusicSectionLoading: React.FC<{ length?: number }> = ({
                 <MusicSectionRow className="flex" key={index}>
                     <MusicSectionAtom>
                         <div className="h-[60px] md:h-[84px] w-[60px] md:w-[84px] grid justify-items-center items-center">
-                            <Loading fill="icon-purple-5" index={index} />
+                            <AccessibleIcon label="Loading">
+                                <Icon.Loading
+                                    fill="icon-purple-5"
+                                    index={index}
+                                />
+                            </AccessibleIcon>
                         </div>
                     </MusicSectionAtom>
                     <MusicSectionAtom className="p-2 border-l border-mauve-12">

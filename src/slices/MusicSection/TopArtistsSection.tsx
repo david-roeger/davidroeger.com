@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { AccessibleIcon } from '@radix-ui/react-accessible-icon';
 import {
     MusicSectionRoot,
     MusicSectionBody,
@@ -11,7 +12,7 @@ import {
     MusicSectionError,
 } from '../../components/Music';
 import { ExternalLink } from 'src/components/ExternalLink';
-import { Tag, Score } from 'src/components/Icon';
+import * as Icon from 'src/components/Icon';
 
 import { topArtist, status, asyncState } from 'src/types';
 
@@ -85,18 +86,22 @@ export const TopArtistsSection: React.FC<{
                                                 artist.genres.join(', '),
                                                 `${artist.popularity} / 100`,
                                             ]}>
-                                            <Tag
-                                                fill="icon-mauve-5"
-                                                width={20}
-                                                height={20}
-                                            />
-                                            <Score
-                                                id={artist.id}
-                                                score={artist.popularity}
-                                                fill="icon-mauve-5"
-                                                width={20}
-                                                height={20}
-                                            />
+                                            <AccessibleIcon label="Tags">
+                                                <Icon.Tag
+                                                    fill="icon-mauve-5"
+                                                    width={20}
+                                                    height={20}
+                                                />
+                                            </AccessibleIcon>
+                                            <AccessibleIcon label="Score">
+                                                <Icon.Score
+                                                    id={artist.id}
+                                                    score={artist.popularity}
+                                                    fill="icon-mauve-5"
+                                                    width={20}
+                                                    height={20}
+                                                />
+                                            </AccessibleIcon>
                                         </MusicSectionDetail>
                                     </MusicSectionAtom>
                                 </MusicSectionRow>
