@@ -98,7 +98,7 @@ const Music: React.FC = () => {
                             </AccessibleIcon>
                         </Popover.Trigger>
                         <Popover.Content className="bg-white">
-                            <h3 className="mr-16 md:text-xl">Time span</h3>
+                            <h3 className="mr-16">Time Range</h3>
                             <StyledSeperator.Root />
                             <RadioGroup.Root
                                 defaultValue={range}
