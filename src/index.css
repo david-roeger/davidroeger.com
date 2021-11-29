@@ -3,13 +3,21 @@
 @tailwind utilities;
 
 @layer base {
-    @font-face {
-        font-family: CSTMX;
-        src: url(../fonts/CSTMX.woff) format('woff');
-    }
 }
 
 @layer utilities {
+    .cstmx {
+        font-variation-settings: 'xpr3' 500;
+    }
+
+    .cstmx-animate {
+        font-variation-settings: 'xpr3' 0;
+        transition: font-variation-settings 500ms ease-in-out;
+    }
+    .cstmx-animate:hover {
+        font-variation-settings: 'xpr3' 500;
+    }
+
     .growing-underline {
         background-size: 0% 1px;
         background-position: 100% 100%;
