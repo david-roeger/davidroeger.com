@@ -16,7 +16,7 @@
         "@radix-ui/react-radio-group": "^0.1.1",
         "@radix-ui/react-separator": "^0.1.1",
         "@radix-ui/react-tabs": "^0.1.1",
-        "@supabase/supabase-js": "^1.28.2",
+        "@supabase/supabase-js": "^1.28.5",
         "react": "^17.0.0",
         "react-dom": "^17.0.0",
         "react-router-dom": "^6.0.2",
