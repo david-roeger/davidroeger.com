@@ -2,7 +2,6 @@
 	let c = '';
 	export { c as class };
 	export const target: HTMLElement | string = '#portal';
-	console.log(target);
 	import { portal } from '$actions';
 </script>
 

@@ -55,7 +55,6 @@ onInteractOutside
 
 {#if $open}
 	<div
-		on:focus={() => console.log('focus')}
 		data-state={$dataState}
 		role="dialog"
 		aria-modal="true"

@@ -7,6 +7,6 @@ export interface Locals {
 }
 
 export interface ActionReturnType {
-	update: (params: T) => void | Promise<void>;
-	destroy: () => void;
+	update?: (params: T) => void | Promise<void>;
+	destroy?: () => void;
 }

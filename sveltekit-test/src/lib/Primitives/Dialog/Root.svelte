@@ -1,17 +1,5 @@
-<!--Dialog.Root>
-    <Dialog.Trigger />
-    <Dialog.Portal>
-      <Dialog.Overlay />
-      <Dialog.Content>
-        <Dialog.Title />
-        <Dialog.Description />
-        <Dialog.Close />
-      </Dialog.Content>
-    </Dialog.Portal>
-  </Dialog.Root-->
 <script lang="ts">
 	export let defaultOpen: boolean;
-	export let modal: boolean = false;
 	export let id: string;
 
 	let c = '';
@@ -25,7 +13,6 @@
 
 	const rootContext: RootContext = {
 		id: `dialog-${id}`,
-		modal: modal,
 		trap: writable(undefined),
 		open: writable(defaultOpen),
 		setOpen: writable(undefined),
@@ -35,19 +22,9 @@
 	const { open, trap, setOpen, setClose } = rootContext;
 	$setOpen = () => {
 		$activeDialogs = [...$activeDialogs, id];
+		console.log($activeDialogs);
 		document.body.classList.add('dialog-open');
 		$open = true;
-		console.log($activeDialogs);
-		/*
-		    overflow: hidden !important;
-			position: relative !important;
-			padding-left: 0px;
-			padding-top: 0px;
-			padding-right: 0px;
-			margin-left: 0;
-			margin-top: 0;
-			margin-right: 0px !important;
-		*/
 	};
 	$setClose = () => {
 		if ($trap) {
@@ -55,6 +32,8 @@
 			$trap = undefined;
 		}
 		$activeDialogs = [...$activeDialogs.filter((activeDialog) => activeDialog !== id)];
+		console.log($activeDialogs);
+
 		if ($activeDialogs.length === 0) {
 			document.body.classList.remove('dialog-open');
 		}

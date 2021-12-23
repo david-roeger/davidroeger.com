@@ -6,13 +6,12 @@
  */
 export const hasParentOfType = (element: HTMLElement, type: string): boolean => {
 	type = type.toUpperCase();
-	const parent = element.parentElement;
-	console.log(typeof element.tagName, element.tagName);
-	if (parent) {
+	let parent = element.parentElement;
+	while (parent) {
 		if (parent.tagName === type) {
 			return true;
 		}
-		hasParentOfType(parent, type);
+		parent = parent.parentElement;
 	}
 	return false;
 };

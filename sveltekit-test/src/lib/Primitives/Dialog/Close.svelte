@@ -6,6 +6,7 @@
 	import { getContext, onMount } from 'svelte';
 	import type { RootContext } from './types';
 	import { hasParentOfType } from '$utils';
+	import { buttonType } from '$actions';
 
 	const { setClose }: RootContext = getContext('root');
 
@@ -28,6 +29,7 @@
 	}}
 	class={`${c}`}
 	bind:this={close}
+	use:buttonType={t}
 >
 	<slot />
 </button>

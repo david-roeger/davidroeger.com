@@ -26,7 +26,7 @@
 		try editing <strong>src/routes/index.svelte</strong>
 	</h2>
 	<div class="bg-blue-5 h-[500px]" />
-	<Dialog.Root defaultOpen={false} id="0">
+	<Dialog.Root defaultOpen={false} id="0" on:openChange={(e) => console.log(e.detail.open)}>
 		<Dialog.Trigger>Hallo</Dialog.Trigger>
 		<Dialog.Portal>
 			<Dialog.Overlay class="fixed top-0 w-full h-full bg-mauve-12/50" />
@@ -34,7 +34,7 @@
 				<Dialog.Title>Title 1</Dialog.Title>
 				<Dialog.Description>Description 1</Dialog.Description>
 				<Dialog.Close>Close</Dialog.Close>
-				<Dialog.Root defaultOpen={false} id="0">
+				<Dialog.Root defaultOpen={false} id="1">
 					<Dialog.Trigger>Dialog 2</Dialog.Trigger>
 					<Dialog.Portal>
 						<Dialog.Overlay class="fixed top-0 w-full h-full bg-mauve-12/50" />
