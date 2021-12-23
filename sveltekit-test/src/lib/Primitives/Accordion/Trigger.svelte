@@ -5,30 +5,11 @@
 	import { getContext } from 'svelte';
 	import type { ItemContext, RootContext } from './types';
 
-	const { active, dataState, ...item }: ItemContext = getContext('item');
-	const { activeValues, collapsible, type }: RootContext = getContext('root');
+	const { active, dataState, value, ...item }: ItemContext = getContext('item');
+	const { setAccordion }: RootContext = getContext('root');
 
 	const handleClick = () => {
-		if (type === 'single') {
-			if ($active) {
-				if (collapsible) $activeValues = [];
-				return;
-			}
-			$activeValues = [item.value];
-			return;
-		}
-
-		const length = $activeValues.length;
-		if ($active) {
-			if (length > 1) {
-				$activeValues = $activeValues.filter((v) => v !== item.value);
-				return;
-			}
-			if (collapsible) $activeValues = [];
-			return;
-		}
-		$activeValues = [...$activeValues, item.value];
-		return;
+		if ($setAccordion) $setAccordion(value, $active);
 	};
 </script>
 

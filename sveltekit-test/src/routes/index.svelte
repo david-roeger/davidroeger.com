@@ -3,6 +3,7 @@
 </script>
 
 <script lang="ts">
+	import * as Accordion from '$primitives/Accordion';
 	import * as Dialog from '$primitives/Dialog';
 </script>
 
@@ -26,6 +27,7 @@
 		try editing <strong>src/routes/index.svelte</strong>
 	</h2>
 	<div class="bg-blue-5 h-[500px]" />
+
 	<Dialog.Root defaultOpen={false} id="0" on:openChange={(e) => console.log(e.detail.open)}>
 		<Dialog.Trigger>Hallo</Dialog.Trigger>
 		<Dialog.Portal>

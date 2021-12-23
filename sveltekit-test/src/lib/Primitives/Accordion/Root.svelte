@@ -1,10 +1,11 @@
 <script lang="ts">
 	export let type: 'single' | 'multiple';
 	export let defaultValue: string | string[];
-	export let disabled: boolean = false;
-	export let collapsible: boolean = false;
-
 	export let id: string;
+
+	export const disabled: boolean = false;
+	export const collapsible: boolean = false;
+
 	let c = '';
 	export { c as class };
 
@@ -18,14 +19,36 @@
 
 	const rootContext: RootContext = {
 		id: id,
-		type: type,
 		disabled: disabled,
-		collapsible: collapsible,
-		activeValues: writable(Array.isArray(defaultValue) ? defaultValue : [defaultValue])
+		activeValues: writable(Array.isArray(defaultValue) ? defaultValue : [defaultValue]),
+		setAccordion: writable(undefined)
 	};
 	setContext('root', rootContext);
-	const { activeValues } = rootContext;
+	const { activeValues, setAccordion } = rootContext;
 	const dispatch = createEventDispatcher<{ valueChange: { value: string | string[] } }>();
+
+	$setAccordion = (value: string, active: boolean) => {
+		if (type === 'single') {
+			if (active) {
+				if (collapsible) $activeValues = [];
+				return;
+			}
+			$activeValues = [value];
+			return;
+		}
+
+		const length = $activeValues.length;
+		if (active) {
+			if (length > 1) {
+				$activeValues = $activeValues.filter((activeValue) => activeValue !== value);
+				return;
+			}
+			if (collapsible) $activeValues = [];
+			return;
+		}
+		$activeValues = [...$activeValues, value];
+		return;
+	};
 
 	$: {
 		const returnValue =

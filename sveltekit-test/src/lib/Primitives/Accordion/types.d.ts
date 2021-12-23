@@ -1,9 +1,9 @@
+import type { Writable } from 'svelte/store';
 export interface RootContext {
 	id: string;
-	type: 'single' | 'multiple';
 	disabled: boolean;
-	collapsible: boolean;
 	activeValues: Writable<string[]>;
+	setAccordion: Writable<(value: string, active: boolean) => void | undefined>;
 }
 
 export interface ItemContext {
