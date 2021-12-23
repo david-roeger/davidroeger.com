@@ -5,3 +5,8 @@
 export interface Locals {
 	userid: string;
 }
+
+export interface ActionReturnType {
+	update: (params: T) => void | Promise<void>;
+	destroy: () => void;
+}

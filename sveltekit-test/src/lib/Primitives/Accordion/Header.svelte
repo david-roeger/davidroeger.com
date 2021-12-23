@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	let c = '';
 	export { c as class };
 

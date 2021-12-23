@@ -32,16 +32,6 @@ value*
 		dataState: dataState
 	};
 	setContext('item', itemContext);
-
-	import { createEventDispatcher } from 'svelte';
-
-	const dispatch = createEventDispatcher();
-
-	function handleTrigger() {
-		dispatch('item', {
-			value: value
-		});
-	}
 </script>
 
 <div data-state={$dataState} class={`${c}`}>

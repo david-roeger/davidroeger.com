@@ -9,7 +9,6 @@
 	const { activeValues, collapsible, type }: RootContext = getContext('root');
 
 	const handleClick = () => {
-		// do something
 		if (type === 'single') {
 			if ($active) {
 				if (collapsible) $activeValues = [];
@@ -35,6 +34,7 @@
 
 <button
 	on:click={handleClick}
+	on:click
 	class={`${c}`}
 	id={`${item.id}-trigger`}
 	aria-controls={`${item.id}-content`}

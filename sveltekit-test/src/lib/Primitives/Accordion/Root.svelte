@@ -1,6 +1,5 @@
 <script lang="ts">
 	export let type: 'single' | 'multiple';
-	export let value: string | string[];
 	export let defaultValue: string | string[];
 	export let disabled: boolean = false;
 	export let collapsible: boolean = false;
@@ -14,6 +13,9 @@
 	import { createEventDispatcher } from 'svelte';
 	import type { RootContext } from './types';
 
+	import { createFocusTrap } from 'focus-trap';
+	import type { FocusTrap } from 'focus-trap';
+
 	const rootContext: RootContext = {
 		id: id,
 		type: type,
@@ -23,20 +25,24 @@
 	};
 	setContext('root', rootContext);
 	const { activeValues } = rootContext;
-	const dispatch = createEventDispatcher();
-	function handleItem(e: CustomEvent<{ value: string }>) {
-		/*
-            set state
-        */
+	const dispatch = createEventDispatcher<{ valueChange: { value: string | string[] } }>();
+
+	$: {
+		const returnValue =
+			!Array.isArray(defaultValue) && $activeValues.length < 2
+				? $activeValues.join('')
+				: $activeValues;
 		dispatch('valueChange', {
-			value: value
+			value: returnValue
 		});
 	}
 
-	let root;
+	let root: HTMLElement;
+	let trap: FocusTrap | undefined;
 	let triggerElements: HTMLElement[] = [];
 	onMount(() => {
 		triggerElements = Array.from(root.querySelectorAll(':scope > * > * > [aria-expanded]'));
+		trap = createFocusTrap(root);
 	});
 
 	const handleKeyDown = (e: KeyboardEvent) => {
@@ -44,44 +50,47 @@
 			(trigger) => trigger === document.activeElement
 		);
 		if (activeTriggerIndex != -1) {
-			debugger;
 			switch (e.key) {
 				case 'ArrowUp':
-					e.preventDefault();
-					e.stopPropagation();
 					activeTriggerIndex--;
 					if (activeTriggerIndex < 0) {
 						activeTriggerIndex = triggerElements.length - 1;
 					}
 					triggerElements[activeTriggerIndex].focus();
-					break;
-				case 'ArrowDown':
 					e.preventDefault();
 					e.stopPropagation();
+					break;
+				case 'ArrowDown':
 					activeTriggerIndex++;
 					if (activeTriggerIndex >= triggerElements.length) {
 						activeTriggerIndex = 0;
 					}
 					triggerElements[activeTriggerIndex].focus();
+					e.preventDefault();
+					e.stopPropagation();
 					break;
 				case 'Home':
+					triggerElements[0].focus();
 					e.preventDefault();
 					e.stopPropagation();
-					triggerElements[0].focus();
 					break;
 				case 'End':
+					triggerElements[triggerElements.length - 1].focus();
 					e.preventDefault();
 					e.stopPropagation();
-					triggerElements[triggerElements.length - 1].focus();
 					break;
 				default:
 					break;
 			}
 		}
 	};
+
+	const handleClick = () => {
+		if (trap) trap.activate();
+	};
 </script>
 
-<div class={c} bind:this={root} on:keydown={handleKeyDown}>
-	<!-- listen for on:item-->
+<div class={`focus:border-2 border-black ${c}`} bind:this={root} on:keydown={handleKeyDown}>
 	<slot />
 </div>
+<button on:click={handleClick} class="focus:border-2 border-black">activate Trap</button>

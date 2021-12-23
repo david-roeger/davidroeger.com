@@ -3,8 +3,7 @@
 </script>
 
 <script lang="ts">
-	import { Counter } from '$lib/Components/Counter';
-	import * as Accordion from '$lib/Primitives/Accordion';
+	import * as Dialog from '$primitives/Dialog';
 </script>
 
 <svelte:head>
@@ -26,50 +25,27 @@
 	<h2 class="text-mauve-9">
 		try editing <strong>src/routes/index.svelte</strong>
 	</h2>
-
-	<Counter />
-	<Accordion.Root type="single" value="" defaultValue="item-2" id="0">
-		<Accordion.Item value="item-1"
-			><Accordion.Header>
-				<Accordion.Trigger>Header 1</Accordion.Trigger>
-			</Accordion.Header>
-			<Accordion.Content>Content für 2</Accordion.Content>
-		</Accordion.Item>
-		<Accordion.Item value="item-2">
-			<Accordion.Header>
-				<Accordion.Trigger>Header 2</Accordion.Trigger>
-			</Accordion.Header>
-			<Accordion.Content>Content für 2</Accordion.Content>
-		</Accordion.Item>
-		<Accordion.Item value="item-3">
-			<Accordion.Header>
-				<Accordion.Trigger>Header 3</Accordion.Trigger>
-			</Accordion.Header>
-			<Accordion.Content>
-				<p>Content für 3</p>
-				<Accordion.Root type="single" value="" defaultValue="item-2-1" id="1">
-					<Accordion.Item value="item-2-1"
-						><Accordion.Header>
-							<Accordion.Trigger>Header 2-1</Accordion.Trigger>
-						</Accordion.Header>
-
-						<Accordion.Content>Content für 2-2</Accordion.Content>
-					</Accordion.Item>
-					<Accordion.Item value="item-2-2">
-						<Accordion.Header>
-							<Accordion.Trigger>Header 2-3</Accordion.Trigger>
-						</Accordion.Header>
-
-						<Accordion.Content>Content für 2-3</Accordion.Content>
-					</Accordion.Item>
-					<Accordion.Item value="item-2-3">
-						<Accordion.Header>
-							<Accordion.Trigger>Header 2-3</Accordion.Trigger>
-						</Accordion.Header>
-						<Accordion.Content>Content für 2-3</Accordion.Content>
-					</Accordion.Item>
-				</Accordion.Root>
-			</Accordion.Content>
-		</Accordion.Item>
-	</Accordion.Root>
+	<div class="bg-blue-5 h-[500px]" />
+	<Dialog.Root defaultOpen={false} id="0">
+		<Dialog.Trigger>Hallo</Dialog.Trigger>
+		<Dialog.Portal>
+			<Dialog.Overlay class="fixed top-0 w-full h-full bg-mauve-12/50" />
+			<Dialog.Content class="fixed top-0 bg-mauve-1">
+				<Dialog.Title>Title 1</Dialog.Title>
+				<Dialog.Description>Description 1</Dialog.Description>
+				<Dialog.Close>Close</Dialog.Close>
+				<Dialog.Root defaultOpen={false} id="0">
+					<Dialog.Trigger>Dialog 2</Dialog.Trigger>
+					<Dialog.Portal>
+						<Dialog.Overlay class="fixed top-0 w-full h-full bg-mauve-12/50" />
+						<Dialog.Content class="fixed top-0 bg-mauve-1">
+							<Dialog.Title>Title 2</Dialog.Title>
+							<Dialog.Description>Description 2</Dialog.Description>
+							<Dialog.Close>Close</Dialog.Close>
+						</Dialog.Content>
+					</Dialog.Portal>
+				</Dialog.Root>
+			</Dialog.Content>
+		</Dialog.Portal>
+	</Dialog.Root>
 </section>
