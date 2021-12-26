@@ -22,7 +22,6 @@
 	const { open, trap, setOpen, setClose } = rootContext;
 	$setOpen = () => {
 		$activeDialogs = [...$activeDialogs, id];
-		console.log($activeDialogs);
 		document.body.classList.add('dialog-open');
 		$open = true;
 	};
@@ -32,7 +31,6 @@
 			$trap = undefined;
 		}
 		$activeDialogs = [...$activeDialogs.filter((activeDialog) => activeDialog !== id)];
-		console.log($activeDialogs);
 
 		if ($activeDialogs.length === 0) {
 			document.body.classList.remove('dialog-open');

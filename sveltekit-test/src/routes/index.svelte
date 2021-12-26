@@ -3,7 +3,7 @@
 </script>
 
 <script lang="ts">
-	import * as Accordion from '$primitives/Accordion';
+	import * as Tabs from '$primitives/Tabs';
 	import * as Dialog from '$primitives/Dialog';
 </script>
 
@@ -23,9 +23,6 @@
 		to your new<br />SvelteKit app
 	</h1>
 
-	<h2 class="text-mauve-9">
-		try editing <strong>src/routes/index.svelte</strong>
-	</h2>
 	<div class="bg-blue-5 h-[500px]" />
 
 	<Dialog.Root defaultOpen={false} id="0" on:openChange={(e) => console.log(e.detail.open)}>
@@ -50,4 +47,12 @@
 			</Dialog.Content>
 		</Dialog.Portal>
 	</Dialog.Root>
+	<Tabs.Root id="0" defaultValue="1" on:valueChange={(e) => console.log(e.detail.value)}>
+		<Tabs.List loop={false}>
+			<Tabs.Trigger value="1">Trigger 1</Tabs.Trigger>
+			<Tabs.Trigger value="2">Trigger 2</Tabs.Trigger>
+		</Tabs.List>
+		<Tabs.Content value="1">Content 1</Tabs.Content>
+		<Tabs.Content value="2">Content 2</Tabs.Content>
+	</Tabs.Root>
 </section>
