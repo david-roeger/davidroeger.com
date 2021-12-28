@@ -23,7 +23,7 @@ export const portal = (
 			if (targetEl === null && newTarget === '#portal') {
 				const portal = document.createElement('section');
 				portal.id = 'portal';
-				document.body.parentElement.appendChild(portal);
+				document.body.appendChild(portal);
 				targetEl = portal;
 			}
 			if (targetEl === null) {

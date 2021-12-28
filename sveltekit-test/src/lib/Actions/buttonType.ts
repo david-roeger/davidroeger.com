@@ -1,7 +1,7 @@
 import { hasParentOfType } from '$utils';
 import type { ActionReturnType } from '$lib/types';
 /**
- * Usage: <div use:formButton> or <div use:formButton={string}>
+ * Usage: <div use:buttonType> or <div use:buttonType={string}>
  *
  * @param { HTMLElement } node Comes from Svelte
  * @param { string } type explicit button type
