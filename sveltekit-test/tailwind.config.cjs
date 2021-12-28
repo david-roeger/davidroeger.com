@@ -5,6 +5,7 @@ module.exports = {
 	mode: 'jit',
 	theme: {
 		colors: {
+			transparent: 'transparent',
 			white: '#ffffff',
 			mauve: {
 				1: 'hsl(300 20.0% 99.0%)',
