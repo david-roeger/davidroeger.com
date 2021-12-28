@@ -1,6 +1,6 @@
 <script lang="ts">
 	export let loop = true;
-	export const ariaLabel = '';
+	export let ariaLabel: string;
 
 	let c = '';
 	export { c as class };
@@ -9,10 +9,11 @@
 	const { direction, activationMode } = getContext('root');
 
 	let root: HTMLElement;
-	let triggerElements: HTMLElement[] = [];
+	let triggerElements: HTMLButtonElement[] = [];
 
 	onMount(() => {
-		triggerElements = Array.from(root.querySelectorAll(':scope > [aria-expanded]'));
+		triggerElements = Array.from(root.querySelectorAll(':scope > button[aria-expanded]'));
+		triggerElements = triggerElements.filter((triggerElement) => !triggerElement.disabled);
 	});
 
 	const nextKey = direction === 'horizontal' ? 'ArrowLeft' : 'ArrowUp';

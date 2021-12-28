@@ -1,31 +1,40 @@
 <script context="module" lang="ts">
-	export const prerender = true;
+	export const prerender = false;
 </script>
 
 <script lang="ts">
 	import * as Tabs from '$primitives/Tabs';
 	import * as Dialog from '$primitives/Dialog';
+	import * as Accordion from '$primitives/Accordion';
+
+	import Logo from '$components/Logo/Logo.svelte';
+	import AccessibleIcon from '$components/AccessibleIcon/AccessibleIcon.svelte';
+
+	let content = [
+		{ value: '1' },
+		{ value: '2', disabled: true },
+		{ value: '3' },
+		{ value: '4' },
+		{ value: '5' },
+		{ value: '6' },
+		{ value: '7' },
+		{ value: '8' },
+		{ value: '9' }
+	];
+	const d = content[0].value;
+	let acc = d;
 </script>
 
 <svelte:head>
 	<title>David Roeger Web</title>
 </svelte:head>
 
-<section>
-	<h1>
-		<div class="welcome">
-			<picture>
-				<source srcset="svelte-welcome.webp" type="image/webp" />
-				<img src="svelte-welcome.png" alt="Welcome" />
-			</picture>
-		</div>
+<section class="xl:container xl:border-r">
+	<div class="border-b h-28 bg-gradient-to-r from-blue-5 to-crimson-6" />
+	<div class="border-b h-28 bg-gradient-to-r from-crimson-5 to-blue-6" />
 
-		to your new<br />SvelteKit app
-	</h1>
-
-	<div class="bg-blue-5 h-[500px]" />
-
-	<Dialog.Root defaultOpen={false} id="0" on:openChange={(e) => console.log(e.detail.open)}>
+	Learn more about me -> or look at some stuff I´ve built downArow
+	<Dialog.Root defaultOpen={false} on:openChange={(e) => console.log(e.detail.open)}>
 		<Dialog.Trigger>Hallo</Dialog.Trigger>
 		<Dialog.Portal>
 			<Dialog.Overlay class="fixed top-0 w-full h-full bg-mauve-12/50" />
@@ -33,7 +42,7 @@
 				<Dialog.Title>Title 1</Dialog.Title>
 				<Dialog.Description>Description 1</Dialog.Description>
 				<Dialog.Close>Close</Dialog.Close>
-				<Dialog.Root defaultOpen={false} id="1">
+				<Dialog.Root defaultOpen={false}>
 					<Dialog.Trigger>Dialog 2</Dialog.Trigger>
 					<Dialog.Portal>
 						<Dialog.Overlay class="fixed top-0 w-full h-full bg-mauve-12/50" />
@@ -47,12 +56,48 @@
 			</Dialog.Content>
 		</Dialog.Portal>
 	</Dialog.Root>
-	<Tabs.Root id="0" defaultValue="1" on:valueChange={(e) => console.log(e.detail.value)}>
-		<Tabs.List loop={false}>
-			<Tabs.Trigger value="1">Trigger 1</Tabs.Trigger>
-			<Tabs.Trigger value="2">Trigger 2</Tabs.Trigger>
+	<Tabs.Root
+		defaultValue={d}
+		activationMode="manual"
+		on:valueChange={({ detail }) => (acc = detail.value)}
+		class="m-2 border"
+	>
+		<Tabs.List ariaLabel="trigger list" class="flex p-2 space-x-2 overflow-x-auto ">
+			{#each content as { value, disabled }}
+				<Tabs.Trigger
+					disabled={disabled ? true : false}
+					class={`${
+						acc === value ? 'bg-purple-5' : 'bg-white'
+					} p-2 border focus:outline-none ring-mauve-12 focus:ring-1 disabled:text-mauve-7 disabled:border-mauve-7`}
+					{value}>Trigger {value}</Tabs.Trigger
+				>
+			{/each}
 		</Tabs.List>
-		<Tabs.Content value="1">Content 1</Tabs.Content>
-		<Tabs.Content value="2">Content 2</Tabs.Content>
+		{#each content as { value }}
+			<Tabs.Content
+				class="p-2 m-2 mt-0 border focus:outline-none ring-mauve-12 focus:ring-1"
+				{value}>Content {value}</Tabs.Content
+			>
+		{/each}
 	</Tabs.Root>
+
+	<Accordion.Root type="multiple" defaultValue="2" class="m-2 border">
+		{#each content as { value, disabled }}
+			<Accordion.Item {value} disabled={disabled ? true : false} class="m-2">
+				<Accordion.Header>
+					<Accordion.Trigger
+						class="p-2 border focus:outline-none ring-mauve-12 ring-offset-mauve-12 focus:ring-1 disabled:text-mauve-7 disabled:border-mauve-7"
+						>Trigger {value}</Accordion.Trigger
+					>
+				</Accordion.Header>
+				<Accordion.Content
+					class="p-2 border focus:outline-none ring-mauve-12 ring-offset-mauve-12 focus:ring-1 disabled:text-mauve-7 disabled:border-mauve-7"
+					>Content {value}</Accordion.Content
+				>
+			</Accordion.Item>
+		{/each}
+	</Accordion.Root>
+
+	<AccessibleIcon label="this is a hidden label"><Logo /></AccessibleIcon>
+	<div class="bg-blue-5 h-[500px]" />
 </section>

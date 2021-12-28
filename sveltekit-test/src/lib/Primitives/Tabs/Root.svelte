@@ -1,7 +1,9 @@
+<script context="module">
+	let id = 0;
+</script>
+
 <script lang="ts">
 	export let defaultValue: string;
-	export let id: string;
-
 	export let direction: 'horizontal' | 'vertical' = 'horizontal';
 	export let activationMode: 'automatic' | 'manual' = 'automatic';
 
@@ -14,7 +16,7 @@
 	import type { RootContext } from './types';
 
 	const rootContext: RootContext = {
-		id: `tabs-${id}`,
+		id: `drds-accordion-${id.toString()}`,
 		activationMode: activationMode,
 		direction: direction,
 		activeValue: writable(defaultValue),

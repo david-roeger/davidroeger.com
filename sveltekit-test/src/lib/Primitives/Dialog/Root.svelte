@@ -1,6 +1,9 @@
+<script context="module">
+	let id = 0;
+</script>
+
 <script lang="ts">
 	export let defaultOpen: boolean;
-	export let id: string;
 
 	let c = '';
 	export { c as class };
@@ -12,7 +15,7 @@
 	import type { RootContext } from './types';
 
 	const rootContext: RootContext = {
-		id: `dialog-${id}`,
+		id: `drds-accordion-${id.toString()}`,
 		trap: writable(undefined),
 		open: writable(defaultOpen),
 		setOpen: writable(undefined),

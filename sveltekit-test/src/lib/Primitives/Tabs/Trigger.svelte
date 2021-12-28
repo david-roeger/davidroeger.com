@@ -1,6 +1,6 @@
 <script lang="ts">
 	export let value: string;
-	export const disabled = false;
+	export let disabled = false;
 
 	let c = '';
 	export { c as class };

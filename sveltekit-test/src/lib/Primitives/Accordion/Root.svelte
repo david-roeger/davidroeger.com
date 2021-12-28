@@ -1,10 +1,12 @@
+<script context="module">
+	let id = 0;
+</script>
+
 <script lang="ts">
 	export let type: 'single' | 'multiple';
 	export let defaultValue: string | string[];
-	export let id: string;
-
-	export const disabled: boolean = false;
-	export const collapsible: boolean = false;
+	export let disabled: boolean = false;
+	export let collapsible: boolean = false;
 
 	let c = '';
 	export { c as class };
@@ -14,11 +16,9 @@
 	import { createEventDispatcher } from 'svelte';
 	import type { RootContext } from './types';
 
-	import { createFocusTrap } from 'focus-trap';
-	import type { FocusTrap } from 'focus-trap';
-
+	id++;
 	const rootContext: RootContext = {
-		id: id,
+		id: `drds-accordion-${id.toString()}`,
 		disabled: disabled,
 		activeValues: writable(Array.isArray(defaultValue) ? defaultValue : [defaultValue]),
 		setAccordion: writable(undefined)
@@ -61,11 +61,10 @@
 	}
 
 	let root: HTMLElement;
-	let trap: FocusTrap | undefined;
-	let triggerElements: HTMLElement[] = [];
+	let triggerElements: HTMLButtonElement[] = [];
 	onMount(() => {
-		triggerElements = Array.from(root.querySelectorAll(':scope > * > * > [aria-expanded]'));
-		trap = createFocusTrap(root);
+		triggerElements = Array.from(root.querySelectorAll(':scope > * > * > button[aria-expanded]'));
+		triggerElements = triggerElements.filter((triggerElement) => !triggerElement.disabled);
 	});
 
 	const handleKeyDown = (e: KeyboardEvent) => {
@@ -107,13 +106,8 @@
 			}
 		}
 	};
-
-	const handleClick = () => {
-		if (trap) trap.activate();
-	};
 </script>
 
-<div class={`focus:border-2 border-black ${c}`} bind:this={root} on:keydown={handleKeyDown}>
+<div class={c} bind:this={root} on:keydown={handleKeyDown}>
 	<slot />
 </div>
-<button on:click={handleClick} class="focus:border-2 border-black">activate Trap</button>

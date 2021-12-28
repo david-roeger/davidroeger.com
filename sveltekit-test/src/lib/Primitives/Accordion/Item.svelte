@@ -25,7 +25,7 @@ value*
 	const dataState = derived(active, ($active) => ($active ? 'open' : 'closed'));
 
 	const itemContext: ItemContext = {
-		id: `accordion-${id}-${value}`,
+		id: `${id}-${value}`,
 		value: value,
 		active: active,
 		disabled: root.disabled || disabled,
