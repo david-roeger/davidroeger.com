@@ -27,7 +27,6 @@
 			variantClass = buttonClass;
 			break;
 	}
-	$: if (activeRegEx) console.log(activeRegEx.exec($page.path), activeRegEx, $page.path);
 </script>
 
 <a

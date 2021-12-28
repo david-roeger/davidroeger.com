@@ -17,7 +17,7 @@
 	});
 </script>
 
-<div bind:this={root}>
+<div bind:this={root} class="contents">
 	<slot />
 	<VisuallyHidden.Root>{label}</VisuallyHidden.Root>
 </div>
