@@ -1,12 +1,12 @@
 <script lang="ts">
-	import { page } from '$app/stores';
+	import { SectionHeader } from '$lib/Components/SectionHeader';
 	import AccessibleIcon from '$lib/Components/AccessibleIcon';
 	import Logo from '$lib/Components/Logo/Logo.svelte';
 	import { NavLink } from '$lib/Components/NavLink';
 	import * as VisuallyHidden from '$primitives/VisuallyHidden';
 </script>
 
-<header class="sticky top-0 border-b bg-white/60 backdrop-blur-xl">
+<SectionHeader class="sticky top-0">
 	<nav class="xl:container">
 		<h3><VisuallyHidden.Root>Main Menu</VisuallyHidden.Root></h3>
 		<ul role="menubar" class="flex justify-between">
@@ -51,4 +51,4 @@
 			</li>
 		</ul>
 	</nav>
-</header>
+</SectionHeader>
