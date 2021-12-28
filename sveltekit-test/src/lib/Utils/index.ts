@@ -66,3 +66,19 @@ export const debounce = (func: { (): any }, ms: number) => {
 		timer = setTimeout(func, ms);
 	};
 };
+
+/**
+ * Write Query Params to URL
+ * @param values key value pairs containing to new Query Params
+ */
+export const replaceStateWithQuery = (values: Record<string, string>): void => {
+	const url = new URL(window.location.toString());
+	for (const [key, value] of Object.entries(values)) {
+		if (value) {
+			url.searchParams.set(encodeURIComponent(key), encodeURIComponent(value));
+		} else {
+			url.searchParams.delete(key);
+		}
+	}
+	history.replaceState({}, '', url);
+};
