@@ -63,7 +63,7 @@
 	let root: HTMLElement;
 	let triggerElements: HTMLButtonElement[] = [];
 	onMount(() => {
-		triggerElements = Array.from(root.querySelectorAll(':scope > * > * > button[aria-expanded]'));
+		triggerElements = Array.from(root.querySelectorAll(':scope > * > * > button[data-state]'));
 		triggerElements = triggerElements.filter((triggerElement) => !triggerElement.disabled);
 	});
 

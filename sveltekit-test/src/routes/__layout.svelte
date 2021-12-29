@@ -4,11 +4,11 @@
 </script>
 
 <div class="text-mauve-12 border-mauve-12">
-	<Header />
+	<Header class="z-30" />
 
-	<main>
+	<main class="z-10">
 		<slot />
 	</main>
 
-	<footer />
+	<footer class="z-20" />
 </div>

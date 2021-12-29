@@ -86,12 +86,12 @@
 			<Accordion.Item {value} disabled={disabled ? true : false} class="m-2">
 				<Accordion.Header>
 					<Accordion.Trigger
-						class="p-2 border focus:outline-none ring-mauve-12 ring-offset-mauve-12 focus:ring-1 disabled:text-mauve-7 disabled:border-mauve-7"
+						class="p-2 border focus:outline-none ring-mauve-12 focus:ring-1 disabled:text-mauve-7 disabled:border-mauve-7"
 						>Trigger {value}</Accordion.Trigger
 					>
 				</Accordion.Header>
 				<Accordion.Content
-					class="p-2 border focus:outline-none ring-mauve-12 ring-offset-mauve-12 focus:ring-1 disabled:text-mauve-7 disabled:border-mauve-7"
+					class="p-2 border focus:outline-none ring-mauve-12 focus:ring-1 disabled:text-mauve-7 disabled:border-mauve-7"
 					>Content {value}</Accordion.Content
 				>
 			</Accordion.Item>

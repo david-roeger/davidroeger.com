@@ -14,6 +14,7 @@
 	import { createEventDispatcher } from 'svelte';
 	import type { RootContext } from './types';
 
+	id++;
 	const rootContext: RootContext = {
 		id: `drds-accordion-${id.toString()}`,
 		trap: writable(undefined),

@@ -12,7 +12,7 @@
 	let triggerElements: HTMLButtonElement[] = [];
 
 	onMount(() => {
-		triggerElements = Array.from(root.querySelectorAll(':scope > button[aria-expanded]'));
+		triggerElements = Array.from(root.querySelectorAll(':scope > button[data-state]'));
 		triggerElements = triggerElements.filter((triggerElement) => !triggerElement.disabled);
 	});
 
@@ -73,7 +73,7 @@
 <div
 	role="tablist"
 	aria-label={ariaLabel}
-	aria-orientation="horizontal"
+	aria-orientation={direction}
 	data-orientation={direction}
 	class={`${c}`}
 	bind:this={root}
