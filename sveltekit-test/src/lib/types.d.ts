@@ -10,3 +10,17 @@ export interface ActionReturnType {
 	update?: (params: T) => void | Promise<void>;
 	destroy?: () => void;
 }
+
+export type GetReturnType = Promise<{
+	status: number;
+	body?: T;
+}>;
+
+export interface ProjectMetaData {
+	order: number;
+	title: string;
+	description: string;
+	slug: string;
+	tags: string[];
+	published: boolean;
+}
