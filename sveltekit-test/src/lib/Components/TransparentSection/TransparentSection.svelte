@@ -5,6 +5,6 @@
 	import { replaceTag } from '$lib/Actions';
 </script>
 
-<div class={`border-b bg-white/60 backdrop-blur-xl ${c}`} use:replaceTag={tag}>
+<div class={`border-b backdrop-blur-xl bg-white/[0.85] ${c}`} use:replaceTag={tag}>
 	<slot />
 </div>
