@@ -1,17 +1,20 @@
 <script lang="ts">
-	import { SectionHeader } from '$lib/Components/SectionHeader';
+	let c = '';
+	export { c as class };
+
+	import { TransparentSection } from '$lib/Components/TransparentSection';
 	import AccessibleIcon from '$lib/Components/AccessibleIcon';
 	import Logo from '$lib/Components/Logo/Logo.svelte';
 	import { NavLink } from '$lib/Components/NavLink';
 	import * as VisuallyHidden from '$primitives/VisuallyHidden';
 </script>
 
-<SectionHeader class="sticky top-0">
+<TransparentSection class={`sticky top-0 ${c}`}>
 	<nav class="xl:container">
 		<h3><VisuallyHidden.Root>Main Menu</VisuallyHidden.Root></h3>
 		<ul role="menubar" class="flex justify-between">
 			<li role="menuitem" class="w-auto list-none">
-				<NavLink href="/" type="icon" class="bg-white">
+				<NavLink href="/" type="icon">
 					<slot name="logo">
 						<AccessibleIcon label="David Roeger Logo - Link to Main Page"
 							><Logo animated={true} class="w-auto h-full" /></AccessibleIcon
@@ -51,4 +54,4 @@
 			</li>
 		</ul>
 	</nav>
-</SectionHeader>
+</TransparentSection>
