@@ -32,7 +32,7 @@
 <a
 	sveltekit:prefetch
 	{href}
-	class={`block m-2 border focus:outline-none ring-mauve-12 ring-offset-mauve-12 focus:ring-1 ${variantClass} ${customClass} ${
+	class={`block m-2 border focus:outline-none ring-mauve-12 focus:ring-1 ${variantClass} ${customClass} ${
 		(activePath !== undefined && $page.path === activePath) ||
 		(activeRegEx !== undefined && activeRegEx.exec($page.path))
 			? activeClass
