@@ -52,6 +52,7 @@
 	style="transform: rotate({$angle}deg)"
 	class={c}
 >
+	<circle fill="white" cx="20" cy="20" r="19" />
 	<circle fill="currentColor" cx="12" cy="14" r="2" />
 	<circle fill="currentColor" cx="28" cy="14" r="2" />
 	<circle fill="currentColor" cx="12" cy="20" r="2" />
