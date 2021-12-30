@@ -6,7 +6,6 @@
 	export let defaultValue: string | string[];
 	export let direction: 'horizontal' | 'vertical' = 'horizontal';
 
-	console.log(defaultValue);
 	let c = '';
 	export { c as class };
 
@@ -39,6 +38,11 @@
 	});
 </script>
 
-<div data-orientation={direction} id={`${computedId}-list`} class={`${c}`}>
+<div
+	aria-roledescription={'tagcontainer'}
+	data-orientation={direction}
+	id={`${computedId}-list`}
+	class={`${c}`}
+>
 	<slot />
 </div>
