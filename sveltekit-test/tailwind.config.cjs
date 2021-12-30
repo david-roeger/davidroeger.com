@@ -135,6 +135,9 @@ module.exports = {
 			}
 		},
 		extend: {
+			width: {
+				'fit-content': 'fit-content'
+			},
 			dropShadow: {
 				mauve: '0 10px 8px rgba(hsl(272 99.2% 11.3% / 0.946), 0.1))'
 			},

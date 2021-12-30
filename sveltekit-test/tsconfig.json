@@ -31,7 +31,8 @@
 			"$components/*": ["src/lib/Components/*"],
 			"$slices/*": ["src/lib/Slices/*"],
 			"$utils": ["src/lib/Utils"],
-			"$utils/*": ["src/lib/Utils/*"]
+			"$utils/*": ["src/lib/Utils/*"],
+			"$assets/*": ["src/lib/Assets/*"]
 		}
 	},
 	"include": ["src/**/*.d.ts", "src/**/*.js", "src/**/*.ts", "src/**/*.svelte"]
