@@ -1,5 +1,5 @@
 import type { FocusTrap } from 'focus-trap';
-
+import type { Writable } from 'svelte/store';
 export interface RootContext {
 	id: string;
 	open: Writable<boolean>;

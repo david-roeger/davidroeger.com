@@ -3,21 +3,20 @@
 
 	let c = '';
 	export { c as class };
-	export let disabledClass = '';
 
 	import { getContext } from 'svelte';
-	import { derived, writable } from 'svelte/store';
+	import { derived } from 'svelte/store';
 	import type { RootContext } from './types';
 
-	const { setGallery, computedStep, end, id }: RootContext = getContext('root');
-	const dataState = derived(end, ($end) => ($end ? 'inactive' : 'active'));
+	const { setGallery, computedStep, start, id }: RootContext = getContext('root');
+	const dataState = derived(start, ($start) => ($start ? 'inactive' : 'active'));
 
 	const handleClick = () => {
-		if ($setGallery && !isNaN($computedStep) && !$end) $setGallery($computedStep);
+		if ($setGallery && !isNaN($computedStep) && !$start) $setGallery(-$computedStep);
 	};
 </script>
 
-{#if $end === false}
+{#if $start === false}
 	<button
 		on:click={handleClick}
 		on:click
