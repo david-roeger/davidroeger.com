@@ -143,10 +143,15 @@
 								>
 									<p>{project.description}</p>
 								</div>
-								<img
-									alt="img"
+								<video
+									muted
+									autoplay
+									loop
+									playsInline
+									controls={false}
+									alt="video"
 									class="block h-full border-r max-w-none"
-									src="./assets/projects/obskurra/void.png"
+									src="./assets/projects/obskurra/void.mp4"
 								/>
 								<img
 									alt="img"
