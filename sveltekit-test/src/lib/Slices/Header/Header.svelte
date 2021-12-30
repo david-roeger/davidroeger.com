@@ -9,7 +9,7 @@
 	import * as VisuallyHidden from '$primitives/VisuallyHidden';
 </script>
 
-<TransparentSection class={`sticky top-0 ${c}`}>
+<TransparentSection class={`fixed top-0 w-full ${c}`}>
 	<nav class="xl:container">
 		<h3><VisuallyHidden.Root>Main Menu</VisuallyHidden.Root></h3>
 		<ul role="menubar" class="flex justify-between">
