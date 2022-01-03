@@ -32,6 +32,16 @@
 	.growing-underline-tabs.selected > * {
 		background-size: 100% 1px;
 	}
+
+	/* Chrome, Safari and Opera */
+	.no-scrollbar::-webkit-scrollbar {
+		display: none;
+	}
+
+	.no-scrollbar {
+		-ms-overflow-style: none; /* IE and Edge */
+		scrollbar-width: none; /* Firefox */
+	}
 }
 
 .dialog-open {
