@@ -49,7 +49,7 @@
 	let mounted = false;
 	let defaultTags: string[] = [];
 
-	const encoded = $page.query.get('tags');
+	const encoded = $page.url.searchParams.get('tags');
 	const decoded = decodeURIComponent(encoded);
 	let filter = false;
 	if (decoded && decoded !== 'null') {
@@ -104,27 +104,33 @@
 
 <section class="pb-16 xl:container xl:border-r border-mauve-6">
 	<Tags.Root defaultValue={defaultTags} on:valueChange={(e) => updateQueries(e.detail.value)}>
-		<Tags.List class="flex flex-wrap gap-2 p-2 pt-8">
+		<Tags.List class="flex space-x-2 p-2 border-b border-mauve-6 overflow-y-auto">
+			{#if $tags.size}
+				<Tags.Unset
+					class="touch-manipulation p-1 border border-mauve-12 text-xs rounded-full focus:outline-none ring-mauve-12 focus:ring-1 bg-white
+					"
+				>
+					<AccessibleIcon label="Unselect all tags"><Close16 /></AccessibleIcon></Tags.Unset
+				>
+			{/if}
 			{#each [...availableTags] as tag (tag)}
 				<Tags.Tag
 					value={tag}
-					class={`flex gap-2 touch-manipulation px-4 py-1 border border-mauve-12 text-xs rounded-full p-2 focus:outline-none ring-mauve-12 focus:ring-1 ${
-						$tags.has(tag) ? 'bg-purple-5 pr-2' : 'bg-white'
-					}`}
-					>{tag}
-					{#if $tags.has(tag)}<AccessibleIcon label="Unselect Tag"><Close16 /></AccessibleIcon
-						>{/if}</Tags.Tag
+					class={`touch-manipulation px-4 py-1 border border-mauve-12 text-xs rounded-full focus:outline-none ring-mauve-12 focus:ring-1 ${
+						$tags.has(tag) ? 'bg-purple-5' : 'bg-white'
+					}`}>{tag}</Tags.Tag
 				>
 			{/each}
 		</Tags.List>
-		<Headline class="flex items-end pb-8">My Projects</Headline>
+		<Headline class="flex items-end py-8">My Projects</Headline>
+
 		{#each filteredProjects as project (project.title)}
 			<!-- divider -->
 			<!--div class="border-b border-mauve-6">
 				<div class="w-16 h-16 m-auto border rounded-full border-mauve-6 md:w-20 md:h-20" />
 			</div-->
 			<!-- -->
-			<section class={`border-b border-mauve-6`}>
+			<section class={`border-b border-mauve-6 mt-8`}>
 				<Headline type="secondary" class="border-b-0"
 					><a
 						sveltekit:prefetch

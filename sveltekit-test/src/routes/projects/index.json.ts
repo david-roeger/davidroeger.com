@@ -3,11 +3,11 @@ import type { GetReturnType } from '$lib/types';
 
 /** @type {import('@sveltejs/kit').RequestHandler} */
 
-export async function get({ query }: { query: URLSearchParams }): GetReturnType {
+export async function get({ url }: { url: URL }): GetReturnType {
 	const modules = import.meta.glob('./*.{md,svx,svelte.md}');
 
 	const projectPromises = [];
-	const limit = Number(query.get('limit') ?? Infinity);
+	const limit = Number(url.searchParams.get('limit') ?? Infinity);
 
 	if (Number.isNaN(limit)) {
 		return {
