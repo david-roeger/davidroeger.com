@@ -29,16 +29,16 @@
 							href="/projects"
 							activePath="/projects"
 							activeRegEx={/^\/projects\/[^\/]+$/}
-							class="bg-white hover:bg-blue-5"
-							activeClass="!bg-blue-5">Projects</NavLink
+							class="bg-white hover:bg-purple-5"
+							activeClass="!bg-purple-5">Projects</NavLink
 						>
 					</li>
 					<li role="menuitem" class="list-none">
 						<NavLink
 							href="/about"
 							activePath="/about"
-							class="bg-white hover:bg-orange-5"
-							activeClass="!bg-orange-5">About</NavLink
+							class="bg-white hover:bg-purple-5"
+							activeClass="!bg-purple-5">About</NavLink
 						>
 					</li>
 					<li role="menuitem" class="list-none">
@@ -46,8 +46,8 @@
 							href="/contact"
 							type="button"
 							activePath="/contact"
-							class="bg-white hover:bg-plum-5"
-							activeClass="!bg-plum-5">Say hi!</NavLink
+							class="bg-white hover:bg-purple-5"
+							activeClass="!bg-purple-5">Say hi!</NavLink
 						>
 					</li>
 				</ul>
