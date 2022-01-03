@@ -22,5 +22,7 @@ export interface ProjectMetaData {
 	description: string;
 	slug: string;
 	tags: string[];
+	thumbnail: string;
+	media: string[];
 	published: boolean;
 }
