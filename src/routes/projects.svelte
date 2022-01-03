@@ -32,7 +32,6 @@
 	import Close16 from '$assets/icons/16/close.svg';
 
 	import AccessibleIcon from '$lib/Components/AccessibleIcon';
-	import TransparentSection from '$lib/Components/TransparentSection/TransparentSection.svelte';
 
 	export let projects: ProjectMetaData[] = [];
 	export let filteredProjects: ProjectMetaData[] = [];
