@@ -10,7 +10,7 @@
 
 	import { page } from '$app/stores';
 
-	const primaryClass = 'p-2';
+	const primaryClass = 'px-4 py-2';
 	const buttonClass = 'px-4 py-2 rounded-full';
 	const iconClass = '';
 
@@ -32,7 +32,7 @@
 <a
 	sveltekit:prefetch
 	{href}
-	class={`block m-2 border focus:outline-none ring-mauve-12 focus:ring-1 ${variantClass} ${customClass} ${
+	class={`block m-2 border border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 ${variantClass} ${customClass} ${
 		(activePath !== undefined && $page.path === activePath) ||
 		(activeRegEx !== undefined && activeRegEx.exec($page.path))
 			? activeClass

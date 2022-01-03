@@ -4,7 +4,7 @@
 	export { c as class };
 </script>
 
-<div class={`border-b p-2 ${c}`}>
+<div class={`border-b border-mauve-6 p-2 ${c}`}>
 	{#if type === 'secondary'}
 		<h2 class="text-4xl">
 			<slot />

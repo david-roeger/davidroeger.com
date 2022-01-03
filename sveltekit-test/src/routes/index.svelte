@@ -29,9 +29,9 @@
 	<title>David Roeger Web</title>
 </svelte:head>
 
-<section class="xl:container xl:border-r">
-	<div class="border-b h-28 bg-gradient-to-r from-blue-5 to-crimson-6" />
-	<div class="border-b h-28 bg-gradient-to-r from-crimson-5 to-blue-6" />
+<section class="xl:container xl:border-r border-mauve-6">
+	<div class="border-b border-mauve-6 h-28 bg-gradient-to-r from-blue-5 to-crimson-6" />
+	<div class="border-b border-mauve-6 h-28 bg-gradient-to-r from-crimson-5 to-blue-6" />
 
 	Learn more about me -> or look at some stuff I´ve built downArow
 	<Dialog.Root defaultOpen={false} on:openChange={(e) => console.log(e.detail.open)}>
@@ -68,30 +68,30 @@
 					disabled={disabled ? true : false}
 					class={`${
 						acc === value ? 'bg-purple-5' : 'bg-white'
-					} p-2 border focus:outline-none ring-mauve-12 focus:ring-1 disabled:text-mauve-7 disabled:border-mauve-7`}
+					} p-2 border border-mauve-6 focus:outline-none ring-mauve-12 focus:ring-1 disabled:text-mauve-7 disabled:border-mauve-6`}
 					{value}>Trigger {value}</Tabs.Trigger
 				>
 			{/each}
 		</Tabs.List>
 		{#each content as { value }}
 			<Tabs.Content
-				class="p-2 m-2 mt-0 border focus:outline-none ring-mauve-12 focus:ring-1"
+				class="p-2 m-2 mt-0 border border-mauve-6 focus:outline-none ring-mauve-12 focus:ring-1"
 				{value}>Content {value}</Tabs.Content
 			>
 		{/each}
 	</Tabs.Root>
 
-	<Accordion.Root type="multiple" defaultValue="2" class="m-2 border">
+	<Accordion.Root type="multiple" defaultValue="2" class="m-2 border border-mauve-6">
 		{#each content as { value, disabled }}
 			<Accordion.Item {value} disabled={disabled ? true : false} class="m-2">
 				<Accordion.Header>
 					<Accordion.Trigger
-						class="p-2 border focus:outline-none ring-mauve-12 focus:ring-1 disabled:text-mauve-7 disabled:border-mauve-7"
+						class="p-2 border border-mauve-6 focus:outline-none ring-mauve-12 focus:ring-1 disabled:text-mauve-7 disabled:border-mauve-6"
 						>Trigger {value}</Accordion.Trigger
 					>
 				</Accordion.Header>
 				<Accordion.Content
-					class="p-2 border focus:outline-none ring-mauve-12 focus:ring-1 disabled:text-mauve-7 disabled:border-mauve-7"
+					class="p-2 border border-mauve-6 focus:outline-none ring-mauve-12 focus:ring-1 disabled:text-mauve-7 disabled:border-mauve-6"
 					>Content {value}</Accordion.Content
 				>
 			</Accordion.Item>
