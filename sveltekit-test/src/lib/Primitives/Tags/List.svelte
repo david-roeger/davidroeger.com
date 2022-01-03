@@ -1,11 +1,11 @@
 <script lang="ts">
 	export let loop = true;
+	export let direction: 'horizontal' | 'vertical' = 'horizontal';
 
 	let c = '';
 	export { c as class };
 
-	import { getContext, onMount } from 'svelte';
-	const { direction } = getContext('root');
+	import { onMount } from 'svelte';
 
 	let root: HTMLElement;
 	let triggerElements: HTMLButtonElement[] = [];
