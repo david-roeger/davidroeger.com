@@ -1,0 +1,35 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+	.growing-underline {
+		background-size: 0% 1px;
+		background-position: 100% 100%;
+		background-image: linear-gradient(to right, currentColor, currentColor);
+		transition: background-size cubic-bezier(0.4, 0, 0.2, 1) 150ms;
+		@apply bg-no-repeat;
+	}
+
+	.growing-underline:hover,
+	.growing-underline:focus {
+		background-position: 0% 100%;
+		background-size: 100% 1px;
+	}
+
+	.growing-underline-tabs > * {
+		background-size: 0% 1px;
+		background-position: 100% 100%;
+		background-image: linear-gradient(to right, currentColor, currentColor);
+		transition: background-size cubic-bezier(0.4, 0, 0.2, 1) 150ms;
+		@apply bg-no-repeat;
+	}
+
+	.growing-underline-tabs.reversed > * {
+		background-position: 0% 100%;
+	}
+
+	.growing-underline-tabs.selected > * {
+		background-size: 100% 1px;
+	}
+}
