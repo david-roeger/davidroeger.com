@@ -29,10 +29,7 @@
 	<title>David Roeger Web</title>
 </svelte:head>
 
-<section class="xl:container xl:border-r border-mauve-6">
-	<div class="border-b border-mauve-6 h-28 bg-gradient-to-r from-blue-5 to-crimson-6" />
-	<div class="border-b border-mauve-6 h-28 bg-gradient-to-r from-crimson-5 to-blue-6" />
-
+<section>
 	Learn more about me -> or look at some stuff I´ve built downArow
 	<Dialog.Root defaultOpen={false} on:openChange={(e) => console.log(e.detail.open)}>
 		<Dialog.Trigger>Hallo</Dialog.Trigger>
