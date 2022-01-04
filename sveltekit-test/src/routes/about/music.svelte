@@ -8,6 +8,8 @@
 		SpotifyTopTracksResponse
 	} from './types';
 
+	import { TopTracksSection } from '$slices/Music';
+
 	// see https://kit.svelte.dev/docs#loading
 	export const load: Load = async ({ fetch }) => {
 		const res: Response = await fetch('/about/music.json');
@@ -48,6 +50,8 @@
 	console.log(topArtistsResponses);
 
 	export let lastTrackResponse: SpotifyLastTrackResponse;
+
+	import { Headline } from '$components/Headline';
 	let lastTrack: LastTrack | ErrorBody;
 	if (lastTrackResponse.ok && 'item' in lastTrackResponse.body) {
 		lastTrack = lastTrackResponse.body.item;
@@ -56,18 +60,14 @@
 		lastTrack = lastTrackResponse.body.error;
 	}
 
-	const validateTopTracksResponse = (topTracksResponse: SpotifyTopTracksResponse) => {
-		if (topTracksResponse.ok) return true;
-		if (!topTracksResponse.ok) return false;
-		return undefined;
-	};
-
 	const validateTopArtistsResponse = (topArtistsResponse: SpotifyTopArtistsResponse) => {
 		if (topArtistsResponse.ok) return true;
 		if (!topArtistsResponse.ok) return false;
 		return undefined;
 	};
 </script>
+
+<Headline class="flex items-end py-4 pt-8 md:py-8 md:pt-16">Music</Headline>
 
 {#if typeof lastTrack === 'object' && 'name' in lastTrack}
 	<p>{lastTrack.name}</p>
@@ -77,23 +77,6 @@
 	<p>{lastTrack.status} {lastTrack.message}</p>
 {/if}
 
----
-{#each topTracksResponses as topTracksResponse}
-	{#if validateTopTracksResponse(topTracksResponse) === true && 'items' in topTracksResponse.body}
-		{#each topTracksResponse.body.items as topTrack (topTrack.id)}
-			<p>{topTrack.name}</p>
-		{/each}
-	{:else if validateTopTracksResponse(topTracksResponse) === false && 'error' in topTracksResponse.body}
-		{#if typeof topTracksResponse.body.error === 'string'}
-			<p>{topTracksResponse.body.error}</p>
-		{:else if typeof topTracksResponse === 'object'}
-			<p>{topTracksResponse.body.error.status} {topTracksResponse.body.error.message}</p>
-		{/if}
-	{/if}
-	---
-{:else}
-	<span>No top Tracks</span>
-{/each}
 --- --- --- ---
 {#each topArtistsResponses as topArtistsResponse}
 	{#if validateTopArtistsResponse(topArtistsResponse) === true && 'items' in topArtistsResponse.body}
@@ -111,3 +94,5 @@
 {:else}
 	<span>No top Tracks</span>
 {/each}
+
+<TopTracksSection topTracksResponse={topTracksResponses[0]} />

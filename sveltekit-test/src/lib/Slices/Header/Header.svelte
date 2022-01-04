@@ -37,8 +37,9 @@
 					<li role="none" class="list-none">
 						<NavLink
 							role="menuitem"
-							href="/about"
+							href="/about/music"
 							activePath="/about"
+							activeRegEx={/^\/about\/[^\/]+$/}
 							class="bg-white hover:bg-purple-5"
 							activeClass="!bg-purple-5">About</NavLink
 						>
