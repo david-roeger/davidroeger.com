@@ -19,10 +19,11 @@
 	const rootContext: RootContext = {
 		id: computedId,
 		activeValues: writable(Array.isArray(defaultValue) ? defaultValue : [defaultValue]),
-		setTags: writable(undefined)
+		setTags: writable(undefined),
+		unsetTags: writable(undefined)
 	};
 	setContext('root', rootContext);
-	const { activeValues, setTags } = rootContext;
+	const { activeValues, setTags, unsetTags } = rootContext;
 
 	$setTags = (value: string) => {
 		if (!$activeValues.includes(value)) {
@@ -32,6 +33,10 @@
 		$activeValues = $activeValues.filter((activeValue) => activeValue !== value);
 	};
 
+	$unsetTags = () => {
+		$activeValues = [];
+	};
+
 	const dispatch = createEventDispatcher<{ valueChange: { value: string[] } }>();
 	$: dispatch('valueChange', {
 		value: $activeValues
@@ -39,7 +44,7 @@
 </script>
 
 <div
-	aria-roledescription={'tagcontainer'}
+	aria-multiselectable="true"
 	data-orientation={direction}
 	id={`${computedId}-list`}
 	class={`${c}`}

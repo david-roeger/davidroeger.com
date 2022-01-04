@@ -2,13 +2,13 @@
 	let c = '';
 	export { c as class };
 	import { onMount, getContext } from 'svelte';
+	import { spring } from 'svelte/motion';
 	import type { Writable } from 'svelte/store';
 	import type { RootContext } from './types';
 	const { id, container, step, computedStep, start, end }: RootContext = getContext('root');
 
 	let content: HTMLDivElement;
 
-	/* set step size */
 	onMount(() => {
 		$container = content;
 		let children = content.children;
@@ -20,7 +20,6 @@
 		createObserver(last, end);
 
 		$computedStep = content.getBoundingClientRect().width * step;
-		// set intersection observer
 	});
 
 	const createObserver = (element: HTMLElement, store: Writable<boolean>) => {
@@ -45,8 +44,9 @@
 </script>
 
 <div
+	role="region"
 	aria-roledescription={'galerypanel'}
-	aria-controls={`${id}-content`}
+	id={`${id}-content`}
 	tabindex="0"
 	bind:this={content}
 	class={`${c}`}

@@ -4,6 +4,7 @@
 	export let activePath: string = undefined;
 	export let activeRegEx: RegExp = undefined;
 	export let activeClass = '';
+	export let role = 'none';
 
 	let customClass = '';
 	export { customClass as class };
@@ -30,9 +31,10 @@
 </script>
 
 <a
+	{role}
 	sveltekit:prefetch
 	{href}
-	class={`block m-2 border border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 ${variantClass} ${customClass} ${
+	class={`block border border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 ${variantClass} ${customClass} ${
 		(activePath !== undefined && $page.url.pathname === activePath) ||
 		(activeRegEx !== undefined && activeRegEx.exec($page.url.pathname))
 			? activeClass

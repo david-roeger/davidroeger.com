@@ -1,0 +1,8 @@
+[build]
+    command="CI= npm run build"
+    publish="./build"
+
+[[redirects]]
+  from = "/index"
+  to = "/"
+  status = 200

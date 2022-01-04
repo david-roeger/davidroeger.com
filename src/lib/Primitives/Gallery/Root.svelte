@@ -53,6 +53,6 @@
 	});
 </script>
 
-<div aria-roledescription={'galery'} data-orientation={direction} class={c}>
+<div data-orientation={direction} class={c}>
 	<slot />
 </div>
