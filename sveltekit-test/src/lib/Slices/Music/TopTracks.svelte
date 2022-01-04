@@ -1,19 +1,21 @@
 <script lang="ts">
 	import * as Music from '$components/Music';
 	import { Link } from '$components/Link';
+	import AccessibleIcon from '$lib/Components/AccessibleIcon';
+	import Album from '$assets/Icons/24/Album.svg';
+	import Artist from '$assets/Icons/24/Artist.svg';
 	import type { SpotifyTopTracksResponse, Image } from 'src/routes/about/types';
 
 	export let topTracksResponse: SpotifyTopTracksResponse;
+	let c = '';
+	export { c as class };
+	export let labelledby = '';
 
 	const valid = (() => {
 		if (topTracksResponse.ok) return true;
 		if (!topTracksResponse.ok) return false;
 		return undefined;
 	})();
-
-	import AccessibleIcon from '$lib/Components/AccessibleIcon';
-	import Album from '$assets/Icons/24/Album.svg';
-	import Artist from '$assets/Icons/24/Artist.svg';
 
 	const getImageUrl = (images: Image[]): string => {
 		if (images.length === 0) return '';
@@ -33,42 +35,44 @@
 	};
 </script>
 
-{#if valid === true && 'items' in topTracksResponse.body}
-	<Music.Root>
-		{#each topTracksResponse.body.items as track (track.id)}
-			<Music.Row class="flex">
-				{#if track.album.images.length}
-					<Music.Atom>
-						<Link href={track.external_urls.spotify} type="ghost">
-							<Music.Image
-								url={getImageUrl(track.album.images)}
-								alt={`${track.album.name} Album Cover`}
-							/></Link
+<section class={c}>
+	{#if valid === true && 'items' in topTracksResponse.body}
+		<Music.Root {labelledby}>
+			{#each topTracksResponse.body.items as track (track.id)}
+				<Music.Row class="flex">
+					{#if track.album.images.length}
+						<Music.Atom>
+							<Link href={track.external_urls.spotify} type="ghost">
+								<Music.Image
+									url={getImageUrl(track.album.images)}
+									alt={`${track.album.name} Album Cover`}
+								/></Link
+							>
+						</Music.Atom>
+					{/if}
+					<Music.Atom class="flex-1 min-w-0 border-l border-mauve-5">
+						<Music.Detail
+							subline={[track.artists.map((artist) => artist.name).join(', '), track.album.name]}
 						>
+							<AccessibleIcon label="Artist:" slot="preline">
+								<Artist />
+							</AccessibleIcon>
+							<Link href={track.external_urls.spotify}>
+								{track.name}
+							</Link>
+							<AccessibleIcon label="Album:" slot="subline">
+								<Album />
+							</AccessibleIcon>
+						</Music.Detail>
 					</Music.Atom>
-				{/if}
-				<Music.Atom class="flex-1 min-w-0 border-l border-mauve-5">
-					<Music.Detail
-						subline={[track.artists.map((artist) => artist.name).join(', '), track.album.name]}
-					>
-						<AccessibleIcon label="Artist:" slot="preline">
-							<Artist />
-						</AccessibleIcon>
-						<Link href={track.external_urls.spotify}>
-							{track.name}
-						</Link>
-						<AccessibleIcon label="Album:" slot="subline">
-							<Album />
-						</AccessibleIcon>
-					</Music.Detail>
-				</Music.Atom>
-			</Music.Row>
-		{/each}
-	</Music.Root>
-{:else if valid === false && 'error' in topTracksResponse.body}
-	{#if typeof topTracksResponse.body.error === 'string'}
-		<p>{topTracksResponse.body.error}</p>
-	{:else if typeof topTracksResponse === 'object'}
-		<p>{topTracksResponse.body.error.status} {topTracksResponse.body.error.message}</p>
+				</Music.Row>
+			{/each}
+		</Music.Root>
+	{:else if valid === false && 'error' in topTracksResponse.body}
+		{#if typeof topTracksResponse.body.error === 'string'}
+			<p>{topTracksResponse.body.error}</p>
+		{:else if typeof topTracksResponse === 'object'}
+			<p>{topTracksResponse.body.error.status} {topTracksResponse.body.error.message}</p>
+		{/if}
 	{/if}
-{/if}
+</section>

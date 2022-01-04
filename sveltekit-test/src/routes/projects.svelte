@@ -32,7 +32,6 @@
 	import Close16 from '$assets/icons/16/close.svg';
 
 	import AccessibleIcon from '$lib/Components/AccessibleIcon';
-	import TransparentSection from '$lib/Components/TransparentSection/TransparentSection.svelte';
 
 	export let projects: ProjectMetaData[] = [];
 	export let filteredProjects: ProjectMetaData[] = [];
@@ -102,8 +101,12 @@
 	updateProjects();
 </script>
 
+<svelte:head>
+	<title>DR | Projects</title>
+</svelte:head>
+
 <Tags.Root defaultValue={defaultTags} on:valueChange={(e) => updateQueries(e.detail.value)}>
-	<Tags.List class="flex p-2 space-x-2 overflow-y-auto border-b border-mauve-6">
+	<Tags.List class="flex p-2 space-x-2 overflow-y-auto border-b bg-mauve-3 border-mauve-6">
 		{#if $tags.size}
 			<Tags.Unset
 				class="p-1 text-xs bg-white border rounded-full touch-manipulation border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 "
@@ -120,7 +123,7 @@
 			>
 		{/each}
 	</Tags.List>
-	<Headline class="flex items-end py-4 pt-8 md:py-8 md:pt-16">My Projects</Headline>
+	<Headline class="flex items-end py-8 md:py-16">My Projects</Headline>
 
 	{#each filteredProjects as project (project.title)}
 		<!-- divider -->
@@ -146,7 +149,7 @@
 					><AccessibleIcon label="Go to next"><East /></AccessibleIcon></Gallery.Next
 				>
 				<Gallery.Content
-					class="flex border-b border-t border-mauve-6 border-r-0 h-96 md:h-[32rem] focus:outline-none ring-mauve-6 focus:ring-1xp no-scrollbar"
+					class="flex border-b border-t border-mauve-6 border-r-0 h-96 md:h-[32rem] focus:outline-none ring-mauve-6 focus:ring-1 no-scrollbar"
 				>
 					{#if project.thumbnail}
 						<img
