@@ -21,7 +21,8 @@
 	on:click={handleClick}
 	on:click
 	type="button"
-	aria-pressed={$active}
+	role="switch"
+	aria-checked={$active}
 	aria-controls={`${id}-list`}
 	id={`${id}-trigger-${value}`}
 	data-state={$dataState}

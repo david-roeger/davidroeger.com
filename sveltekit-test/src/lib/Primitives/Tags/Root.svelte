@@ -44,7 +44,7 @@
 </script>
 
 <div
-	aria-roledescription={'tagcontainer'}
+	aria-multiselectable="true"
 	data-orientation={direction}
 	id={`${computedId}-list`}
 	class={`${c}`}

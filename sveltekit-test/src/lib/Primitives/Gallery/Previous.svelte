@@ -21,7 +21,8 @@
 		on:click={handleClick}
 		on:click
 		type="button"
-		aria-roledescription={'galerycontrol'}
+		role="button"
+		aria-roledescription="galerycontrol"
 		aria-controls={`${id}-content`}
 		id={`${id}-trigger-next`}
 		data-state={$dataState}

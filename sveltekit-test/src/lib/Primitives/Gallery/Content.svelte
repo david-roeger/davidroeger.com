@@ -45,8 +45,9 @@
 </script>
 
 <div
+	role="region"
 	aria-roledescription={'galerypanel'}
-	aria-controls={`${id}-content`}
+	id={`${id}-content`}
 	tabindex="0"
 	bind:this={content}
 	class={`${c}`}
