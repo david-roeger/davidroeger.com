@@ -13,7 +13,7 @@
 	<nav class="xl:container">
 		<h3><VisuallyHidden.Root>Main Menu</VisuallyHidden.Root></h3>
 		<ul class="flex justify-between">
-			<li class="w-auto list-none">
+			<li class="w-auto m-2 list-none">
 				<NavLink href="/" type="icon" role="link">
 					<slot name="logo">
 						<AccessibleIcon label="David Roeger Logo - Go to Main Page"
@@ -23,7 +23,7 @@
 				</NavLink>
 			</li>
 			<li>
-				<ul role="menubar" class="flex flex-wrap justify-end">
+				<ul role="menubar" class="flex flex-wrap justify-end m-2 space-x-2">
 					<li role="none" class="list-none">
 						<NavLink
 							role="menuitem"
