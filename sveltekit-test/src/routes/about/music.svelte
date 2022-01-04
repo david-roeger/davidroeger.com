@@ -59,76 +59,71 @@
 <svelte:head>
 	<title>DR | About | Music</title>
 </svelte:head>
-<div
-	style="background: radial-gradient(50% 50% at 50% 50%, hsl(273, 61.0%, 81.7%, 0.6) 0%, hsl(273, 61.0%, 81.7%, 0) 100%);"
+
+<Headline class="flex items-end py-8 md:py-16">Music</Headline>
+
+<Headline unstyled id="current_track" type="secondary" class="p-2 bg-white border-b border-mauve-5"
+	>Current Track</Headline
 >
-	<Headline class="flex items-end py-8 md:py-16">Music</Headline>
+<LastTrack
+	labelledby="current_track"
+	{lastTrackResponse}
+	class="border-b bg-white/[85]  border-mauve-5"
+/>
+<div class="h-8 p-2 mb-8 bg-white border-b border-mauve-5 md:mb-16" />
 
-	<Headline
-		unstyled
-		id="current_track"
-		type="secondary"
-		class="p-2 bg-white border-b border-mauve-5">Current Track</Headline
-	>
-	<LastTrack
-		labelledby="current_track"
-		{lastTrackResponse}
-		class="mb-8 bg-white border-b md:mb-16 border-mauve-5"
-	/>
-
-	<Tabs.Root defaultValue={defaultSelected} on:valueChange={(e) => ($selected = e.detail.value)}>
-		<Tabs.List ariaLabel="" class="flex p-2 space-x-2 bg-white border-t border-mauve-5">
-			<Tabs.Trigger
-				value="tracks"
-				class={`flex-grow border border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 px-4 py-2 rounded-l-full  ${
-					$selected === 'tracks' ? 'bg-purple-5' : 'bg-white'
-				}`}
-			>
-				<Headline unstyled id="top_tracks" type="secondary">Top Tracks</Headline>
-			</Tabs.Trigger>
-			<Tabs.Trigger
-				value="artists"
-				class={`flex-grow border border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 px-4 py-2 rounded-r-full  ${
-					$selected === 'artists' ? 'bg-purple-5' : 'bg-white'
-				}`}
-			>
-				<Headline unstyled id="top_artists" type="secondary">Top Artists</Headline>
-			</Tabs.Trigger>
-		</Tabs.List>
-		<Tabs.Content
+<Tabs.Root defaultValue={defaultSelected} on:valueChange={(e) => ($selected = e.detail.value)}>
+	<Tabs.List ariaLabel="" class="flex p-2 space-x-2 bg-white border-t border-mauve-5">
+		<Tabs.Trigger
 			value="tracks"
-			class="bg-white border-t border-b border-mauve-5 focus:outline-none ring-mauve-5 focus:ring-1"
+			class={`flex-grow border border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 px-4 py-2 rounded-l-full  ${
+				$selected === 'tracks' ? 'bg-purple-5' : 'bg-white'
+			}`}
 		>
-			<TopTracks labelledby="top_tracks" topTracksResponse={topTracksResponses[0]} />
-		</Tabs.Content>
-		<Tabs.Content
+			<Headline unstyled id="top_tracks" type="secondary">Top Tracks</Headline>
+		</Tabs.Trigger>
+		<Tabs.Trigger
 			value="artists"
-			class="bg-white border-t border-b border-mauve-5 focus:outline-none ring-mauve-5 focus:ring-1"
+			class={`flex-grow border border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 px-4 py-2 rounded-r-full  ${
+				$selected === 'artists' ? 'bg-purple-5' : 'bg-white'
+			}`}
 		>
-			<TopArtists labelledby="top_artists" topArtistsResponse={topArtistsResponses[0]} />
-		</Tabs.Content>
-	</Tabs.Root>
+			<Headline unstyled id="top_artists" type="secondary">Top Artists</Headline>
+		</Tabs.Trigger>
+	</Tabs.List>
+	<Tabs.Content
+		value="tracks"
+		class="border-t border-b bg-white/[85] border-mauve-5 focus:outline-none ring-mauve-5 focus:ring-1"
+	>
+		<TopTracks labelledby="top_tracks" topTracksResponse={topTracksResponses[0]} />
+	</Tabs.Content>
+	<Tabs.Content
+		value="artists"
+		class="border-t border-b bg-white/[85] border-mauve-5 focus:outline-none ring-mauve-5 focus:ring-1"
+	>
+		<TopArtists labelledby="top_artists" topArtistsResponse={topArtistsResponses[0]} />
+	</Tabs.Content>
+</Tabs.Root>
 
-	<div class="py-8 text-center md:py-16">
-		<p>Made with:</p>
-		<p>
-			<a
-				href="https://spotify.com"
-				class="underline text-mauve-12"
-				rel="noopener noreferrer"
-				target="_blank"
-			>
-				Spotify
-			</a>
-			💚
-			<a
-				href="https://supabase.com/"
-				class="underline text-mauve-12"
-				rel="noopener noreferrer"
-				target="_blank"
-			>
-				Supabase
-			</a>
-		</p>
-	</div>
+<div class="py-8 text-center md:py-16">
+	<p>Made with:</p>
+	<p>
+		<a
+			href="https://spotify.com"
+			class="underline text-mauve-12"
+			rel="noopener noreferrer"
+			target="_blank"
+		>
+			Spotify
+		</a>
+		💚
+		<a
+			href="https://supabase.com/"
+			class="underline text-mauve-12"
+			rel="noopener noreferrer"
+			target="_blank"
+		>
+			Supabase
+		</a>
+	</p>
 </div>
