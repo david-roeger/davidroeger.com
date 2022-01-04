@@ -10,7 +10,7 @@
 			<slot />
 		</h2>
 	{:else if type === 'tertiary'}
-		<h3 class="text-1xl">
+		<h3 class="text-xl">
 			<slot />
 		</h3>
 	{:else}

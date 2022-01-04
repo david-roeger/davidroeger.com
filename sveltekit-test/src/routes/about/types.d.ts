@@ -17,7 +17,7 @@ export interface SpotifyResponse {
 }
 
 export interface SpotifyTopTracksResponse extends SpotifyResponse {
-	body: { items: topTrack[] } | { error: ErrorBody };
+	body: { items: TopTrack[] } | { error: ErrorBody };
 }
 
 export interface SpotifyTopArtistsResponse extends SpotifyResponse {
@@ -44,7 +44,7 @@ type BaseObject = {
 	uri: string;
 };
 
-type Image = {
+export type Image = {
 	height: number;
 	url: string;
 	width: number;
@@ -61,7 +61,7 @@ interface Album extends BaseObject {
 }
 
 export interface TopTrack extends BaseObject {
-	album: album;
+	album: Album;
 	artists: BaseObject[];
 	available_markets: string[];
 	disc_number: number;

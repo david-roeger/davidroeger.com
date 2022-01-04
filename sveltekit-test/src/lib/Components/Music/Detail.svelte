@@ -1,23 +1,27 @@
 <script lang="ts">
-	import type { SvelteComponent } from 'svelte';
+	import { Headline } from '$components/Headline';
 
 	export let subline: [string, string];
 	//export let children: [SvelteComponent | undefined, SvelteComponent | undefined, SvelteComponent?];
 	let children = [undefined, undefined, undefined];
 </script>
 
-<div class="flex items-center w-full space-x-1 text-xs text-mauve-11">
-	<slot name="preline" />
-	<p>{subline[0]}</p>
+<div class="flex items-center w-full pt-2 pl-2 space-x-1 text-xs text-mauve-11">
+	<div>
+		<slot name="preline" />
+	</div>
+	<p class="truncate">{subline[0]}</p>
 </div>
-<div class="flex items-center w-full md:ml:0">
-	<h3 class="text-xl truncate"><slot /></h3>
+<div class="w-full">
+	<Headline type="tertiary" class="p-0 pb-2 pl-2 truncate border-b-0 md:pb-0"><slot /></Headline>
 	<slot name="headline" />
 </div>
-<div class="hidden w-full text-xs md:flex md:items-center md:space-x-1 text-mauve-11">
+<div class="hidden w-full pb-2 pl-2 text-xs md:flex md:items-center md:space-x-1 text-mauve-11">
 	{#if children[1]}
 		<svelte:component this={children[1]} />
 	{/if}
-	<slot name="subline" />
+	<div>
+		<slot name="subline" />
+	</div>
 	<p class="truncate">{subline[1]}</p>
 </div>

@@ -132,7 +132,7 @@
 			<Headline type="secondary" class="border-b-0"
 				><a
 					sveltekit:prefetch
-					class="focus:outline-none ring-mauve-12 focus:ring-1 hover:underline wave decoration-from-font"
+					class="focus:outline-none ring-mauve-12 focus:ring-1 hover:underline decoration-from-font"
 					href={`projects/${project.slug}`}>{project.title}</a
 				></Headline
 			>
