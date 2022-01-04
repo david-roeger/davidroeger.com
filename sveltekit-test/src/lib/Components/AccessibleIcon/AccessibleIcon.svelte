@@ -6,7 +6,7 @@
 	let root: HTMLDivElement | undefined;
 	onMount(() => {
 		if (root) {
-			const svgs = Array.from(root.querySelectorAll(':scope > svg'));
+			const svgs = Array.from(root.querySelectorAll('svg'));
 			if (svgs.length) {
 				svgs.forEach((svg) => {
 					svg.setAttribute('aria-hidden', 'true');
