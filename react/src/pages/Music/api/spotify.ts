@@ -1,11 +1,11 @@
-const SPOTIFY_CLIENT_ID = import.meta.env.VITE_SPOTIFY_CLIENT_ID;
-const SPOTIFY_CLIENT_SECRET = import.meta.env.VITE_SPOTIFY_CLIENT_SECRET;
-const SPOTIFY_REFRESH_TOKEN = import.meta.env.VITE_SPOTIFY_REFRESH_TOKEN;
+const SPOTIFY_CLIENT_ID = process.env.VITE_SPOTIFY_CLIENT_ID;
+const SPOTIFY_CLIENT_SECRET = process.env.VITE_SPOTIFY_CLIENT_SECRET;
+const SPOTIFY_REFRESH_TOKEN = process.env.VITE_SPOTIFY_REFRESH_TOKEN;
 
 import { request } from '../../../utils/request';
 
 import { topTrack, topArtist, currentTrack, recentTrack } from '../../../types';
-
+console.log(SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET, SPOTIFY_REFRESH_TOKEN);
 export const getAccessToken = async () => {
     console.log('get token');
     const { access_token, error } = await request(

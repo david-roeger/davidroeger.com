@@ -140,15 +140,15 @@
 				>
 				<Gallery.Root class="relative" step={0.6}>
 					<Gallery.Previous
-						class="bg-white absolute top-0 lg:top-1/2 right-0 lg:left-2 lg:right-auto z-10 transform -translate-y-1/2 -translate-x-[calc(100%+16px)] lg:translate-x-0 block p-1 text-xs  border rounded-full md:p-2 touch-manipulation focus:outline-none ring-mauve-12 focus:ring-1"
+						class="cursor-w-resize bg-white absolute top-0 lg:top-1/2 right-0 lg:left-2 lg:right-auto z-10 transform -translate-y-1/2 -translate-x-[calc(100%+16px)] lg:translate-x-0 block p-1 text-xs  border rounded-full md:p-2 touch-manipulation focus:outline-none ring-mauve-12 focus:ring-1"
 						><AccessibleIcon label="Go to previous"><West /></AccessibleIcon></Gallery.Previous
 					>
 					<Gallery.Next
-						class="absolute top-0 right-0 z-10 block p-1 text-xs transform -translate-x-2 -translate-y-1/2 bg-white border rounded-full lg:translate-x-0 lg:top-1/2 lg:right-2 md:p-2 touch-manipulation focus:outline-none ring-mauve-12 focus:ring-1"
+						class="cursor-e-resize absolute top-0 right-0 z-10 block p-1 text-xs transform -translate-x-2 -translate-y-1/2 bg-white border rounded-full lg:translate-x-0 lg:top-1/2 lg:right-2 md:p-2 touch-manipulation focus:outline-none ring-mauve-12 focus:ring-1"
 						><AccessibleIcon label="Go to next"><East /></AccessibleIcon></Gallery.Next
 					>
 					<Gallery.Content
-						class="flex border-b border-t border-mauve-6 border-r-0 h-96 md:h-[32rem] focus:outline-none ring-mauve-6 focus:ring-1xp no-scrollbar"
+						class="cursor-grab flex border-b border-t border-mauve-6 border-r-0 h-96 md:h-[32rem] focus:outline-none ring-mauve-6 focus:ring-1xp no-scrollbar"
 					>
 						{#if project.thumbnail}
 							<img
