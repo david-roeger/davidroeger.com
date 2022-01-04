@@ -1,3 +1,3 @@
-//export { LastTrackSection } from './LastTrackSection';
-export { default as TopTracksSection } from './TopTracksSection.svelte';
-//export { TopArtistsSection } from './TopArtistsSection';
+export { default as TopTracks } from './TopTracks.svelte';
+export { default as TopArtists } from './TopArtists.svelte';
+export { default as LastTrack } from './LastTrack.svelte';

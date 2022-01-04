@@ -12,9 +12,10 @@
 	</div>
 	<p class="truncate">{subline[0]}</p>
 </div>
-<div class="w-full">
-	<Headline type="tertiary" class="p-0 pb-2 pl-2 truncate border-b-0 md:pb-0"><slot /></Headline>
+<div class="flex w-full pl-2 space-x-1">
 	<slot name="headline" />
+
+	<Headline type="tertiary" class="p-0 pb-2 truncate border-b-0 md:pb-0"><slot /></Headline>
 </div>
 <div class="hidden w-full pb-2 pl-2 text-xs md:flex md:items-center md:space-x-1 text-mauve-11">
 	{#if children[1]}

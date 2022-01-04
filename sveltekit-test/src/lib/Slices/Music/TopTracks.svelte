@@ -4,7 +4,6 @@
 	import type { SpotifyTopTracksResponse, Image } from 'src/routes/about/types';
 
 	export let topTracksResponse: SpotifyTopTracksResponse;
-	console.log(topTracksResponse);
 
 	const valid = (() => {
 		if (topTracksResponse.ok) return true;
@@ -12,6 +11,7 @@
 		return undefined;
 	})();
 
+	import AccessibleIcon from '$lib/Components/AccessibleIcon';
 	import Album from '$assets/Icons/24/Album.svg';
 	import Artist from '$assets/Icons/24/Artist.svg';
 
@@ -51,11 +51,15 @@
 					<Music.Detail
 						subline={[track.artists.map((artist) => artist.name).join(', '), track.album.name]}
 					>
-						<Artist slot="preline" />
+						<AccessibleIcon label="Artist:" slot="preline">
+							<Artist />
+						</AccessibleIcon>
 						<Link href={track.external_urls.spotify}>
 							{track.name}
 						</Link>
-						<Album slot="subline" />
+						<AccessibleIcon label="Album:" slot="subline">
+							<Album />
+						</AccessibleIcon>
 					</Music.Detail>
 				</Music.Atom>
 			</Music.Row>

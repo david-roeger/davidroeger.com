@@ -4,7 +4,6 @@
 	import type { SpotifyTopArtistsResponse, Image } from 'src/routes/about/types';
 
 	export let topArtistsResponse: SpotifyTopArtistsResponse;
-	console.log(topArtistsResponse);
 
 	const valid = (() => {
 		if (topArtistsResponse.ok) return true;
@@ -12,9 +11,9 @@
 		return undefined;
 	})();
 
+	import AccessibleIcon from '$lib/Components/AccessibleIcon';
 	import Tag from '$assets/Icons/24/Tag.svg';
 	import Score from '$assets/Icons/24/Score.svg';
-	console.log(topArtistsResponse);
 
 	const getImageUrl = (images: Image[]): string => {
 		if (images.length === 0) return '';
@@ -47,13 +46,15 @@
 				{/if}
 				<Music.Atom class="flex-1 min-w-0 border-l border-mauve-5">
 					<Music.Detail subline={[artist.genres.join(', '), `${artist.popularity} / 100`]}>
-						<Tag slot="preline" />
-
+						<AccessibleIcon label="Genres:" slot="preline">
+							<Tag />
+						</AccessibleIcon>
 						<Link href={artist.external_urls.spotify}>
 							{artist.name}
 						</Link>
-
-						<Score slot="subline" />
+						<AccessibleIcon label="Score:" slot="subline">
+							<Score />
+						</AccessibleIcon>
 					</Music.Detail>
 				</Music.Atom>
 			</Music.Row>

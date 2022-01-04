@@ -13,8 +13,10 @@
 		return undefined;
 	})();
 
+	import AccessibleIcon from '$lib/Components/AccessibleIcon';
 	import Album from '$assets/Icons/24/Album.svg';
 	import Artist from '$assets/Icons/24/Artist.svg';
+	import Wave from '$lib/Components/Wave/Wave.svelte';
 
 	const getImageUrl = (images: Image[]): string => {
 		if (images.length === 0) return '';
@@ -51,15 +53,22 @@
 				<Music.Detail
 					subline={[track.artists.map((artist) => artist.name).join(', '), track.album.name]}
 				>
-					<Artist slot="preline" />
+					<AccessibleIcon label="Artist:" slot="preline">
+						<Artist />
+					</AccessibleIcon>
 					<Link href={track.external_urls.spotify}>
 						{track.name}
 					</Link>
-					{#if 'is_playable' in track}
-						<MusicSectionPlaying slot="headline" />
-					{/if}
-
-					<Album slot="subline" />
+					<div slot="headline">
+						{#if 'is_playable' in track}
+							<AccessibleIcon label="Currently Playing:">
+								<Wave fill={['icon-green-9', 'icon-green-9', 'icon-green-9', 'icon-green-9']} />
+							</AccessibleIcon>
+						{/if}
+					</div>
+					<AccessibleIcon label="Album:" slot="subline">
+						<Album />
+					</AccessibleIcon>
 				</Music.Detail>
 			</Music.Atom>
 		</Music.Row>
