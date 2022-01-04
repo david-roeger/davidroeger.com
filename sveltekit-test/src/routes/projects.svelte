@@ -130,7 +130,7 @@
 				<div class="w-16 h-16 m-auto border rounded-full border-mauve-6 md:w-20 md:h-20" />
 			</div-->
 			<!-- -->
-			<section class={`border-b border-mauve-6 mt-8`}>
+			<section class={`border-b border-mauve-6`}>
 				<Headline type="secondary" class="border-b-0"
 					><a
 						sveltekit:prefetch
@@ -148,10 +148,11 @@
 						><AccessibleIcon label="Go to next"><East /></AccessibleIcon></Gallery.Next
 					>
 					<Gallery.Content
-						class="flex border-b border-t border-mauve-6 border-r-0 h-96 md:h-[32rem] focus:outline-none ring-mauve-6 focus:ring-1 scroll-mt-[59px] no-scrollbar"
+						class="flex border-b border-t border-mauve-6 border-r-0 h-96 md:h-[32rem] focus:outline-none ring-mauve-6 focus:ring-1xp no-scrollbar"
 					>
 						{#if project.thumbnail}
 							<img
+								loading="lazy"
 								alt="img"
 								class="block h-full border-r max-w-none last:border-r-0 border-mauve-6"
 								src={`./assets/projects/${project.thumbnail}`}
@@ -166,6 +167,7 @@
 							{#if media}
 								{#if media.includes('mp4')}
 									<video
+										loading="lazy"
 										muted
 										autoplay
 										loop
@@ -177,6 +179,7 @@
 									/>
 								{:else}
 									<img
+										loading="lazy"
 										alt="img"
 										class="block h-full border-r last:border-r-0 border-mauve-6 max-w-none"
 										src={`./assets/projects/${media}`}
