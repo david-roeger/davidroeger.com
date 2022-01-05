@@ -2,6 +2,6 @@
 	export let labelledby = '';
 </script>
 
-<ul class="w-full" role="region" aria-labelledby={labelledby}>
+<ul class="w-full" aria-labelledby={labelledby}>
 	<slot />
 </ul>

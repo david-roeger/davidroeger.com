@@ -24,7 +24,6 @@
 	role="switch"
 	aria-checked={$active}
 	aria-controls={`${id}-list`}
-	id={`${id}-trigger-${value}`}
 	data-state={$dataState}
 	class={`${c}`}
 >
