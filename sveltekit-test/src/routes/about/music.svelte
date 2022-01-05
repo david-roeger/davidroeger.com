@@ -61,22 +61,17 @@
 	<title>DR | About | Music</title>
 </svelte:head>
 
-<Headline class="flex items-end py-8 border-b-0 md:py-16">Favorite Music</Headline>
+<Headline class="flex items-end py-8 md:py-16">Favorite Music</Headline>
 
-<div class="border-t md:border-l md:border-r md:mx-8 lg:mx-16 xl:mx-32 border-mauve-5">
-	<Headline
-		unstyled
-		id="current_track"
-		type="secondary"
-		class="p-2 bg-white border-b border-mauve-5">Last listened on Spotify</Headline
-	>
+<Headline unstyled id="current_track" type="secondary" class="p-2 bg-white border-b border-mauve-6"
+	>Last listened on Spotify</Headline
+>
 
-	<LastTrack
-		labelledby="current_track"
-		{lastTrackResponse}
-		class="border-b bg-white/[.85] border-mauve-5 mb-8 md:mb-16"
-	/>
-</div>
+<LastTrack
+	labelledby="current_track"
+	{lastTrackResponse}
+	class="border-b bg-white/[.85] border-mauve-6 mb-8 md:mb-16"
+/>
 
 <!--Dialog.Root
 	class="flex justify-end"
@@ -96,13 +91,13 @@
 	</Dialog.Portal>
 </Dialog.Root-->
 <Tabs.Root defaultValue={defaultSelected} on:valueChange={(e) => ($selected = e.detail.value)}>
-	<p class="p-2 bg-white border-t border-mauve-5">
+	<p class="p-2 bg-white border-t border-mauve-6">
 		Favorite on Spotify <span class="text-mauve-11">(last 4 Weeks)</span>
 	</p>
 
 	<Tabs.List
 		ariaLabel="My Favorite Artists and Tracks on Spotify"
-		class="flex p-2 space-x-2 border-t border-mauve-5"
+		class="flex p-2 space-x-2 border-t border-mauve-6"
 	>
 		<Tabs.Trigger
 			value="tracks"
@@ -123,13 +118,13 @@
 	</Tabs.List>
 	<Tabs.Content
 		value="tracks"
-		class="border-t border-b bg-white/[.85] border-mauve-5 focus:outline-none ring-mauve-5 focus:ring-1"
+		class="border-t border-b bg-white/[.85] border-mauve-6 focus:outline-none ring-mauve-6 focus:ring-1"
 	>
 		<TopTracks labelledby="top_tracks" topTracksResponse={topTracksResponses[0]} />
 	</Tabs.Content>
 	<Tabs.Content
 		value="artists"
-		class="border-t border-b bg-white/[.85] border-mauve-5 focus:outline-none ring-mauve-5 focus:ring-1"
+		class="border-t border-b bg-white/[.85] border-mauve-6 focus:outline-none ring-mauve-6 focus:ring-1"
 	>
 		<TopArtists labelledby="top_artists" topArtistsResponse={topArtistsResponses[0]} />
 	</Tabs.Content>
