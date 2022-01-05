@@ -33,6 +33,8 @@
 
 	import AccessibleIcon from '$lib/Components/AccessibleIcon';
 
+	import TagIcon from '$assets/Icons/24/tag.svg';
+
 	export let projects: ProjectMetaData[] = [];
 	export let filteredProjects: ProjectMetaData[] = [];
 
@@ -167,14 +169,21 @@
 						<div
 							class="flex flex-col justify-between flex-shrink-0 w-4/6 border-r last:border-r-0 border-mauve-6 md:w-1/2 lg:w-1/3"
 						>
-							<p class="m-4">{project.description}</p>
-							<p class="flex px-2 text-xs bg-white border-t text border-mauve-5">
+							<p
+								class="flex items-center p-1 text-xs bg-white border-b text-mauve-11 border-mauve-6"
+							>
+								<AccessibleIcon label="tags"><TagIcon /></AccessibleIcon>
 								{#each project.tags as tag (tag)}
-									<span class={`${$tags.has(tag) ? 'underline decoration-from-font' : ''} p-2`}
+									<span class={`${$tags.has(tag) ? 'underline decoration-from-font' : ''} p-1`}
 										>{tag}
 									</span>
 								{/each}
 							</p>
+							<div class="m-4">
+								<p>{project.description}</p>
+								<p class="text-xs">More Meta Data?</p>
+								<p class="text-xs">More Meta Data?</p>
+							</div>
 						</div>
 						{#each project.media as media (media)}
 							{#if media}
