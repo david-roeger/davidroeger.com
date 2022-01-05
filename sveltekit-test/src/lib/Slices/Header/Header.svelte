@@ -30,8 +30,8 @@
 							href="/projects"
 							activePath="/projects"
 							activeRegEx={/^\/projects\/[^\/]+$/}
-							class="bg-white hover:bg-purple-5"
-							activeClass="!bg-purple-5">Projects</NavLink
+							class="bg-white hover:bg-green-5"
+							activeClass="!bg-green-5">Projects</NavLink
 						>
 					</li>
 					<li role="none" class="list-none">
