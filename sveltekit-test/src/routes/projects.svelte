@@ -110,10 +110,10 @@
 />
 
 <Tags.Root defaultValue={defaultTags} on:valueChange={(e) => updateQueries(e.detail.value)}>
-	<Tags.List class="flex p-2 space-x-2 overflow-y-auto border-b border-mauve-6">
+	<Tags.List class="p-1 border-b border-mauve-6">
 		{#if $tags.size}
 			<Tags.Unset
-				class="p-1 text-xs bg-white border rounded-full touch-manipulation border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 "
+				class="p-1 m-1 text-xs border rounded-full touch-manipulation border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1"
 			>
 				<AccessibleIcon label="Unselect all tags"><Close16 /></AccessibleIcon></Tags.Unset
 			>
@@ -121,7 +121,7 @@
 		{#each [...availableTags] as tag (tag)}
 			<Tags.Tag
 				value={tag}
-				class={`touch-manipulation px-4 py-1 border border-mauve-12 text-xs rounded-full focus:outline-none ring-mauve-12 focus:ring-1 ${
+				class={`m-1 touch-manipulation px-4 py-1 border border-mauve-12 text-xs rounded-full focus:outline-none ring-mauve-12 focus:ring-1 ${
 					$tags.has(tag) ? 'bg-green-5' : 'bg-white'
 				}`}>{tag}</Tags.Tag
 			>
