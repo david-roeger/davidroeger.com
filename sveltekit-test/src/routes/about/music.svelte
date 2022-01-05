@@ -50,8 +50,8 @@
 
 	import * as Tabs from '$primitives/Tabs';
 	import { writable } from 'svelte/store';
-	import Detail from '$lib/Components/Music/Detail.svelte';
 	import Link from '$lib/Components/Link/Link.svelte';
+	import * as Dialog from '$lib/Primitives/Dialog';
 
 	const defaultSelected = 'tracks';
 	const selected = writable(defaultSelected);
@@ -61,27 +61,56 @@
 	<title>DR | About | Music</title>
 </svelte:head>
 
-<Headline class="flex items-end py-8 md:py-16">Music</Headline>
+<Headline class="flex items-end py-8 border-b-0 md:py-16">Favorite Music</Headline>
 
-<Headline unstyled id="current_track" type="secondary" class="p-2 bg-white border-b border-mauve-5"
-	>Current Track</Headline
+<div class="mx-8 border-t border-l border-r mb:mx-16 lg:mx-32 border-mauve-5">
+	<Headline
+		unstyled
+		id="current_track"
+		type="secondary"
+		class="p-2 bg-white border-b border-mauve-5">Last listened on Spotify</Headline
+	>
+
+	<LastTrack
+		labelledby="current_track"
+		{lastTrackResponse}
+		class="border-b bg-white/[.85] border-mauve-5 mb-8 md:mb-16"
+	/>
+</div>
+
+<!--Dialog.Root
+	class="flex justify-end"
+	defaultOpen={false}
+	on:openChange={(e) => console.log(e.detail.open)}
 >
-<LastTrack
-	labelledby="current_track"
-	{lastTrackResponse}
-	class="border-b bg-white/[85]  border-mauve-5"
-/>
-<div class="h-8 p-2 mb-8 bg-white border-b border-mauve-5 md:mb-16" />
-
+	<Dialog.Trigger class="px-4 py-2 m-2 bg-white border border-mauve-12 focus:outline-none"
+		>Filter</Dialog.Trigger
+	>
+	<Dialog.Portal>
+		<Dialog.Overlay class="fixed top-0 w-full h-full bg-mauve-12/50" />
+		<Dialog.Content class="fixed top-0 bg-mauve-1">
+			<Dialog.Title><Headline type="secondary">Timespan</Headline></Dialog.Title>
+			<Dialog.Description>Description 1</Dialog.Description>
+			<Dialog.Close>Close</Dialog.Close>
+		</Dialog.Content>
+	</Dialog.Portal>
+</Dialog.Root-->
 <Tabs.Root defaultValue={defaultSelected} on:valueChange={(e) => ($selected = e.detail.value)}>
-	<Tabs.List ariaLabel="" class="flex p-2 space-x-2 bg-white border-t border-mauve-5">
+	<p class="p-2 bg-white border-t border-mauve-5">
+		Favorite on Spotify <span class="text-mauve-10">(last 4 Weeks)</span>
+	</p>
+
+	<Tabs.List
+		ariaLabel="My Favorite Artists and Tracks on Spotify"
+		class="flex p-2 space-x-2 border-t border-mauve-5"
+	>
 		<Tabs.Trigger
 			value="tracks"
 			class={`flex-grow border border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 px-4 py-2 rounded-l-full  ${
 				$selected === 'tracks' ? 'bg-purple-5' : 'bg-white'
 			}`}
 		>
-			<Headline unstyled id="top_tracks" type="secondary">Top Tracks</Headline>
+			<Headline unstyled id="top_tracks" type="secondary">Tracks</Headline>
 		</Tabs.Trigger>
 		<Tabs.Trigger
 			value="artists"
@@ -89,18 +118,18 @@
 				$selected === 'artists' ? 'bg-purple-5' : 'bg-white'
 			}`}
 		>
-			<Headline unstyled id="top_artists" type="secondary">Top Artists</Headline>
+			<Headline unstyled id="top_artists" type="secondary">Artists</Headline>
 		</Tabs.Trigger>
 	</Tabs.List>
 	<Tabs.Content
 		value="tracks"
-		class="border-t border-b bg-white/[85] border-mauve-5 focus:outline-none ring-mauve-5 focus:ring-1"
+		class="border-t border-b bg-white/[.85] border-mauve-5 focus:outline-none ring-mauve-5 focus:ring-1"
 	>
 		<TopTracks labelledby="top_tracks" topTracksResponse={topTracksResponses[0]} />
 	</Tabs.Content>
 	<Tabs.Content
 		value="artists"
-		class="border-t border-b bg-white/[85] border-mauve-5 focus:outline-none ring-mauve-5 focus:ring-1"
+		class="border-t border-b bg-white/[.85] border-mauve-5 focus:outline-none ring-mauve-5 focus:ring-1"
 	>
 		<TopArtists labelledby="top_artists" topArtistsResponse={topArtistsResponses[0]} />
 	</Tabs.Content>

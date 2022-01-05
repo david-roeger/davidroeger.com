@@ -106,11 +106,11 @@
 </svelte:head>
 <div
 	class="fixed top-0 bottom-0 w-full h-full xl:container -z-10"
-	style="background: radial-gradient(50% 50% at 50% 50%, rgba(146, 206, 172, .4), rgba(146, 206, 172, 0) 100%);"
+	style="background: radial-gradient(50% 50% at 50% 50%, rgba(146, 206, 172, 0.4), rgba(146, 206, 172, 0) 100%);"
 />
 
 <Tags.Root defaultValue={defaultTags} on:valueChange={(e) => updateQueries(e.detail.value)}>
-	<Tags.List class="flex p-2 space-x-2 overflow-y-auto bg-white/[85] border-b border-mauve-6">
+	<Tags.List class="flex p-2 space-x-2 overflow-y-auto border-b border-mauve-6">
 		{#if $tags.size}
 			<Tags.Unset
 				class="p-1 text-xs bg-white border rounded-full touch-manipulation border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 "
@@ -144,7 +144,7 @@
 						href={`projects/${project.slug}`}>{project.title}</a
 					></Headline
 				>
-				<Gallery.Root class="relative bg-white/[85]" step={0.6}>
+				<Gallery.Root class="relative bg-white/[.85]" step={0.6}>
 					<Gallery.Previous
 						class="cursor-w-resize bg-white absolute top-0 lg:top-1/2 right-0 lg:left-2 lg:right-auto z-10 transform -translate-y-1/2 -translate-x-[calc(100%+16px)] lg:translate-x-0 block p-1 text-xs  border rounded-full md:p-2 touch-manipulation focus:outline-none ring-mauve-12 focus:ring-1"
 						><AccessibleIcon label="Go to previous"><West /></AccessibleIcon></Gallery.Previous
@@ -165,9 +165,16 @@
 							/>
 						{/if}
 						<div
-							class="flex-shrink-0 w-4/6 p-4 border-r last:border-r-0 border-mauve-6 md:w-1/2 lg:w-1/3"
+							class="flex flex-col justify-between flex-shrink-0 w-4/6 border-r last:border-r-0 border-mauve-6 md:w-1/2 lg:w-1/3"
 						>
-							<p>{project.description}</p>
+							<p class="m-4">{project.description}</p>
+							<p class="flex px-2 text-xs bg-white border-t text border-mauve-5">
+								{#each project.tags as tag (tag)}
+									<span class={`${$tags.has(tag) ? 'underline decoration-from-font' : ''} p-2`}
+										>{tag}
+									</span>
+								{/each}
+							</p>
 						</div>
 						{#each project.media as media (media)}
 							{#if media}
@@ -196,21 +203,9 @@
 					</Gallery.Content>
 				</Gallery.Root>
 				<div class="bg-white md:flex md:flex-wrap md:justify-between">
-					<Tags.List
-						class="flex flex-wrap items-center p-2 space-x-2 border-b border-mauve-6 md:border-b-0"
-					>
-						{#each project.tags as tag (tag)}
-							<Tags.Tag
-								value={tag}
-								class={`touch-manipulation px-4 py-1 border border-mauve-12 text-xs rounded-full block focus:outline-none ring-mauve-12 focus:ring-1 ${
-									$tags.has(tag) ? 'bg-green-5' : 'bg-white'
-								}`}>{tag}</Tags.Tag
-							>
-						{/each}
-					</Tags.List>
 					<a
 						sveltekit:prefetch
-						class="inline-flex bg-white items-center gap-2 px-4 p-1 m-2 text-xs transition-[gap,padding] border border-mauve-12 md:justify-between hover:gap-4 hover:pr-2 focus:outline-none ring-mauve-12 focus:ring-1"
+						class="inline-flex items-center gap-2 px-4 p-1 m-2 text-xs transition-[gap,padding] border border-mauve-12 md:justify-between hover:gap-4 hover:pr-2 focus:outline-none ring-mauve-12 focus:ring-1"
 						href={`projects/${project.slug}`}
 						title={`Read more about the project ${project.slug}`}
 					>
