@@ -52,7 +52,7 @@
 						>
 					</Music.Atom>
 				{/if}
-				<Music.Atom class="flex-1 min-w-0 border-l border-mauve-5">
+				<Music.Atom class="flex-1 min-w-0 border-l border-mauve-6">
 					<Music.Detail
 						subline={[track.artists.map((artist) => artist.name).join(', '), track.album.name]}
 					>
@@ -82,7 +82,7 @@
 				<Music.Atom>
 					<div class="h-[68px] md:h-[92px] w-[68px] md:w-[92px] bg-purple-3" />
 				</Music.Atom>
-				<Music.Atom class="flex-1 min-w-0 border-l border-mauve-5">
+				<Music.Atom class="flex-1 min-w-0 border-l border-mauve-6">
 					<Music.Detail subline={['', '']}>
 						{#if typeof lastTrackResponse.body.error === 'string'}
 							<p>Error:</p>
