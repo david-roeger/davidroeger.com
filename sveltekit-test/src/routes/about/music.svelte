@@ -63,7 +63,7 @@
 
 <Headline class="flex items-end py-8 border-b-0 md:py-16">Favorite Music</Headline>
 
-<div class="mx-8 border-t border-l border-r mb:mx-16 lg:mx-32 border-mauve-5">
+<div class="border-t md:border-l md:border-r md:mx-8 lg:mx-16 xl:mx-32 border-mauve-5">
 	<Headline
 		unstyled
 		id="current_track"
@@ -97,7 +97,7 @@
 </Dialog.Root-->
 <Tabs.Root defaultValue={defaultSelected} on:valueChange={(e) => ($selected = e.detail.value)}>
 	<p class="p-2 bg-white border-t border-mauve-5">
-		Favorite on Spotify <span class="text-mauve-10">(last 4 Weeks)</span>
+		Favorite on Spotify <span class="text-mauve-11">(last 4 Weeks)</span>
 	</p>
 
 	<Tabs.List
