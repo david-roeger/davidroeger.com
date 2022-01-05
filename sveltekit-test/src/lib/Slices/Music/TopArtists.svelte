@@ -64,10 +64,26 @@
 			{/each}
 		</Music.Root>
 	{:else if valid === false && 'error' in topArtistsResponse.body}
-		{#if typeof topArtistsResponse.body.error === 'string'}
-			<p>{topArtistsResponse.body.error}</p>
-		{:else if typeof topArtistsResponse === 'object'}
-			<p>{topArtistsResponse.body.error.status} {topArtistsResponse.body.error.message}</p>
-		{/if}
+		<Music.Root {labelledby}>
+			<Music.Row class="flex">
+				<Music.Atom>
+					<div class="h-[68px] md:h-[92px] w-[68px] md:w-[92px] bg-purple-3" />
+				</Music.Atom>
+				<Music.Atom class="flex-1 min-w-0 border-l border-mauve-5">
+					<Music.Detail subline={['', '']}>
+						{#if typeof topArtistsResponse.body.error === 'string'}
+							<p>Error:</p>
+							<p>{topArtistsResponse.body.error}</p>
+						{:else if typeof topArtistsResponse === 'object'}
+							<p class="text-xs">Error:</p>
+							<p class="text">
+								{topArtistsResponse.body.error.status}
+								{topArtistsResponse.body.error.message}
+							</p>
+						{/if}
+					</Music.Detail>
+				</Music.Atom>
+			</Music.Row>
+		</Music.Root>
 	{/if}
 </section>

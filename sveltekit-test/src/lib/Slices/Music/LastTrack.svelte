@@ -77,10 +77,26 @@
 			</Music.Row>
 		</Music.Root>
 	{:else if valid === false && 'error' in lastTrackResponse.body}
-		{#if typeof lastTrackResponse.body.error === 'string'}
-			<p>{lastTrackResponse.body.error}</p>
-		{:else if typeof lastTrackResponse === 'object'}
-			<p>{lastTrackResponse.body.error.status} {lastTrackResponse.body.error.message}</p>
-		{/if}
+		<Music.Root {labelledby}>
+			<Music.Row class="flex">
+				<Music.Atom>
+					<div class="h-[68px] md:h-[92px] w-[68px] md:w-[92px] bg-purple-3" />
+				</Music.Atom>
+				<Music.Atom class="flex-1 min-w-0 border-l border-mauve-5">
+					<Music.Detail subline={['', '']}>
+						{#if typeof lastTrackResponse.body.error === 'string'}
+							<p>Error:</p>
+							<p>{lastTrackResponse.body.error}</p>
+						{:else if typeof lastTrackResponse === 'object'}
+							<p class="text-xs">Error:</p>
+							<p class="text">
+								{lastTrackResponse.body.error.status}
+								{lastTrackResponse.body.error.message}
+							</p>
+						{/if}
+					</Music.Detail>
+				</Music.Atom>
+			</Music.Row>
+		</Music.Root>
 	{/if}
 </section>
