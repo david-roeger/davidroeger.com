@@ -2,7 +2,7 @@ const SPOTIFY_CLIENT_ID = import.meta.env.VITE_SPOTIFY_CLIENT_ID;
 const SPOTIFY_CLIENT_SECRET = import.meta.env.VITE_SPOTIFY_CLIENT_SECRET;
 const SPOTIFY_REFRESH_TOKEN = import.meta.env.VITE_SPOTIFY_REFRESH_TOKEN;
 
-import type { ErrorBody, SpotifyResponse } from './types';
+import type { ErrorBody, SpotifyResponse } from '$components/Music/types';
 
 /**
  * Utils
@@ -57,6 +57,7 @@ export const getAccessToken = async (): Promise<SpotifyResponse> => {
 		const { access_token } = body;
 		if (access_token) {
 			accessToken = access_token;
+
 			return createSpotifyResponse(200, true, {});
 		}
 
@@ -66,7 +67,6 @@ export const getAccessToken = async (): Promise<SpotifyResponse> => {
 			createErrorBody(500, 'Client Recieved no Access Token from server')
 		);
 	}
-
 	const { error } = body;
 	return createSpotifyResponse(response.status, response.ok, { error: error });
 };
@@ -178,7 +178,6 @@ const getRecentTrack = async (): Promise<SpotifyResponse> => {
 
 export const getLastTrack = async (): Promise<SpotifyResponse> => {
 	const current = await getCurrentTrack();
-	console.log(current);
 
 	if (current.status === 200) return current;
 	return await getRecentTrack();
