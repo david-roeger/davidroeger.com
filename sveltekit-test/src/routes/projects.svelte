@@ -140,7 +140,7 @@
 				<Headline type="secondary" class="bg-white border-b-0"
 					><a
 						sveltekit:prefetch
-						class="focus:outline-none ring-mauve-12 focus:ring-1 hover:underline decoration-from-font"
+						class="focus:outline-none growing-underline"
 						href={`projects/${project.slug}`}>{project.title}</a
 					></Headline
 				>

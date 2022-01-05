@@ -51,6 +51,7 @@
 	import * as Tabs from '$primitives/Tabs';
 	import { writable } from 'svelte/store';
 	import Detail from '$lib/Components/Music/Detail.svelte';
+	import Link from '$lib/Components/Link/Link.svelte';
 
 	const defaultSelected = 'tracks';
 	const selected = writable(defaultSelected);
@@ -108,22 +109,8 @@
 <div class="py-8 text-center md:py-16">
 	<p>Made with:</p>
 	<p>
-		<a
-			href="https://spotify.com"
-			class="underline text-mauve-12"
-			rel="noopener noreferrer"
-			target="_blank"
-		>
-			Spotify
-		</a>
+		<Link type="secondary" href="https://spotify.com">Spotify</Link>
 		💚
-		<a
-			href="https://supabase.com/"
-			class="underline text-mauve-12"
-			rel="noopener noreferrer"
-			target="_blank"
-		>
-			Supabase
-		</a>
+		<Link type="secondary" href="https://supabase.com/">Supabase</Link>
 	</p>
 </div>

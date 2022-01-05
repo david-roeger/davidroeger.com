@@ -1,10 +1,11 @@
 <script lang="ts">
 	export let href: string;
-	export let type: 'primary' | 'ghost' = 'primary';
+	export let type: 'primary' | 'secondary' | 'ghost' = 'primary';
 	let c = '';
 	export { c as class };
 
-	const primaryClass = 'ring-mauve-12 focus:ring-1 hover:underline decoration-from-font';
+	const primaryClass = 'growing-underline';
+	const secondaryClass = 'ring-mauve-12 focus:ring-1 underline decoration-from-font';
 	const ghostClass = '';
 	let variantClass;
 	switch (type) {
@@ -14,6 +15,9 @@
 			break;
 		case 'ghost':
 			variantClass = ghostClass;
+			break;
+		case 'secondary':
+			variantClass = secondaryClass;
 			break;
 	}
 </script>
