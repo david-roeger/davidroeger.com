@@ -4,7 +4,7 @@
 	import AccessibleIcon from '$lib/Components/AccessibleIcon';
 	import Album from '$assets/Icons/24/album.svg';
 	import Artist from '$assets/Icons/24/artist.svg';
-	import type { SpotifyTopTracksResponse, Image } from 'src/routes/about/types';
+	import type { SpotifyTopTracksResponse, Image } from '$components/Music/types';
 
 	export let topTracksResponse: SpotifyTopTracksResponse;
 	let c = '';

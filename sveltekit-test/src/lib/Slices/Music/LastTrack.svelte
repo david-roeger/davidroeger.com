@@ -6,8 +6,7 @@
 	import Artist from '$assets/Icons/24/artist.svg';
 	import Wave from '$lib/Components/Wave/Wave.svelte';
 
-	import type { SpotifyLastTrackResponse, Image } from 'src/routes/about/types';
-
+	import type { SpotifyLastTrackResponse, Image } from '$components/Music/types';
 	export let lastTrackResponse: SpotifyLastTrackResponse;
 	let c = '';
 	export { c as class };

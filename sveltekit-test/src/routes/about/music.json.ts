@@ -4,9 +4,9 @@ import type {
 	SpotifyTopTracksResponse,
 	SpotifyTopArtistsResponse,
 	SpotifyLastTrackResponse
-} from './types';
+} from '$components/Music/types';
 
-// GET /todos.json
+// GET /about/music.json
 export const get: RequestHandler = async () => {
 	// request.locals.userid comes from src/hooks.js
 	const response = await getAccessToken();
