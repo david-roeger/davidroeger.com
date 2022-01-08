@@ -8,6 +8,7 @@
 	export let direction: 'horizontal' | 'vertical' = 'horizontal';
 	export let defaultStart = true;
 	export let defaultEnd = true;
+	export let labelledby = '';
 
 	let c = '';
 	export { c as class };
@@ -21,6 +22,7 @@
 	const rootContext: RootContext = {
 		id: `drds-galery-${id.toString()}`,
 		direction: direction,
+		labelledby: labelledby,
 		setGallery: writable(undefined),
 		container: writable(undefined),
 		step: step,

@@ -139,14 +139,21 @@
 			</div-->
 			<!-- -->
 			<section class="mb-8 border-t border-b first:border-t-0 border-mauve-6 md:mb-16 last:mb-0">
-				<Headline type="secondary" class="bg-white border-b-0"
+				<Headline
+					type="secondary"
+					class="bg-white border-b-0"
+					id={`gallery-headline-${encodeURIComponent(project.title)}`}
 					><a
 						sveltekit:prefetch
 						class="focus:outline-none growing-underline"
 						href={`projects/${project.slug}`}>{project.title}</a
 					></Headline
 				>
-				<Gallery.Root class="relative bg-white/[.85]" step={0.6}>
+				<Gallery.Root
+					class="relative bg-white/[.85]"
+					step={0.6}
+					labelledby={`gallery-headline-${encodeURIComponent(project.title)}`}
+				>
 					<Gallery.Previous
 						class="cursor-w-resize bg-white absolute top-0 lg:top-1/2 right-0 lg:left-2 lg:right-auto z-10 transform -translate-y-1/2 -translate-x-[calc(100%+16px)] lg:translate-x-0 block p-1 text-xs  border rounded-full md:p-2 touch-manipulation focus:outline-none ring-mauve-12 focus:ring-1"
 						><AccessibleIcon label="Go to previous"><West /></AccessibleIcon></Gallery.Previous

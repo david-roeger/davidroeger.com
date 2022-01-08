@@ -2,10 +2,10 @@
 	let c = '';
 	export { c as class };
 	import { onMount, getContext } from 'svelte';
-	import { spring } from 'svelte/motion';
 	import type { Writable } from 'svelte/store';
 	import type { RootContext } from './types';
-	const { id, container, step, computedStep, start, end }: RootContext = getContext('root');
+	const { id, container, step, computedStep, start, end, labelledby }: RootContext =
+		getContext('root');
 
 	let content: HTMLDivElement;
 
@@ -44,8 +44,9 @@
 </script>
 
 <div
-	role="region"
-	aria-roledescription={'galerypanel'}
+	role={labelledby ? 'region' : ''}
+	aria-roledescription={labelledby ? 'galerypanel' : ''}
+	aria-labelledby={labelledby}
 	id={`${id}-content`}
 	tabindex="0"
 	bind:this={content}
