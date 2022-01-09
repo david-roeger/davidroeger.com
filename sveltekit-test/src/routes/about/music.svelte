@@ -4,7 +4,7 @@
 		SpotifyLastTrackResponse,
 		SpotifyTopArtistsResponse,
 		SpotifyTopTracksResponse
-	} from './types';
+	} from '$components/Music/types';
 
 	// see https://kit.svelte.dev/docs#loading
 	export const load: Load = async ({ fetch }) => {

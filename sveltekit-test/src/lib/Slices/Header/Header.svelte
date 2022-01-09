@@ -9,7 +9,7 @@
 	import { TransparentSection } from '$lib/Components/TransparentSection';
 </script>
 
-<TransparentSection class={`w-full fixed top-0 ${c}`}>
+<TransparentSection class={`w-full ${c}`}>
 	<nav class="xl:container">
 		<h3><VisuallyHidden.Root>Main Menu</VisuallyHidden.Root></h3>
 		<ul class="flex justify-between">
@@ -23,8 +23,8 @@
 				</NavLink>
 			</li>
 			<li>
-				<ul role="menubar" class="flex flex-wrap justify-end m-2 space-x-2">
-					<li role="none" class="list-none">
+				<ul role="menubar" class="flex flex-wrap justify-end m-1">
+					<li role="none" class="m-1 list-none">
 						<NavLink
 							role="menuitem"
 							href="/projects"
@@ -34,7 +34,7 @@
 							activeClass="!bg-green-5">Projects</NavLink
 						>
 					</li>
-					<li role="none" class="list-none">
+					<li role="none" class="m-1 list-none">
 						<NavLink
 							role="menuitem"
 							href="/about/music"
@@ -44,7 +44,7 @@
 							activeClass="!bg-purple-5">About</NavLink
 						>
 					</li>
-					<li role="none" class="list-none">
+					<li role="none" class="m-1 list-none">
 						<NavLink
 							role="menuitem"
 							href="/contact"

@@ -1,5 +1,6 @@
 <script lang="ts">
 	export let value: string;
+	export let disabled = false;
 
 	let c = '';
 	export { c as class };
@@ -26,6 +27,8 @@
 	aria-controls={`${id}-list`}
 	data-state={$dataState}
 	class={`${c}`}
+	{disabled}
+	aria-disabled={disabled}
 >
 	<slot />
 </button>
