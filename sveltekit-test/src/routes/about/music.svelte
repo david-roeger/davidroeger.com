@@ -57,10 +57,6 @@
 	const selected = writable(defaultSelected);
 </script>
 
-<svelte:head>
-	<title>DR | About | Music</title>
-</svelte:head>
-
 <Headline class="flex items-end py-8 md:py-16">Favorite Music</Headline>
 
 <Headline unstyled id="current_track" type="secondary" class="p-2 bg-white border-b border-mauve-6"

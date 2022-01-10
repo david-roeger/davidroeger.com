@@ -25,10 +25,6 @@
 	let acc = d;
 </script>
 
-<svelte:head>
-	<title>David Roeger Web</title>
-</svelte:head>
-
 <section>
 	Learn more about me -> or look at some stuff I´ve built downArow
 	<Dialog.Root defaultOpen={false} on:openChange={(e) => console.log(e.detail.open)}>
