@@ -4,3 +4,5 @@ dist
 dist-ssr
 *.local
 tsconfig.tsbuildinfo
+blurhash.map.json
+metadata.map.json
