@@ -3,10 +3,9 @@
 
 	let c = '';
 	export { c as class };
-	export let disabledClass = '';
 
 	import { getContext } from 'svelte';
-	import { derived, writable } from 'svelte/store';
+	import { derived } from 'svelte/store';
 	import type { RootContext } from './types';
 
 	const { setGallery, computedStep, end, id }: RootContext = getContext('root');
