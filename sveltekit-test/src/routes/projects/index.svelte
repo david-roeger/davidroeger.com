@@ -34,6 +34,7 @@
 	import AccessibleIcon from '$lib/Components/AccessibleIcon';
 
 	import TagIcon from '$assets/Icons/24/tag.svg';
+	import BlurhashCanvas from '$lib/Components/Blurhash/BlurhashCanvas.svelte';
 
 	export let projects: ProjectMetaData[] = [];
 	export let filteredProjects: ProjectMetaData[] = [];
@@ -158,12 +159,19 @@
 						class="flex border-b border-t border-mauve-6 border-r-0 h-96 md:h-[32rem] focus:outline-none ring-mauve-6 focus:ring-1 no-scrollbar"
 					>
 						{#if project.thumbnail}
-							<img
-								loading="lazy"
-								alt="img"
-								class="block h-full border-r max-w-none last:border-r-0 border-mauve-6"
-								src={`./assets/projects/${project.thumbnail}`}
-							/>
+							<div class="relative border-r last:border-r-0 border-mauve-6">
+								<BlurhashCanvas
+									targetHeight={510}
+									class="absolute top-0 bottom-0 left-0 right-0 w-full h-full pointer-events-none -z-10"
+									src={`./assets/projects/${project.thumbnail}`}
+								/>
+								<img
+									loading="lazy"
+									alt="img"
+									class="block h-full max-w-none"
+									src={`./assets/projects/${project.thumbnail}`}
+								/>
+							</div>
 						{/if}
 						<div
 							class="flex flex-col justify-between flex-shrink-0 w-4/6 border-r last:border-r-0 border-mauve-6 md:w-1/2 lg:w-1/3"
@@ -199,12 +207,19 @@
 										src={`./assets/projects/${media}`}
 									/>
 								{:else}
-									<img
-										loading="lazy"
-										alt="img"
-										class="block h-full border-r last:border-r-0 border-mauve-6 max-w-none"
-										src={`./assets/projects/${media}`}
-									/>
+									<div class="relative border-r last:border-r-0 border-mauve-6">
+										<BlurhashCanvas
+											targetHeight={510}
+											class="absolute top-0 bottom-0 left-0 right-0 w-full h-full pointer-events-none -z-10"
+											src={`./assets/projects/${media}`}
+										/>
+										<img
+											loading="lazy"
+											alt="img"
+											class="block h-full max-w-none"
+											src={`./assets/projects/${media}`}
+										/>
+									</div>
 								{/if}
 							{/if}
 						{/each}
