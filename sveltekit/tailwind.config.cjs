@@ -137,10 +137,6 @@ module.exports = {
 			dropShadow: {
 				mauve: '0 10px 8px rgba(hsl(272 99.2% 11.3% / 0.946), 0.1))'
 			},
-			fontFamily: {
-				'neue-haas': ['neue-haas-grotesk-display', 'ui-sans-serif', 'system-ui', 'sans-serif'],
-				cstmx: ['CSTMX', 'ui-sans-serif', 'system-ui', 'sans-serif']
-			},
 			fontSize: {
 				'10xl': '10rem',
 				'12xl': '12rem'

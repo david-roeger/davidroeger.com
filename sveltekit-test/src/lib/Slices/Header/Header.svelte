@@ -7,6 +7,8 @@
 	import { NavLink } from '$lib/Components/NavLink';
 	import * as VisuallyHidden from '$primitives/VisuallyHidden';
 	import { TransparentSection } from '$lib/Components/TransparentSection';
+
+	import { page } from '$app/stores';
 </script>
 
 <TransparentSection class={`w-full ${c}`}>
@@ -14,10 +16,14 @@
 		<h3><VisuallyHidden.Root>Main Menu</VisuallyHidden.Root></h3>
 		<ul class="flex justify-between">
 			<li class="w-auto m-2 list-none">
-				<NavLink href="/" type="icon" role="link">
+				<NavLink class="block" href="/" type="icon" role="link">
 					<slot name="logo">
 						<AccessibleIcon label="David Roeger Logo - Go to Main Page"
-							><Logo animated={true} class="w-auto h-full" /></AccessibleIcon
+							><Logo
+								animated={true}
+								sad={$page.error ? true : false}
+								class="w-auto h-full"
+							/></AccessibleIcon
 						>
 					</slot>
 				</NavLink>
@@ -30,7 +36,7 @@
 							href="/projects"
 							activePath="/projects"
 							activeRegEx={/^\/projects\/[^\/]+$/}
-							class="bg-white hover:bg-green-5"
+							class="block bg-white hover:bg-green-5"
 							activeClass="!bg-green-5">Projects</NavLink
 						>
 					</li>
@@ -40,7 +46,7 @@
 							href="/about/music"
 							activePath="/about"
 							activeRegEx={/^\/about\/[^\/]+$/}
-							class="bg-white hover:bg-purple-5"
+							class="block bg-white hover:bg-purple-5"
 							activeClass="!bg-purple-5">About</NavLink
 						>
 					</li>
@@ -50,7 +56,7 @@
 							href="/contact"
 							type="button"
 							activePath="/contact"
-							class="bg-white hover:bg-purple-5"
+							class="block bg-white hover:bg-purple-5"
 							activeClass="!bg-purple-5">Say hi!</NavLink
 						>
 					</li>

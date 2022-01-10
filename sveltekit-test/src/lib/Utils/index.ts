@@ -34,6 +34,16 @@ export const mapToRange = (value: number, x1: number, y1: number, x2: number, y2
 	((value - x1) * (y2 - x2)) / (y1 - x1) + x2;
 
 /**
+ * Map Value between to range
+ * @param value current Value
+ * @param min min Value
+ * @param max max Value
+ * @returns number
+ */
+export const limit = (value: number, min: number, max: number): number =>
+	Math.min(Math.max(min, value), max);
+
+/**
  * Adjust Value to Sin Curve so that results are more densed
  * @param value current Value
  * @param min current Min Value
