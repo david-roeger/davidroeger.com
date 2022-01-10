@@ -2,7 +2,7 @@
 	import { Background } from '$components/Background';
 </script>
 
-<Background center="hsla(273, 61%, 82%, 0.4)" outside="hsla(273, 61%, 82%, 0)" />
+<Background center="hsla(208, 78%, 77%, 0.4)" outside="hsla(208, 78%, 77%, 0)" />
 
 <div class="relative">
 	<slot />

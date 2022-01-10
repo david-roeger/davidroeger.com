@@ -1,5 +1,9 @@
-<div
-	class="fixed top-0 bottom-0 w-full h-full xl:container -z-10"
-	style="background: radial-gradient(50% 50% at 50% 50%, rgba(146, 206, 172, 0.4), rgba(146, 206, 172, 0) 100%);"
-/>
-<slot />
+<script lang="ts">
+	import { Background } from '$components/Background';
+</script>
+
+<Background center="hsla(146, 38%, 69%, 0.4)" outside="hsla(146, 38%, 69%, 0)" />
+
+<div class="relative">
+	<slot />
+</div>
