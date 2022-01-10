@@ -38,7 +38,7 @@
 </h2>
 
 <p class="p-2 bg-white border-t border-b border-mauve-6">
-	I don't know what brought you here - but you probably wanna do one of the following:
+	I don't know how you ended up here but you probably wanted do one of the following:
 </p>
 <div class="p-1 border-b border-mauve-6">
 	<ol class="flex flex-col">
@@ -73,7 +73,7 @@
 				class="pl-2 bg-white hover:bg-purple-5 flex items-center justify-between gap-2  transition-[gap,padding] hover:gap-4 hover:pr-2 focus:gap-4 focus:pr-2"
 				activeClass="!bg-purple-5"
 			>
-				<span><span class="p-1 m-1 bg-white rounded-full">👋</span>Come say hi</span>
+				<span><span class="p-1 m-1 bg-white rounded-full">👋</span>Just say hi</span>
 				<East />
 			</NavLink>
 		</li>
