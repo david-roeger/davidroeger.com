@@ -125,7 +125,7 @@
 	</Tags.List>
 	<Headline class="py-8 md:py-16">My Projects</Headline>
 
-	<div class="pb-8 md:pb-16">
+	<div class="pb-16">
 		{#each filteredProjects as project (project.title)}
 			<!-- divider -->
 			<!--div class="border-b border-mauve-6">
