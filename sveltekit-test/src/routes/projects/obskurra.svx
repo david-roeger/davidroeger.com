@@ -1,13 +1,13 @@
 ---
-title: 'Obskurra Typeface'
 order: 4
-description: 'Creating a variable typeface from scratch and exploring web interactions and animations. reating a variable typeface from scratch and exploring web interactions and animations. reating a variable typeface from scratch and exploring web interactions and animations'
+title: 'Obskurra Typeface'
 tags: ['Typography', 'Web', 'Interactive']
 thumbnail: 'obskurra/boys.png'
+description: 'Creating a variable typeface from scratch and exploring web interactions and animations. reating a variable typeface from scratch and exploring web interactions and animations. reating a variable typeface from scratch and exploring web interactions and animations'
 media: ['obskurra/void.mp4', 'obskurra/typeset.png', 'obskurra/lady.png']
+github: ''
+project: 'https://david-roeger.github.io/obskkura/index.html'
 published: true
 ---
 
-# This is a title
-
-this is a description
+this is a {description}
