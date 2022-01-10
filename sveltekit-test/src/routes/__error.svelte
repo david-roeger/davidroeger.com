@@ -13,7 +13,7 @@
 <script lang="ts">
 	import Headline from '$lib/Components/Headline/Headline.svelte';
 	import NavLink from '$lib/Components/NavLink/NavLink.svelte';
-	import East16 from '$assets/icons/16/east.svg';
+	import East from '$assets/icons/24/east.svg';
 
 	export let error: any;
 	export let status: any;
@@ -52,7 +52,7 @@
 				<span
 					><span class="p-1 m-1 bg-white rounded-full">👁</span>Look at some stuff I worked on
 				</span>
-				<East16 />
+				<East />
 			</NavLink>
 		</li>
 		<li class="flex-grow m-1 list-none">
@@ -63,7 +63,7 @@
 				activeClass="!bg-purple-5"
 			>
 				<span><span class="p-1 m-1 bg-white rounded-full">📚</span>Learn something about me</span>
-				<East16 />
+				<East />
 			</NavLink>
 		</li>
 		<li class="flex-grow m-1 list-none">
@@ -74,7 +74,7 @@
 				activeClass="!bg-purple-5"
 			>
 				<span><span class="p-1 m-1 bg-white rounded-full">👋</span>Come say hi</span>
-				<East16 />
+				<East />
 			</NavLink>
 		</li>
 	</ol>
