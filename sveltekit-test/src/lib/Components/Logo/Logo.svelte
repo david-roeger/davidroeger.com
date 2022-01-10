@@ -3,6 +3,7 @@
 	export let height = 40;
 
 	export let animated = false;
+	export let container = false;
 	export let smile = true;
 
 	let c = '';
@@ -18,26 +19,30 @@
 
 	const handleClick = ({ clientX }: MouseEvent) => {
 		if (animated) {
-			const limited = limit(clientX, 0, window.innerWidth);
-			const computed = mapToRange(limited, 0, window.innerWidth, 45, -45);
-			$angle = computed;
+			computeAngle(clientX);
 		}
 	};
 
 	const handleMouse = ({ clientX }: MouseEvent) => {
 		if (animated) {
-			const limited = limit(clientX, 0, window.innerWidth);
-			const computed = mapToRange(limited, 0, window.innerWidth, 45, -45);
-			$angle = computed;
+			computeAngle(clientX);
 		}
 	};
 
 	const handleTouch = ({ touches }: TouchEvent) => {
 		if (animated && touches[0]) {
-			const limited = limit(touches[0].pageX, 0, window.innerWidth);
-			const computed = mapToRange(limited, 0, window.innerWidth, 45, -45);
-			$angle = computed;
+			computeAngle(touches[0].clientX);
 		}
+	};
+
+	const computeAngle = (value: number) => {
+		const limited = limit(
+			value,
+			0,
+			container ? Math.min(1280, window.innerWidth) : window.innerWidth
+		);
+		const computed = mapToRange(limited, 0, window.innerWidth, 45, -45);
+		$angle = computed;
 	};
 </script>
 
@@ -49,8 +54,8 @@
 	version="1.1"
 	x="0px"
 	y="0px"
-	width={`${width}px`}
-	height={`${height}px`}
+	width="{width}px"
+	height="{height}px"
 	viewBox="0 0 40 40"
 	xml:space="preserve"
 	style="transform: rotate({$angle}deg)"

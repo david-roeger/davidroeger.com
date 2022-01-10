@@ -11,8 +11,8 @@
 	import { page } from '$app/stores';
 </script>
 
-<TransparentSection class={`w-full ${c}`}>
-	<nav class="xl:container">
+<TransparentSection class="w-full {c}">
+	<nav class="xl:max-w-7xl">
 		<h3><VisuallyHidden.Root>Main Menu</VisuallyHidden.Root></h3>
 		<ul class="flex justify-between">
 			<li class="w-auto m-2 list-none">
@@ -20,6 +20,7 @@
 					<slot name="logo">
 						<AccessibleIcon label="David Roeger Logo - Go to Main Page"
 							><Logo
+								container={true}
 								animated={true}
 								smile={$page.error ? false : true}
 								class="w-auto h-full"
@@ -57,7 +58,7 @@
 							type="button"
 							activePath="/contact"
 							class="block bg-white hover:bg-blue-5"
-							activeClass="!bg-purple-5">Say hi!</NavLink
+							activeClass="!bg-blue-5">Say hi!</NavLink
 						>
 					</li>
 				</ul>
