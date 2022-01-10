@@ -115,9 +115,11 @@
 		{#each [...availableTags] as tag (tag)}
 			<Tags.Tag
 				value={tag}
-				class={`m-1 touch-manipulation px-4 py-1 border border-mauve-12 text-xs rounded-full focus:outline-none ring-mauve-12 focus:ring-1 ${
-					$tags.has(tag) ? 'bg-green-5' : 'bg-white'
-				}`}>{tag}</Tags.Tag
+				class="m-1 touch-manipulation px-4 py-1 border border-mauve-12 text-xs rounded-full focus:outline-none ring-mauve-12 focus:ring-1 {$tags.has(
+					tag
+				)
+					? 'bg-green-5'
+					: 'bg-white'}">{tag}</Tags.Tag
 			>
 		{/each}
 	</Tags.List>
@@ -134,17 +136,17 @@
 				<Headline
 					type="secondary"
 					class="bg-white border-b-0"
-					id={`gallery-headline-${encodeURIComponent(project.title)}`}
+					id="gallery-headline-{encodeURIComponent(project.title)}"
 					><a
 						sveltekit:prefetch
 						class="focus:outline-none growing-underline"
-						href={`projects/${project.slug}`}>{project.title}</a
+						href="projects/{project.slug}">{project.title}</a
 					></Headline
 				>
 				<Gallery.Root
 					class="relative bg-white/[.85]"
 					step={0.6}
-					labelledby={`gallery-headline-${encodeURIComponent(project.title)}`}
+					labelledby="gallery-headline-{encodeURIComponent(project.title)}"
 				>
 					<Gallery.Previous
 						class="cursor-w-resize bg-white absolute top-0 lg:top-1/2 right-0 lg:left-2 lg:right-auto z-10 transform -translate-y-1/2 -translate-x-[calc(100%+16px)] lg:translate-x-0 block p-1 text-xs  border rounded-full md:p-2 touch-manipulation focus:outline-none ring-mauve-12 focus:ring-1"
@@ -162,7 +164,7 @@
 								loading="lazy"
 								alt="img"
 								class="relative block h-full border-r max-w-none last:border-r-0 border-mauve-6"
-								src={`./assets/projects/${project.thumbnail}`}
+								src="./assets/projects/{project.thumbnail}"
 							/>
 						{/if}
 						<div
@@ -173,7 +175,7 @@
 							>
 								<AccessibleIcon label="Tags"><TagIcon /></AccessibleIcon>
 								{#each project.tags as tag (tag)}
-									<span class={`${$tags.has(tag) ? 'underline decoration-from-font' : ''} p-1`}
+									<span class="{$tags.has(tag) ? 'underline decoration-from-font' : ''} p-1"
 										>{tag}
 									</span>
 								{/each}
@@ -196,14 +198,14 @@
 										controls={false}
 										alt="video"
 										class="block h-full border-r border-mauve-6 max-w-none"
-										src={`./assets/projects/${media}`}
+										src="./assets/projects/{media}"
 									/>
 								{:else}
 									<img
 										loading="lazy"
 										alt="img"
 										class="block h-full border-r last:border-r-0 border-mauve-6 max-w-none"
-										src={`./assets/projects/${media}`}
+										src="./assets/projects/{media}"
 									/>
 								{/if}
 							{/if}
@@ -213,9 +215,9 @@
 				<div class="bg-white md:flex md:flex-wrap md:justify-between">
 					<a
 						sveltekit:prefetch
-						class="inline-flex items-center gap-2 px-4 p-1 m-2 text-xs transition-[gap,padding] border border-mauve-12 md:justify-between hover:gap-4 hover:pr-2 focus:gap-4 focus:pr-2 focus:outline-none ring-mauve-12 focus:ring-1"
-						href={`projects/${project.slug}`}
-						title={`Read more about the project ${project.slug}`}
+						class="inline-flex items-center gap-2 px-4 p-1 m-2 text-xs transition-[gap,padding] border border-mauve-12 bg-white md:justify-between hover:gap-4 hover:pr-2 focus:gap-4 focus:pr-2 focus:outline-none ring-mauve-12 focus:ring-1"
+						href="projects/{project.slug}"
+						title="Read more about the project {project.slug}"
 					>
 						Read More <East16 />
 					</a>
