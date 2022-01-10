@@ -162,7 +162,7 @@
 							<div class="relative border-r last:border-r-0 border-mauve-6">
 								<BlurhashCanvas
 									targetHeight={510}
-									class="absolute top-0 bottom-0 left-0 right-0 w-full h-full pointer-events-none -z-10"
+									class="absolute top-0 bottom-0 left-0 right-0 w-full h-full pointer-events-none"
 									src={`./assets/projects/${project.thumbnail}`}
 								/>
 								<img
@@ -210,7 +210,7 @@
 									<div class="relative border-r last:border-r-0 border-mauve-6">
 										<BlurhashCanvas
 											targetHeight={510}
-											class="absolute top-0 bottom-0 left-0 right-0 w-full h-full pointer-events-none -z-10"
+											class="absolute top-0 bottom-0 left-0 right-0 w-full h-full pointer-events-none"
 											src={`./assets/projects/${media}`}
 										/>
 										<img

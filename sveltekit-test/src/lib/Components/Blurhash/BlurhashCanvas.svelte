@@ -1,3 +1,8 @@
+<script context="module">
+	import hashes from '$assets/blurhash.map.json';
+	import metadatas from '$assets/metadata.map.json';
+</script>
+
 <script lang="ts">
 	import { decode, isBlurhashValid } from 'blurhash';
 	import { onMount } from 'svelte';
@@ -17,7 +22,6 @@
 		}, '');
 	};
 
-	import hashes from '$assets/blurhash.map.json';
 	const getBlurhashFromMap = (src: string) => {
 		const name = getCamelCaseName(src);
 		if (hashes[name]) {
@@ -26,7 +30,6 @@
 		return '';
 	};
 
-	import metadatas from '$assets/metadata.map.json';
 	const getMetadataFromMap = (src: string) => {
 		const name = getCamelCaseName(src);
 		if (metadatas[name]) {
