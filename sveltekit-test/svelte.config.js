@@ -4,9 +4,6 @@ import adapter from '@sveltejs/adapter-auto';
 import preprocess from 'svelte-preprocess';
 
 import path from 'path';
-
-import Metadata from 'vite-plugin-metadata';
-import Blurhash from 'vite-plugin-blurhash';
 import svg from '@poppanator/sveltekit-svg';
 
 /** @type {import('@sveltejs/kit').Config} */
@@ -36,19 +33,7 @@ const config = {
 				}
 			},
 
-			plugins: [
-				svg(),
-				Metadata.default({
-					define: false,
-					imageDir: '/static',
-					mapPath: '/src/lib/Assets/metadata.map.json'
-				}),
-				Blurhash.default({
-					define: false,
-					imageDir: '/static',
-					mapPath: '/src/lib/Assets/blurhash.map.json'
-				})
-			]
+			plugins: [svg()]
 		}
 	}
 };

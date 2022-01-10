@@ -31,9 +31,7 @@
 		"svelte-preprocess": "^4.9.4",
 		"tailwindcss": "^3.0.12",
 		"tslib": "^2.3.1",
-		"typescript": "^4.4.3",
-		"vite-plugin-blurhash": "^0.1.5",
-		"vite-plugin-metadata": "git://github.com/david-roeger/vite-plugin-metadata.git"
+		"typescript": "^4.4.3"
 	},
 	"type": "module",
 	"dependencies": {
