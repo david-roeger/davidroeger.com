@@ -21,7 +21,7 @@
 						<AccessibleIcon label="David Roeger Logo - Go to Main Page"
 							><Logo
 								animated={true}
-								sad={$page.error ? true : false}
+								smile={$page.error ? false : true}
 								class="w-auto h-full"
 							/></AccessibleIcon
 						>
