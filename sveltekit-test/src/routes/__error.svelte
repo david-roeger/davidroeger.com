@@ -58,7 +58,7 @@
 		<li class="flex-grow m-1 list-none">
 			<NavLink
 				role="menuitem"
-				href="/about/music"
+				href="/about"
 				class="pl-2 bg-white hover:bg-purple-5 flex items-center justify-between gap-2  transition-[gap,padding] hover:gap-4 hover:pr-2 focus:gap-4 focus:pr-2"
 				activeClass="!bg-purple-5"
 			>
@@ -70,7 +70,7 @@
 			<NavLink
 				role="menuitem"
 				href="/contact"
-				class="pl-2 bg-white hover:bg-purple-5 flex items-center justify-between gap-2  transition-[gap,padding] hover:gap-4 hover:pr-2 focus:gap-4 focus:pr-2"
+				class="pl-2 bg-white hover:bg-blue-5 flex items-center justify-between gap-2  transition-[gap,padding] hover:gap-4 hover:pr-2 focus:gap-4 focus:pr-2"
 				activeClass="!bg-purple-5"
 			>
 				<span><span class="p-1 m-1 bg-white rounded-full">👋</span>Just say hi</span>

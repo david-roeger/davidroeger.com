@@ -43,7 +43,7 @@
 					<li role="none" class="m-1 list-none">
 						<NavLink
 							role="menuitem"
-							href="/about/music"
+							href="/about"
 							activePath="/about"
 							activeRegEx={/^\/about\/[^\/]+$/}
 							class="block bg-white hover:bg-purple-5"
@@ -56,7 +56,7 @@
 							href="/contact"
 							type="button"
 							activePath="/contact"
-							class="block bg-white hover:bg-purple-5"
+							class="block bg-white hover:bg-blue-5"
 							activeClass="!bg-purple-5">Say hi!</NavLink
 						>
 					</li>
