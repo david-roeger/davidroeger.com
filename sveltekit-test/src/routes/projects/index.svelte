@@ -168,7 +168,7 @@
 								<img
 									loading="lazy"
 									alt="img"
-									class="block h-full max-w-none"
+									class="relative block h-full opacity-100 max-w-none"
 									src={`./assets/projects/${project.thumbnail}`}
 								/>
 							</div>
@@ -216,7 +216,7 @@
 										<img
 											loading="lazy"
 											alt="img"
-											class="block h-full max-w-none"
+											class="relative block h-full max-w-none"
 											src={`./assets/projects/${media}`}
 										/>
 									</div>
