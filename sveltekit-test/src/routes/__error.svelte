@@ -13,7 +13,7 @@
 <script lang="ts">
 	import Headline from '$lib/Components/Headline/Headline.svelte';
 	import NavLink from '$lib/Components/NavLink/NavLink.svelte';
-	import East from '$assets/icons/24/east.svg';
+	import East from '$assets/Icons/24/east.svg';
 
 	export let error: any;
 	export let status: any;

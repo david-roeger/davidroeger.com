@@ -26,14 +26,14 @@
 	import type { ProjectMetaData } from '$lib/types';
 	import Headline from '$lib/Components/Headline/Headline.svelte';
 
-	import East from '$assets/icons/24/east.svg';
-	import West from '$assets/icons/24/west.svg';
-	import East16 from '$assets/icons/16/east.svg';
-	import Close16 from '$assets/icons/16/close.svg';
+	import East from '$assets/Icons/24/east.svg';
+	import West from '$assets/Icons/24/west.svg';
+	import East16 from '$assets/Icons/16/east.svg';
+	import Close16 from '$assets/Icons/16/close.svg';
 
 	import AccessibleIcon from '$lib/Components/AccessibleIcon';
 
-	import TagIcon from '$assets/icons/24/tag.svg';
+	import TagIcon from '$assets/Icons/24/tag.svg';
 
 	export let projects: ProjectMetaData[] = [];
 	export let filteredProjects: ProjectMetaData[] = [];

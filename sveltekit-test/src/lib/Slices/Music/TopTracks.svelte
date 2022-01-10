@@ -2,8 +2,8 @@
 	import * as Music from '$components/Music';
 	import { Link } from '$components/Link';
 	import AccessibleIcon from '$lib/Components/AccessibleIcon';
-	import Album from '$assets/icons/24/album.svg';
-	import Artist from '$assets/icons/24/artist.svg';
+	import Album from '$assets/Icons/24/album.svg';
+	import Artist from '$assets/Icons/24/artist.svg';
 	import type { SpotifyTopTracksResponse, Image } from '$components/Music/types';
 
 	export let topTracksResponse: SpotifyTopTracksResponse;

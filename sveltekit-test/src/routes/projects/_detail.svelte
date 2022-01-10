@@ -4,7 +4,7 @@
 	export let title;
 
 	import AccessibleIcon from '$components/AccessibleIcon/AccessibleIcon.svelte';
-	import TagIcon from '$assets/icons/24/tag.svg';
+	import TagIcon from '$assets/Icons/24/tag.svg';
 	import Headline from '$components/Headline/Headline.svelte';
 </script>
 
