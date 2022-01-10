@@ -8,14 +8,12 @@ import type {
 
 // GET /about/music.json
 export const get: RequestHandler = async () => {
-	// request.locals.userid comes from src/hooks.js
+	// request access token
 	const response = await getAccessToken();
+
+	// if access token is
 	if (response.ok) {
-		// user hasn't created a todo list.
-		// start with an empty array
-		/*
-		fetch for all items
-		*/
+		// fetch all items
 		const lastTrack = getLastTrack();
 		const topTracksShort = getTopTracks('short_term');
 		const topTracksMedium = getTopTracks('medium_term');
