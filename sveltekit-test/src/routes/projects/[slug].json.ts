@@ -5,24 +5,19 @@
  */
 export async function get({ params }) {
 	const modules = import.meta.glob(`./*.{md,svx,svelte.md}`);
-	let match;
+	const { slug } = params;
 	for (const [path, resolver] of Object.entries(modules)) {
-		if (path === params.slug) {
-			match = [path, resolver];
-			break;
+		if (path === slug) {
+			const project = await resolver();
+			return {
+				status: 200,
+				body: project.metadata
+			};
 		}
 	}
 
-	if (!match) {
-		return {
-			status: 404
-		};
-	}
-
-	const project = await match[1]();
-
+	console.log('Not Found');
 	return {
-		status: 200,
-		body: project.metadata
+		status: 404
 	};
 }
