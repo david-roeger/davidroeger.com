@@ -24,10 +24,10 @@
 	type="button"
 	role="tab"
 	aria-selected={$active}
-	aria-controls={`${id}-content-${value}`}
-	id={`${id}-trigger-${value}`}
+	aria-controls="{id}-content-{value}"
+	id="{id}-trigger-{value}"
 	data-state={$dataState}
-	class={`${c}`}
+	class={c}
 	aria-expanded={$active}
 	tabindex={$active ? 0 : -1}
 	{disabled}

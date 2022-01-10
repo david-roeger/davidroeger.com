@@ -43,11 +43,6 @@
 	});
 </script>
 
-<div
-	aria-multiselectable="true"
-	data-orientation={direction}
-	id={`${computedId}-list`}
-	class={`${c}`}
->
+<div aria-multiselectable="true" data-orientation={direction} id="{computedId}-list" class={c}>
 	<slot />
 </div>

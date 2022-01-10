@@ -47,10 +47,10 @@
 	role={labelledby ? 'region' : ''}
 	aria-roledescription={labelledby ? 'galerypanel' : ''}
 	aria-labelledby={labelledby}
-	id={`${id}-content`}
+	id="{id}-content"
 	tabindex="0"
 	bind:this={content}
-	class={`${c}`}
+	class={c}
 	style="overflow-y: auto;"
 >
 	<slot />

@@ -43,7 +43,7 @@
 					{#if artist.images.length}
 						<Music.Atom>
 							<Link href={artist.external_urls.spotify} type="ghost">
-								<Music.Image url={getImageUrl(artist.images)} alt={`${artist.name}`} /></Link
+								<Music.Image url={getImageUrl(artist.images)} alt={artist.name} /></Link
 							>
 						</Music.Atom>
 					{/if}

@@ -97,17 +97,19 @@
 	>
 		<Tabs.Trigger
 			value="tracks"
-			class={`flex-grow border border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 px-4 py-2 rounded-l-full  ${
-				$selected === 'tracks' ? 'bg-purple-5' : 'bg-white'
-			}`}
+			class="flex-grow border border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 px-4 py-2 rounded-l-full {$selected ===
+			'tracks'
+				? 'bg-purple-5'
+				: 'bg-white'}"
 		>
 			<Headline unstyled id="top_tracks" type="secondary">Tracks</Headline>
 		</Tabs.Trigger>
 		<Tabs.Trigger
 			value="artists"
-			class={`flex-grow border border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 px-4 py-2 rounded-r-full  ${
-				$selected === 'artists' ? 'bg-purple-5' : 'bg-white'
-			}`}
+			class="flex-grow border border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 px-4 py-2 rounded-r-full {$selected ===
+			'artists'
+				? 'bg-purple-5'
+				: 'bg-white'}"
 		>
 			<Headline unstyled id="top_artists" type="secondary">Artists</Headline>
 		</Tabs.Trigger>

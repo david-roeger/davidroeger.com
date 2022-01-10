@@ -27,7 +27,7 @@
 	target="_blank"
 	rel="noopener nofollow"
 	tabIndex={type === 'ghost' ? -1 : 0}
-	class={`focus:outline-none ${variantClass} ${c}`}
+	class="focus:outline-none {variantClass} {c}"
 >
 	<slot />
 </a>

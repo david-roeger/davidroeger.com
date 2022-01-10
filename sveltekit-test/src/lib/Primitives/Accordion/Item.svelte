@@ -34,6 +34,6 @@ value*
 	setContext('item', itemContext);
 </script>
 
-<div data-state={$dataState} class={`${c}`}>
+<div data-state={$dataState} class={c}>
 	<slot />
 </div>

@@ -59,9 +59,9 @@
 			{#each content as { value, disabled }}
 				<Tabs.Trigger
 					disabled={disabled ? true : false}
-					class={`${
-						acc === value ? 'bg-purple-5' : 'bg-white'
-					} p-2 border border-mauve-6 focus:outline-none ring-mauve-12 focus:ring-1 disabled:text-mauve-7 disabled:border-mauve-6`}
+					class="{acc === value
+						? 'bg-purple-5'
+						: 'bg-white'} p-2 border border-mauve-6 focus:outline-none ring-mauve-12 focus:ring-1 disabled:text-mauve-7 disabled:border-mauve-6"
 					{value}>Trigger {value}</Tabs.Trigger
 				>
 			{/each}

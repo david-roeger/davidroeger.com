@@ -7,6 +7,6 @@
 	const { id }: RootContext = getContext('root');
 </script>
 
-<div id={`${id}-description`} class={`${c}`}>
+<div id="{id}-description" class={c}>
 	<slot />
 </div>

@@ -20,8 +20,8 @@
 	aria-haspopup="dialog"
 	data-state={$dataState}
 	aria-expanded={$open}
-	aria-controls={`${id}-content`}
-	class={`${c}`}
+	aria-controls="{id}-content"
+	class={c}
 >
 	<slot />
 </button>

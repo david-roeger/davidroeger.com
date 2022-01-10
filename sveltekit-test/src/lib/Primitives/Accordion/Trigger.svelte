@@ -16,9 +16,9 @@
 <button
 	on:click={handleClick}
 	on:click
-	class={`${c}`}
-	id={`${item.id}-trigger`}
-	aria-controls={`${item.id}-content`}
+	class={c}
+	id="{item.id}-trigger"
+	aria-controls="{item.id}-content"
 	aria-expanded={$active}
 	data-state={$dataState}
 	disabled={item.disabled}

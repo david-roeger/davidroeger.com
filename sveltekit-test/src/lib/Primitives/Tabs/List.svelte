@@ -75,7 +75,7 @@
 	aria-label={ariaLabel}
 	aria-orientation={direction}
 	data-orientation={direction}
-	class={`${c}`}
+	class={c}
 	bind:this={root}
 	on:keydown={handleKeyDown}
 >

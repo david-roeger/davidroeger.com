@@ -14,8 +14,8 @@
 
 <div
 	class={c}
-	id={`${id}-content-${value}`}
-	aria-labelledby={`${id}-trigger-${value}`}
+	id="{id}-content-{value}"
+	aria-labelledby="{id}-trigger-{value}"
 	role="tabpanel"
 	data-state={$dataState}
 	tabindex="0"

@@ -3,7 +3,7 @@
 	export { c as class };
 	let t = '';
 	export { t as type };
-	import { getContext, onMount } from 'svelte';
+	import { getContext } from 'svelte';
 	import type { RootContext } from './types';
 	import { buttonType } from '$actions';
 
@@ -15,7 +15,7 @@
 	on:click={() => {
 		if ($setClose) $setClose();
 	}}
-	class={`${c}`}
+	class={c}
 	use:buttonType={t}
 >
 	<slot />

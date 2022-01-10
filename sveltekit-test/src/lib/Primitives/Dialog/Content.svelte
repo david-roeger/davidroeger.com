@@ -1,26 +1,10 @@
-<!--
-    Prop
-Type
-Default
-asChild	boolean	false
-disabled	boolean	false
-value*
--->
 <script lang="ts">
 	let c = '';
 	export { c as class };
 
-	/*
-onOpenAutoFocus	function	No default value
-onCloseAutoFocus	function	No default value
-onEscapeKeyDown	function	No default value
-onPointerDownOutside	function	No default value
-onInteractOutside
-    */
 	import { getContext, tick } from 'svelte';
 	import { derived } from 'svelte/store';
 
-	import { tabbable } from 'tabbable';
 	import { createFocusTrap } from 'focus-trap';
 
 	import type { RootContext } from './types';
@@ -60,10 +44,10 @@ onInteractOutside
 		aria-modal="true"
 		tabindex="-1"
 		style="pointer-events: auto;"
-		id={`${id}-content`}
-		aria-labelledby={`${id}-title`}
-		aria-describedby={`${id}-description`}
-		class={`${c}`}
+		id="{id}-content"
+		aria-labelledby="{id}-title"
+		aria-describedby="{id}-description"
+		class={c}
 		bind:this={content}
 		on:keydown={handleKeyDown}
 	>

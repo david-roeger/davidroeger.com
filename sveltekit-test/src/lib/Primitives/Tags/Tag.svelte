@@ -24,9 +24,9 @@
 	type="button"
 	role="switch"
 	aria-checked={$active}
-	aria-controls={`${id}-list`}
+	aria-controls="{id}-list"
 	data-state={$dataState}
-	class={`${c}`}
+	class={c}
 	{disabled}
 	aria-disabled={disabled}
 >

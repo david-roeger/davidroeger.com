@@ -20,9 +20,9 @@
 	on:click={handleClick}
 	on:click
 	type="button"
-	aria-controls={`${id}-list`}
+	aria-controls="{id}-list"
 	data-state={$dataState}
-	class={`${c}`}
+	class={c}
 >
 	<slot />
 </button>

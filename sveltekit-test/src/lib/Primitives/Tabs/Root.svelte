@@ -38,6 +38,6 @@
 	});
 </script>
 
-<div data-orientation={direction} class={`${c}`}>
+<div data-orientation={direction} class={c}>
 	<slot />
 </div>

@@ -24,7 +24,7 @@
 				loading="lazy"
 				alt="img"
 				class="block border-r h-44 border-mauve-6"
-				src={`../assets/projects/${thumbnail}`}
+				src="../assets/projects/{thumbnail}"
 			/>
 		{/if}
 		{#if title}

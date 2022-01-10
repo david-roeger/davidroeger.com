@@ -13,7 +13,7 @@
 </script>
 
 {#if $open}
-	<div class={`${c}`} style="pointer-events: auto;" on:click|self on:click|self={handleClick}>
+	<div class={c} style="pointer-events: auto;" on:click|self on:click|self={handleClick}>
 		<slot />
 	</div>
 {/if}

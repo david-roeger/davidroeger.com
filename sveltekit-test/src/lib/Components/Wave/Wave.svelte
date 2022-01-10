@@ -4,7 +4,7 @@
 	export { c as class };
 </script>
 
-<div class={`grid w-6 h-6 grid-cols-1 grid-rows-1 ${c}`}>
+<div class="grid w-6 h-6 grid-cols-1 grid-rows-1 {c}">
 	<svg
 		fill="none"
 		xmlns="http://www.w3.org/2000/svg"

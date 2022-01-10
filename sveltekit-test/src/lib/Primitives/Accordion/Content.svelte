@@ -10,8 +10,8 @@
 
 <div
 	class={c}
-	id={`${item.id}-content`}
-	aria-labelledby={`${item.id}-trigger`}
+	id="{item.id}-content"
+	aria-labelledby="{item.id}-trigger"
 	data-state={$dataState}
 	role="region"
 	hidden={!$active}
