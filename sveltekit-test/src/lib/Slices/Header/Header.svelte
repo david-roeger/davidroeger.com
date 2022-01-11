@@ -16,7 +16,7 @@
 		<h3><VisuallyHidden.Root>Main Menu</VisuallyHidden.Root></h3>
 		<ul class="flex justify-between">
 			<li class="w-auto m-2 list-none">
-				<NavLink class="block" href="/" type="icon" role="link">
+				<NavLink class="block" href="/" type="icon">
 					<slot name="logo">
 						<AccessibleIcon label="David Roeger Logo - Go to Main Page"
 							><Logo

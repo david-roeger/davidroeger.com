@@ -4,7 +4,7 @@
 	export let activePath: string = undefined;
 	export let activeRegEx: RegExp = undefined;
 	export let activeClass = '';
-	export let role = 'none';
+	export let role: string = undefined;
 
 	let customClass = '';
 	export { customClass as class };
