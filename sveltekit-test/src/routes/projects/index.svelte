@@ -125,7 +125,7 @@
 	</Tags.List>
 	<Headline class="py-8 md:py-16">My Projects</Headline>
 
-	<div class="pb-16">
+	<div class="pb-32">
 		{#each filteredProjects as project (project.title)}
 			<!-- divider -->
 			<!--div class="border-b border-mauve-6">
@@ -162,7 +162,7 @@
 						{#if project.thumbnail}
 							<img
 								loading="lazy"
-								alt="img"
+								alt=""
 								class="relative block h-full border-r max-w-none last:border-r-0 border-mauve-6"
 								src="./assets/projects/{project.thumbnail}"
 							/>
@@ -196,14 +196,14 @@
 										loop
 										playsInline
 										controls={false}
-										alt="video"
+										alt=""
 										class="block h-full border-r border-mauve-6 max-w-none"
 										src="./assets/projects/{media}"
 									/>
 								{:else}
 									<img
 										loading="lazy"
-										alt="img"
+										alt=""
 										class="block h-full border-r last:border-r-0 border-mauve-6 max-w-none"
 										src="./assets/projects/{media}"
 									/>

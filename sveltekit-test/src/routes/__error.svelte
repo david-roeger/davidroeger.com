@@ -39,7 +39,7 @@
 	<p class="p-2 bg-white border-b border-mauve-6">
 		I don't know how you ended up here but you probably wanted do one of the following:
 	</p>
-	<div class="p-1 mb-16 border-b border-mauve-6 bg-white/[0.85]">
+	<div class="p-1 mb-32 border-b border-mauve-6 bg-white/[0.85]">
 		<ol class="flex flex-col">
 			<li class="flex-grow m-1 list-none">
 				<NavLink

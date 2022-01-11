@@ -22,7 +22,7 @@
 			<img
 				height="120"
 				loading="lazy"
-				alt="img"
+				alt=""
 				class="block border-r h-44 border-mauve-6"
 				src="../assets/projects/{thumbnail}"
 			/>

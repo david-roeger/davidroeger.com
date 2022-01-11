@@ -128,7 +128,7 @@
 	</Tabs.Content>
 </Tabs.Root>
 
-<div class="pt-8 pb-16 text-center md:pt-16">
+<div class="pt-8 pb-32 text-center md:pt-16">
 	<p>Made with:</p>
 	<p>
 		<Link type="secondary" href="https://spotify.com">Spotify</Link>
