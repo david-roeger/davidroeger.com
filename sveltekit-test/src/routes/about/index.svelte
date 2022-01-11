@@ -12,7 +12,34 @@
 	// since there's no dynamic data here, we can prerender
 	// it so that it gets served as a static asset in prod
 	export const prerender = true;
+
+	import me from '$assets/me/serious.png?width=400;200format=webp;png&meta';
+	import smile from '$assets/me/smile.png?width=400;200format=webp;png&meta';
+
+	console.log(me);
+	const sizes = '(min-width: 768px) 400px, 200px';
+
+	import { Image } from '$components/Image';
 </script>
+
+<div class="grid">
+	<Image
+		meta={me}
+		{sizes}
+		alt="me"
+		loading="lazy"
+		imgClass="inline"
+		class="col-start-1 row-start-1 peer"
+	/>
+	<Image
+		meta={smile}
+		{sizes}
+		alt="happy me"
+		loading="lazy"
+		imgClass="inline"
+		class="col-start-1 row-start-1 transition-opacity opacity-0 pointer-events-none peer-hover:opacity-100"
+	/>
+</div>
 
 <h1>About this app</h1>
 
