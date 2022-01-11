@@ -45,7 +45,7 @@
 
 <div
 	role={labelledby ? 'region' : ''}
-	aria-roledescription={labelledby ? 'galerypanel' : ''}
+	aria-roledescription={labelledby ? 'galerypanel' : undefined}
 	aria-labelledby={labelledby}
 	id="{id}-content"
 	tabindex="0"

@@ -9,7 +9,7 @@
 	export let topTracksResponse: SpotifyTopTracksResponse;
 	let c = '';
 	export { c as class };
-	export let labelledby = '';
+	export let labelledby: string = undefined;
 
 	const valid = (() => {
 		if (topTracksResponse.ok) return true;
@@ -43,10 +43,7 @@
 					{#if track.album.images.length}
 						<Music.Atom>
 							<Link href={track.external_urls.spotify} type="ghost">
-								<Music.Image
-									url={getImageUrl(track.album.images)}
-									alt="{track.album.name} Album Cover"
-								/></Link
+								<Music.Image url={getImageUrl(track.album.images)} alt=" " /></Link
 							>
 						</Music.Atom>
 					{/if}

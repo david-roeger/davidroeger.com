@@ -1,6 +1,6 @@
 <script lang="ts">
 	export let type: 'primary' | 'secondary' | 'tertiary' = 'primary';
-	export let id: string = '';
+	export let id: string = undefined;
 	export let unstyled = false;
 	let c = '';
 	export { c as class };

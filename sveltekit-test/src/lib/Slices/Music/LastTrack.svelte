@@ -10,7 +10,7 @@
 	export let lastTrackResponse: SpotifyLastTrackResponse;
 	let c = '';
 	export { c as class };
-	export let labelledby = '';
+	export let labelledby: string = undefined;
 
 	const track = 'item' in lastTrackResponse.body ? lastTrackResponse.body.item : undefined;
 
@@ -45,10 +45,7 @@
 				{#if track.album.images.length}
 					<Music.Atom>
 						<Link href={track.external_urls.spotify} type="ghost">
-							<Music.Image
-								url={getImageUrl(track.album.images)}
-								alt="{track.album.name} Album Cover"
-							/></Link
+							<Music.Image url={getImageUrl(track.album.images)} alt=" " /></Link
 						>
 					</Music.Atom>
 				{/if}

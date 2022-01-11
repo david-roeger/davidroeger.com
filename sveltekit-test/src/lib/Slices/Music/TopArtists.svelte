@@ -9,7 +9,7 @@
 	export let topArtistsResponse: SpotifyTopArtistsResponse;
 	let c = '';
 	export { c as class };
-	export let labelledby = '';
+	export let labelledby: string = undefined;
 
 	const valid = (() => {
 		if (topArtistsResponse.ok) return true;

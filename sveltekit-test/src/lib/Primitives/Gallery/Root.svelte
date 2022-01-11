@@ -8,7 +8,7 @@
 	export let direction: 'horizontal' | 'vertical' = 'horizontal';
 	export let defaultStart = true;
 	export let defaultEnd = true;
-	export let labelledby = '';
+	export let labelledby: string = undefined;
 
 	let c = '';
 	export { c as class };
