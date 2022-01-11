@@ -43,7 +43,10 @@
 					{#if track.album.images.length}
 						<Music.Atom>
 							<Link href={track.external_urls.spotify} type="ghost">
-								<Music.Image url={getImageUrl(track.album.images)} alt=" " /></Link
+								<Music.Image
+									url={getImageUrl(track.album.images)}
+									alt="{track.album.name} Album Cover"
+								/></Link
 							>
 						</Music.Atom>
 					{/if}
