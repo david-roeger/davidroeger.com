@@ -12,10 +12,9 @@
 	meta.map((m) => sources.set(m.format, []));
 	meta.map((m) => sources.get(m.format).push(m));
 
-	console.log(sources);
 	// fallback image: first resolution of last format
 	let image = sources.get([...sources.keys()].slice(-1)[0])[0];
-	console.log(image);
+
 	export let sizes = `${image.width}px`;
 	export let alt: string;
 	export let loading: string = undefined;
@@ -26,8 +25,6 @@
 	let c = '';
 	export { c as class };
 	export let imgClass = '';
-
-	console.log(sources.entries());
 </script>
 
 <picture class={c}>
