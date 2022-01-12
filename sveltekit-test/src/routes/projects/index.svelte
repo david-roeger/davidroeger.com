@@ -141,8 +141,8 @@
 						sveltekit:prefetch
 						class="focus:outline-none growing-underline"
 						href="projects/{project.slug}">{project.title}</a
-					></Headline
-				>
+					>
+				</Headline>
 				<Gallery.Root
 					class="relative bg-white/[.85]"
 					step={0.6}

@@ -15,14 +15,19 @@
 	console.log(sources);
 	// fallback image: first resolution of last format
 	let image = sources.get([...sources.keys()].slice(-1)[0])[0];
-
+	console.log(image);
 	export let sizes = `${image.width}px`;
 	export let alt: string;
 	export let loading: string = undefined;
 
+	export let width: number = undefined;
+	export let height: number = undefined;
+
 	let c = '';
 	export { c as class };
 	export let imgClass = '';
+
+	console.log(sources.entries());
 </script>
 
 <picture class={c}>
@@ -33,5 +38,5 @@
 			srcset={meta.map((m) => `${m.src} ${m.width}w`).join(', ')}
 		/>
 	{/each}
-	<img src={image.src} {alt} {loading} class={imgClass} />
+	<img {width} {height} src={image.src} {alt} {loading} class={imgClass} />
 </picture>

@@ -13,51 +13,52 @@
 	// it so that it gets served as a static asset in prod
 	export const prerender = true;
 
-	import me from '$assets/me/serious.png?width=400;200format=webp;png&meta';
-	import smile from '$assets/me/smile.png?width=400;200format=webp;png&meta';
+	import { Headline } from '$components/Headline';
 
-	console.log(me);
-	const sizes = '(min-width: 768px) 400px, 200px';
+	import me from '$assets/me/serious.png?w=752;496&format=webp;png&meta';
+	import smile from '$assets/me/smile.png?w=752;496;&format=webp;png&meta';
+
+	const sizes = '(min-width: 768px) 752px, 496px';
 
 	import { Image } from '$components/Image';
 </script>
 
-<div class="grid">
-	<Image
-		meta={me}
-		{sizes}
-		alt="me"
-		loading="lazy"
-		imgClass="inline"
-		class="col-start-1 row-start-1 peer"
-	/>
-	<Image
-		meta={smile}
-		{sizes}
-		alt="happy me"
-		loading="lazy"
-		imgClass="inline"
-		class="col-start-1 row-start-1 transition-opacity opacity-0 pointer-events-none peer-hover:opacity-100"
-	/>
+<div class="flex flex-col-reverse border-b sm:flex-row sm:justify-between border-mauve-6">
+	<Headline class="py-8 border-b-0 md:py-16">This is me</Headline>
+	<div class="flex overflow-hidden max-w-[249px] sm:max-w-[250px] md:max-w-[378px]">
+		<Image
+			width={248}
+			height={248}
+			meta={me}
+			{sizes}
+			alt="me"
+			imgClass=""
+			class="border-r sm:border-l border-mauve-6"
+		/>
+		<Image width={248} height={248} meta={smile} {sizes} alt="happy me" imgClass="" class="" />
+	</div>
 </div>
+<Headline type="secondary" class="bg-white/[0.85]">Frontend Developer, UI/UX Designer</Headline>
 
-<h1>About this app</h1>
+<section class="mb-8 border-b first:border-t-0 border-mauve-6 md:mb-16 last:mb-0">
+	<h1>About this app</h1>
 
-<p>
-	This is a <a href="https://kit.svelte.dev">SvelteKit</a> app. You can make your own by typing the following
-	into your command line and following the prompts:
-</p>
+	<p>
+		This is a <a href="https://kit.svelte.dev">SvelteKit</a> app. You can make your own by typing the
+		following into your command line and following the prompts:
+	</p>
 
-<!-- TODO lose the @next! -->
-<pre>npm init svelte@next</pre>
+	<!-- TODO lose the @next! -->
+	<pre>npm init svelte@next</pre>
 
-<p>
-	The page you're looking at is purely static HTML, with no client-side interactivity needed.
-	Because of that, we don't need to load any JavaScript. Try viewing the page's source, or opening
-	the devtools network panel and reloading.
-</p>
+	<p>
+		The page you're looking at is purely static HTML, with no client-side interactivity needed.
+		Because of that, we don't need to load any JavaScript. Try viewing the page's source, or opening
+		the devtools network panel and reloading.
+	</p>
 
-<p>
-	The <a href="/about/music">Music</a> page illustrates SvelteKit's data loading and form handling. Try
-	using it with JavaScript disabled!
-</p>
+	<p>
+		The <a href="/about/music">Music</a> page illustrates SvelteKit's data loading and form handling.
+		Try using it with JavaScript disabled!
+	</p>
+</section>
