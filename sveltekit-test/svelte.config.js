@@ -35,7 +35,7 @@ const config = {
 				}
 			},
 
-			plugins: [svg(), imagetools()]
+			plugins: [svg(), imagetools({ force: true })]
 		}
 	}
 };
