@@ -36,12 +36,8 @@
 	};
 
 	const computeAngle = (value: number) => {
-		const limited = limit(
-			value,
-			0,
-			container ? Math.min(1280, window.innerWidth) : window.innerWidth
-		);
-		const computed = mapToRange(limited, 0, window.innerWidth, 45, -45);
+		const limited = limit(window.innerWidth, 0, container ? 1280 : window.innerWidth);
+		const computed = mapToRange(value, 0, limited, 45, -45);
 		$angle = computed;
 	};
 </script>
