@@ -143,13 +143,13 @@
 				placement="bottom-end"
 				offset={[0, 8]}
 			>
-				<Headline id="timeLabel" type="tertiary" class="border-b-0">Time Range</Headline>
+				<Headline id="timeHeadline" type="tertiary" class="border-b-0">Time Range</Headline>
 
 				<RadioGroup.Root
 					defaultValue={timeRanges[timeRange].value}
 					required
 					name="time"
-					labelledby="timeLabel"
+					labelledby="timeHeadline"
 					orientation="vertical"
 					class="p-2"
 					on:valueChange={(e) =>
