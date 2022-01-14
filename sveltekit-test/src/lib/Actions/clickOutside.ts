@@ -12,7 +12,7 @@ export function clickOutside(
 	callback?: (event: MouseEvent) => void
 ): ActionReturnType {
 	const handleClick = (event) => {
-		if (node && !node.contains(event.target) && !event.defaultPrevented) {
+		if (node && node !== event.target && !node.contains(event.target) && !event.defaultPrevented) {
 			if (callback) {
 				callback(event);
 			}

@@ -9,6 +9,7 @@ export interface RootContext {
 	setClose: Writable<() => void | undefined>;
 	triggerElement: Writable<HTMLElement | undefined>;
 	contentElement: Writable<HTMLElement | undefined>;
+	popperOptions: Writable<Options | undefined>;
 }
 
 export type Placement =
@@ -33,4 +34,12 @@ export type Strategy = 'absolute' | 'fixed';
 export type Options = {
 	placement?: Placement;
 	strategy?: Strategy;
+	modifiers?: [
+		{
+			name: 'offset';
+			options: {
+				offset: [number, number];
+			};
+		}
+	];
 };

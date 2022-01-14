@@ -6,17 +6,31 @@
 	import { derived } from 'svelte/store';
 
 	import { createFocusTrap } from 'focus-trap';
-	import { clickOutside } from '$lib/Actions';
 
 	import type { RootContext, Options } from './types';
+	import { auto } from '@popperjs/core';
 
-	export let options: Options = {
-		placement: 'auto',
-		strategy: 'absolute'
+	export let placement: Options['placement'] = 'auto';
+	export let strategy: Options['strategy'] = 'absolute';
+	export let offset: [number, number] = [0, 0];
+
+	let options: Options = {
+		placement: placement,
+		strategy: strategy,
+		modifiers: [
+			{
+				name: 'offset',
+				options: {
+					offset: offset
+				}
+			}
+		]
 	};
 
-	const { open, id, trap, setClose, contentElement }: RootContext = getContext('root');
+	const { open, id, trap, setClose, contentElement, popperOptions }: RootContext =
+		getContext('root');
 
+	$popperOptions = options;
 	const dataState = derived(open, ($open) => ($open ? 'open' : 'closed'));
 
 	let content: HTMLElement;
@@ -48,9 +62,6 @@
 </script>
 
 <div
-	use:clickOutside={() => {
-		if ($setClose) $setClose();
-	}}
 	data-state={$dataState}
 	role="dialog"
 	aria-modal="true"
@@ -59,10 +70,9 @@
 	id="{id}-content"
 	aria-labelledby="{id}-title"
 	aria-describedby="{id}-description"
-	class={c}
+	class={`${c} ${$open ? 'visible opacity-100' : 'invisible opacity-0'}`}
 	bind:this={content}
 	on:keydown={handleKeyDown}
-	hidden={!$open}
 	aria-hidden={!$open}
 >
 	<slot />

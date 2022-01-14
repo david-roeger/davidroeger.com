@@ -11,6 +11,7 @@
 	import { setContext, createEventDispatcher } from 'svelte';
 	import { writable } from 'svelte/store';
 	import type { RootContext } from './types';
+	import { clickOutside } from '$lib/Actions';
 
 	import { createPopper } from '@popperjs/core';
 
@@ -21,12 +22,14 @@
 		open: writable(defaultOpen),
 		setOpen: writable(undefined),
 		setClose: writable(undefined),
+		popperOptions: writable(undefined),
 		triggerElement: writable(undefined),
 		contentElement: writable(undefined)
 	};
 
 	setContext('root', rootContext);
-	const { open, trap, setOpen, setClose, triggerElement, contentElement } = rootContext;
+	const { open, trap, setOpen, setClose, popperOptions, triggerElement, contentElement } =
+		rootContext;
 
 	$setOpen = () => {
 		$open = true;
@@ -36,10 +39,11 @@
 	$: {
 		if (!popper) {
 			if ($triggerElement && $contentElement) {
-				console.log($triggerElement);
-				console.log($contentElement);
-				popper = createPopper($triggerElement, $contentElement);
+				popper = createPopper($triggerElement, $contentElement, $popperOptions ?? {});
 			}
+		} else if ($triggerElement && $contentElement) {
+			popper.destroy();
+			popper = createPopper($triggerElement, $contentElement, $popperOptions ?? {});
 		}
 	}
 
@@ -53,6 +57,7 @@
 		popper.destroy();
 		popper = undefined;
 		$open = false;
+		console.log();
 	};
 
 	const dispatch = createEventDispatcher<{ openChange: { open: boolean } }>();
@@ -61,6 +66,11 @@
 	});
 </script>
 
-<div class={c}>
+<div
+	class={c}
+	use:clickOutside={() => {
+		if ($setClose) $setClose();
+	}}
+>
 	<slot />
 </div>

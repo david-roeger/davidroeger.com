@@ -51,10 +51,15 @@
 	import * as Tabs from '$primitives/Tabs';
 	import { writable } from 'svelte/store';
 	import Link from '$lib/Components/Link/Link.svelte';
-	import * as Dialog from '$lib/Primitives/Dialog';
+	import * as Popper from '$lib/Primitives/Popper';
+	import AccessibleIcon from '$lib/Components/AccessibleIcon';
+	import Filter from '$assets/icons/24/filter.svg';
+	import Close from '$assets/icons/24/close.svg';
 
 	const defaultSelected = 'tracks';
 	const selected = writable(defaultSelected);
+
+	const timeRange = 2;
 </script>
 
 <Headline class="flex items-end py-8 md:py-16">Favorite Music</Headline>
@@ -113,18 +118,41 @@
 		>
 			<Headline unstyled id="top_artists" type="secondary">Artists</Headline>
 		</Tabs.Trigger>
+		<Popper.Root defaultOpen={false}>
+			<Popper.Trigger
+				class="p-2 border border-b border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1"
+				><AccessibleIcon label="Filter Favorites"><Filter /></AccessibleIcon></Popper.Trigger
+			>
+			<Popper.Content
+				class="border bg-mauve-6 bg-white/[0.85] relative"
+				placement="bottom-end"
+				offset={[0, 8]}
+			>
+				<Headline type="tertiary" class="border-b-0">Time Range</Headline>
+				<Popper.Close
+					class="bg-white absolute top-0 right-0 p-2 -translate-y-[51px] translate-x-[1px] border border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1"
+					><AccessibleIcon label="Close Popover"><Close /></AccessibleIcon>
+				</Popper.Close>
+			</Popper.Content>
+		</Popper.Root>
 	</Tabs.List>
 	<Tabs.Content
 		value="tracks"
 		class="border-t border-b bg-white/[.85] border-mauve-6 focus:outline-none ring-mauve-6 focus:ring-1"
 	>
-		<TopTracks labelledby="top_tracks" topTracksResponse={topTracksResponses[0]} />
+		<TopTracks
+			labelledby="top_tracks"
+			topTracksResponse={topTracksResponses[timeRange] ?? topTracksResponses[0]}
+		/>
 	</Tabs.Content>
 	<Tabs.Content
 		value="artists"
 		class="border-t border-b bg-white/[.85] border-mauve-6 focus:outline-none ring-mauve-6 focus:ring-1"
 	>
-		<TopArtists labelledby="top_artists" topArtistsResponse={topArtistsResponses[0]} />
+		<TopArtists
+			labelledby="top_artists"
+			topArtistsResponse={topArtistsResponses[timeRange] ?? topArtistsResponses[0]}
+		/>
 	</Tabs.Content>
 </Tabs.Root>
 

@@ -6,11 +6,15 @@
 	import { derived } from 'svelte/store';
 	import type { RootContext } from './types';
 
-	const { open, setOpen, id, triggerElement }: RootContext = getContext('root');
+	const { open, setOpen, setClose, id, triggerElement }: RootContext = getContext('root');
 	const dataState = derived(open, ($open) => ($open ? 'open' : 'closed'));
 
 	const handleClick = () => {
-		if ($setOpen) $setOpen();
+		if (!$open && $setOpen) {
+			$setOpen();
+			return;
+		}
+		if ($setClose) $setClose();
 	};
 
 	let trigger: HTMLButtonElement;

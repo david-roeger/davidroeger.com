@@ -20,6 +20,7 @@
 	data-state={$dataState}
 	tabindex="0"
 	hidden={!$active}
+	aria-hidden={!$active}
 >
 	<slot />
 </div>
