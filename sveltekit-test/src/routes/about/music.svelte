@@ -54,8 +54,8 @@
 	import * as Popper from '$lib/Primitives/Popper';
 	import AccessibleIcon from '$lib/Components/AccessibleIcon';
 	import * as RadioGroup from '$lib/Primitives/RadioGroup';
-	import Filter from '$assets/icons/24/filter.svg';
-	import Close from '$assets/icons/24/close.svg';
+	import Filter from '$assets/Icons/24/filter.svg';
+	import Close from '$assets/Icons/24/close.svg';
 
 	const defaultSelected = 'tracks';
 	const selected = writable(defaultSelected);
