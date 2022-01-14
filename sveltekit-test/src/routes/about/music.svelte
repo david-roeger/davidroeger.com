@@ -53,13 +53,28 @@
 	import Link from '$lib/Components/Link/Link.svelte';
 	import * as Popper from '$lib/Primitives/Popper';
 	import AccessibleIcon from '$lib/Components/AccessibleIcon';
+	import * as RadioGroup from '$lib/Primitives/RadioGroup';
 	import Filter from '$assets/icons/24/filter.svg';
 	import Close from '$assets/icons/24/close.svg';
 
 	const defaultSelected = 'tracks';
 	const selected = writable(defaultSelected);
 
-	const timeRange = 2;
+	let timeRange = 1;
+	const timeRanges = [
+		{
+			label: 'last 4 Weeks',
+			value: 'short'
+		},
+		{
+			label: 'last 6 Months',
+			value: 'medium'
+		},
+		{
+			label: 'probably forever',
+			value: 'long'
+		}
+	];
 </script>
 
 <Headline class="flex items-end py-8 md:py-16">Favorite Music</Headline>
@@ -93,7 +108,7 @@
 </Dialog.Root-->
 <Tabs.Root defaultValue={defaultSelected} on:valueChange={(e) => ($selected = e.detail.value)}>
 	<p class="p-2 bg-white border-t border-mauve-6">
-		Favorite on Spotify <span class="text-mauve-11">(last 4 Weeks)</span>
+		Favorite on Spotify <span class="text-mauve-11">({timeRanges[timeRange].label})</span>
 	</p>
 
 	<Tabs.List
@@ -120,15 +135,42 @@
 		</Tabs.Trigger>
 		<Popper.Root defaultOpen={false}>
 			<Popper.Trigger
-				class="p-2 border border-b border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1"
+				class="p-2 border border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1"
 				><AccessibleIcon label="Filter Favorites"><Filter /></AccessibleIcon></Popper.Trigger
 			>
 			<Popper.Content
-				class="border bg-mauve-6 bg-white/[0.85] relative"
+				class="border border-mauve-12 bg-white/[0.85] relative"
 				placement="bottom-end"
 				offset={[0, 8]}
 			>
-				<Headline type="tertiary" class="border-b-0">Time Range</Headline>
+				<Headline id="timeLabel" type="tertiary" class="border-b-0">Time Range</Headline>
+
+				<RadioGroup.Root
+					defaultValue={timeRanges[timeRange].value}
+					required
+					name="time"
+					labelledby="timeLabel"
+					orientation="vertical"
+					class="p-2"
+					on:valueChange={(e) =>
+						(timeRange = timeRanges.findIndex((range) => range.value === e.detail.value))}
+				>
+					{#each timeRanges as range}
+						<!-- content here -->
+						<div class="flex mb-2 space-x-2 last:mb-0">
+							<RadioGroup.Item
+								value={range.value}
+								id={range.value}
+								class="w-6 h-6 p-1 bg-white border rounded-full b border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1"
+								><RadioGroup.Indicator
+									class="block w-full h-full p-1 rounded-full bg-plum-5"
+								/></RadioGroup.Item
+							>
+							<label for={range.value}>{range.label}</label>
+						</div>
+					{/each}
+				</RadioGroup.Root>
+
 				<Popper.Close
 					class="bg-white absolute top-0 right-0 p-2 -translate-y-[51px] translate-x-[1px] border border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1"
 					><AccessibleIcon label="Close Popover"><Close /></AccessibleIcon>
