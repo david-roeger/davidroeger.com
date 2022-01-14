@@ -7,6 +7,7 @@
 	import * as Dialog from '$primitives/Dialog';
 	import * as Accordion from '$primitives/Accordion';
 
+	import * as Popper from '$lib/Primitives/Popper';
 	import Logo from '$components/Logo/Logo.svelte';
 	import AccessibleIcon from '$components/AccessibleIcon/AccessibleIcon.svelte';
 
@@ -26,6 +27,12 @@
 </script>
 
 <section>
+	<Popper.Root defaultOpen={false}>
+		<Popper.Trigger>Trigger</Popper.Trigger>
+		<Popper.Content options={{ placement: 'bottom-end' }}
+			><Popper.Close>Close</Popper.Close> This is the content</Popper.Content
+		>
+	</Popper.Root>
 	Learn more about me -> or look at some stuff I´ve built downArow
 	<Dialog.Root defaultOpen={false} on:openChange={(e) => console.log(e.detail.open)}>
 		<Dialog.Trigger>Hallo</Dialog.Trigger>
@@ -93,4 +100,6 @@
 
 	<AccessibleIcon label="this is a hidden label"><Logo /></AccessibleIcon>
 	<div class="bg-blue-5 h-[500px]" />
+
+	<div />
 </section>

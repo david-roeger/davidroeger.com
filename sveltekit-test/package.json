@@ -36,6 +36,7 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@popperjs/core": "^2.11.2",
 		"blurhash": "^1.1.4",
 		"focus-trap": "^6.7.1"
 	}
