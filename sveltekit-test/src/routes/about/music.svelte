@@ -139,7 +139,7 @@
 				><AccessibleIcon label="Filter Favorites"><Filter /></AccessibleIcon></Popper.Trigger
 			>
 			<Popper.Content
-				class="border border-mauve-12 bg-white/[0.85]"
+				class="bg-white border border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1"
 				placement="bottom-end"
 				offset={[0, 8]}
 			>
