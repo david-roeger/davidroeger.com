@@ -6,9 +6,10 @@
 	import * as Tabs from '$primitives/Tabs';
 	import * as Dialog from '$primitives/Dialog';
 	import * as Accordion from '$primitives/Accordion';
-
+	import * as Popper from '$primitives/Popper2';
 	import Logo from '$components/Logo/Logo.svelte';
 	import AccessibleIcon from '$components/AccessibleIcon/AccessibleIcon.svelte';
+	import Popper from '$lib/Primitives/Popper2/Popper.svelte';
 
 	let content = [
 		{ value: '1' },
@@ -26,6 +27,7 @@
 </script>
 
 <section>
+	<Popper.Popper />
 	Learn more about me -> or look at some stuff I´ve built downArow
 	<Dialog.Root defaultOpen={false} on:openChange={(e) => console.log(e.detail.open)}>
 		<Dialog.Trigger>Hallo</Dialog.Trigger>
