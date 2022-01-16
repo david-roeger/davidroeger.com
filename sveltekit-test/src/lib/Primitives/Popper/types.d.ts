@@ -34,12 +34,10 @@ export type Strategy = 'absolute' | 'fixed';
 export type Options = {
 	placement?: Placement;
 	strategy?: Strategy;
-	modifiers?: [
-		{
-			name: 'offset';
-			options: {
-				offset: [number, number];
-			};
-		}
-	];
+	modifiers?: {
+		name: string;
+		options: {
+			[key: string]: any;
+		};
+	}[];
 };

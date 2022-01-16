@@ -23,6 +23,12 @@
 				options: {
 					offset: offset
 				}
+			},
+			{
+				name: 'preventOverflow',
+				options: {
+					mainAxis: false // true by default
+				}
 			}
 		]
 	};
