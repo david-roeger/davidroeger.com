@@ -27,7 +27,6 @@
 </script>
 
 <section>
-	<Popper.Popper />
 	Learn more about me -> or look at some stuff I´ve built downArow
 	<Dialog.Root defaultOpen={false} on:openChange={(e) => console.log(e.detail.open)}>
 		<Dialog.Trigger>Hallo</Dialog.Trigger>
