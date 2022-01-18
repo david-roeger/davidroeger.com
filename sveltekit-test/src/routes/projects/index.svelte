@@ -6,9 +6,12 @@
 		// Use a `limit` querystring parameter to fetch a limited number of posts
 		// e.g. fetch('posts.json?limit=5') for 5 most recent posts
 		const projects = await fetch('/projects.json').then((res) => res.json());
+		const fun = await fetch('/fun.json').then((res) => res.json());
+		console.log(fun);
 		return {
 			props: {
-				projects
+				projects,
+				fun
 			}
 		};
 	}
@@ -34,8 +37,11 @@
 	import AccessibleIcon from '$lib/Components/AccessibleIcon';
 
 	import TagIcon from '$assets/Icons/24/tag.svg';
+	import { thumbnail } from '../fun/move-it.svelte';
 
 	export let projects: ProjectMetaData[] = [];
+	export let fun: { slug: string; thumbnail?: string }[] = [];
+
 	export let filteredProjects: ProjectMetaData[] = [];
 
 	let tags = writable<Set<string>>(new Set());
@@ -125,7 +131,7 @@
 	</Tags.List>
 	<Headline class="py-8 md:py-16">My Projects</Headline>
 
-	<div class="pb-32">
+	<div class={$tags.size ? 'pb-32' : ''}>
 		{#each filteredProjects as project (project.title)}
 			<!-- divider -->
 			<!--div class="border-b border-mauve-6">
@@ -226,3 +232,43 @@
 		{/each}
 	</div>
 </Tags.Root>
+
+{#if !$tags.size && fun.length}
+	<Headline class="py-8 md:py-16">Just for fun</Headline>
+
+	<section class="mb-32">
+		{#each fun as funsie}
+			{@const computed = funsie.slug.replace('-', ' ')}
+			<!-- content here -->
+			<Headline type="secondary" class="!p-0 bg-white"
+				><a
+					sveltekit:prefetch
+					class="group flex justify-between items-center pr-4 transition-[padding] bg-white md:justify-between hover:pr-2 focus:pr-2 focus:outline-none"
+					href="fun/{funsie.slug}"
+					title="Read more about the project {funsie.slug}"
+				>
+					<span class="flex">
+						{#if funsie.thumbnail}
+							<img
+								loading="lazy"
+								alt={`Thumbnail for fun Project ${computed}`}
+								width="40"
+								height="40"
+								class="block w-12 h-12 bg-white max-w-none"
+								src={`./assets/fun/${funsie.thumbnail}`}
+							/>
+						{/if}
+						<span
+							class={`block p-2 group-hover:underline group-focus:underline decoration-from-font ${
+								funsie.thumbnail ? 'border-l border-mauve-6' : ''
+							}`}>{computed[0].toUpperCase() + computed.slice(1)}</span
+						>
+					</span>
+					<span class="block">
+						<East />
+					</span>
+				</a>
+			</Headline>
+		{/each}
+	</section>
+{/if}

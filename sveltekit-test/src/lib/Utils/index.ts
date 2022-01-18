@@ -94,7 +94,7 @@ export const replaceStateWithQuery = (values: Record<string, string>): void => {
 };
 
 export const slugFromPath = (path: string): string =>
-	path.match(/([\w-]+)\.(svelte\.md|md|svx)/i)?.[1] ?? null;
+	path.match(/([\w-]+)\.(svelte\.md|md|svx|svelte)/i)?.[1] ?? null;
 
 export const convertStyleString = (property: string): string =>
 	property.replace(/([A-Z])/g, (v) => `-${v}`.toLowerCase());
