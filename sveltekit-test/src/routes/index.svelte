@@ -6,10 +6,8 @@
 	import * as Tabs from '$primitives/Tabs';
 	import * as Dialog from '$primitives/Dialog';
 	import * as Accordion from '$primitives/Accordion';
-	import * as Popper from '$primitives/Popper2';
 	import Logo from '$components/Logo/Logo.svelte';
 	import AccessibleIcon from '$components/AccessibleIcon/AccessibleIcon.svelte';
-	import Popper from '$lib/Primitives/Popper2/Popper.svelte';
 
 	let content = [
 		{ value: '1' },
