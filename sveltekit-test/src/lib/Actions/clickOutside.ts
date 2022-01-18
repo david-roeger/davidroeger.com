@@ -1,7 +1,6 @@
 import type { ActionReturnType } from '$lib/types';
 /**
  * Usage: <div use:clickOutside={(e) => console.log(e)}>
- * Only works with class and children attributes
  *
  * @param { HTMLElement } node Comes from Svelte
  * @param { callback } (event: MouseEvent) => void callback after clickOutside

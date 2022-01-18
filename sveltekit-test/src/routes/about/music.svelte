@@ -51,7 +51,7 @@
 	import * as Tabs from '$primitives/Tabs';
 	import { writable } from 'svelte/store';
 	import Link from '$lib/Components/Link/Link.svelte';
-	import * as Popper from '$lib/Primitives/Popper';
+	import * as Popper from '$lib/Primitives/Popper2';
 	import AccessibleIcon from '$lib/Components/AccessibleIcon';
 	import * as RadioGroup from '$lib/Primitives/RadioGroup';
 	import Filter from '$assets/Icons/24/filter.svg';
@@ -140,8 +140,10 @@
 			>
 			<Popper.Content
 				class="bg-white border border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1"
-				placement="bottom-end"
-				offset={[0, 8]}
+				side="bottom"
+				align="end"
+				sideOffset={8}
+				alignOffset={0}
 			>
 				<Headline id="timeHeadline" type="tertiary" class="border-b-0">Time Range</Headline>
 
@@ -166,7 +168,7 @@
 									class="block w-full h-full p-1 rounded-full bg-plum-5"
 								/></RadioGroup.Item
 							>
-							<label for={range.value}>{range.label}</label>
+							<label for={range.value} class="cursor-pointer ">{range.label}</label>
 						</div>
 					{/each}
 				</RadioGroup.Root>

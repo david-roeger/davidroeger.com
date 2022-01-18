@@ -1,17 +1,10 @@
 import type * as CSS from 'csstype';
 
-const SIDE_OPTIONS = ['top', 'right', 'bottom', 'left'] as const;
-const ALIGN_OPTIONS = ['start', 'center', 'end'] as const;
-
-type Axis = 'x' | 'y';
-type Side = typeof SIDE_OPTIONS[number];
-type Align = typeof ALIGN_OPTIONS[number];
-type Point = { x: number; y: number };
-type Size = { width: number; height: number };
+import type { Axis, Side, Align, Point, Size } from './types';
 
 type GetPlacementDataOptions = {
-	/** The rect of the anchor we are placing around */
-	anchorRect?: DOMRect;
+	/** The rect of the trigger we are placing around */
+	triggerRect?: DOMRect;
 	/** The size of the popper to place */
 	popperSize?: Size;
 	/** An optional arrow size */
@@ -52,7 +45,7 @@ type PlacementData = {
  * - the placed align (because it might have changed because of collisions)
  */
 function getPlacementData({
-	anchorRect,
+	triggerRect,
 	popperSize,
 	side,
 	sideOffset = 0,
@@ -64,14 +57,19 @@ function getPlacementData({
 }: GetPlacementDataOptions): PlacementData {
 	// if we're not ready to do all the measurements yet,
 	// we return some good default styles
-	if (!anchorRect || !popperSize || !collisionBoundariesRect) {
+	if (!triggerRect || !popperSize || !collisionBoundariesRect) {
 		return {
 			popperStyles: UNMEASURED_POPPER_STYLES
 		};
 	}
 
 	// pre-compute points for all potential placements
-	const allPlacementPoints = getAllPlacementPoints(popperSize, anchorRect, sideOffset, alignOffset);
+	const allPlacementPoints = getAllPlacementPoints(
+		popperSize,
+		triggerRect,
+		sideOffset,
+		alignOffset
+	);
 
 	// get point based on side / align
 	const popperPoint = allPlacementPoints[side][align];
@@ -122,7 +120,7 @@ function getPlacementData({
 	// adjust alignnment accounting for collisions
 	const placedAlign = getAlignAccountingForCollisions(
 		popperSize,
-		anchorRect,
+		triggerRect,
 		side,
 		align,
 		popperCollisions
@@ -144,12 +142,12 @@ type AllPlacementPoints = Record<Side, Record<Align, Point>>;
 
 function getAllPlacementPoints(
 	popperSize: Size,
-	anchorRect: DOMRect,
+	triggerRect: DOMRect,
 	sideOffset = 0,
 	alignOffset = 0
 ): AllPlacementPoints {
-	const x = getPopperSlotsForAxis(anchorRect, popperSize, 'x');
-	const y = getPopperSlotsForAxis(anchorRect, popperSize, 'y');
+	const x = getPopperSlotsForAxis(triggerRect, popperSize, 'x');
+	const y = getPopperSlotsForAxis(triggerRect, popperSize, 'y');
 
 	const topY    = y.before - sideOffset; // prettier-ignore
 	const bottomY = y.after  + sideOffset; // prettier-ignore
@@ -183,21 +181,21 @@ function getAllPlacementPoints(
 	return map;
 }
 
-function getPopperSlotsForAxis(anchorRect: DOMRect, popperSize: Size, axis: Axis) {
+function getPopperSlotsForAxis(triggerRect: DOMRect, popperSize: Size, axis: Axis) {
 	const startSide = axis === 'x' ? 'left' : 'top';
-	const anchorStart = anchorRect[startSide];
+	const triggerStart = triggerRect[startSide];
 
 	const dimension = axis === 'x' ? 'width' : 'height';
-	const anchorDimension = anchorRect[dimension];
+	const triggerDimension = triggerRect[dimension];
 	const popperDimension = popperSize[dimension];
 
 	// prettier-ignore
 	return {
-    before: anchorStart - popperDimension,
-    start:  anchorStart,
-    center: anchorStart + (anchorDimension - popperDimension) / 2,
-    end:    anchorStart + anchorDimension - popperDimension,
-    after:  anchorStart + anchorDimension,
+    before: triggerStart - popperDimension,
+    start:  triggerStart,
+    center: triggerStart + (triggerDimension - popperDimension) / 2,
+    end:    triggerStart + triggerDimension - popperDimension,
+    after:  triggerStart + triggerDimension,
   };
 }
 
@@ -224,8 +222,8 @@ function getSideAccountingForCollisions(
 function getAlignAccountingForCollisions(
 	/** The size of the popper to place */
 	popperSize: Size,
-	/** The size of the anchor we are placing around */
-	anchorSize: Size,
+	/** The size of the trigger we are placing around */
+	triggerSize: Size,
 	/** The final side */
 	side: Side,
 	/** The desired align */
@@ -237,16 +235,16 @@ function getAlignAccountingForCollisions(
 	const startBound = isHorizontalSide ? 'left' : 'top';
 	const endBound = isHorizontalSide ? 'right' : 'bottom';
 	const dimension = isHorizontalSide ? 'width' : 'height';
-	const isAnchorBigger = anchorSize[dimension] > popperSize[dimension];
+	const istriggerBigger = triggerSize[dimension] > popperSize[dimension];
 
 	if (align === 'start' || align === 'center') {
-		if ((collisions[startBound] && isAnchorBigger) || (collisions[endBound] && !isAnchorBigger)) {
+		if ((collisions[startBound] && istriggerBigger) || (collisions[endBound] && !istriggerBigger)) {
 			return 'end';
 		}
 	}
 
 	if (align === 'end' || align === 'center') {
-		if ((collisions[endBound] && isAnchorBigger) || (collisions[startBound] && !isAnchorBigger)) {
+		if ((collisions[endBound] && istriggerBigger) || (collisions[startBound] && !istriggerBigger)) {
 			return 'start';
 		}
 	}
@@ -269,7 +267,7 @@ function getPlacementStylesForPoint(point: Point): CSS.Properties {
 
 const UNMEASURED_POPPER_STYLES: CSS.Properties = {
 	// position: 'absolute' here is important because it will take the popper
-	// out of the flow so it does not disturb the position of the anchor
+	// out of the flow so it does not disturb the position of the trigger
 	position: 'absolute',
 	top: 0,
 	left: 0,
@@ -323,5 +321,5 @@ function getCollisions(
 
 type Collisions = ReturnType<typeof getCollisions>;
 
-export { getPlacementData, SIDE_OPTIONS, ALIGN_OPTIONS };
+export { getPlacementData };
 export type { Side, Align };
