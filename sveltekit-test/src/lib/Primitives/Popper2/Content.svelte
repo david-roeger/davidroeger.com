@@ -65,7 +65,6 @@
 
 		$popperOptions = options;
 	});
-	console.log($open);
 </script>
 
 <div
@@ -84,7 +83,6 @@
 	on:keydown={handleKeyDown}
 	aria-hidden={!$open}
 	use:clickOutside={() => {
-		console.log('click outside');
 		if ($setClose && $open) $setClose();
 	}}
 >

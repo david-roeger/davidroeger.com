@@ -37,7 +37,6 @@
 	import AccessibleIcon from '$lib/Components/AccessibleIcon';
 
 	import TagIcon from '$assets/Icons/24/tag.svg';
-	import { thumbnail } from '../fun/move-it.svelte';
 
 	export let projects: ProjectMetaData[] = [];
 	export let fun: { slug: string; thumbnail?: string }[] = [];

@@ -168,7 +168,9 @@
 									class="block w-full h-full p-1 rounded-full bg-plum-5"
 								/></RadioGroup.Item
 							>
-							<label for={range.value} class="cursor-pointer ">{range.label}</label>
+							<label for={range.value} on:click={(e) => e.stopPropagation()} class="cursor-pointer "
+								>{range.label}</label
+							>
 						</div>
 					{/each}
 				</RadioGroup.Root>
