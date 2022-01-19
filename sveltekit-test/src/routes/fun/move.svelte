@@ -3,6 +3,7 @@
 </script>
 
 <script lang="ts">
+	import * as Slider from '$primitives/Slider';
 </script>
 
 <div class="inner-container">
@@ -56,9 +57,24 @@
 </div>
 
 <form>
-	<input type="range" name="hallo[]" />
-	<input type="range" name="hallo[]" />
-	<input type="range" name="hallo[]" />
-	<input type="range" name="hallo[]" />
-	<button>submit</button>
+	<Slider.Root
+		on:valueChange={(e) => {
+			console.log(e.detail.values);
+		}}
+		class="flex items-center py-4 w-96"
+		min={0}
+		max={100}
+		step={1}
+		minStepsBetweenThumbs={20}
+		name="music"
+		label="volume"
+	>
+		<Slider.Track class="h-2 border rounded-full border-mauve-12">
+			<Slider.Range class="h-full rounded-full bg-orange-5" />
+		</Slider.Track>
+		<Slider.Thumb
+			defaultValue={40}
+			class="w-6 h-6 bg-white border rounded-full border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 touch-none"
+		/>
+	</Slider.Root>
 </form>
