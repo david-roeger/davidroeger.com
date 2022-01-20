@@ -21,7 +21,7 @@ export async function get({ url }: { url: URL }): GetReturnType {
 	for (const [path, resolver] of Object.entries(modules)) {
 		console.log(path);
 		const slug = slugFromPath(path);
-		if (slug === 'index') {
+		if (slug === 'index' || slug === 'reset' || slug === '__layout') {
 			continue;
 		}
 		const promise = resolver().then(({ thumbnail }) => {

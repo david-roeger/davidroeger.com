@@ -182,6 +182,7 @@ module.exports = {
 		extend: {}
 	},
 	plugins: [
+		require('@tailwindcss/aspect-ratio'),
 		plugin(function ({ addUtilities, theme }) {
 			const colors = theme('colors', {});
 			const iconColorUtilities = Object.keys(colors).map((key) => {
