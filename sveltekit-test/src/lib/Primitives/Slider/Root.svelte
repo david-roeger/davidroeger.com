@@ -112,7 +112,6 @@
 			const closestIndex = getClosestValueIndex(value);
 			const active = $activeValues[closestIndex];
 			if (active && $setSlider) {
-				console.log(active);
 				active.element.focus();
 				$setSlider({ value: value, id: active.id, element: active.element });
 				e.preventDefault();

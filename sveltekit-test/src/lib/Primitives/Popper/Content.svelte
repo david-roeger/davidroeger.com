@@ -1,42 +1,24 @@
 <script lang="ts">
+	import { getContext, onMount, tick } from 'svelte';
+	import { derived } from 'svelte/store';
+	import { createFocusTrap } from 'focus-trap';
+	import { clickOutside } from '$actions';
+
+	import type { Side, Align, RootContext } from './types';
+
+	export let side: Side;
+	export let align: Align;
+	export let sideOffset = 0;
+	export let alignOffset = 0;
+	export let collisionTolerance = 0;
+	export let avoidCollision = true;
+
 	let c = '';
 	export { c as class };
 
-	import { getContext, onMount, tick } from 'svelte';
-	import { derived } from 'svelte/store';
-
-	import { createFocusTrap } from 'focus-trap';
-
-	import type { RootContext, Options } from './types';
-	import { auto } from '@popperjs/core';
-
-	export let placement: Options['placement'] = 'auto';
-	export let strategy: Options['strategy'] = 'absolute';
-	export let offset: [number, number] = [0, 0];
-
-	let options: Options = {
-		placement: placement,
-		strategy: strategy,
-		modifiers: [
-			{
-				name: 'offset',
-				options: {
-					offset: offset
-				}
-			},
-			{
-				name: 'preventOverflow',
-				options: {
-					mainAxis: false // true by default
-				}
-			}
-		]
-	};
-
-	const { open, id, trap, setClose, contentElement, popperOptions }: RootContext =
+	const { open, id, trap, setClose, contentElement, popperOptions, contentStyles }: RootContext =
 		getContext('root');
 
-	$popperOptions = options;
 	const dataState = derived(open, ($open) => ($open ? 'open' : 'closed'));
 
 	let content: HTMLElement;
@@ -64,22 +46,43 @@
 
 	onMount(() => {
 		$contentElement = content;
+		const options = {
+			side,
+			sideOffset,
+			align,
+			alignOffset,
+			shouldAvoidCollisions: avoidCollision,
+			collisionBoundariesRect: DOMRect.fromRect({
+				width: window.innerWidth,
+				height: window.innerHeight,
+				x: 0,
+				y: 0
+			}),
+			collisionTolerance
+		};
+
+		$popperOptions = options;
 	});
 </script>
 
 <div
+	style={`pointer-events: auto; position: absolute; visibility: ${
+		$open ? 'visible' : 'hidden'
+	}; opacity: ${$open ? 1 : 0}; ${$contentStyles}`}
 	data-state={$dataState}
 	role="dialog"
 	aria-modal="true"
-	tabindex="-1"
-	style="pointer-events: auto; position: absolute"
 	id="{id}-content"
 	aria-labelledby="{id}-title"
 	aria-describedby="{id}-description"
-	class={`${c} ${$open ? 'visible opacity-100' : 'invisible opacity-0'}`}
+	class={`${c}`}
+	tabindex="-1"
 	bind:this={content}
 	on:keydown={handleKeyDown}
 	aria-hidden={!$open}
+	use:clickOutside={() => {
+		if ($setClose && $open) $setClose();
+	}}
 >
 	<slot />
 </div>

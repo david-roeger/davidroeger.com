@@ -77,10 +77,8 @@
 		//reload();
 
 		const resizeObserver = new ResizeObserver(() => {
-			console.log('Size changed');
 			if (canvasContainer) {
 				const { x, y, width, height } = canvasContainer.getBoundingClientRect();
-				console.log(width, height);
 				$dimensions = { x, y, width, height };
 				reload();
 			}
@@ -114,9 +112,7 @@
 
 	const draw = (e: PointerEvent) => {
 		if (images[0]) {
-			console.log('drawing');
 			const img = images[imageIndex];
-			console.log(img);
 			const x = e.clientX - $dimensions.x - img.newWidth / 2;
 			const y = e.clientY - $dimensions.y - img.newHeight / 2;
 			const ctx = canvas.getContext('2d');
@@ -128,7 +124,6 @@
 	};
 
 	const slideStart = (e: PointerEvent) => {
-		console.log('here');
 		const eventTarget = e.target as HTMLElement;
 		eventTarget.setPointerCapture(e.pointerId);
 		draw(e);
@@ -203,7 +198,6 @@
 				break;
 			case bigger:
 				$boundImageScl = $boundImageScl + 1;
-				console.log($boundImageScl);
 				e.preventDefault();
 				e.stopPropagation();
 				break;
@@ -224,7 +218,6 @@
 	};
 
 	let showInfo = false;
-	$: console.log(showInfo);
 </script>
 
 <!--svelte:window on:keydown={handleKeyDown} /-->
@@ -236,7 +229,6 @@
 		collapsible
 		class="relative z-10"
 		on:valueChange={() => {
-			console.log('fallo');
 			showInfo = !showInfo;
 		}}
 	>
@@ -324,6 +316,7 @@
 				on:click={() => {
 					downloadButton.href = canvas.toDataURL('image/png');
 				}}
+				href={'#'}
 				download="mosaik.png"
 				class="p-2 bg-white border border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1"
 			>

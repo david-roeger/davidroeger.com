@@ -7,7 +7,6 @@
 		// e.g. fetch('posts.json?limit=5') for 5 most recent posts
 		const projects = await fetch('/projects.json').then((res) => res.json());
 		const fun = await fetch('/fun.json').then((res) => res.json());
-		console.log(fun);
 		return {
 			props: {
 				projects,

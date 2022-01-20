@@ -51,7 +51,7 @@
 	import * as Tabs from '$primitives/Tabs';
 	import { writable } from 'svelte/store';
 	import Link from '$lib/Components/Link/Link.svelte';
-	import * as Popper from '$lib/Primitives/Popper2';
+	import * as Popper from '$lib/Primitives/Popper';
 	import AccessibleIcon from '$lib/Components/AccessibleIcon';
 	import * as RadioGroup from '$lib/Primitives/RadioGroup';
 	import Filter from '$assets/Icons/24/filter.svg';
