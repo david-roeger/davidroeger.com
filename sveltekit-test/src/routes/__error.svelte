@@ -51,7 +51,9 @@
 					<span
 						><span class="p-1 m-1 bg-white rounded-full">👁</span>Look at some stuff I worked on
 					</span>
-					<East />
+					<span aria-hidden="true">
+						<East />
+					</span>
 				</NavLink>
 			</li>
 			<li class="flex-grow m-1 list-none">
@@ -62,7 +64,9 @@
 					activeClass="!bg-purple-5"
 				>
 					<span><span class="p-1 m-1 bg-white rounded-full">📚</span>Learn something about me</span>
-					<East />
+					<span aria-hidden="true">
+						<East />
+					</span>
 				</NavLink>
 			</li>
 			<li class="flex-grow m-1 list-none">
@@ -73,7 +77,9 @@
 					activeClass="!bg-blue-5"
 				>
 					<span><span class="p-1 m-1 bg-white rounded-full">👋</span>Just say hi</span>
-					<East />
+					<span aria-hidden="true">
+						<East />
+					</span>
 				</NavLink>
 			</li>
 		</ol>

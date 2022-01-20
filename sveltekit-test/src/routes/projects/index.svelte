@@ -20,7 +20,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
-	import { replaceStateWithQuery } from '$utils';
+	import { mapToRange, replaceStateWithQuery } from '$utils';
 
 	import { writable } from 'svelte/store';
 
@@ -36,6 +36,7 @@
 
 	import AccessibleIcon from '$lib/Components/AccessibleIcon';
 
+	import BezierEasing from 'bezier-easing';
 	import TagIcon from '$assets/Icons/24/tag.svg';
 
 	export let projects: ProjectMetaData[] = [];
@@ -104,23 +105,37 @@
 		}
 		filteredProjects = projects;
 	};
-
 	updateProjects();
+
+	const baseEasing = BezierEasing(0.4, 0, 0.2, 1);
+	const reversedEasing = BezierEasing(0.8, 0, 0.6, 1);
+	function spin(node, { start = -34, end = 0, duration = 150, easing = baseEasing }) {
+		return {
+			duration,
+			css: (t: number) => {
+				const eased = easing(t);
+				const mapped = mapToRange(eased, 0, 1, start, end);
+				return `margin-left: ${mapped}px;`;
+			}
+		};
+	}
 </script>
 
 <Tags.Root defaultValue={defaultTags} on:valueChange={(e) => updateQueries(e.detail.value)}>
-	<Tags.List class="flex flex-wrap p-1 border-b border-mauve-6">
+	<Tags.List class="flex flex-wrap p-1 transition-all border-b border-mauve-6">
 		{#if $tags.size}
-			<Tags.Unset
-				class="p-1 m-1 text-xs border rounded-full touch-manipulation border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1"
-			>
-				<AccessibleIcon label="Unselect all tags"><Close16 /></AccessibleIcon></Tags.Unset
-			>
+			<div in:spin out:spin={{ easing: reversedEasing }}>
+				<Tags.Unset
+					class="p-1 m-1 text-xs border rounded-full touch-manipulation border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1"
+				>
+					<AccessibleIcon label="Unselect all tags"><Close16 /></AccessibleIcon></Tags.Unset
+				>
+			</div>
 		{/if}
 		{#each [...availableTags] as tag (tag)}
 			<Tags.Tag
 				value={tag}
-				class="m-1 touch-manipulation px-4 py-1 border border-mauve-12 text-xs rounded-full focus:outline-none ring-mauve-12 focus:ring-1 {$tags.has(
+				class=" transition-[margin] m-1 touch-manipulation px-4 py-1 border border-mauve-12 text-xs rounded-full focus:outline-none ring-mauve-12 focus:ring-1 {$tags.has(
 					tag
 				)
 					? 'bg-green-5'
@@ -224,7 +239,9 @@
 						href="projects/{project.slug}"
 						title="Read more about the project {project.slug}"
 					>
-						Read More <East16 />
+						Read More <span aria-hidden="true">
+							<East16 />
+						</span>
 					</a>
 				</div>
 			</section>
@@ -263,7 +280,7 @@
 							}`}>{computed[0].toUpperCase() + computed.slice(1)}</span
 						>
 					</span>
-					<span class="block">
+					<span aria-hidden="true">
 						<East />
 					</span>
 				</a>
