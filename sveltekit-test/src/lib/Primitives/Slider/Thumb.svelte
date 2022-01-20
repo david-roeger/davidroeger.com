@@ -5,7 +5,12 @@
 <script lang="ts">
 	import { hasParentOfType, limit } from '$lib/Utils';
 
+	import { writable } from 'svelte/store';
+
 	export let defaultValue: number;
+	export let bindValue = writable(0);
+	export { bindValue as value };
+
 	let c = '';
 	export { c as class };
 
@@ -46,6 +51,11 @@
 			renderInput = true;
 		}
 	});
+
+	bindValue.subscribe((bv) => {
+		if ($setSlider && thumb) $setSlider({ value: bv, id: computedId, element: thumb });
+	});
+
 	$: {
 		if (thumb) {
 			const { width, height } = thumb.getBoundingClientRect();
@@ -61,6 +71,7 @@
 			}
 
 			value = $activeValues[index].value;
+			$bindValue = value;
 			percent = value === undefined ? 0 : convertValueToPercentage(value, min, max);
 			label = getLabel(index, $activeValues.length);
 			thumbInBoundsOffset = size ? getThumbInBoundsOffset(orientationSize, percent, direction) : 0;
@@ -134,6 +145,7 @@
 	class={c}
 	bind:this={thumb}
 	on:keydown={handleKeyDown}
+	on:keydown
 	style={`transform: translate${
 		orientation === 'horizontal' ? 'X' : 'Y'
 	}(-50%); position: absolute; ${start}: calc(${percent}% + ${thumbInBoundsOffset}px);`}

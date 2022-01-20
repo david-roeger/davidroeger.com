@@ -104,22 +104,25 @@
 	};
 
 	const slideStart = (e: PointerEvent) => {
-		const eventTarget = e.target as HTMLElement;
-		eventTarget.setPointerCapture(e.pointerId);
+		if (!disabled) {
+			const eventTarget = e.target as HTMLElement;
+			eventTarget.setPointerCapture(e.pointerId);
 
-		const value = getValueFromPointer(orientation === 'horizontal' ? e.clientX : e.clientY);
-		const closestIndex = getClosestValueIndex(value);
-		const active = $activeValues[closestIndex];
-		if (active && $setSlider) {
-			active.element.focus();
-			$setSlider({ value: value, id: active.id, element: active.element });
-			e.preventDefault();
+			const value = getValueFromPointer(orientation === 'horizontal' ? e.clientX : e.clientY);
+			const closestIndex = getClosestValueIndex(value);
+			const active = $activeValues[closestIndex];
+			if (active && $setSlider) {
+				console.log(active);
+				active.element.focus();
+				$setSlider({ value: value, id: active.id, element: active.element });
+				e.preventDefault();
+			}
 		}
 	};
 
 	const slideMove = (e: PointerEvent) => {
 		const target = e.target as HTMLElement;
-		if (target.hasPointerCapture(e.pointerId)) {
+		if (target.hasPointerCapture(e.pointerId) && !disabled) {
 			const value = getValueFromPointer(orientation === 'horizontal' ? e.clientX : e.clientY);
 			if ($focusThumb) {
 				$setSlider({ value: value, id: $focusThumb.id, element: $focusThumb.element });
@@ -142,7 +145,7 @@
 	data-orientation={orientation}
 	aria-disabled={disabled}
 	aria-label={label}
-	style="position: relative"
+	style="position: relative; cursor: pointer;"
 	on:pointerdown={(e) => slideStart(e)}
 	on:pointermove={(e) => slideMove(e)}
 	on:pointerup={(e) => slideStop(e)}
