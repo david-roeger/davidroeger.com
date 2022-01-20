@@ -5,8 +5,6 @@ import type { GetReturnType } from '$lib/types';
 
 export async function get({ url }: { url: URL }): GetReturnType {
 	const modules = import.meta.glob('./*.svelte');
-	console.log(modules);
-	console.log('hallo');
 	const projectPromises: Promise<{
 		slug: string;
 		thumbnail: string;
@@ -19,7 +17,6 @@ export async function get({ url }: { url: URL }): GetReturnType {
 		};
 	}
 	for (const [path, resolver] of Object.entries(modules)) {
-		console.log(path);
 		const slug = slugFromPath(path);
 		if (slug === 'index' || slug === 'reset' || slug === '__layout') {
 			continue;

@@ -57,7 +57,6 @@
 		popper.destroy();
 		popper = undefined;
 		$open = false;
-		console.log();
 	};
 
 	const dispatch = createEventDispatcher<{ openChange: { open: boolean } }>();
