@@ -16,7 +16,6 @@ export async function get({ params }: { params: { slug: string } }): GetReturnTy
 		}
 	}
 
-	console.log('Not Found');
 	return {
 		status: 404
 	};

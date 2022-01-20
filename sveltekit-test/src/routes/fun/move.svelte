@@ -316,7 +316,7 @@
 				on:click={() => {
 					downloadButton.href = canvas.toDataURL('image/png');
 				}}
-				href="#"
+				href={'#'}
 				download="mosaik.png"
 				class="p-2 bg-white border border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1"
 			>
