@@ -2,7 +2,7 @@
 	import { getContext, onMount, tick } from 'svelte';
 	import { derived } from 'svelte/store';
 	import { createFocusTrap } from 'focus-trap';
-	import { portal, clickOutside } from '$actions';
+	import { clickOutside } from '$actions';
 
 	import type { Side, Align, RootContext } from './types';
 
@@ -12,8 +12,6 @@
 	export let alignOffset = 0;
 	export let collisionTolerance = 0;
 	export let avoidCollision = true;
-
-	export let target: HTMLElement | string = '#portal';
 
 	let c = '';
 	export { c as class };
