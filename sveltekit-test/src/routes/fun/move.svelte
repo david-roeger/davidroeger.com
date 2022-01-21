@@ -40,8 +40,7 @@
 	let imageIndex = 0;
 
 	//updateScale()
-	let webp = detectWebpSupport();
-	async function detectWebpSupport(): Promise<boolean> {
+	const detectWebpSupport = async (): Promise<boolean> => {
 		const testImageSources = [
 			'data:image/webp;base64,UklGRjIAAABXRUJQVlA4ICYAAACyAgCdASoCAAEALmk0mk0iIiIiIgBoSygABc6zbAAA/v56QAAAAA==',
 			'data:image/webp;base64,UklGRh4AAABXRUJQVlA4TBEAAAAvAQAAAAfQ//73v/+BiOh/AAA='
@@ -59,7 +58,7 @@
 		};
 		const results = await Promise.all(testImageSources.map(testImage));
 		return results.every((result) => !!result);
-	}
+	};
 
 	function loadImage(src: string) {
 		const p = new Promise((resolve) => {
@@ -90,8 +89,8 @@
 	}
 
 	onMount(async () => {
-		const webpSupport = await webp;
-		const extension = webpSupport ? 'webp' : 'png';
+		const webp = await detectWebpSupport();
+		const extension = webp ? 'webp' : 'png';
 		for (let i = 0; i < imageCountMax; i++) {
 			loadImage(`/assets/fun/move/${i}.${extension}`);
 		}
