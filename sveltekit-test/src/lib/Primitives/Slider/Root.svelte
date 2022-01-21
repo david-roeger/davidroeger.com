@@ -141,6 +141,7 @@
 <div
 	bind:this={slider}
 	class={c}
+	id={`drds-slider-${id.toString()}`}
 	data-orientation={orientation}
 	aria-disabled={disabled}
 	aria-label={label}

@@ -151,6 +151,7 @@
 	}(-50%); position: absolute; ${start}: calc(${percent}% + ${thumbInBoundsOffset}px);`}
 	role="slider"
 	aria-label={label}
+	aria-labelledby={label ? undefined : `${id}`}
 	aria-valuemin={min}
 	aria-valuenow={value}
 	aria-valuemax={max}

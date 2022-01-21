@@ -259,7 +259,7 @@
 					class={`${
 						showInfo ? 'm-2' : 'mt-2 m-4'
 					} top-0 transition-[margin] text-sm right-0 h-5 w-5 border text-mauve-12 border-mauve-12 bg-white/60 backdrop-blur-md focus:outline-none ring-mauve-12 focus:ring-1`}
-					><AccessibleIcon label="Close info"><span aria-hidden="true">i</span></AccessibleIcon
+					><AccessibleIcon label="info"><span aria-hidden="true">i</span></AccessibleIcon
 					></Accordion.Trigger
 				>
 			</Accordion.Header>
