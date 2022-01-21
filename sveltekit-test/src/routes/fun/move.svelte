@@ -40,6 +40,26 @@
 	let imageIndex = 0;
 
 	//updateScale()
+	let webp = detectWebpSupport();
+	async function detectWebpSupport(): Promise<boolean> {
+		const testImageSources = [
+			'data:image/webp;base64,UklGRjIAAABXRUJQVlA4ICYAAACyAgCdASoCAAEALmk0mk0iIiIiIgBoSygABc6zbAAA/v56QAAAAA==',
+			'data:image/webp;base64,UklGRh4AAABXRUJQVlA4TBEAAAAvAQAAAAfQ//73v/+BiOh/AAA='
+		];
+
+		const testImage = (src: string): Promise<boolean> => {
+			return new Promise((resolve) => {
+				var img = document.createElement('img');
+				img.width = 1;
+				img.height = 1;
+				img.onerror = () => resolve(false);
+				img.onload = () => resolve(true);
+				img.src = src;
+			});
+		};
+		const results = await Promise.all(testImageSources.map(testImage));
+		return results.every((result) => !!result);
+	}
 
 	function loadImage(src: string) {
 		const p = new Promise((resolve) => {
@@ -69,9 +89,11 @@
 		});
 	}
 
-	onMount(() => {
+	onMount(async () => {
+		const webpSupport = await webp;
+		const extension = webpSupport ? 'webp' : 'png';
 		for (let i = 0; i < imageCountMax; i++) {
-			loadImage(`/assets/fun/move/${i}.png`);
+			loadImage(`/assets/fun/move/${i}.${extension}`);
 		}
 		//window.addEventListener('resize', reload, false);
 		//reload();
@@ -236,18 +258,18 @@
 			<Accordion.Header class="absolute">
 				<Accordion.Trigger
 					class={`${
-						showInfo ? 'm-2' : 'm-4'
+						showInfo ? 'm-2' : 'mt-2 m-4'
 					} top-0 transition-[margin] text-sm right-0 h-5 w-5 border text-mauve-12 border-mauve-12 bg-white/60 backdrop-blur-md focus:outline-none ring-mauve-12 focus:ring-1`}
 					><AccessibleIcon label="Close info"><span aria-hidden="true">i</span></AccessibleIcon
 					></Accordion.Trigger
 				>
 			</Accordion.Header>
-			<Accordion.Content class="p-2 pl-10 text-sm border-b border-mauve-6 text-mauve-11">
+			<Accordion.Content class="p-2 pl-10 text-sm text-mauve-11">
 				Move your cursor over the blue background
 			</Accordion.Content>
 		</Accordion.Item>
 	</Accordion.Root>
-	<div class="relative p-2 pr-4 bg-white/[.85]">
+	<div class="relative ml-2 mr-4 border-l border-r border-mauve-6 ">
 		<div
 			class="bg-blue-5 relative w-full portrait:aspect-w-1 portrait:aspect-h-1 landscape:aspect-w-[2.35] landscape:aspect-h-1 landscape:md:aspect-w-16 landscape:md:aspect-h-[8.5]"
 			bind:this={canvasContainer}
@@ -255,7 +277,7 @@
 			<canvas
 				on:keydown={handleKeyDown}
 				tabindex="-1"
-				class="border touch-none focus:outline-none ring-mauve-6 focus:ring-1 border-mauve-6"
+				class="touch-none focus:outline-none ring-mauve-12 focus:ring-1"
 				bind:this={canvas}
 				on:pointerdown={(e) => slideStart(e)}
 				on:pointermove={(e) => slideMove(e)}
@@ -264,7 +286,7 @@
 		</div>
 
 		<div
-			class="absolute flex border pointer-events-none top-2 right-4 border-mauve-6 bg-white/60 backdrop-blur-md"
+			class="absolute flex border pointer-events-none top-2 right-2 border-mauve-6 bg-white/60 backdrop-blur-md"
 		>
 			<img
 				alt="preview"
@@ -282,7 +304,7 @@
 				</AccessibleIcon>
 			</div>
 			<p
-				class="flex items-center justify-center p-2 font-mono text-center border-l border-mauve-6 text-mauve-11"
+				class="flex items-center justify-center p-2 font-mono text-center border-l border-mauve-6 text-mauve-12"
 			>
 				{imageCount ? imageIndex + 1 : '?'} / {imageCount}
 			</p>
