@@ -139,8 +139,7 @@ module.exports = {
 				'fit-content': 'fit-content'
 			},
 			fontFamily: {
-				'neue-haas': ['neue-haas-grotesk-display', 'ui-sans-serif', 'system-ui', 'sans-serif'],
-				cstmx: ['CSTMX', 'ui-sans-serif', 'system-ui', 'sans-serif']
+				sans: ['Inter var', 'ui-sans-serif', 'system-ui', 'sans-serif']
 			},
 			fontSize: {
 				'10xl': '10rem',
