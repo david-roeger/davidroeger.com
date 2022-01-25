@@ -30,7 +30,9 @@
 			/>
 		{/if}
 		{#if title}
-			<Headline class="py-8 border-b-0 md:py-16">{title}</Headline>
+			<Headline containerClass="py-8 border-b-0 md:py-16">
+				{title}
+			</Headline>
 		{/if}
 	</div>
 	<slot />

@@ -26,7 +26,7 @@
 <div
 	class="flex flex-col-reverse border-b sm:flex-row sm:justify-between border-mauve-6"
 >
-	<Headline class="py-8 border-b-0 md:py-16">This is me</Headline>
+	<Headline containerClass="py-8 border-b-0 md:py-16">This is me</Headline>
 	<div
 		class="flex overflow-hidden max-w-[249px] sm:max-w-[250px] md:max-w-[378px]"
 	>
@@ -50,7 +50,7 @@
 		/>
 	</div>
 </div>
-<Headline type="secondary" class="bg-white/[0.85]"
+<Headline type="secondary" containerClass="bg-white/[0.85]"
 	>Frontend Developer, UI/UX Designer</Headline
 >
 

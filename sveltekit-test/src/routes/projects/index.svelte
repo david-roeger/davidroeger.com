@@ -156,7 +156,7 @@
 			>
 		{/each}
 	</Tags.List>
-	<Headline class="py-8 md:py-16">My Projects</Headline>
+	<Headline containerClass="py-8 md:py-16">My Projects</Headline>
 
 	<div class={$tags.size ? 'pb-32' : ''}>
 		{#each filteredProjects as project (project.title)}
@@ -170,7 +170,7 @@
 			>
 				<Headline
 					type="secondary"
-					class="bg-white border-b-0"
+					containerClass="bg-white border-b-0"
 					id="gallery-headline-{encodeURIComponent(project.title)}"
 					><a
 						sveltekit:prefetch
@@ -279,13 +279,13 @@
 </Tags.Root>
 
 {#if !$tags.size && experimental.length}
-	<Headline class="py-8 md:py-16">Experimental</Headline>
+	<Headline containerClass="py-8 md:py-16">Experi&shy;mental</Headline>
 
 	<section class="mb-32">
 		{#each experimental as experiment}
 			{@const computed = experiment.slug.replace('-', ' ')}
 			<!-- content here -->
-			<Headline type="secondary" class="!p-0 bg-white"
+			<Headline type="secondary" containerClass="!p-0 bg-white"
 				><a
 					sveltekit:prefetch
 					class="group flex justify-between items-center pr-4 transition-[padding] bg-white md:justify-between hover:pr-2 focus:pr-2 focus:outline-none"

@@ -10,7 +10,7 @@
 	import { page } from '$app/stores';
 </script>
 
-<nav class={`border-b xl:max-w-7xl border-mauve-6 bg-white/[.85] ${c}`}>
+<nav class={`border-b xl:max-w-7xl border-mauve-6 ${c}`}>
 	<h3><VisuallyHidden.Root>Main Menu</VisuallyHidden.Root></h3>
 	<ul class="flex justify-between">
 		<li class="w-auto m-2 list-none">
@@ -55,8 +55,8 @@
 						href="/contact"
 						type="button"
 						activePath="/contact"
-						class="block bg-white hover:bg-blue-5"
-						activeClass="!bg-blue-5">Say hi!</NavLink
+						class="block bg-white hover:bg-orange-5"
+						activeClass="!bg-orange-5">Say hi!</NavLink
 					>
 				</li>
 			</ul>

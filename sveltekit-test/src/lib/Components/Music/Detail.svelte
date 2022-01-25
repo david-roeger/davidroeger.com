@@ -15,7 +15,9 @@
 <div class="flex w-full pl-2 space-x-1">
 	<slot name="headline" />
 
-	<Headline type="tertiary" class="p-0 pb-2 truncate border-b-0 md:pb-0"
+	<Headline
+		type="tertiary"
+		containerClass="pt-0 px-0 pb-2 truncate border-b-0 md:pb-0"
 		><slot /></Headline
 	>
 </div>

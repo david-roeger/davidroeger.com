@@ -33,7 +33,7 @@
 	<p class="p-2 text-sm border-b text-mauve-11 border-mauve-6">
 		{error.name}: {error.message}
 	</p>
-	<Headline class="py-8 md:py-16"><p>{status}</p></Headline>
+	<Headline containerClass="py-8 md:py-16">{status}</Headline>
 
 	<h2 class="p-2 text-xl border-b border-mauve-6">
 		<p>Welp. This didn´t work. Sorry Aboot It!</p>

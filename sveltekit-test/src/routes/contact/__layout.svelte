@@ -3,8 +3,8 @@
 </script>
 
 <Background
-	center="hsla(208, 78%, 77%, 0.4)"
-	outside="hsla(208, 78%, 77%, 0)"
+	center="hsla(24, 100%, 75.3%, 0.4)"
+	outside="hsla(24, 100%, 75.3%, 0)"
 />
 
 <div class="relative">

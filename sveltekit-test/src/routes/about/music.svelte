@@ -78,13 +78,14 @@
 	];
 </script>
 
-<Headline class="flex items-end py-8 md:py-16">Favorite Music</Headline>
+<Headline containerClass="flex items-end py-8 md:py-16">Favorite Music</Headline
+>
 
 <Headline
-	unstyled
+	as="h2"
+	type="quaternary"
 	id="current_track"
-	type="secondary"
-	class="p-2 bg-white border-b border-mauve-6"
+	containerClass="p-2 bg-white border-b border-mauve-6"
 	>Last listened on Spotify</Headline
 >
 
@@ -94,23 +95,6 @@
 	class="border-b bg-white/[.85] border-mauve-6 mb-8 md:mb-16"
 />
 
-<!--Dialog.Root
-	class="flex justify-end"
-	defaultOpen={false}
-	on:openChange={(e) => console.log(e.detail.open)}
->
-	<Dialog.Trigger class="px-4 py-2 m-2 bg-white border border-mauve-12 focus:outline-none"
-		>Filter</Dialog.Trigger
-	>
-	<Dialog.Portal>
-		<Dialog.Overlay class="fixed top-0 w-full h-full bg-mauve-12/50" />
-		<Dialog.Content class="fixed top-0 bg-mauve-1">
-			<Dialog.Title><Headline type="secondary">Timespan</Headline></Dialog.Title>
-			<Dialog.Description>Description 1</Dialog.Description>
-			<Dialog.Close>Close</Dialog.Close>
-		</Dialog.Content>
-	</Dialog.Portal>
-</Dialog.Root-->
 <Tabs.Root
 	defaultValue={defaultSelected}
 	on:valueChange={(e) => ($selected = e.detail.value)}
@@ -142,9 +126,9 @@
 				? 'bg-purple-5'
 				: 'bg-white'}"
 		>
-			<Headline unstyled id="top_artists" type="secondary"
-				>Artists</Headline
-			>
+			<Headline unstyled type="secondary" id="top_artists">
+				Artists
+			</Headline>
 		</Tabs.Trigger>
 		<Popper.Root defaultOpen={false}>
 			<Popper.Trigger
