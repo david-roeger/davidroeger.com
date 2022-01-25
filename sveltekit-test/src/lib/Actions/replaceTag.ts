@@ -8,25 +8,25 @@ import type { ActionReturnType } from '$lib/types';
  */
 
 export const replaceTag = (node: HTMLElement, tag = ''): ActionReturnType => {
-    const update = (node: HTMLElement) => {
-        if (tag && tag.toLowerCase() !== 'div') {
-            try {
-                const newNode = document.createElement(tag.toLowerCase());
-                node.classList.forEach((c) => {
-                    newNode.classList.add(c);
-                });
-                const children = node.querySelector(':scope > *');
-                newNode.replaceChildren(children);
-                node.replaceWith(newNode);
-            } catch (error) {
-                throw new Error(`${tag} is not a valid HTML tag`);
-            }
-            return;
-        }
-    };
-    update(node);
+	const update = (node: HTMLElement) => {
+		if (tag && tag.toLowerCase() !== 'div') {
+			try {
+				const newNode = document.createElement(tag.toLowerCase());
+				node.classList.forEach((c) => {
+					newNode.classList.add(c);
+				});
+				const children = node.querySelector(':scope > *');
+				newNode.replaceChildren(children);
+				node.replaceWith(newNode);
+			} catch (error) {
+				throw new Error(`${tag} is not a valid HTML tag`);
+			}
+			return;
+		}
+	};
+	update(node);
 
-    return {
-        update,
-    };
+	return {
+		update,
+	};
 };

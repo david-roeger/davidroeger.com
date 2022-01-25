@@ -3,23 +3,23 @@ import type { Writable } from 'svelte/store';
 
 import { SIDE_OPTIONS, ALIGN_OPTIONS } from './constants';
 export interface RootContext {
-    id: string;
-    open: Writable<boolean>;
-    trap: Writable<FocusTrap | undefined>;
-    setOpen: Writable<() => void | undefined>;
-    setClose: Writable<() => void | undefined>;
-    triggerElement: Writable<HTMLElement | undefined>;
-    contentElement: Writable<HTMLElement | undefined>;
-    contentStyles: Writable<string>;
-    popperOptions: Writable<{
-        side: Side;
-        sideOffset: number;
-        align: Align;
-        alignOffset: number;
-        shouldAvoidCollisions: boolean;
-        collisionBoundariesRect: DOMRect;
-        collisionTolerance: number;
-    }>;
+	id: string;
+	open: Writable<boolean>;
+	trap: Writable<FocusTrap | undefined>;
+	setOpen: Writable<() => void | undefined>;
+	setClose: Writable<() => void | undefined>;
+	triggerElement: Writable<HTMLElement | undefined>;
+	contentElement: Writable<HTMLElement | undefined>;
+	contentStyles: Writable<string>;
+	popperOptions: Writable<{
+		side: Side;
+		sideOffset: number;
+		align: Align;
+		alignOffset: number;
+		shouldAvoidCollisions: boolean;
+		collisionBoundariesRect: DOMRect;
+		collisionTolerance: number;
+	}>;
 }
 
 export type Axis = 'x' | 'y';

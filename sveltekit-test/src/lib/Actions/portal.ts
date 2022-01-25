@@ -9,52 +9,52 @@ import type { ActionReturnType } from '$lib/types';
 
 // eslint-disable-next-line @typescript-eslint/no-inferrable-types
 export const portal = (
-    node: HTMLElement,
-    target: HTMLElement | string = '#portal',
+	node: HTMLElement,
+	target: HTMLElement | string = '#portal',
 ): ActionReturnType => {
-    let targetEl: HTMLElement;
-    async function update(newTarget: HTMLElement | string) {
-        if (typeof newTarget === 'string') {
-            targetEl = document.querySelector(newTarget);
-            if (targetEl === null) {
-                await tick();
-                targetEl = document.querySelector(newTarget);
-            }
-            if (targetEl === null && newTarget === '#portal') {
-                const portal = document.createElement('section');
-                portal.style.position = 'absolute';
-                portal.style.zIndex = '99999';
-                portal.id = 'portal';
-                document.body.appendChild(portal);
-                targetEl = portal;
-            }
-            if (targetEl === null) {
-                throw new Error(
-                    `No element found matching css selector: "${target}"`,
-                );
-            }
-        } else if (target instanceof HTMLElement) {
-            targetEl = newTarget;
-        } else {
-            throw new TypeError(
-                `Unknown portal target type: ${
-                    target === null ? 'null' : typeof target
-                }. Allowed types: string (CSS selector) or HTMLElement.`,
-            );
-        }
-        targetEl.appendChild(node);
-    }
-    function destroy() {
-        if (node?.parentElement) {
-            node.parentElement.removeChild(node);
-        }
-    }
-    update(target);
+	let targetEl: HTMLElement;
+	async function update(newTarget: HTMLElement | string) {
+		if (typeof newTarget === 'string') {
+			targetEl = document.querySelector(newTarget);
+			if (targetEl === null) {
+				await tick();
+				targetEl = document.querySelector(newTarget);
+			}
+			if (targetEl === null && newTarget === '#portal') {
+				const portal = document.createElement('section');
+				portal.style.position = 'absolute';
+				portal.style.zIndex = '99999';
+				portal.id = 'portal';
+				document.body.appendChild(portal);
+				targetEl = portal;
+			}
+			if (targetEl === null) {
+				throw new Error(
+					`No element found matching css selector: "${target}"`,
+				);
+			}
+		} else if (target instanceof HTMLElement) {
+			targetEl = newTarget;
+		} else {
+			throw new TypeError(
+				`Unknown portal target type: ${
+					target === null ? 'null' : typeof target
+				}. Allowed types: string (CSS selector) or HTMLElement.`,
+			);
+		}
+		targetEl.appendChild(node);
+	}
+	function destroy() {
+		if (node?.parentElement) {
+			node.parentElement.removeChild(node);
+		}
+	}
+	update(target);
 
-    return {
-        update,
-        destroy,
-    };
+	return {
+		update,
+		destroy,
+	};
 };
 
 /*

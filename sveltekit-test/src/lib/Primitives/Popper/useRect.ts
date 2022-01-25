@@ -8,25 +8,25 @@ import type { Writable } from 'svelte/store';
  * and observe it along time.
  */
 function useRect(
-    measurable: Measurable | null,
+	measurable: Measurable | null,
 ): Writable<{ rect: DOMRect; onDestroy: () => void }> {
-    const rect = writable<{ rect: DOMRect; onDestroy: () => void }>();
+	const rect = writable<{ rect: DOMRect; onDestroy: () => void }>();
 
-    let onDestroy;
-    if (measurable) {
-        rect.set({ rect: measurable.getBoundingClientRect(), onDestroy });
-        onDestroy = observeElementRect(measurable, (r) =>
-            rect.set({ rect: r, onDestroy }),
-        );
+	let onDestroy;
+	if (measurable) {
+		rect.set({ rect: measurable.getBoundingClientRect(), onDestroy });
+		onDestroy = observeElementRect(measurable, (r) =>
+			rect.set({ rect: r, onDestroy }),
+		);
 
-        /*return () => {
+		/*return () => {
 				setRect(undefined);
 				unobserve();
 			};*/
 
-        // handle destroy
-    }
-    return rect;
+		// handle destroy
+	}
+	return rect;
 }
 
 export { useRect };

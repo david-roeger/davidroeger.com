@@ -5,18 +5,18 @@
  * @returns boolean
  */
 export const hasParentOfType = (
-    element: HTMLElement,
-    type: string,
+	element: HTMLElement,
+	type: string,
 ): boolean => {
-    type = type.toUpperCase();
-    let parent = element.parentElement;
-    while (parent) {
-        if (parent.tagName.toUpperCase() === type) {
-            return true;
-        }
-        parent = parent.parentElement;
-    }
-    return false;
+	type = type.toUpperCase();
+	let parent = element.parentElement;
+	while (parent) {
+		if (parent.tagName.toUpperCase() === type) {
+			return true;
+		}
+		parent = parent.parentElement;
+	}
+	return false;
 };
 
 export const PI = Math.PI;
@@ -34,11 +34,11 @@ export const TWO_PI = Math.PI * 2;
  * @returns number
  */
 export const mapToRange = (
-    value: number,
-    x1: number,
-    y1: number,
-    x2: number,
-    y2: number,
+	value: number,
+	x1: number,
+	y1: number,
+	x2: number,
+	y2: number,
 ): number => ((value - x1) * (y2 - x2)) / (y1 - x1) + x2;
 
 /**
@@ -49,7 +49,7 @@ export const mapToRange = (
  * @returns number
  */
 export const limit = (value: number, min: number, max: number): number =>
-    Math.min(Math.max(min, value), max);
+	Math.min(Math.max(min, value), max);
 
 /**
  * Adjust Value to Sin Curve so that results are more densed
@@ -59,37 +59,37 @@ export const limit = (value: number, min: number, max: number): number =>
  * @returns number
  */
 export const adjustScale = (
-    value: number,
-    min: number,
-    max: number,
+	value: number,
+	min: number,
+	max: number,
 ): number => {
-    const nullMin = 0;
-    const nullMax = max - min;
-    const nullValue = value - min;
-    const mean = nullMax / 2;
+	const nullMin = 0;
+	const nullMax = max - min;
+	const nullValue = value - min;
+	const mean = nullMax / 2;
 
-    const radiant = mapToRange(nullValue, nullMin, nullMax, 0, PI);
-    const computed =
-        nullValue > mean ? 2 - Math.sin(radiant) : Math.sin(radiant);
-    const mapped = mapToRange(computed, 0, 2, nullMin, nullMax);
+	const radiant = mapToRange(nullValue, nullMin, nullMax, 0, PI);
+	const computed =
+		nullValue > mean ? 2 - Math.sin(radiant) : Math.sin(radiant);
+	const mapped = mapToRange(computed, 0, 2, nullMin, nullMax);
 
-    return min + mapped;
+	return min + mapped;
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const cloneObject = (obj: {
-    [key: string]: any;
+	[key: string]: any;
 }): { [key: string]: any } => {
-    return JSON.parse(JSON.stringify(obj));
+	return JSON.parse(JSON.stringify(obj));
 };
 
 // eslint-disable-next-line
 export const debounce = (func: { (): any }, ms: number) => {
-    let timer: NodeJS.Timeout;
-    return () => {
-        clearTimeout(timer);
-        timer = setTimeout(func, ms);
-    };
+	let timer: NodeJS.Timeout;
+	return () => {
+		clearTimeout(timer);
+		timer = setTimeout(func, ms);
+	};
 };
 
 /**
@@ -97,22 +97,22 @@ export const debounce = (func: { (): any }, ms: number) => {
  * @param values key value pairs containing to new Query Params
  */
 export const replaceStateWithQuery = (values: Record<string, string>): void => {
-    const url = new URL(window.location.toString());
-    for (const [key, value] of Object.entries(values)) {
-        if (value) {
-            url.searchParams.set(
-                encodeURIComponent(key),
-                encodeURIComponent(value),
-            );
-        } else {
-            url.searchParams.delete(key);
-        }
-    }
-    history.replaceState({}, '', url);
+	const url = new URL(window.location.toString());
+	for (const [key, value] of Object.entries(values)) {
+		if (value) {
+			url.searchParams.set(
+				encodeURIComponent(key),
+				encodeURIComponent(value),
+			);
+		} else {
+			url.searchParams.delete(key);
+		}
+	}
+	history.replaceState({}, '', url);
 };
 
 export const slugFromPath = (path: string): string =>
-    path.match(/([\w-]+)\.(svelte\.md|md|svx|svelte)/i)?.[1] ?? null;
+	path.match(/([\w-]+)\.(svelte\.md|md|svx|svelte)/i)?.[1] ?? null;
 
 export const convertStyleString = (property: string): string =>
-    property.replace(/([A-Z])/g, (v) => `-${v}`.toLowerCase());
+	property.replace(/([A-Z])/g, (v) => `-${v}`.toLowerCase());

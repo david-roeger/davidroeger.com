@@ -7,27 +7,27 @@ import type { ActionReturnType } from '$lib/types';
  */
 
 export function clickOutside(
-    node: HTMLElement,
-    callback?: (event: MouseEvent) => void,
+	node: HTMLElement,
+	callback?: (event: MouseEvent) => void,
 ): ActionReturnType {
-    const handleClick = (event) => {
-        if (
-            node &&
-            node !== event.target &&
-            !node.contains(event.target) &&
-            !event.defaultPrevented
-        ) {
-            if (callback) {
-                callback(event);
-            }
-        }
-    };
+	const handleClick = (event) => {
+		if (
+			node &&
+			node !== event.target &&
+			!node.contains(event.target) &&
+			!event.defaultPrevented
+		) {
+			if (callback) {
+				callback(event);
+			}
+		}
+	};
 
-    document.addEventListener('click', handleClick, true);
+	document.addEventListener('click', handleClick, true);
 
-    return {
-        destroy() {
-            document.removeEventListener('click', handleClick, true);
-        },
-    };
+	return {
+		destroy() {
+			document.removeEventListener('click', handleClick, true);
+		},
+	};
 }
