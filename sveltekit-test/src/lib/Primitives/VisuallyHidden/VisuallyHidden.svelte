@@ -1,5 +1,5 @@
 <span
-	style="
+    style="
     position: absolute;
     border: 0;
     width: 1px;
@@ -12,5 +12,5 @@
     word-wrap: normal;
   "
 >
-	<slot />
+    <slot />
 </span>

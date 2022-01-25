@@ -1,7 +1,7 @@
 <script lang="ts">
-	export let labelledby: string = undefined;
+    export let labelledby: string = undefined;
 </script>
 
 <ul class="w-full" aria-labelledby={labelledby}>
-	<slot />
+    <slot />
 </ul>
