@@ -282,7 +282,7 @@
             </Accordion.Content>
         </Accordion.Item>
     </Accordion.Root>
-    <div class="relative ml-2 mr-4 border-l border-r border-mauve-6 ">
+    <div class="relative ml-2 mr-4 border-l border-r border-mauve-6">
         <div
             class="bg-blue-5 relative w-full portrait:aspect-w-1 portrait:aspect-h-1 landscape:aspect-w-[2.35] landscape:aspect-h-1 landscape:md:aspect-w-16 landscape:md:aspect-h-[8.5]"
             bind:this={canvasContainer}
@@ -328,7 +328,7 @@
         </div>
     </div>
     <div
-        class="bg-white/[.85] flex flex-col items-center justify-center pt-2 md:pt-0 border-t border-b md:flex-row border-mauve-6"
+        class="bg-white/[.85] flex flex-col items-center justify-center pt-2 border-t border-b md:pt-0 md:flex-row border-mauve-6"
     >
         <div class="w-full px-8 md:w-fit-content">
             <Slider.Root
