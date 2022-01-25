@@ -116,9 +116,9 @@
 	on:valueChange={(e) => ($selected = e.detail.value)}
 >
 	<p class="p-2 bg-white border-t border-mauve-6">
-		Favorite on Spotify <span class="text-mauve-11"
-			>({timeRanges[timeRange].label})</span
-		>
+		Favorite on Spotify <span class="text-mauve-11">
+			({timeRanges[timeRange].label})
+		</span>
 	</p>
 
 	<Tabs.List
@@ -190,8 +190,10 @@
 							<label
 								for={range.value}
 								on:click={(e) => e.stopPropagation()}
-								class="cursor-pointer ">{range.label}</label
+								class="cursor-pointer "
 							>
+								{range.label}
+							</label>
 						</div>
 					{/each}
 				</RadioGroup.Root>

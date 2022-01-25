@@ -52,9 +52,9 @@
 					class="pl-2 bg-white hover:bg-green-5 flex items-center justify-between gap-2  transition-[gap,padding] hover:gap-4 hover:pr-2 focus:gap-4 focus:pr-2"
 					activeClass="!bg-green-5"
 				>
-					<span
-						><span class="p-1 m-1 bg-white rounded-full">👁</span
-						>Look at some stuff I worked on
+					<span>
+						<span class="p-1 m-1 bg-white rounded-full">👁</span>
+						Look at some stuff I worked on
 					</span>
 					<span aria-hidden="true">
 						<East />
@@ -68,10 +68,10 @@
 					class="pl-2 bg-white hover:bg-purple-5 flex items-center justify-between gap-2  transition-[gap,padding] hover:gap-4 hover:pr-2 focus:gap-4 focus:pr-2"
 					activeClass="!bg-purple-5"
 				>
-					<span
-						><span class="p-1 m-1 bg-white rounded-full">📚</span
-						>Learn something about me</span
-					>
+					<span>
+						<span class="p-1 m-1 bg-white rounded-full">📚</span>
+						Learn something about me
+					</span>
 					<span aria-hidden="true">
 						<East />
 					</span>
@@ -84,10 +84,12 @@
 					class="pl-2 bg-white hover:bg-blue-5 flex items-center justify-between gap-2  transition-[gap,padding] hover:gap-4 hover:pr-2 focus:gap-4 focus:pr-2"
 					activeClass="!bg-blue-5"
 				>
-					<span
-						><span class="p-1 m-1 bg-white rounded-full">👋</span
-						>Just say hi</span
-					>
+					<span>
+						<span class="p-1 px-2 m-1 bg-white rounded-full">
+							👋
+						</span>
+						Just say hi
+					</span>
 					<span aria-hidden="true">
 						<East />
 					</span>

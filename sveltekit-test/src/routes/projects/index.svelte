@@ -175,8 +175,10 @@
 					><a
 						sveltekit:prefetch
 						class="focus:outline-none growing-underline"
-						href="projects/{project.slug}">{project.title}</a
+						href="projects/{project.slug}"
 					>
+						{project.title}
+					</a>
 				</Headline>
 				<Gallery.Root
 					class="relative bg-white/[.85]"
@@ -209,7 +211,7 @@
 							/>
 						{/if}
 						<div
-							class="flex flex-col justify-between flex-shrink-0 w-4/6 border-r last:border-r-0 border-mauve-6 md:w-1/2 lg:w-1/3"
+							class="flex flex-col justify-between flex-shrink-0 w-4/6 overflow-x-auto border-r last:border-r-0 border-mauve-6 md:w-1/2 lg:w-1/3"
 						>
 							<p
 								class="flex items-center p-1 text-xs bg-white border-b text-mauve-11 border-mauve-6"
@@ -222,7 +224,8 @@
 										class="{$tags.has(tag)
 											? 'underline decoration-from-font'
 											: ''} p-1"
-										>{tag}
+									>
+										{tag}
 									</span>
 								{/each}
 							</p>
@@ -306,9 +309,9 @@
 									? 'border-l border-mauve-6'
 									: ''
 							}`}
-							>{computed[0].toUpperCase() +
-								computed.slice(1)}</span
 						>
+							{computed[0].toUpperCase() + computed.slice(1)}
+						</span>
 					</span>
 					<span aria-hidden="true">
 						<East />

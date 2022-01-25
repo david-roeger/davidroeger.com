@@ -60,9 +60,9 @@
 	<h1>About this app</h1>
 
 	<p>
-		This is a <a href="https://kit.svelte.dev">SvelteKit</a> app. You can make
-		your own by typing the following into your command line and following the
-		prompts:
+		This is a <a href="https://kit.svelte.dev">SvelteKit</a>
+		app. You can make your own by typing the following into your command line
+		and following the prompts:
 	</p>
 
 	<!-- TODO lose the @next! -->
@@ -76,7 +76,8 @@
 	</p>
 
 	<p>
-		The <a href="/about/music">Music</a> page illustrates SvelteKit's data loading
-		and form handling. Try using it with JavaScript disabled!
+		The <a href="/about/music">Music</a>
+		page illustrates SvelteKit's data loading and form handling. Try using it
+		with JavaScript disabled!
 	</p>
 </section>

@@ -15,7 +15,7 @@
 		>
 			<AccessibleIcon label="Tags"><TagIcon /></AccessibleIcon>
 			{#each tags as tag (tag)}
-				<span class="m-1">{tag} </span>
+				<span class="m-1">{tag}</span>
 			{/each}
 		</p>
 	{/if}
