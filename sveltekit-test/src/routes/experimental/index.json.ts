@@ -35,7 +35,6 @@ export async function get({ url }: { url: URL }): GetReturnType {
 
 	for (const [path, resolver] of Object.entries(nested)) {
 		const slug = path.match(/\.\/(.*?)\//i)?.[1] ?? null;
-		console.log(slug);
 
 		if (!slug) {
 			continue;
