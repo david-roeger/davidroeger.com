@@ -8,7 +8,7 @@
 </script>
 
 <span
-	style={`position: relative; flex-grow: 1;`}
+	style="position: relative; flex-grow: 1;"
 	class={c}
 	data-disabled={disabled}
 	data-orientation={orientation}

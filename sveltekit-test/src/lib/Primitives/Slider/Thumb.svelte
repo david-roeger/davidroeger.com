@@ -174,10 +174,10 @@
 	on:focus={() =>
 		($focusThumb = { id: computedId, value: value, element: thumb })}
 	on:blur={() => ($focusThumb = undefined)}
-	class={c}
 	bind:this={thumb}
 	on:keydown={handleKeyDown}
 	on:keydown
+	class={c}
 	style={`transform: translate${
 		orientation === 'horizontal' ? 'X' : 'Y'
 	}(-50%); position: absolute; ${start}: calc(${percent}% + ${thumbInBoundsOffset}px);`}

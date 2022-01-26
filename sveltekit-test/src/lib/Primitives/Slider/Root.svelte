@@ -191,6 +191,7 @@
 	on:pointerdown={(e) => slideStart(e)}
 	on:pointermove={(e) => slideMove(e)}
 	on:pointerup={(e) => slideStop(e)}
+	on:pointercancel={(e) => slideStop(e)}
 >
 	<slot />
 </div>

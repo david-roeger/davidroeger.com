@@ -82,7 +82,7 @@
 	id="{id}-content"
 	aria-labelledby="{id}-title"
 	aria-describedby="{id}-description"
-	class={`${c}`}
+	class={c}
 	tabindex="-1"
 	bind:this={content}
 	on:keydown={handleKeyDown}
