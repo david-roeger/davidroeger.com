@@ -20,7 +20,7 @@
 
 	const sizes = '(min-width: 768px) 752px, 496px';
 
-	import { Image } from '$components/Image';
+	import { Image } from '$lib/Primitives/Image';
 </script>
 
 <div
