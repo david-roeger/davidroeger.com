@@ -112,7 +112,7 @@
 
 	const baseEasing = BezierEasing(0.4, 0, 0.2, 1);
 	const reversedEasing = BezierEasing(0.8, 0, 0.6, 1);
-	function spin(
+	function slideLeft(
 		node,
 		{ start = -34, end = 0, duration = 150, easing = baseEasing },
 	) {
@@ -135,7 +135,7 @@
 		class="flex flex-wrap p-1 transition-all border-b border-mauve-6"
 	>
 		{#if $tags.size}
-			<div in:spin out:spin={{ easing: reversedEasing }}>
+			<div in:slideLeft out:slideLeft={{ easing: reversedEasing }}>
 				<Tags.Unset
 					class="p-1 m-1 text-xs border rounded-full touch-manipulation border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1"
 				>

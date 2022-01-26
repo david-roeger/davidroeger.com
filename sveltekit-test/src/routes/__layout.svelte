@@ -34,9 +34,7 @@
 		<slot />
 	</main>
 
-	<BttButton
-		class="fixed bottom-0 left-0 block p-1 m-2 text-xs bg-white border rounded-full cursor-n-resize touch-manipulation focus:outline-none ring-mauve-12 focus:ring-1"
-	>
+	<BttButton>
 		<AccessibleIcon label="Back to top"><North /></AccessibleIcon>
 	</BttButton>
 	<!--footer class="z-20 " /-->
