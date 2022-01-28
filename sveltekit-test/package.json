@@ -39,7 +39,7 @@
 	"type": "module",
 	"dependencies": {
 		"bezier-easing": "^2.1.0",
-		"blurhash": "^1.1.4",
+		"colorthief": "^2.3.2",
 		"focus-trap": "^6.7.2"
 	}
 }

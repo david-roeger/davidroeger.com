@@ -141,6 +141,9 @@ module.exports = {
 			fontFamily: {
 				sans: ['Inter var', 'ui-sans-serif', 'system-ui', 'sans-serif'],
 			},
+			screens: {
+				600: '600px',
+			},
 			fontSize: {
 				'10xl': '10rem',
 				'12xl': '12rem',

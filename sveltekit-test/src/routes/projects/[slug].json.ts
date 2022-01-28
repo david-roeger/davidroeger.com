@@ -15,7 +15,7 @@ export async function get({
 			const project = await resolver();
 			return {
 				status: 200,
-				body: project.metadata,
+				body: { ...project.metadata, slug },
 			};
 		}
 	}

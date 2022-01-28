@@ -16,13 +16,24 @@ export type GetReturnType = Promise<{
 	body?: T;
 }>;
 
+export interface Media {
+	src: string;
+	width?: string;
+	height?: string;
+	hash?: string;
+}
+
+export interface ProjectMediaData {
+	[key: string]: Media;
+}
 export interface ProjectMetaData {
 	order: number;
 	title: string;
-	description: string;
 	slug: string;
 	tags: string[];
-	thumbnail: string;
 	media: string[];
+	vertical: string;
+	horizontal: string;
+	github: string;
 	published: boolean;
 }

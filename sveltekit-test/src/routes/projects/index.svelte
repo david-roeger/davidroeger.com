@@ -11,6 +11,7 @@
 		const experimental = await fetch('/experimental.json').then((res) =>
 			res.json(),
 		);
+
 		return {
 			props: {
 				projects,
@@ -31,7 +32,7 @@
 	import * as Gallery from '$primitives/Gallery';
 	import type { ProjectMetaData } from '$lib/types';
 	import Headline from '$lib/Components/Headline/Headline.svelte';
-
+	import { Media } from '$lib/Components/Media';
 	import East from '$assets/Icons/24/east.svg';
 	import West from '$assets/Icons/24/west.svg';
 	import East16 from '$assets/Icons/16/east.svg';
@@ -41,6 +42,9 @@
 
 	import BezierEasing from 'bezier-easing';
 	import TagIcon from '$assets/Icons/24/tag.svg';
+
+	import type { ProjectMediaData } from '$lib/types';
+	import projectsMediaData from '$assets/projectsMediaData.json';
 
 	export let projects: ProjectMetaData[] = [];
 	export let experimental: { slug: string; thumbnail?: string }[] = [];
@@ -125,6 +129,10 @@
 			},
 		};
 	}
+
+	const getProjectMediaData = (slug: string) => {
+		return projectsMediaData[slug] as ProjectMediaData;
+	};
 </script>
 
 <Tags.Root
@@ -135,7 +143,10 @@
 		class="flex flex-wrap p-1 transition-all border-b border-mauve-6"
 	>
 		{#if $tags.size}
-			<div in:slideLeft out:slideLeft={{ easing: reversedEasing }}>
+			<div
+				in:slideLeft|local
+				out:slideLeft|local={{ easing: reversedEasing }}
+			>
 				<Tags.Unset
 					class="p-1 m-1 text-xs border rounded-full touch-manipulation border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1"
 				>
@@ -159,12 +170,8 @@
 	<Headline containerClass="py-8 md:py-16">My Projects</Headline>
 
 	<div class={$tags.size ? 'pb-32' : ''}>
-		{#each filteredProjects as project (project.title)}
-			<!-- divider -->
-			<!--div class="border-b border-mauve-6">
-				<div class="w-16 h-16 m-auto border rounded-full border-mauve-6 md:w-20 md:h-20" />
-			</div-->
-			<!-- -->
+		{#each filteredProjects as project, index (project.title)}
+			{@const projectMediaData = getProjectMediaData(project.slug)}
 			<section
 				class="mb-8 border-t border-b first:border-t-0 border-mauve-6 md:mb-16 last:mb-0"
 			>
@@ -202,63 +209,43 @@
 					<Gallery.Content
 						class="flex border-b border-t border-mauve-6 border-r-0 h-96 md:h-[32rem] focus:outline-none ring-mauve-6 focus:ring-1 no-scrollbar"
 					>
-						{#if project.thumbnail}
-							<img
-								loading="lazy"
+						{#if project.vertical && projectMediaData && projectMediaData[project.vertical]}
+							<Media
+								media={projectMediaData[project.vertical]}
+								src="./assets/projects/{project.slug}/{projectMediaData[
+									project.vertical
+								].src}"
 								alt=""
-								class="relative block h-full border-r max-w-none last:border-r-0 border-mauve-6"
-								src="./assets/projects/{project.thumbnail}"
+								class="block h-full border-r last:border-r-0 border-mauve-6 max-w-none"
+								loading={index > 1 ? 'lazy' : undefined}
 							/>
 						{/if}
-						<div
-							class="flex flex-col justify-between flex-shrink-0 w-4/6 overflow-x-auto border-r last:border-r-0 border-mauve-6 md:w-1/2 lg:w-1/3"
-						>
-							<p
-								class="flex items-center p-1 text-xs bg-white border-b text-mauve-11 border-mauve-6"
-							>
-								<AccessibleIcon label="Tags"
-									><TagIcon /></AccessibleIcon
-								>
-								{#each project.tags as tag (tag)}
-									<span
-										class="{$tags.has(tag)
-											? 'underline decoration-from-font'
-											: ''} p-1"
-									>
-										{tag}
-									</span>
-								{/each}
-							</p>
-							<div class="m-4">
-								<p>{project.description}</p>
-								<p class="text-xs">More Meta Data?</p>
-								<p class="text-xs">More Meta Data?</p>
-							</div>
-						</div>
-						{#each project.media as media (media)}
-							{#if media}
-								{#if media.includes('mp4')}
-									<video
-										loading="lazy"
-										muted
-										autoplay
-										loop
-										playsInline
-										controls={false}
-										alt=""
-										class="block h-full border-r border-mauve-6 max-w-none"
-										src="./assets/projects/{media}"
-									/>
-								{:else}
-									<img
-										loading="lazy"
-										alt=""
+						{#if project.horizontal && projectMediaData && projectMediaData[project.horizontal]}
+							<Media
+								media={projectMediaData[project.horizontal]}
+								src="./assets/projects/{project.slug}/{projectMediaData[
+									project.horizontal
+								].src}"
+								alt=""
+								class="block h-full border-r last:border-r-0 border-mauve-6 max-w-none"
+								loading={index > 1 ? 'lazy' : undefined}
+							/>
+						{/if}
+						{#if project.media}
+							{#each project.media as media (media)}
+								{#if media && projectsMediaData && projectMediaData[media]}
+									<Media
+										media={projectMediaData[media]}
+										src="./assets/projects/{project.slug}/{projectMediaData[
+											media
+										].src}"
 										class="block h-full border-r last:border-r-0 border-mauve-6 max-w-none"
-										src="./assets/projects/{media}"
+										alt=""
+										loading={index > 1 ? 'lazy' : undefined}
 									/>
 								{/if}
-							{/if}
-						{/each}
+							{/each}
+						{/if}
 					</Gallery.Content>
 				</Gallery.Root>
 				<div class="bg-white md:flex md:flex-wrap md:justify-between">
