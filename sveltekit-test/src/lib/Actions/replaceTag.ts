@@ -20,11 +20,7 @@ export const replaceTag = (node: HTMLElement, tag = ''): ActionReturnType => {
 
 					// copy all html attributes from node to newNode
 					try {
-						console.log(node.id);
 						for (const key in node.attributes) {
-							console.log(key);
-							console.log(node.getAttributeNames());
-
 							node.getAttributeNames().forEach((attr) => {
 								newNode.setAttribute(
 									attr,
