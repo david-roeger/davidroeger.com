@@ -50,8 +50,8 @@
 
 {#if show}
 	<button
-		in:slideUp
-		out:slideUp={{ easing: reversedEasing }}
+		in:slideUp|local
+		out:slideUp|local={{ easing: reversedEasing }}
 		on:click={handleClick}
 		on:click
 		type="button"
