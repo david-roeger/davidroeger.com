@@ -133,10 +133,11 @@
 		<Popper.Root defaultOpen={false}>
 			<Popper.Trigger
 				class="p-2 border border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1"
-				><AccessibleIcon label="Filter Favorites"
-					><Filter /></AccessibleIcon
-				></Popper.Trigger
 			>
+				<AccessibleIcon label="Filter Favorites">
+					<Filter />
+				</AccessibleIcon>
+			</Popper.Trigger>
 			<Popper.Content
 				class="bg-white border border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1"
 				side="bottom"
@@ -144,9 +145,9 @@
 				sideOffset={8}
 				alignOffset={0}
 			>
-				<Headline id="timeHeadline" type="tertiary" class="border-b-0"
-					>Time Range</Headline
-				>
+				<Headline id="timeHeadline" type="tertiary" class="border-b-0">
+					Time Range
+				</Headline>
 
 				<RadioGroup.Root
 					defaultValue={timeRanges[timeRange].value}
@@ -167,10 +168,11 @@
 								value={range.value}
 								id={range.value}
 								class="w-6 h-6 p-1 bg-white border rounded-full b border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1"
-								><RadioGroup.Indicator
-									class="block w-full h-full p-1 rounded-full bg-plum-5"
-								/></RadioGroup.Item
 							>
+								<RadioGroup.Indicator
+									class="block w-full h-full p-1 rounded-full bg-plum-5"
+								/>
+							</RadioGroup.Item>
 							<label
 								for={range.value}
 								on:click={(e) => e.stopPropagation()}
@@ -184,9 +186,10 @@
 
 				<Popper.Close
 					class="bg-white absolute top-0 right-0 p-2 -translate-y-[51px] translate-x-[1px] border border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1"
-					><AccessibleIcon label="Close Popover"
-						><Close /></AccessibleIcon
-					>
+				>
+					<AccessibleIcon label="Close Popover">
+						<Close />
+					</AccessibleIcon>
 				</Popper.Close>
 			</Popper.Content>
 		</Popper.Root>

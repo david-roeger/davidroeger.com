@@ -1,6 +1,4 @@
-import { Tag } from '$lib/Primitives/Tags';
 import type { ActionReturnType } from '$lib/types';
-import type { attr } from 'svelte/internal';
 /**
  * Usage: <div use:replaceTag={string}>
  * Only works with class and children attributes
@@ -9,8 +7,16 @@ import type { attr } from 'svelte/internal';
  * @param { string } tag new Element tag
  */
 
+/**
+ * TODO
+ * Seems broken
+ * Sometimes Element doesnt get replaced :(
+ */
+
 export const replaceTag = (node: HTMLElement, tag = ''): ActionReturnType => {
 	const update = (node: HTMLElement) => {
+		console.log(node, 1);
+
 		if (tag) {
 			const tagName = tag.toLowerCase();
 
@@ -28,12 +34,15 @@ export const replaceTag = (node: HTMLElement, tag = ''): ActionReturnType => {
 								);
 							});
 						}
-					} catch (error) {
-						console.error(error);
-					}
+						newNode.innerHTML = node.innerHTML;
 
-					newNode.innerHTML = node.innerHTML;
-					node.replaceWith(newNode);
+						node.replaceWith(newNode);
+						console.log(node, 2);
+					} catch (error) {
+						throw new Error(
+							`${node} not compatible with HTML ${tag}`,
+						);
+					}
 				} catch (error) {
 					throw new Error(`${tag} is not a valid HTML tag`);
 				}

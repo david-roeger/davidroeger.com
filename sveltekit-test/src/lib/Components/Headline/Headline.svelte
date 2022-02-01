@@ -55,12 +55,21 @@
 </script>
 
 <div class="{unstyled ? '' : 'border-b border-mauve-6 p-2'} {containerClass}">
-	<h1
-		{id}
-		use:replaceTag={computedAs}
-		class={unstyled ? '' : variantClass}
-		class:c
-	>
-		<slot />
-	</h1>
+	{#if computedAs === 'h4'}
+		<h4 {id} class={unstyled ? '' : variantClass} class:c>
+			<slot />
+		</h4>
+	{:else if computedAs === 'h3'}
+		<h3 {id} class={unstyled ? '' : variantClass} class:c>
+			<slot />
+		</h3>
+	{:else if computedAs === 'h2'}
+		<h2 {id} class={unstyled ? '' : variantClass} class:c>
+			<slot />
+		</h2>
+	{:else}
+		<h1 {id} class={unstyled ? '' : variantClass} class:c>
+			<slot />
+		</h1>
+	{/if}
 </div>
