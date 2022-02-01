@@ -136,17 +136,20 @@
 							</Dialog.Trigger>
 							<Dialog.Portal>
 								<Dialog.Overlay
-									class="fixed top-0 bottom-0 left-0 right-0 bg-mauve-12/50"
+									class="fixed top-0 bottom-0 left-0 right-0 bg-green-5/[0.95]"
 								/>
 								<Dialog.Content
-									class="fixed -translate-y-1/2 pointer-events-none top-1/2 "
+									class="fixed top-0 max-h-full overflow-auto"
 								>
-									<Media
-										media={medium}
-										src="../assets/projects/{slug}/{medium.src}"
-										alt=""
-										class="block portrait:h-auto portrait:w-full portrait:max-w-[100vw] landscape:w-auto landscape:h-full landscape:max-h-screen"
-									/>
+									<div class="h-full overflow-y-auto">
+										<Media
+											media={medium}
+											src="../assets/projects/{slug}/{medium.src}"
+											alt=""
+											class=""
+										/>
+									</div>
+
 									<Dialog.Close
 										class="absolute top-0 right-0 p-1 m-1 text-xs bg-white border rounded-full touch-manipulation border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1"
 									>
