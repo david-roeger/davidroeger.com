@@ -5,7 +5,7 @@ const config = {
 		dashes: 'oldschool',
 	},
 
-	layout: { _: './src/routes/projects/_detail.svelte' },
+	layout: './src/routes/projects/_mdsvexLayout.svelte',
 
 	remarkPlugins: [],
 	rehypePlugins: [],
