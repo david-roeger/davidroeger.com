@@ -68,7 +68,7 @@
 			{/each}
 		</p>
 	{/if}
-	<section class="border-b border-mauve-6">
+	<section class="mb-32 border-b border-mauve-6">
 		{#if title}
 			<Headline containerClass="py-8 md:py-16">
 				{title}
@@ -97,7 +97,7 @@
 				</p>
 			</div>
 		</div>
-		<div class="border-b border-mauve-6">
+		<!--div class="border-b border-mauve-6">
 			{#if horizontalMedia}
 				<div class="md:border-r border-mauve-6 md:w-3/4">
 					<Media
@@ -108,7 +108,7 @@
 					/>
 				</div>
 			{/if}
-		</div>
+		</div-->
 		<div class="flex">
 			<div
 				class="p-8 grow md:grow-0 md:w-3/4 md:border-r border-mauve-6 md:p-8 xl:p-16 bg-white/[.85]"
