@@ -4,6 +4,7 @@
 	export let src = 'src';
 	export let loading: 'lazy' | undefined = undefined;
 	export let alt: string;
+	export let id: string = undefined;
 
 	let c = '';
 	export { c as class };
@@ -15,6 +16,7 @@
 			width={media.width || undefined}
 			height={media.height || undefined}
 			{loading}
+			{id}
 			muted
 			autoplay
 			loop
@@ -28,6 +30,7 @@
 		<img
 			width={media.width || undefined}
 			height={media.height || undefined}
+			{id}
 			{loading}
 			{alt}
 			class={c}
