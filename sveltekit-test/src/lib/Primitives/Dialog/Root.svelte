@@ -9,14 +9,14 @@
 	export { c as class };
 
 	import { activeDialogs } from './store';
-	import { setContext } from 'svelte';
+	import { onDestroy, setContext } from 'svelte';
 	import { writable } from 'svelte/store';
 	import { createEventDispatcher } from 'svelte';
 	import type { RootContext } from './types';
 
 	id++;
 	const rootContext: RootContext = {
-		id: `drds-accordion-${id.toString()}`,
+		id: `drds-dialog-${id.toString()}`,
 		trap: writable(undefined),
 		open: writable(defaultOpen),
 		setOpen: writable(undefined),
@@ -47,6 +47,13 @@
 	const dispatch = createEventDispatcher<{ openChange: { open: boolean } }>();
 	$: dispatch('openChange', {
 		open: $open,
+	});
+
+	onDestroy(() => {
+		if ($trap) {
+			$trap.deactivate();
+			$trap = undefined;
+		}
 	});
 </script>
 

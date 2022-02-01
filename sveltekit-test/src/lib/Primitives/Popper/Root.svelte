@@ -108,6 +108,11 @@
 			$triggerRect.onDestroy();
 			$triggerRect = undefined;
 		}
+
+		if ($trap) {
+			$trap.deactivate();
+			$trap = undefined;
+		}
 	};
 
 	onDestroy(() => {
@@ -116,11 +121,6 @@
 
 	/* outside click && esc */
 	$setClose = () => {
-		if ($trap) {
-			$trap.deactivate();
-			$trap = undefined;
-		}
-
 		destroy();
 		$open = false;
 	};
