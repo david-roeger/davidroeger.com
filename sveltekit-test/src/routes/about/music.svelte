@@ -119,7 +119,7 @@
 				? 'bg-purple-5'
 				: 'bg-white'}"
 		>
-			<Headline unstyled id="top_tracks" type="secondary">Tracks</Headline
+			<Headline as="h2" unstyled id="top_tracks" type="secondary">Tracks</Headline
 			>
 		</Tabs.Trigger>
 		<Tabs.Trigger
@@ -129,7 +129,7 @@
 				? 'bg-purple-5'
 				: 'bg-white'}"
 		>
-			<Headline unstyled type="secondary" id="top_artists">
+			<Headline as="h2" unstyled type="secondary" id="top_artists">
 				Artists
 			</Headline>
 		</Tabs.Trigger>
@@ -148,7 +148,7 @@
 				sideOffset={8}
 				alignOffset={0}
 			>
-				<Headline id="timeHeadline" type="tertiary" class="border-b-0">
+				<Headline as="h2" id="timeHeadline" type="tertiary" class="border-b-0">
 					Time Range
 				</Headline>
 

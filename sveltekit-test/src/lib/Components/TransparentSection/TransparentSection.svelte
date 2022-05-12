@@ -1,10 +1,9 @@
 <script lang="ts">
-	export let tag = 'div';
+	export let asTag = 'div';
 	let c = '';
 	export { c as class };
-	import { replaceTag } from '$lib/Actions';
 </script>
 
-<div class="border-b border-mauve-6 bg-white/[0.85] {c}" use:replaceTag={tag}>
+<svelte:element this={asTag} class="border-b border-mauve-6 bg-white/[0.85] {c}">
 	<slot />
-</div>
+</svelte:element>

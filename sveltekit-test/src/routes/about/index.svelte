@@ -50,7 +50,7 @@
 		/>
 	</div>
 </div>
-<Headline type="secondary" containerClass="bg-white/[0.85]"
+<Headline as="h2" type="secondary" containerClass="bg-white/[0.85]"
 	>Frontend Developer, UI/UX Designer</Headline
 >
 

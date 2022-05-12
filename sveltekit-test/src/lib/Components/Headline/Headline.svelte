@@ -1,7 +1,7 @@
 <script lang="ts">
 	export let type: 'primary' | 'secondary' | 'tertiary' | 'quaternary' =
 		'primary';
-	export let asTag: 'h1' | 'h2' | 'h3' | 'h4' = undefined;
+	export let asTag: 'h1' | 'h2' | 'h3' | 'h4' = 'h1';
 	export { asTag as as };
 
 	export let id: string = undefined;
@@ -9,8 +9,6 @@
 	let c = '';
 	export let containerClass = '';
 	export { c as class };
-
-	import { replaceTag } from '$lib/Actions';
 
 	const primaryClass = 'text-6xl';
 	const secondaryClass = 'text-2xl';
@@ -33,43 +31,10 @@
 			variantClass = quaternaryClass;
 			break;
 	}
-
-	let computedAs = (() => {
-		if (asTag === undefined) {
-			if (type === 'secondary') {
-				return 'h2';
-			}
-
-			if (type === 'tertiary') {
-				return 'h3';
-			}
-
-			if (type === 'quaternary') {
-				return 'h4';
-			}
-
-			return 'h1';
-		}
-		return asTag;
-	})();
 </script>
 
 <div class="{unstyled ? '' : 'border-b border-mauve-6 p-2'} {containerClass}">
-	{#if computedAs === 'h4'}
-		<h4 {id} class={unstyled ? '' : variantClass} class:c>
-			<slot />
-		</h4>
-	{:else if computedAs === 'h3'}
-		<h3 {id} class={unstyled ? '' : variantClass} class:c>
-			<slot />
-		</h3>
-	{:else if computedAs === 'h2'}
-		<h2 {id} class={unstyled ? '' : variantClass} class:c>
-			<slot />
-		</h2>
-	{:else}
-		<h1 {id} class={unstyled ? '' : variantClass} class:c>
-			<slot />
-		</h1>
-	{/if}
+	<svelte:element this={asTag} {id} class={unstyled ? '' : variantClass} class:c>
+		<slot />
+	</svelte:element>
 </div>

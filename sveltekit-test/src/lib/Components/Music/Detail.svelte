@@ -16,10 +16,12 @@
 	<slot name="headline" />
 
 	<Headline
+		as="h3"
 		type="tertiary"
 		containerClass="pt-0 px-0 pb-2 truncate border-b-0 md:pb-0"
-		><slot /></Headline
-	>
+		>
+		<slot />
+	</Headline>
 </div>
 <div
 	class="hidden w-full pb-2 pl-2 text-xs md:flex md:items-center md:space-x-1 text-mauve-11"

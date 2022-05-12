@@ -176,6 +176,7 @@
 				class="mb-8 border-t border-b first:border-t-0 border-mauve-6 md:mb-16 last:mb-0"
 			>
 				<Headline
+					as="h2"
 					type="secondary"
 					containerClass="bg-white border-b-0"
 					id="gallery-headline-{encodeURIComponent(project.title)}"
@@ -266,13 +267,13 @@
 </Tags.Root>
 
 {#if !$tags.size && experimental.length}
-	<Headline containerClass="py-8 md:py-16">Experi&shy;mental</Headline>
+	<Headline as="h2" containerClass="py-8 md:py-16">Experi&shy;mental</Headline>
 
 	<section class="mb-32">
 		{#each experimental as experiment}
 			{@const computed = experiment.slug.replace('-', ' ')}
 			<!-- content here -->
-			<Headline type="secondary" containerClass="!p-0 bg-white"
+			<Headline as="h3" type="secondary" containerClass="!p-0 bg-white"
 				><a
 					sveltekit:prefetch
 					class="group flex justify-between items-center pr-4 transition-[padding] bg-white md:justify-between hover:pr-2 focus:pr-2 focus:outline-none"
