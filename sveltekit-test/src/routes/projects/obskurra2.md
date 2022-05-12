@@ -1,7 +1,7 @@
 ---
 order: 5
 title: 'Obskurra 2'
-tags: ['Typography', 'Web', 'Interactive']
+tags: ['tag1', 'tag2', 'tag3']
 github: ''
 project: 'https://david-roeger.github.io/obskkura/index.html'
 published: true
