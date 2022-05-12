@@ -1,5 +1,6 @@
 <script lang="ts">
 	import '../app.css';
+	import { BreakpointProvider } from '$lib/Provider/Breakpoint';
 	import { Header } from '$lib/Slices/Header';
 	import { BttButton } from '$lib/Components/BttButton';
 	import AccessibleIcon from '$lib/Components/AccessibleIcon';
@@ -31,7 +32,9 @@
 <div class="font-sans text-mauve-12">
 	<Header class="z-30" />
 	<main class="z-10 xl:max-w-7xl xl:border-r border-mauve-6">
-		<slot />
+		<BreakpointProvider>
+			<slot />
+		</BreakpointProvider>
 	</main>
 
 	<BttButton>
