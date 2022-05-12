@@ -111,7 +111,7 @@
 		</div-->
 		<div class="flex">
 			<div
-				class="p-8 grow md:grow-0 md:w-3/4 md:border-r border-mauve-6 md:p-8 xl:p-16 bg-white/[.85]"
+				class="py-8 grow md:grow-0 md:w-3/4 md:border-r border-mauve-6 md:p-8 xl:p-16 bg-white/[.85]"
 			>
 				<div class="max-w-[60ch]">
 					<slot />
@@ -139,7 +139,7 @@
 									class="fixed top-0 bottom-0 left-0 right-0 bg-green-5/[0.95]"
 								/>
 								<Dialog.Content
-									class="fixed top-0 max-h-full overflow-auto"
+									class="fixed top-0 left-0 right-0 mx-auto overflow-auto pointer-events-none"
 								>
 									<div class="h-full overflow-y-auto">
 										<Media
