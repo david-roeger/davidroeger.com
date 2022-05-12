@@ -38,6 +38,9 @@
 				},
 			};
 		}
+
+		throw new Error("Couldn't load music data");
+		
 	};
 </script>
 
