@@ -1,5 +1,5 @@
 import {
-	getAccessToken,
+	generateAccessToken,
 	getTopTracks,
 	getTopArtists,
 	getLastTrack,
@@ -14,8 +14,8 @@ import type {
 // GET /about/music.json
 export const get: RequestHandler = async () => {
 	// request access token
-	const response = await getAccessToken();
-
+	const response = await generateAccessToken();
+	console.log(response);
 	// if access token is
 	if (response.ok) {
 		// fetch all items
