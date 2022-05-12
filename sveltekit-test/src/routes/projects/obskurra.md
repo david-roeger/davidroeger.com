@@ -4,7 +4,7 @@ title: 'Obskurra Typeface'
 tags: ['Typography', 'Web', 'Interactive']
 vertical: 'boys'
 horizontal: 'void'
-media: ['typeset', 'lady']
+media: ['lady', 'typeset']
 github: ''
 project: 'https://david-roeger.github.io/obskkura/index.html'
 published: true
