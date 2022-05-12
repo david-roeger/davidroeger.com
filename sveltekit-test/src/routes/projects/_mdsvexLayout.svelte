@@ -1,4 +1,6 @@
 <script>
+	import { getContext } from 'svelte';
+
 	import * as Dialog from '$lib/Primitives/Dialog';
 
 	export let media = [];
@@ -11,7 +13,6 @@
 	import { Media } from '$lib/Components/Media';
 
 	import TagIcon from '$assets/Icons/24/tag.svg';
-	import Close from '$assets/Icons/24/close.svg';
 
 	import Headline from '$components/Headline/Headline.svelte';
 
@@ -40,15 +41,30 @@
 		mediaArray.push(verticalMedia);
 	}
 
-	const cols = 3;
-	const nestedMediaArray = [];
-	for (let i = 0; i < cols; i++) {
-		nestedMediaArray.push([]);
+	if (horizontalMedia) {
+		mediaArray.push(horizontalMedia);
 	}
-	/* place mediaarray items insted nested media with three levels*/
-	mediaArray.forEach((medium, index) => {
-		nestedMediaArray[index % cols].push(medium);
-	});
+
+	const getNestedMedia = (md, lg) => {
+		const array = [];
+		const cols = lg ? 3 : md ? 2 : 1;
+		console.log(lg, md, cols);
+		for (let i = 0; i < cols; i++) {
+			array.push([]);
+		}
+		/* place media array items in nested media with <col> levels*/
+		mediaArray.forEach((medium, index) => {
+			array[index % cols].push(medium);
+		});
+
+		console.log(array);
+		console.log(mediaArray);
+
+		return array;
+	};
+
+	const { MD, LG } = getContext('breakpoints');
+	$: nestedMediaArray = getNestedMedia($MD, $LG);
 </script>
 
 <article>
@@ -92,26 +108,11 @@
 				<p class="m-1 text-xs text-mauve-11">
 					Hochschule der Medien (2021)
 				</p>
-				<p class="m-1 text-xs text-mauve-11">
-					Hochschule der Medien (2021)
-				</p>
 			</div>
 		</div>
-		<!--div class="border-b border-mauve-6">
-			{#if horizontalMedia}
-				<div class="md:border-r border-mauve-6 md:w-3/4">
-					<Media
-						media={horizontalMedia}
-						src="../assets/projects/{slug}/{horizontalMedia.src}"
-						alt=""
-						class="block"
-					/>
-				</div>
-			{/if}
-		</div-->
 		<div class="flex">
 			<div
-				class="py-8 grow md:grow-0 md:w-3/4 md:border-r border-mauve-6 md:p-8 xl:p-16 bg-white/[.85]"
+				class="py-8 px-2 grow md:grow-0 md:w-3/4 md:border-r border-mauve-6 md:p-8 xl:p-16 bg-white/[.85]"
 			>
 				<div class="max-w-[60ch]">
 					<slot />
@@ -121,45 +122,14 @@
 
 		<div class="flex p-1 border-t border-mauve-6">
 			{#each nestedMediaArray as nestedMedia}
-				<div class="flex flex-col m-1">
+				<div class="flex flex-col flex-1 ">
 					{#each nestedMedia as medium (medium.src)}
-						<Dialog.Root defaultOpen={false}>
-							<Dialog.Trigger
-								class="m-1 border border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1"
-							>
-								<Media
-									media={medium}
-									src="../assets/projects/{slug}/{medium.src}"
-									alt=""
-									class="border-r last:border-r-0 border-mauve-6"
-								/>
-							</Dialog.Trigger>
-							<Dialog.Portal>
-								<Dialog.Overlay
-									class="fixed top-0 bottom-0 left-0 right-0 bg-green-5/[0.95]"
-								/>
-								<Dialog.Content
-									class="fixed top-0 left-0 right-0 mx-auto overflow-auto pointer-events-none"
-								>
-									<div class="h-full overflow-y-auto">
-										<Media
-											media={medium}
-											src="../assets/projects/{slug}/{medium.src}"
-											alt=""
-											class=""
-										/>
-									</div>
-
-									<Dialog.Close
-										class="absolute top-0 right-0 p-1 m-1 text-xs bg-white border rounded-full touch-manipulation border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1"
-									>
-										<AccessibleIcon label="Close">
-											<Close />
-										</AccessibleIcon>
-									</Dialog.Close>
-								</Dialog.Content>
-							</Dialog.Portal>
-						</Dialog.Root>
+						<Media
+							media={medium}
+							src="../assets/projects/{slug}/{medium.src}"
+							alt=""
+							class="p-1 border-mauve-6"
+						/>
 					{/each}
 				</div>
 			{/each}
