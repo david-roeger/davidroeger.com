@@ -33,7 +33,7 @@ const createSpotifyResponse = (
  */
 
 let accessToken = '';
-export const getAccessToken = async (): Promise<SpotifyResponse> => {
+export const generateAccessToken = async (): Promise<SpotifyResponse> => {
 	if (accessToken) {
 		return createSpotifyResponse(200, true, {});
 	}
