@@ -6,3 +6,4 @@ dist-ssr
 tsconfig.tsbuildinfo
 blurhash.map.json
 metadata.map.json
+/.svelte-kit
