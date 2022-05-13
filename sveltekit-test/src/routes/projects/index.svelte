@@ -263,9 +263,11 @@
 						href="projects/{project.slug}"
 						title="Read more about the project {project.slug}"
 					>
-						Read More <span aria-hidden="true">
+						Read More <AccessibleIcon
+							label={`about the project ${project.slug}`}
+						>
 							<East16 />
-						</span>
+						</AccessibleIcon>
 					</a>
 				</div>
 			</section>
