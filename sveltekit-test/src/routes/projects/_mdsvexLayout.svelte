@@ -1,18 +1,25 @@
 <script>
 	import { getContext } from 'svelte';
 
-	import * as Dialog from '$lib/Primitives/Dialog';
-
 	export let media = [];
 	export let vertical;
 	export let horizontal;
 	export let tags;
 	export let title;
 
+	export let team;
+	export let place;
+	export let date;
+
+	export let github = '';
+	export let project = '';
+
 	import AccessibleIcon from '$components/AccessibleIcon/AccessibleIcon.svelte';
 	import { Media } from '$lib/Components/Media';
 
 	import TagIcon from '$assets/Icons/24/tag.svg';
+	import LinkIcon from '$assets/Icons/24/link.svg';
+	import GithubIcon from '$assets/Icons/24/github.svg';
 
 	import Headline from '$components/Headline/Headline.svelte';
 
@@ -93,19 +100,58 @@
 				<p class="m-1 text">Type Design & Web Development</p>
 			</div>
 		</div>
-
-		<div class="border-b border-mauve-6">
-			<div
-				class="p-1 md:w-3/4 md:border-r flex-grow-1 border-mauve-6 bg-white/[.85]"
-			>
-				<p class="m-1 text-xs text-mauve-11">
-					Akina Hocke, Jessica Wiest
-				</p>
-				<p class="m-1 text-xs text-mauve-11">
-					Hochschule der Medien (2021)
-				</p>
+		{#if team || place}
+			<div class="border-b border-mauve-6">
+				<div
+					class="p-1 md:w-3/4 md:border-r flex-grow-1 border-mauve-6 bg-white/[.85]"
+				>
+					{#if team}
+						<p class="m-1 text-xs text-mauve-11">
+							{team}{!place && date ? ` (${date})` : ''}
+						</p>
+					{/if}
+					{#if place}
+						<p class="m-1 text-xs text-mauve-11">
+							{place}{date ? ` (${date})` : ''}
+						</p>
+					{/if}
+				</div>
 			</div>
-		</div>
+		{/if}
+		{#if github || project}
+			<div class="border-b border-mauve-6">
+				<div
+					class="p-1 md:w-3/4 md:border-r flex-grow-1 border-mauve-6 bg-white/[.85]"
+				>
+					{#if project}
+						<p class="m-1 text-xs text-mauve-11">
+							<a
+								class="flex items-center space-x-1 hover:underline focus:underline decoration-from-font focus:outline-none"
+								href={project}
+								rel="noopener noreferrer"
+								target="_blank"
+							>
+								<LinkIcon aria-hidden />
+								<span>View Project</span>
+							</a>
+						</p>
+					{/if}
+					{#if github}
+						<p class="m-1 text-xs text-mauve-11">
+							<a
+								class="flex items-center space-x-1 hover:underline focus:underline decoration-from-font focus:outline-none"
+								href={github}
+								rel="noopener noreferrer"
+								target="_blank"
+							>
+								<GithubIcon aria-hidden />
+								<span>Github</span>
+							</a>
+						</p>
+					{/if}
+				</div>
+			</div>
+		{/if}
 		<div class="flex">
 			<div
 				class="py-8 px-2 grow md:grow-0 md:w-3/4 md:border-r border-mauve-6 md:p-8 xl:p-16 bg-white/[.85]"
@@ -116,19 +162,21 @@
 			</div>
 		</div>
 
-		<div class="flex p-1 border-t border-mauve-6">
-			{#each nestedMediaArray as nestedMedia}
-				<div class="flex flex-col flex-1 ">
-					{#each nestedMedia as medium (medium.src)}
-						<Media
-							media={medium}
-							src="../assets/projects/{slug}/{medium.src}"
-							alt=""
-							class="p-1 border-mauve-6"
-						/>
-					{/each}
-				</div>
-			{/each}
-		</div>
+		{#if nestedMediaArray?.[0].length > 0}
+			<div class="flex p-1 border-t border-mauve-6">
+				{#each nestedMediaArray as nestedMedia}
+					<div class="flex flex-col flex-1 ">
+						{#each nestedMedia as medium (medium.src)}
+							<Media
+								media={medium}
+								src="../assets/projects/{slug}/{medium.src}"
+								alt=""
+								class="p-1 border-mauve-6"
+							/>
+						{/each}
+					</div>
+				{/each}
+			</div>
+		{/if}
 	</section>
 </article>
