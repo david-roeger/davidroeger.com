@@ -45,8 +45,6 @@
 			(entries) => {
 				r = '';
 				entries.forEach((entry) => {
-					console.log(entry);
-
 					if (entry.isIntersecting) {
 						store.set(true);
 						return;
