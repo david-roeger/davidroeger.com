@@ -1,5 +1,6 @@
 <script context="module" lang="ts">
-	export const prerender = true;
+	// Cant't prerender with url search params
+	// export const prerender = true;
 
 	/**
 	 * @type {import('@sveltejs/kit').Load}
@@ -43,7 +44,6 @@
 	import AccessibleIcon from '$lib/Components/AccessibleIcon';
 
 	import BezierEasing from 'bezier-easing';
-	import TagIcon from '$assets/Icons/24/tag.svg';
 
 	import type { ProjectMediaData } from '$lib/types';
 	import projectsMediaData from '$assets/projectsMediaData.json';
