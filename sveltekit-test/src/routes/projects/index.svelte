@@ -295,11 +295,11 @@
 						{#if experiment.thumbnail}
 							<img
 								loading="lazy"
-								alt={`Thumbnail for fun Project ${computed}`}
+								alt={`Thumbnail for experimental Project ${computed}`}
 								width="40"
 								height="40"
 								class="block w-12 h-12 bg-white max-w-none"
-								src={`./assets/fun/${experiment.thumbnail}`}
+								src={`./assets/experimental/${experiment.thumbnail}`}
 							/>
 						{/if}
 						<span

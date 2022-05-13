@@ -6,7 +6,6 @@
 <script lang="ts">
 	import * as Slider from '$primitives/Slider';
 	import AccessibleIcon from '$lib/Components/AccessibleIcon';
-	import * as VisuallyHidden from '$primitives/VisuallyHidden';
 
 	import Close from '$assets/Icons/24/close.svg';
 	import West from '$assets/Icons/24/west.svg';
@@ -95,7 +94,7 @@
 		const webp = await detectWebpSupport();
 		const extension = webp ? 'webp' : 'png';
 		for (let i = 0; i < imageCountMax; i++) {
-			loadImage(`/assets/fun/move/${i}.${extension}`);
+			loadImage(`/assets/experimental/move/${i}.${extension}`);
 		}
 		//window.addEventListener('resize', reload, false);
 		//reload();
