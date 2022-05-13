@@ -1,9 +1,15 @@
 ---
 order: 5
 title: 'Obskurra 2'
-tags: ['tag1', 'tag2', 'tag3']
+team: ''
+place: 'aaa'
+date: '2020'
 github: ''
-project: 'https://david-roeger.github.io/obskkura/index.html'
+project: ''
+tags: ['tag1', 'tag2', 'tag3']
+vertical: ''
+horizontal: ''
+media: []
 published: true
 ---
 

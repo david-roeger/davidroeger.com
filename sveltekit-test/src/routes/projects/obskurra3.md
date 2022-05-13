@@ -1,15 +1,16 @@
 ---
-order: 4
-title: 'Obskurra Typeface'
-team: 'Akina Hoche, Jessica Wiest'
-place: 'Hochschule der Medien'
+order: 12
+title: 'Obskurra 3'
+team: ''
+place: ''
 date: '2020'
-project: 'https://david-roeger.github.io/obskkura/index.html'
-tags: ['Typography', 'Web', 'Interactive']
-vertical: 'boys'
-horizontal: 'void'
-media: ['lady', 'typeset']
-published: true
+github: ''
+project: ''
+tags: ['tag1', 'tag2', 'tag3']
+vertical: ''
+horizontal: ''
+media: []
+published: false
 ---
 
 Creating a variable typeface from scratch and exploring web interactions and animations. reating a variable typeface from scratch and exploring web interactions and animations. reating a variable typeface from scratch and exploring web interactions and animations
