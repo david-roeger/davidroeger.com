@@ -3,7 +3,7 @@ order: 4
 published: true
 title: 'Obskurra Typeface'
 meta: 'Type Design & Web Development'
-team: ['Akina Hocke', 'Jessica Wiest']
+team: []
 place: 'Hochschule der Medien'
 date: '2020'
 project: 'https://david-roeger.github.io/obskkura/index.html'
