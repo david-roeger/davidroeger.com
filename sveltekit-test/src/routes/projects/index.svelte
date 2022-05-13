@@ -1,4 +1,6 @@
-<script context="module">
+<script context="module" lang="ts">
+	export const prerender = true;
+
 	/**
 	 * @type {import('@sveltejs/kit').Load}
 	 */
@@ -150,7 +152,7 @@
 				<Tags.Unset
 					class="p-1 m-1 text-xs border rounded-full touch-manipulation border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1"
 				>
-					<AccessibleIcon label="Unselect all tags"></AccessibleIcon>
+					<AccessibleIcon label="Unselect all tags">
 						<Close16 />
 					</AccessibleIcon>
 				</Tags.Unset>
