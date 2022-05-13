@@ -48,7 +48,6 @@
 	const getNestedMedia = (md, lg) => {
 		const array = [];
 		const cols = lg ? 3 : md ? 2 : 1;
-		console.log(lg, md, cols);
 		for (let i = 0; i < cols; i++) {
 			array.push([]);
 		}
@@ -56,9 +55,6 @@
 		mediaArray.forEach((medium, index) => {
 			array[index % cols].push(medium);
 		});
-
-		console.log(array);
-		console.log(mediaArray);
 
 		return array;
 	};
