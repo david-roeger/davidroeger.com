@@ -150,8 +150,8 @@
 				<Tags.Unset
 					class="p-1 m-1 text-xs border rounded-full touch-manipulation border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1"
 				>
-					<AccessibleIcon label="Unselect all tags"
-						><Close16 />
+					<AccessibleIcon label="Unselect all tags"></AccessibleIcon>
+						<Close16 />
 					</AccessibleIcon>
 				</Tags.Unset>
 			</div>
@@ -163,8 +163,10 @@
 					tag,
 				)
 					? 'bg-green-5'
-					: 'bg-white'}">{tag}</Tags.Tag
+					: 'bg-white'}"
 			>
+				{tag}
+			</Tags.Tag>
 		{/each}
 	</Tags.List>
 	<Headline containerClass="py-8 md:py-16">My Projects</Headline>
@@ -180,7 +182,8 @@
 					type="secondary"
 					containerClass="bg-white border-b-0"
 					id="gallery-headline-{encodeURIComponent(project.title)}"
-					><a
+				>
+					<a
 						sveltekit:prefetch
 						class="focus:outline-none growing-underline"
 						href="projects/{project.slug}"
@@ -197,16 +200,18 @@
 				>
 					<Gallery.Previous
 						class="cursor-w-resize bg-white absolute top-0 lg:top-1/2 right-0 lg:left-2 lg:right-auto z-10 transform -translate-y-1/2 -translate-x-[calc(100%+16px)] lg:translate-x-0 block p-1 text-xs  border rounded-full md:p-2 touch-manipulation focus:outline-none ring-mauve-12 focus:ring-1"
-						><AccessibleIcon label="Go to previous"
-							><West /></AccessibleIcon
-						></Gallery.Previous
 					>
+						<AccessibleIcon label="Go to previous">
+							<West />
+						</AccessibleIcon>
+					</Gallery.Previous>
 					<Gallery.Next
 						class="absolute top-0 right-0 z-10 block p-1 text-xs transform -translate-x-2 -translate-y-1/2 bg-white border rounded-full cursor-e-resize lg:translate-x-0 lg:top-1/2 lg:right-2 md:p-2 touch-manipulation focus:outline-none ring-mauve-12 focus:ring-1"
-						><AccessibleIcon label="Go to next"
-							><East /></AccessibleIcon
-						></Gallery.Next
 					>
+						<AccessibleIcon label="Go to next">
+							<East />
+						</AccessibleIcon>
+					</Gallery.Next>
 					<Gallery.Content
 						class="flex border-b border-t border-mauve-6 border-r-0 h-96 md:h-[32rem] focus:outline-none ring-mauve-6 focus:ring-1 no-scrollbar"
 					>
@@ -267,14 +272,16 @@
 </Tags.Root>
 
 {#if !$tags.size && experimental.length}
-	<Headline as="h2" containerClass="py-8 md:py-16">Experi&shy;mental</Headline>
+	<Headline as="h2" containerClass="py-8 md:py-16">
+		Experi&shy;mental
+	</Headline>
 
 	<section class="mb-32">
 		{#each experimental as experiment}
 			{@const computed = experiment.slug.replace('-', ' ')}
 			<!-- content here -->
-			<Headline as="h3" type="secondary" containerClass="!p-0 bg-white"
-				><a
+			<Headline as="h3" type="secondary" containerClass="!p-0 bg-white">
+				<a
 					sveltekit:prefetch
 					class="group flex justify-between items-center pr-4 transition-[padding] bg-white md:justify-between hover:pr-2 focus:pr-2 focus:outline-none"
 					href="experimental/{experiment.slug}"
