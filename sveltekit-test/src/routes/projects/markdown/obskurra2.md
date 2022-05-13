@@ -1,14 +1,15 @@
 ---
 order: 5
 title: 'Obskurra 2'
-team: ''
+meta:
+team:
 place: 'aaa'
 date: '2020'
-github: ''
-project: ''
+github:
+project:
 tags: ['tag1', 'tag2', 'tag3']
-vertical: ''
-horizontal: ''
+vertical:
+horizontal:
 media: []
 published: true
 ---

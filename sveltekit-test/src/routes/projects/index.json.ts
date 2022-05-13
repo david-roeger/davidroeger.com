@@ -5,7 +5,7 @@ import type { GetReturnType } from '$lib/types';
 
 export async function get({ url }: { url: URL }): GetReturnType {
 
-	const modules = import.meta.glob('./**/*.{md,svx,svelte.md}');
+	const modules = import.meta.glob('./markdown/*.{md,svx,svelte.md}');
 	const projectPromises = [];
 	const limit = Number(url.searchParams.get('limit') ?? Infinity);
 

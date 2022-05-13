@@ -1,18 +1,48 @@
-<script>
+<script context="module" lang="ts">
+	export const prerender = true;
+
+	/**
+	 * @type {import('@sveltejs/kit').Load}
+	 */
+	export async function load({ fetch, params }) {
+		const { slug } = params;
+
+		const res = await fetch(`/projects/${slug}.json`);
+
+		if (res.ok) {
+			const project = await res.json();
+			return {
+				props: { ...project },
+			};
+		}
+
+		return {
+			status: 404,
+		};
+	}
+</script>
+
+<script lang="ts">
 	import { getContext } from 'svelte';
 
-	export let media = [];
-	export let vertical;
-	export let horizontal;
-	export let tags;
-	export let title;
+	export let slug: string;
 
-	export let team;
-	export let place;
-	export let date;
+	export let title: string;
+	export let meta: string;
 
-	export let github = '';
-	export let project = '';
+	export let media: string[] = [];
+	export let vertical: string;
+	export let horizontal: string;
+	export let tags: string[] = [];
+
+	export let team: string[];
+	export let place: string;
+	export let date: string;
+
+	export let github: string = '';
+	export let project: string = '';
+
+	export let html: string = '';
 
 	import AccessibleIcon from '$components/AccessibleIcon/AccessibleIcon.svelte';
 	import { Media } from '$lib/Components/Media';
@@ -26,7 +56,6 @@
 	import projectsMediaData from '$assets/projectsMediaData.json';
 	import { page } from '$app/stores';
 
-	const slug = $page.url.pathname.split('/').pop();
 	const projectMediaData = projectsMediaData[slug];
 
 	const verticalMedia = vertical ? projectMediaData[vertical] : undefined;
@@ -93,21 +122,25 @@
 				{title}
 			</Headline>
 		{/if}
-		<div class="border-b border-mauve-6">
-			<div
-				class="p-1 md:w-3/4 md:border-r flex-grow-1 border-mauve-6 bg-white/[.85] flex flex-wrap items-baseline"
-			>
-				<p class="m-1 text">Type Design & Web Development</p>
+		{#if meta}
+			<div class="border-b border-mauve-6">
+				<div
+					class="p-1 md:w-3/4 md:border-r flex-grow-1 border-mauve-6 bg-white/[.85] flex flex-wrap items-baseline"
+				>
+					<p class="m-1 text">{meta}</p>
+				</div>
 			</div>
-		</div>
-		{#if team || place}
+		{/if}
+		{#if (team && team.length > 0) || place}
 			<div class="border-b border-mauve-6">
 				<div
 					class="p-1 md:w-3/4 md:border-r flex-grow-1 border-mauve-6 bg-white/[.85]"
 				>
-					{#if team}
+					{#if team && team.length > 0}
 						<p class="m-1 text-xs text-mauve-11">
-							{team}{!place && date ? ` (${date})` : ''}
+							{team.join(', ')}{!place && date
+								? ` (${date})`
+								: ''}
 						</p>
 					{/if}
 					{#if place}
@@ -157,7 +190,7 @@
 				class="py-8 px-2 grow md:grow-0 md:w-3/4 md:border-r border-mauve-6 md:p-8 xl:p-16 bg-white/[.85]"
 			>
 				<div class="max-w-[60ch]">
-					<slot />
+					{@html html}
 				</div>
 			</div>
 		</div>
