@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { debounce } from '$lib/Utils';
+
 	import { onMount, setContext } from 'svelte';
 	import { writable } from 'svelte/store';
 	import { BREAK_POINTS } from './constants';
@@ -28,5 +30,7 @@
 	});
 </script>
 
-<svelte:window on:resize={(e) => handleResize(e.currentTarget.innerWidth)} />
+<svelte:window
+	on:resize={debounce(() => handleResize(window.innerWidth), 50)}
+/>
 <slot />
