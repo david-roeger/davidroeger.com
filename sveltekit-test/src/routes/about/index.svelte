@@ -50,9 +50,9 @@
 		/>
 	</div>
 </div>
-<Headline as="h2" type="secondary" containerClass="bg-white/[0.85]"
-	>Frontend Developer, UI/UX Designer</Headline
->
+<Headline as="h2" type="secondary" containerClass="bg-white/[0.85]">
+	Frontend Developer, UI/UX Designer
+</Headline>
 
 <section
 	class="mb-8 border-b first:border-t-0 border-mauve-6 md:mb-16 last:mb-0"
