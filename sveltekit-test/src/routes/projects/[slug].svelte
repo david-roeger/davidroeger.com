@@ -18,6 +18,7 @@
 
 		return {
 			status: 404,
+			error: new Error(`Project not found: ${slug}`),
 		};
 	}
 </script>
