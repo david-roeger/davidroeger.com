@@ -45,9 +45,9 @@
 						/>
 						<Dialog.Content class="fixed top-0 bg-mauve-1">
 							<Dialog.Title>Title 2</Dialog.Title>
-							<Dialog.Description
-								>Description 2</Dialog.Description
-							>
+							<Dialog.Description>
+								Description 2
+							</Dialog.Description>
 							<Dialog.Close>Close</Dialog.Close>
 						</Dialog.Content>
 					</Dialog.Portal>
@@ -71,15 +71,19 @@
 					class="{acc === value
 						? 'bg-purple-5'
 						: 'bg-white'} p-2 border border-mauve-6 focus:outline-none ring-mauve-12 focus:ring-1 disabled:text-mauve-7 disabled:border-mauve-6"
-					{value}>Trigger {value}</Tabs.Trigger
+					{value}
 				>
+					Trigger {value}
+				</Tabs.Trigger>
 			{/each}
 		</Tabs.List>
 		{#each content as { value }}
 			<Tabs.Content
 				class="p-2 m-2 mt-0 border border-mauve-6 focus:outline-none ring-mauve-12 focus:ring-1"
-				{value}>Content {value}</Tabs.Content
+				{value}
 			>
+				Content {value}
+			</Tabs.Content>
 		{/each}
 	</Tabs.Root>
 
@@ -97,13 +101,15 @@
 				<Accordion.Header>
 					<Accordion.Trigger
 						class="p-2 border border-mauve-6 focus:outline-none ring-mauve-12 focus:ring-1 disabled:text-mauve-7 disabled:border-mauve-6"
-						>Trigger {value}</Accordion.Trigger
 					>
+						Trigger {value}
+					</Accordion.Trigger>
 				</Accordion.Header>
 				<Accordion.Content
 					class="p-2 border border-mauve-6 focus:outline-none ring-mauve-12 focus:ring-1 disabled:text-mauve-7 disabled:border-mauve-6"
-					>Content {value}</Accordion.Content
 				>
+					Content {value}
+				</Accordion.Content>
 			</Accordion.Item>
 		{/each}
 	</Accordion.Root>
