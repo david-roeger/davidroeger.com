@@ -15,7 +15,6 @@ import type {
 export const get: RequestHandler = async () => {
 	// request access token
 	const response = await generateAccessToken();
-	console.log(response);
 	// if access token is
 	if (response.ok) {
 		// fetch all items
