@@ -9,7 +9,7 @@ export async function get({
 }: {
 	params: { slug: string };
 }): GetReturnType {
-	const modules = import.meta.glob(`./markdown/*.{md,svx,svelte.md}`);
+	const modules = import.meta.glob(`./content/*.{md,svx,svelte.md}`);
 	const { slug } = params;
 
 	for (const [path, resolver] of Object.entries(modules)) {
