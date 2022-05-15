@@ -7,7 +7,7 @@
 
 	const { open, setClose }: RootContext = getContext('root');
 
-	const handleClick = (e: MouseEvent) => {
+	const handleClick = () => {
 		if ($setClose) $setClose();
 	};
 </script>

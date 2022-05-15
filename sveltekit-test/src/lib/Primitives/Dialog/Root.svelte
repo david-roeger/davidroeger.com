@@ -21,22 +21,33 @@
 		open: writable(defaultOpen),
 		setOpen: writable(undefined),
 		setClose: writable(undefined),
+		computedId: id,
 	};
 	setContext('root', rootContext);
-	const { open, trap, setOpen, setClose } = rootContext;
+	const { open, trap, setOpen, setClose, computedId } = rootContext;
 	$setOpen = () => {
-		$activeDialogs = [...$activeDialogs, id];
+		console.log(id);
+		$activeDialogs = [...$activeDialogs, computedId];
 		document.body.classList.add('dialog-open');
 		$open = true;
 	};
 	$setClose = () => {
+		console.log($trap);
 		if ($trap) {
 			$trap.deactivate();
 			$trap = undefined;
 		}
+
+		console.log($activeDialogs);
+		console.log(computedId);
+
 		$activeDialogs = [
-			...$activeDialogs.filter((activeDialog) => activeDialog !== id),
+			...$activeDialogs.filter(
+				(activeDialog) => activeDialog !== computedId,
+			),
 		];
+
+		console.log($activeDialogs);
 
 		if ($activeDialogs.length === 0) {
 			document.body.classList.remove('dialog-open');
