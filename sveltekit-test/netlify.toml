@@ -7,3 +7,9 @@
 
 [functions]
   node_bundler = "esbuild"
+
+
+[[redirects]]
+  from = "/index"
+  to = "/"
+  status = 200
