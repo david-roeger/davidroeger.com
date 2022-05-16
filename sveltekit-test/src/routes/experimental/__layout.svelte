@@ -7,7 +7,7 @@
 	additionalMetaTags={[
 		{
 			name: 'theme-color',
-			content: '#D9E2FC',
+			content: '#EDF6FF',
 		},
 	]}
 />

@@ -142,7 +142,7 @@
 	additionalMetaTags={[
 		{
 			name: 'theme-color',
-			content: '#ccebd7',
+			content: '#E9F9EE',
 		},
 	]}
 />

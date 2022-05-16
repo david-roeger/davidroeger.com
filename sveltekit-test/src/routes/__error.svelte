@@ -27,7 +27,7 @@
 	additionalMetaTags={[
 		{
 			name: 'theme-color',
-			content: '#F3AFB0',
+			content: '#FFEFEF',
 		},
 	]}
 	noindex
