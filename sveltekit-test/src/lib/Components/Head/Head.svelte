@@ -51,7 +51,10 @@
 	} = defaultSeoProps;
 
 	const mergeObject = (value = {}, defaultValue = {}) => {
-		if (!value && !defaultValue) {
+		if (
+			Object.keys(value).length === 0 &&
+			Object.keys(value).length === 0
+		) {
 			return undefined;
 		}
 		return {
@@ -64,7 +67,7 @@
 		array.map((value) => JSON.stringify(value));
 
 	const mergeArray = (values = [], defaultValues = []) => {
-		if (!values && !defaultValues) {
+		if (values.length === 0 && defaultValues.length === 0) {
 			return undefined;
 		}
 

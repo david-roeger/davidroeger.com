@@ -10,7 +10,6 @@
 		Tags,
 	} from './types';
 	import { defaultSeoProps } from './store';
-	import buildTags from './utils';
 
 	export let title: string = undefined;
 	export let titleTemplate: string = undefined;
