@@ -15,14 +15,14 @@
 	import NavLink from '$lib/Components/NavLink/NavLink.svelte';
 	import East from '$assets/Icons/24/east.svg';
 	import { Background } from '$components/Background';
+	import Head from '$lib/Components/Head/Head.svelte';
+	import DefaultHead from '$lib/Components/Head/DefaultHead.svelte';
 
 	export let error: any;
 	export let status: any;
 </script>
 
-<svelte:head>
-	<title>DR | {error.name} ({status})</title>
-</svelte:head>
+<Head title={` | ${error.name} (${status})`} noindex nofollow />
 
 <Background
 	center="hsla(359, 74%, 82%, 0.4)"

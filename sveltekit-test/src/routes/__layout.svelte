@@ -27,7 +27,6 @@
 </script>
 
 <DefaultHead titleTemplate="DR %s" title={getTitle($page.url.pathname)} />
-<Head />
 
 <div class="font-sans text-mauve-12">
 	<Header class="z-30" />

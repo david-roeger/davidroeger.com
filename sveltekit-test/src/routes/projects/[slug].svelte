@@ -56,6 +56,7 @@
 
 	import projectsMediaData from '$assets/projectsMediaData.json';
 	import { page } from '$app/stores';
+	import Head from '$lib/Components/Head/Head.svelte';
 
 	const projectMediaData = projectsMediaData[slug];
 
@@ -99,6 +100,8 @@
 	const { MD, LG } = getContext('breakpoints');
 	$: nestedMediaArray = getNestedMedia($MD, $LG);
 </script>
+
+<Head />
 
 <article>
 	{#if tags?.length}

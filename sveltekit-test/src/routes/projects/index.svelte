@@ -47,6 +47,7 @@
 
 	import type { ProjectMediaData } from '$lib/types';
 	import projectsMediaData from '$assets/projectsMediaData.json';
+	import Head from '$lib/Components/Head/Head.svelte';
 
 	export let projects: ProjectMetaData[] = [];
 	export let experimental: { slug: string; thumbnail?: string }[] = [];
@@ -136,6 +137,8 @@
 		return projectsMediaData[slug] as ProjectMediaData;
 	};
 </script>
+
+<Head />
 
 <Tags.Root
 	defaultValue={defaultTags}
