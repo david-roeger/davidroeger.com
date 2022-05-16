@@ -1,4 +1,3 @@
-import { keyAny } from 'src/types';
 
 export const PI = Math.PI;
 export const HALF_PI = Math.PI / 2;
@@ -43,7 +42,7 @@ export const adjustScale = (value: number, min: number, max: number) => {
     return min + mapped;
 };
 
-export const cloneObject = (obj: keyAny) => {
+export const cloneObject = (obj: {[key: string]: any}) => {
     return JSON.parse(JSON.stringify(obj));
 };
 
