@@ -22,7 +22,17 @@
 	export let status: any;
 </script>
 
-<Head title={` | ${error.name} (${status})`} noindex nofollow />
+<Head
+	title={` | ${error.name} (${status})`}
+	additionalMetaTags={[
+		{
+			name: 'theme-color',
+			content: '#F3AFB0',
+		},
+	]}
+	noindex
+	nofollow
+/>
 
 <Background
 	center="hsla(359, 74%, 82%, 0.4)"

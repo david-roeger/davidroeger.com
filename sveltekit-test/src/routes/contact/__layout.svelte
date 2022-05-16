@@ -3,7 +3,14 @@
 	import Head from '$lib/Components/Head/Head.svelte';
 </script>
 
-<Head />
+<Head
+	additionalMetaTags={[
+		{
+			name: 'theme-color',
+			content: '#FFB380',
+		},
+	]}
+/>
 
 <Background
 	center="hsla(24, 100%, 75.3%, 0.4)"

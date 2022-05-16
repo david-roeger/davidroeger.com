@@ -101,7 +101,14 @@
 	$: nestedMediaArray = getNestedMedia($MD, $LG);
 </script>
 
-<Head />
+<Head
+	additionalMetaTags={[
+		{
+			name: 'theme-color',
+			content: '#92CEAC',
+		},
+	]}
+/>
 
 <article>
 	{#if tags?.length}

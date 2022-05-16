@@ -138,7 +138,14 @@
 	};
 </script>
 
-<Head />
+<Head
+	additionalMetaTags={[
+		{
+			name: 'theme-color',
+			content: '#92CEAC',
+		},
+	]}
+/>
 
 <Tags.Root
 	defaultValue={defaultTags}

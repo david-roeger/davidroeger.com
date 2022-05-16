@@ -69,7 +69,6 @@
 		array.map((value) => JSON.stringify(value));
 
 	const mergeArray = (values = [], defaultValues = []) => {
-		console.log(values, defaultValues);
 		if (values.length === 0 && defaultValues.length === 0) {
 			return undefined;
 		}
@@ -89,6 +88,62 @@
 			}
 		});
 
+		return mergedArray;
+	};
+
+	const mergeAdditionalMetaTags = (
+		values: Readonly<MetaTag[]> = [],
+		defaultValues: Readonly<MetaTag[]> = [],
+	) => {
+		const serializedValues = serialize(
+			values.map((value) => ({ ...value, content: undefined })),
+		);
+		const serializedDefaultValues = serialize(
+			defaultValues.map((defaultValue) => ({
+				...defaultValue,
+				content: undefined,
+			})),
+		);
+
+		const mergedArray = [...defaultValues];
+
+		values.forEach((value, i) => {
+			const serializedValue = serializedValues[i];
+			const index = serializedDefaultValues.indexOf(serializedValue);
+			if (index !== -1) {
+				mergedArray[index] = value;
+			} else {
+				mergedArray.push(value);
+			}
+		});
+		return mergedArray;
+	};
+
+	const mergeAdditionalLinkTags = (
+		values: Readonly<LinkTag[]> = [],
+		defaultValues: Readonly<LinkTag[]> = [],
+	) => {
+		const serializedValues = serialize(
+			values.map((value) => ({ ...value, href: undefined })),
+		);
+		const serializedDefaultValues = serialize(
+			defaultValues.map((defaultValue) => ({
+				...defaultValue,
+				href: undefined,
+			})),
+		);
+
+		const mergedArray = [...defaultValues];
+
+		values.forEach((value, i) => {
+			const serializedValue = serializedValues[i];
+			const index = serializedDefaultValues.indexOf(serializedValue);
+			if (index !== -1) {
+				mergedArray[index] = value;
+			} else {
+				mergedArray.push(value);
+			}
+		});
 		return mergedArray;
 	};
 
@@ -114,14 +169,14 @@
 				appId: string;
 			},
 			twitter: mergeObject(twitter, $defaultTwitter) as Twitter,
-			additionalMetaTags: mergeArray(
-				additionalMetaTags as any[],
-				$defaultAdditionalMetaTags as any[],
-			) as MetaTag[],
-			additionalLinkTags: mergeArray(
-				additionalLinkTags as any[],
-				$defaultAdditionalLinkTags as any[],
-			) as LinkTag[],
+			additionalMetaTags: mergeAdditionalMetaTags(
+				additionalMetaTags,
+				$defaultAdditionalMetaTags,
+			),
+			additionalLinkTags: mergeAdditionalLinkTags(
+				additionalLinkTags,
+				$defaultAdditionalLinkTags,
+			),
 		}) ?? [];
 
 	onMount(() => {
