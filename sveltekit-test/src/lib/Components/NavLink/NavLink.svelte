@@ -34,7 +34,7 @@
 	{role}
 	sveltekit:prefetch
 	{href}
-	class="border border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 {variantClass} {customClass} {(activePath !==
+	class="border border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 transition-colors {variantClass} {customClass} {(activePath !==
 		undefined &&
 		$page.url.pathname === activePath) ||
 	(activeRegEx !== undefined && activeRegEx.exec($page.url.pathname))

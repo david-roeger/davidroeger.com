@@ -51,8 +51,6 @@
 	} = defaultSeoProps;
 
 	const mergeObject = (value = {}, defaultValue = {}) => {
-		console.log(value, defaultValue);
-
 		if (
 			Object.keys(value).length === 0 &&
 			Object.keys(defaultValue).length === 0

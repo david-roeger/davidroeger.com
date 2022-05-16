@@ -8,22 +8,49 @@
 	import * as VisuallyHidden from '$primitives/VisuallyHidden';
 
 	import { page } from '$app/stores';
+
+	const projectsRegex = /^\/projects/;
+	const aboutRegex = /^\/about/;
+	const contactRegex = /^\/contact/;
+
+	const getActiveClass = (url: string) => {
+		console.log('project', url, projectsRegex.exec(url));
+
+		if (projectsRegex.exec(url)) {
+			return 'bg-green-5';
+		}
+		if (aboutRegex.exec(url)) {
+			return 'bg-purple-5';
+		}
+		if (contactRegex.exec(url)) {
+			return 'bg-orange-5';
+		}
+		return '';
+	};
 </script>
 
 <nav class={`border-b xl:max-w-7xl border-mauve-6 ${c}`}>
 	<h3><VisuallyHidden.Root>Main Menu</VisuallyHidden.Root></h3>
 	<ul class="flex justify-between">
 		<li class="w-auto m-2 list-none">
-			<NavLink class="block" href="/" type="icon">
+			<NavLink
+				class={`block ${getActiveClass($page.url.pathname)}`}
+				href="/"
+				type="icon"
+			>
 				<slot name="logo">
-					<AccessibleIcon label="David Roeger Logo - Go to Main Page"
-						><Logo
+					<AccessibleIcon
+						label={`Logo: ${
+							$page.error ? 'sad' : 'happy'
+						} smiley with four eyes - Go to Main Page`}
+					>
+						<Logo
 							container={true}
 							animated={true}
 							smile={$page.error ? false : true}
 							class="w-auto h-full"
-						/></AccessibleIcon
-					>
+						/>
+					</AccessibleIcon>
 				</slot>
 			</NavLink>
 		</li>
@@ -34,20 +61,24 @@
 						role="menuitem"
 						href="/projects"
 						activePath="/projects"
-						activeRegEx={/^\/projects\/[^\/]+$/}
+						activeRegEx={projectsRegex}
 						class="block bg-white hover:bg-green-5"
-						activeClass="!bg-green-5">Projects</NavLink
+						activeClass="!bg-green-5"
 					>
+						Projects
+					</NavLink>
 				</li>
 				<li role="none" class="m-1 list-none">
 					<NavLink
 						role="menuitem"
 						href="/about"
 						activePath="/about"
-						activeRegEx={/^\/about\/[^\/]+$/}
+						activeRegEx={aboutRegex}
 						class="block bg-white hover:bg-purple-5"
-						activeClass="!bg-purple-5">About</NavLink
+						activeClass="!bg-purple-5"
 					>
+						About
+					</NavLink>
 				</li>
 				<li role="none" class="m-1 list-none">
 					<NavLink
@@ -55,9 +86,12 @@
 						href="/contact"
 						type="button"
 						activePath="/contact"
+						activeRegEx={contactRegex}
 						class="block bg-white hover:bg-orange-5"
-						activeClass="!bg-orange-5">Say hi!</NavLink
+						activeClass="!bg-orange-5"
 					>
+						Say hi!
+					</NavLink>
 				</li>
 			</ul>
 		</li>
