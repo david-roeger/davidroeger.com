@@ -17,6 +17,9 @@
 	const getActiveClass = (url: string) => {
 		console.log('project', url, projectsRegex.exec(url));
 
+		if ($page.error) {
+			return 'bg-[#FFEFEF]';
+		}
 		if (projectsRegex.exec(url)) {
 			return 'bg-green-3';
 		}

@@ -59,7 +59,7 @@
 				<NavLink
 					role="menuitem"
 					href="/projects"
-					class="pl-2 bg-white hover:bg-green-5 flex items-center justify-between gap-2  transition-[gap,padding] hover:gap-4 hover:pr-2 focus:gap-4 focus:pr-2"
+					class="pl-2 bg-white hover:bg-green-5 flex items-center justify-between gap-2 !transition-[gap,padding,color,background-color] hover:gap-4 hover:pr-2 focus:gap-4 focus:pr-2"
 					activeClass="!bg-green-5"
 				>
 					<span>
