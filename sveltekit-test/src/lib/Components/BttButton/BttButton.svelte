@@ -9,18 +9,20 @@
 	export { c as class };
 
 	let show = false;
+	const handleScroll = () => {
+		if (
+			(document.body.scrollTop > 120 ||
+				document.documentElement.scrollTop > 120) &&
+			document.body.offsetHeight > window.innerHeight
+		) {
+			show = true;
+			return;
+		}
+		show = false;
+	};
 	onMount(() => {
-		window.addEventListener('scroll', () => {
-			if (
-				(document.body.scrollTop > 120 ||
-					document.documentElement.scrollTop > 120) &&
-				document.body.offsetHeight > window.innerHeight
-			) {
-				show = true;
-				return;
-			}
-			show = false;
-		});
+		window.addEventListener('scroll', handleScroll);
+		handleScroll();
 	});
 
 	const handleClick = () => {
