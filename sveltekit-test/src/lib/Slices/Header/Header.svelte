@@ -12,18 +12,22 @@
 	const projectsRegex = /^\/projects/;
 	const aboutRegex = /^\/about/;
 	const contactRegex = /^\/contact/;
+	const experimentalRegex = /^\/experimental/;
 
 	const getActiveClass = (url: string) => {
 		console.log('project', url, projectsRegex.exec(url));
 
 		if (projectsRegex.exec(url)) {
-			return 'bg-green-5';
+			return 'bg-green-3';
 		}
 		if (aboutRegex.exec(url)) {
-			return 'bg-purple-5';
+			return 'bg-purple-3';
 		}
 		if (contactRegex.exec(url)) {
-			return 'bg-orange-5';
+			return 'bg-orange-3';
+		}
+		if (experimentalRegex.exec(url)) {
+			return 'bg-blue-3';
 		}
 		return '';
 	};

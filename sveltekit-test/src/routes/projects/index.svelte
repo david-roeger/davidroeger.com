@@ -286,7 +286,7 @@
 </Tags.Root>
 
 {#if !$tags.size && experimental.length}
-	<Headline as="h2" containerClass="py-8 md:py-16">
+	<Headline as="h2" containerClass="py-8 md:py-16" id="experimental">
 		Experi&shy;mental
 	</Headline>
 
