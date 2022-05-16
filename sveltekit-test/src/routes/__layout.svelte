@@ -22,7 +22,6 @@
 		});
 		return finalPath;
 	};
-
 </script>
 
 <DefaultHead
@@ -34,7 +33,7 @@
 		type: 'website',
 		site_name: 'David Roeger',
 		locale: 'en',
-		url: 'https://www.davidreoger.com/',
+		url: `https://www.davidreoger.com${$page.url.pathname.split('?')[0]}`,
 		images: [
 			{
 				url: 'https://www.davidreoger.com/meta/og_image.png',
@@ -132,7 +131,7 @@
 			rel: 'icon',
 			type: 'image/png',
 			sizes: '196x196',
-			href: '/meta/favicon-196x106.png',
+			href: '/meta/favicon-196x196.png',
 		},
 		// manifest
 		{
