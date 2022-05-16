@@ -84,13 +84,11 @@ const buildTags = (config: SepProps): Tags[] => {
 				() => updatedTitle,
 			);
 		}
-	} else if (config.defaultTitle) {
-		updatedTitle = config.defaultTitle;
 	}
 
 	if (updatedTitle) {
 		tagsToRender.push({
-			tag: 'meta',
+			tag: 'title',
 			key: 'title',
 			slot: updatedTitle,
 		});

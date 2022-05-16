@@ -7,14 +7,14 @@
 	import North from '$assets/Icons/24/north.svg';
 
 	import { page } from '$app/stores';
+	import Head from '$lib/Components/Head/Head.svelte';
+	import DefaultHead from '$lib/Components/Head/DefaultHead.svelte';
+	import { derived } from 'svelte/store';
 
 	const getTitle = (path: string) => {
 		const pathArray = path.split('/').filter((item) => item !== '');
-		if (pathArray.length === 0) {
-			return 'David Roeger Portfolio';
-		}
 
-		let finalPath = 'DR';
+		let finalPath = '';
 		pathArray.forEach((item) => {
 			finalPath =
 				finalPath +
@@ -22,12 +22,12 @@
 		});
 		return finalPath;
 	};
-	$: title = getTitle($page.url.pathname);
+
+	$: console.log();
 </script>
 
-<svelte:head>
-	<title>{title}</title>
-</svelte:head>
+<DefaultHead titleTemplate="DR %s" title={getTitle($page.url.pathname)} />
+<Head />
 
 <div class="font-sans text-mauve-12">
 	<Header class="z-30" />

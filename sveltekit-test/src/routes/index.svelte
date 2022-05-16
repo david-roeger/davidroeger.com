@@ -25,7 +25,6 @@
 	let acc = d;
 </script>
 
-<Head />
 <section>
 	Learn more about me -> or look at some stuff I´ve built downArow
 	<Dialog.Root

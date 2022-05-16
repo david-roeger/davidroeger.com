@@ -1,3 +1,5 @@
+import type { Writable } from 'svelte/store';
+
 export type OpeningHoursSpecification = {
 	opens: string;
 	closes: string;
@@ -395,7 +397,6 @@ export interface AdditionalRobotsProps {
 export interface SepProps {
 	title?: string;
 	titleTemplate?: string;
-	defaultTitle?: string;
 	noindex?: boolean;
 	nofollow?: boolean;
 	robotsProps?: AdditionalRobotsProps;
@@ -408,6 +409,23 @@ export interface SepProps {
 	twitter?: Twitter;
 	additionalMetaTags?: ReadonlyArray<MetaTag>;
 	additionalLinkTags?: ReadonlyArray<LinkTag>;
+}
+
+export interface DefaultSeoProps {
+	title?: Writable<string>;
+	titleTemplate?: Writable<string>;
+	noindex?: Writable<boolean>;
+	nofollow?: Writable<boolean>;
+	robotsProps?: Writable<AdditionalRobotsProps>;
+	description?: Writable<string>;
+	canonical?: Writable<string>;
+	mobileAlternate?: Writable<MobileAlternate>;
+	languageAlternates?: Writable<ReadonlyArray<LanguageAlternate>>;
+	openGraph?: Writable<OpenGraph>;
+	facebook?: Writable<{ appId: string }>;
+	twitter?: Writable<Twitter>;
+	additionalMetaTags?: Writable<ReadonlyArray<MetaTag>>;
+	additionalLinkTags?: Writable<ReadonlyArray<LinkTag>>;
 }
 
 export interface Tags {
