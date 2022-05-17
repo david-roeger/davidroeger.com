@@ -23,6 +23,8 @@
 </script>
 
 <DefaultHead
+	noindex
+	nofollow
 	titleTemplate="DR %s"
 	title={getTitle($page.url.pathname)}
 	canonical={`https://www.davidroeger.com${$page.url.pathname.split('?')[0]}`}

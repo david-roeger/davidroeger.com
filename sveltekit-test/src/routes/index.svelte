@@ -12,6 +12,7 @@
 	import * as Accordion from '$primitives/Accordion';
 	import Logo from '$components/Logo/Logo.svelte';
 	import AccessibleIcon from '$components/AccessibleIcon/AccessibleIcon.svelte';
+	import Head from '$lib/Components/Head/Head.svelte';
 
 	let content = [
 		{ value: '1' },
@@ -27,6 +28,8 @@
 	const d = content[0].value;
 	let acc = d;
 </script>
+
+<Head />
 
 <section>
 	Learn more about me -> or look at some stuff I´ve built downArow
