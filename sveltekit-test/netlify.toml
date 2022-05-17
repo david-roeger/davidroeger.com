@@ -7,3 +7,12 @@
 
 [functions]
   node_bundler = "esbuild"
+
+[[plugins]]
+package = "@netlify/plugin-sitemap"
+
+  [plugins.inputs]
+  buildDir = "public"
+  exclude = [
+    '**/experimental/template/index.html',
+  ]
