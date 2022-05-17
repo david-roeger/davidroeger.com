@@ -1,4 +1,4 @@
-<script lang="ts">
+<script context="module" lang="ts">
 	import { browser, dev } from '$app/env';
 
 	// we don't need any JS on this page, though we'll load
@@ -12,7 +12,9 @@
 	// since there's no dynamic data here, we can prerender
 	// it so that it gets served as a static asset in prod
 	export const prerender = true;
+</script>
 
+<script lang="ts">
 	import { Headline } from '$components/Headline';
 
 	import me from '$assets/me/serious.png?w=752;496&format=webp;png&meta';
