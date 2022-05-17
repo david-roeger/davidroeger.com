@@ -19,6 +19,17 @@ const config = {
 	kit: {
 		adapter: adapter(),
 		vite: {
+			define: {
+				'process.env.VITE_BUILD_TIME': JSON.stringify(
+					`${new Date().toJSON().split('T')[0]} // ${
+						new Date()
+							.toJSON()
+							.split('T')[1]
+							.split('Z')[0]
+							.split('.')[0]
+					} (UTC)`,
+				),
+			},
 			resolve: {
 				alias: {
 					// these are the aliases and paths to them
