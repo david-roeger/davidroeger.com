@@ -36,11 +36,11 @@
 		url: `https://www.davidreoger.com${$page.url.pathname.split('?')[0]}`,
 		images: [
 			{
-				url: 'https://www.davidreoger.com/meta/og_image.png',
+				url: 'https://www.davidreoger.com/meta/og_image.jpg',
 				width: 1200,
 				height: 1200,
 				alt: 'Antique greece statue',
-				type: 'image/png',
+				type: 'image/jpeg',
 			},
 		],
 	}}
