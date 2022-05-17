@@ -7,7 +7,6 @@
 		Twitter,
 		MetaTag,
 		LinkTag,
-		Tags,
 	} from './types';
 	import { defaultSeoProps } from './store';
 
@@ -72,9 +71,6 @@
 	$: $defaultTwitter = twitter;
 	$: $defaultAdditionalMetaTags = additionalMetaTags;
 	$: $defaultAdditionalLinkTags = additionalLinkTags;
-
-	$: console.log('update prop	', title);
-	$: console.log('update store	', $defaultTitle);
 </script>
 
 <slot />

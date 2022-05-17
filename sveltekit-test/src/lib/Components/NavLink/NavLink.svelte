@@ -28,18 +28,26 @@
 			variantClass = buttonClass;
 			break;
 	}
+
+	$: getActiveClass = () => {
+		if ($page.error) {
+			return '';
+		}
+		if (activePath && $page.url.pathname === activePath) {
+			return activeClass;
+		}
+		if (activeRegEx && activeRegEx.exec($page.url.pathname)) {
+			return activeClass;
+		}
+		return '';
+	};
 </script>
 
 <a
 	{role}
 	sveltekit:prefetch
 	{href}
-	class="border border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 transition-colors {variantClass} {customClass} {(activePath !==
-		undefined &&
-		$page.url.pathname === activePath) ||
-	(activeRegEx !== undefined && activeRegEx.exec($page.url.pathname))
-		? activeClass
-		: ''}"
+	class="border border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 transition-colors {variantClass} {customClass} {getActiveClass()}"
 >
 	<slot />
 </a>

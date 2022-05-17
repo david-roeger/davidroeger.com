@@ -14,23 +14,24 @@
 	const contactRegex = /^\/contact/;
 	const experimentalRegex = /^\/experimental/;
 
-	const getActiveClass = (url: string) => {
-		console.log('project', url, projectsRegex.exec(url));
-
+	$: getActiveClass = () => {
 		if ($page.error) {
-			return 'bg-[#FFEFEF]';
+			return 'bg-[#FDD8D8]';
 		}
+
+		const url = $page.url.pathname;
+
 		if (projectsRegex.exec(url)) {
-			return 'bg-green-3';
+			return 'bg-green-5';
 		}
 		if (aboutRegex.exec(url)) {
-			return 'bg-purple-3';
+			return 'bg-purple-5';
 		}
 		if (contactRegex.exec(url)) {
-			return 'bg-orange-3';
+			return 'bg-orange-5';
 		}
 		if (experimentalRegex.exec(url)) {
-			return 'bg-blue-3';
+			return 'bg-blue-5';
 		}
 		return '';
 	};
@@ -40,16 +41,12 @@
 	<h3><VisuallyHidden.Root>Main Menu</VisuallyHidden.Root></h3>
 	<ul class="flex justify-between">
 		<li class="w-auto m-2 list-none">
-			<NavLink
-				class={`block ${getActiveClass($page.url.pathname)}`}
-				href="/"
-				type="icon"
-			>
+			<NavLink class="block {getActiveClass()}" href="/" type="icon">
 				<slot name="logo">
 					<AccessibleIcon
-						label={`Logo: ${
-							$page.error ? 'sad' : 'happy'
-						} smiley with four eyes - Go to Main Page`}
+						label="Logo: {$page.error
+							? 'sad'
+							: 'happy'} smiley with four eyes - Go to Main Page"
 					>
 						<Logo
 							container={true}
