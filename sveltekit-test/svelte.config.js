@@ -22,6 +22,7 @@ const config = {
 			crawl: true,
 			enabled: true,
 			onError: 'fail',
+			entries: ['*'],
 		},
 		vite: {
 			resolve: {
