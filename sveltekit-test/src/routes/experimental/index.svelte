@@ -1,4 +1,6 @@
 <script context="module" lang="ts">
+	console.info('experimental Page: script module call');
+
 	/**
 	 * @type {import('@sveltejs/kit').Load}
 	 */
@@ -8,4 +10,8 @@
 			redirect: '/projects#experimental',
 		};
 	}
+</script>
+
+<script lang="ts">
+	console.info('experimental Page: script call');
 </script>

@@ -1,26 +1,17 @@
 <script context="module" lang="ts">
+	console.info('projects/slug Page: script module call');
+
 	import { browser, dev } from '$app/env';
-
-	// we don't need any JS on this page, though we'll load
-	// it in dev so that we get hot module replacement...
-	export const hydrate = dev;
-
-	// ...but if the client-side router is already loaded
-	// (i.e. we came here from elsewhere in the app), use it
-	export const router = browser;
-
-	// since there's no dynamic data here, we can prerender
-	// it so that it gets served as a static asset in prod
-	export const prerender = true;
 
 	/**
 	 * @type {import('@sveltejs/kit').Load}
 	 */
 	export async function load({ fetch, params }) {
 		const { slug } = params;
+		console.info(`projects/slug (${slug}) Page: load call`);
 
 		const res = await fetch(`/projects/${slug}.json`);
-
+		console.log('running load', slug);
 		if (res.ok) {
 			const project = await res.json();
 			return {
@@ -33,12 +24,17 @@
 			error: new Error(`Project not found: ${slug}`),
 		};
 	}
+
+	export const hydrate = browser;
+	export const router = browser;
+	export const prerender = dev;
 </script>
 
 <script lang="ts">
 	import { getContext } from 'svelte';
 
 	export let slug: string;
+	console.info(`projects/slug (${slug}) Page: script call`);
 
 	export let title: string;
 	export let meta: string;

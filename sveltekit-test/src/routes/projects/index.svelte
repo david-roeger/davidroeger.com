@@ -1,11 +1,15 @@
 <script context="module" lang="ts">
-	// Cant't prerender with url search params
-	// export const prerender = true;
+	console.info('projects Page: script module call');
 
+	import { browser, dev } from '$app/env';
+
+	// Cant't prerender with url search params
 	/**
 	 * @type {import('@sveltejs/kit').Load}
 	 */
 	export async function load({ fetch }) {
+		console.info('projects Page: script module call');
+
 		// Use a `limit` querystring parameter to fetch a limited number of posts
 		// e.g. fetch('posts.json?limit=5') for 5 most recent posts
 		const projects = await fetch('/projects.json').then((res) =>
@@ -25,6 +29,8 @@
 </script>
 
 <script lang="ts">
+	console.info('projects Page: script call');
+
 	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
 	import { mapToRange, replaceStateWithQuery } from '$utils';

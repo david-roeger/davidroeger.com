@@ -1,4 +1,6 @@
 <script context="module" lang="ts">
+	console.info('about/music Page: script module call');
+
 	import type { Load } from '@sveltejs/kit';
 	import type {
 		SpotifyLastTrackResponse,
@@ -8,6 +10,8 @@
 
 	// see https://kit.svelte.dev/docs#loading
 	export const load: Load = async ({ fetch }) => {
+		console.info('about/music Page: load call');
+
 		const res: Response = await fetch('/about/music.json');
 		if (res.ok) {
 			const body = await res.json();
@@ -40,11 +44,12 @@
 		}
 
 		throw new Error("Couldn't load music data");
-		
 	};
 </script>
 
 <script lang="ts">
+	console.info('about/music Page: script call');
+
 	export let topTracksResponses: SpotifyTopTracksResponse[];
 	export let topArtistsResponses: SpotifyTopArtistsResponse[];
 	export let lastTrackResponse: SpotifyLastTrackResponse;
@@ -81,16 +86,18 @@
 	];
 </script>
 
-<Headline containerClass="flex items-end py-8 md:py-16">Favorite Music</Headline
->
+<Headline containerClass="flex items-end py-8 md:py-16">
+	Favorite Music
+</Headline>
 
 <Headline
 	as="h2"
 	type="quaternary"
 	id="current_track"
 	containerClass="p-2 bg-white border-b border-mauve-6"
-	>Last listened on Spotify</Headline
 >
+	Last listened on Spotify
+</Headline>
 
 <LastTrack
 	labelledby="current_track"
@@ -119,8 +126,9 @@
 				? 'bg-purple-5'
 				: 'bg-white'}"
 		>
-			<Headline as="h2" unstyled id="top_tracks" type="secondary">Tracks</Headline
-			>
+			<Headline as="h2" unstyled id="top_tracks" type="secondary">
+				Tracks
+			</Headline>
 		</Tabs.Trigger>
 		<Tabs.Trigger
 			value="artists"
@@ -148,7 +156,12 @@
 				sideOffset={8}
 				alignOffset={0}
 			>
-				<Headline as="h2" id="timeHeadline" type="tertiary" class="border-b-0">
+				<Headline
+					as="h2"
+					id="timeHeadline"
+					type="tertiary"
+					class="border-b-0"
+				>
 					Time Range
 				</Headline>
 

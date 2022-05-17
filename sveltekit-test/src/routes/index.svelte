@@ -1,14 +1,17 @@
 <script context="module" lang="ts">
+	console.info('index Page: script module call');
+
 	export const prerender = false;
 </script>
 
 <script lang="ts">
+	console.info('index Page: script call');
+
 	import * as Tabs from '$primitives/Tabs';
 	import * as Dialog from '$primitives/Dialog';
 	import * as Accordion from '$primitives/Accordion';
 	import Logo from '$components/Logo/Logo.svelte';
 	import AccessibleIcon from '$components/AccessibleIcon/AccessibleIcon.svelte';
-	import Head from '$lib/Components/Head/Head.svelte';
 
 	let content = [
 		{ value: '1' },

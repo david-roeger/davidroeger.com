@@ -7,9 +7,7 @@
 	import North from '$assets/Icons/24/north.svg';
 
 	import { page } from '$app/stores';
-	import Head from '$lib/Components/Head/Head.svelte';
 	import DefaultHead from '$lib/Components/Head/DefaultHead.svelte';
-	import { derived } from 'svelte/store';
 
 	const getTitle = (path: string) => {
 		const pathArray = path.split('/').filter((item) => item !== '');
