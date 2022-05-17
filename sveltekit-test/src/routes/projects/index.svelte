@@ -151,8 +151,6 @@
 			content: '#E9F9EE',
 		},
 	]}
-	noindex={false}
-	nofollow={false}
 />
 
 <Tags.Root
