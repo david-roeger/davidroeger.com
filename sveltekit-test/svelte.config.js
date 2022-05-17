@@ -18,7 +18,11 @@ const config = {
 
 	kit: {
 		adapter: adapter(),
-
+		prerender: {
+			crawl: true,
+			enabled: true,
+			force: false,
+		},
 		vite: {
 			resolve: {
 				alias: {
