@@ -27,16 +27,16 @@
 <DefaultHead
 	titleTemplate="DR %s"
 	title={getTitle($page.url.pathname)}
-	canonical={`https://www.davidreoger.com${$page.url.pathname.split('?')[0]}`}
+	canonical={`https://www.davidroeger.com${$page.url.pathname.split('?')[0]}`}
 	description="David Roeger Web Developer and Designer based in Stuttgart, Germany."
 	openGraph={{
 		type: 'website',
 		site_name: 'David Roeger',
 		locale: 'en',
-		url: `https://www.davidreoger.com${$page.url.pathname.split('?')[0]}`,
+		url: `https://www.davidroeger.com${$page.url.pathname.split('?')[0]}`,
 		images: [
 			{
-				url: 'https://www.davidreoger.com/meta/og_image.jpg',
+				url: 'https://www.davidroeger.com/meta/og_image.jpg',
 				width: 1200,
 				height: 1200,
 				alt: 'Antique greece statue',
