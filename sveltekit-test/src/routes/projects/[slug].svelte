@@ -116,7 +116,7 @@
 
 <article>
 	{#if tags?.length}
-		<p
+		<div
 			class="flex items-center p-1 text-xs border-b text-mauve-11 border-mauve-6"
 		>
 			<AccessibleIcon label="Tags"><TagIcon /></AccessibleIcon>
@@ -129,7 +129,7 @@
 					{tag}
 				</a>
 			{/each}
-		</p>
+		</div>
 	{/if}
 	<section class="mb-32 border-b border-mauve-6">
 		{#if title}
