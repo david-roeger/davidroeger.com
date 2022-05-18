@@ -1,8 +1,7 @@
-import { slugFromPath } from '$lib/Utils';
 import type { GetReturnType } from '$lib/types';
+import { slugFromPath } from '$lib/Utils';
 
 /** @type {import('@sveltejs/kit').RequestHandler} */
-
 export async function get({ url }: { url: URL }): GetReturnType {
 	const modules = import.meta.glob('./content/*.{md,svx,svelte.md}');
 	const projectPromises = [];

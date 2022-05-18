@@ -3,7 +3,6 @@ import type { GetReturnType } from '$lib/types';
 import { slugFromPath } from '$lib/Utils';
 
 /** @type {import('@sveltejs/kit').RequestHandler} */
-
 export async function get({
 	params,
 }: {
