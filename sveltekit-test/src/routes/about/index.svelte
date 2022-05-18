@@ -1,8 +1,7 @@
 <script context="module" lang="ts">
 	console.info('about Page: script module call');
-	import { browser, dev } from '$app/env';
+	import { browser } from '$app/env';
 
-	export const hydrate = dev;
 	export const router = browser;
 	export const prerender = true;
 </script>
