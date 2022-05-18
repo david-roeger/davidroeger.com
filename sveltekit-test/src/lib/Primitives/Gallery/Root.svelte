@@ -49,8 +49,9 @@
 		end: $end,
 	});
 
-	const dispatchStart =
-		createEventDispatcher<{ start: { start: boolean } }>();
+	const dispatchStart = createEventDispatcher<{
+		start: { start: boolean };
+	}>();
 	$: dispatchStart('start', {
 		start: $start,
 	});

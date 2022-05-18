@@ -8,7 +8,7 @@ value*
 -->
 <script lang="ts">
 	export let value: string;
-	export let disabled: boolean = false;
+	export let disabled = false;
 
 	let c = '';
 	export { c as class };

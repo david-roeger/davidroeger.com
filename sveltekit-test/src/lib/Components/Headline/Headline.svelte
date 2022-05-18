@@ -34,7 +34,12 @@
 </script>
 
 <div class="{unstyled ? '' : 'border-b border-mauve-6 p-2'} {containerClass}">
-	<svelte:element this={asTag} {id} class={unstyled ? '' : variantClass} class:c>
+	<svelte:element
+		this={asTag}
+		{id}
+		class={unstyled ? '' : variantClass}
+		class:c
+	>
 		<slot />
 	</svelte:element>
 </div>

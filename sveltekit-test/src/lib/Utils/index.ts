@@ -76,9 +76,10 @@ export const adjustScale = (
 	return min + mapped;
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const cloneObject = (obj: {
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	[key: string]: any;
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 }): { [key: string]: any } => {
 	return JSON.parse(JSON.stringify(obj));
 };

@@ -5,10 +5,10 @@
 <script lang="ts">
 	export let min: number;
 	export let max: number;
-	export let step: number = 1;
-	export let minStepsBetweenThumbs: number = 0;
+	export let step = 1;
+	export let minStepsBetweenThumbs = 0;
 
-	export let disabled: boolean = false;
+	export let disabled = false;
 	export let name: string = undefined;
 	export let label: string = undefined;
 	export let orientation: 'horizontal' | 'vertical' = 'horizontal';
@@ -64,8 +64,9 @@
 
 	setContext('root', rootContext);
 	const { activeValues, setSlider, focusThumb } = rootContext;
-	const dispatch =
-		createEventDispatcher<{ valueChange: { values: number[] } }>();
+	const dispatch = createEventDispatcher<{
+		valueChange: { values: number[] };
+	}>();
 
 	$setSlider = (value: Value) => {
 		const index = $activeValues.findIndex((v) => v.id === value.id);

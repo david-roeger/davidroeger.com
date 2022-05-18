@@ -3,9 +3,7 @@
 
 	import { browser, dev } from '$app/env';
 
-	/**
-	 * @type {import('@sveltejs/kit').Load}
-	 */
+	/** @type {import('@sveltejs/kit').Load} */
 	export async function load({ fetch, params }) {
 		const { slug } = params;
 		console.info(`projects/slug (${slug}) Page: load call`);
@@ -25,7 +23,6 @@
 		};
 	}
 
-	export const hydrate = browser;
 	export const router = browser;
 	export const prerender = dev;
 </script>
@@ -48,10 +45,10 @@
 	export let place: string;
 	export let date: string;
 
-	export let github: string = '';
-	export let project: string = '';
+	export let github = '';
+	export let project = '';
 
-	export let html: string = '';
+	export let html = '';
 
 	import AccessibleIcon from '$components/AccessibleIcon/AccessibleIcon.svelte';
 	import { Media } from '$lib/Components/Media';
@@ -63,7 +60,6 @@
 	import Headline from '$components/Headline/Headline.svelte';
 
 	import projectsMediaData from '$assets/projectsMediaData.json';
-	import { page } from '$app/stores';
 	import Head from '$lib/Components/Head/Head.svelte';
 
 	const projectMediaData = projectsMediaData[slug];
@@ -208,7 +204,7 @@
 			<div
 				class="py-8 px-2 grow md:grow-0 md:w-3/4 md:border-r border-mauve-6 md:p-8 xl:p-16 bg-white/[.85]"
 			>
-				<div class="max-w-[60ch]">
+				<div class="max-w-[60ch] markdown">
 					{@html html}
 				</div>
 			</div>
@@ -232,3 +228,26 @@
 		{/if}
 	</section>
 </article>
+
+<style global>
+	.markdown > * {
+		@apply mb-2;
+	}
+	.markdown > *:last-child {
+		@apply mb-0;
+	}
+	.markdown h1 {
+		@apply text-6xl;
+	}
+	.markdown h2 {
+		@apply text-4xl;
+	}
+
+	.markdown h3 {
+		@apply text-2xl;
+	}
+
+	.markdown h4 {
+		@apply text-xl;
+	}
+</style>

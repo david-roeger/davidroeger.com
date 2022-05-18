@@ -12,8 +12,8 @@
 
 	export let title: string = undefined;
 	export let titleTemplate: string = undefined;
-	export let noindex: boolean = false;
-	export let nofollow: boolean = false;
+	export let noindex = false;
+	export let nofollow = false;
 	export let robotsProps: AdditionalRobotsProps = undefined;
 	export let description: string = undefined;
 	export let canonical: string = undefined;

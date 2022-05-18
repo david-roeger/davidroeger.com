@@ -18,7 +18,7 @@
 
 	const { SM, MD, LG, XL } = breakpointContext;
 
-	const handleResize = (width: Number) => {
+	const handleResize = (width: number) => {
 		$SM = width >= BREAK_POINTS.SM;
 		$MD = width >= BREAK_POINTS.MD;
 		$LG = width >= BREAK_POINTS.LG;

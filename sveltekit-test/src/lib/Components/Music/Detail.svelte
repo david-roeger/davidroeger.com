@@ -19,7 +19,7 @@
 		as="h3"
 		type="tertiary"
 		containerClass="pt-0 px-0 pb-2 truncate border-b-0 md:pb-0"
-		>
+	>
 		<slot />
 	</Headline>
 </div>

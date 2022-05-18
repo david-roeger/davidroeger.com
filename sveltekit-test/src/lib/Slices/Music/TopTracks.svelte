@@ -55,8 +55,8 @@
 								<Music.Image
 									url={getImageUrl(track.album.images)}
 									alt="{track.album.name} Album Cover"
-								/></Link
-							>
+								/>
+							</Link>
 						</Music.Atom>
 					{/if}
 					<Music.Atom class="flex-1 min-w-0 border-l border-mauve-6">

@@ -41,8 +41,9 @@
 		$activeValues = [];
 	};
 
-	const dispatch =
-		createEventDispatcher<{ valueChange: { value: string[] } }>();
+	const dispatch = createEventDispatcher<{
+		valueChange: { value: string[] };
+	}>();
 	$: dispatch('valueChange', {
 		value: $activeValues,
 	});

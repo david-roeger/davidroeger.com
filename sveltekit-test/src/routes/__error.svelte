@@ -16,7 +16,6 @@
 	import East from '$assets/Icons/24/east.svg';
 	import { Background } from '$components/Background';
 	import Head from '$lib/Components/Head/Head.svelte';
-	import DefaultHead from '$lib/Components/Head/DefaultHead.svelte';
 
 	export let error: any;
 	export let status: any;

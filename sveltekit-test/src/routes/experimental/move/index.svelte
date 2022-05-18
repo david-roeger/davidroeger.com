@@ -74,7 +74,7 @@
 	function loadImage(src: string) {
 		const p = new Promise((resolve) => {
 			const image = new Image();
-			image.addEventListener('load', (e) => {
+			image.addEventListener('load', () => {
 				resolve(image);
 			});
 			image.src = src;

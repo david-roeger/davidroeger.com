@@ -1,12 +1,10 @@
 <script context="module" lang="ts">
 	console.info('projects Page: script module call');
 
-	import { browser, dev } from '$app/env';
-
 	// Cant't prerender with url search params
-	/**
-	 * @type {import('@sveltejs/kit').Load}
-	 */
+	// export const prerender = false;
+
+	/** @type {import('@sveltejs/kit').Load} */
 	export async function load({ fetch }) {
 		console.info('projects Page: script module call');
 
@@ -44,8 +42,8 @@
 	import { Media } from '$lib/Components/Media';
 	import East from '$assets/Icons/24/east.svg';
 	import West from '$assets/Icons/24/west.svg';
-	import East16 from '$assets/Icons/16/east.svg';
 	import Close16 from '$assets/Icons/16/close.svg';
+	import East16 from '$assets/Icons/16/east.svg';
 
 	import AccessibleIcon from '$lib/Components/AccessibleIcon';
 

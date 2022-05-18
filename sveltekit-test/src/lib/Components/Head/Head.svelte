@@ -11,7 +11,6 @@
 		Twitter,
 		MetaTag,
 		LinkTag,
-		Tags,
 	} from './types';
 	import { defaultSeoProps } from './store';
 	import buildTags from './utils';
@@ -193,7 +192,7 @@
 
 <svelte:head>
 	{#each tags as tagObj (tagObj.key)}
-		{@const { tag, key, slot, ...props } = tagObj}
+		{@const { tag, slot, ...props } = tagObj}
 		{#if slot}
 			<svelte:element this={tag} {...props} data-dr-head={id}>
 				{slot}

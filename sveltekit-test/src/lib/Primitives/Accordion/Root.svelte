@@ -5,8 +5,8 @@
 <script lang="ts">
 	export let type: 'single' | 'multiple';
 	export let defaultValue: string | string[];
-	export let disabled: boolean = false;
-	export let collapsible: boolean = false;
+	export let disabled = false;
+	export let collapsible = false;
 
 	let c = '';
 	export { c as class };
@@ -27,8 +27,9 @@
 	};
 	setContext('root', rootContext);
 	const { activeValues, setAccordion } = rootContext;
-	const dispatch =
-		createEventDispatcher<{ valueChange: { value: string | string[] } }>();
+	const dispatch = createEventDispatcher<{
+		valueChange: { value: string | string[] };
+	}>();
 
 	$setAccordion = (value: string, active: boolean) => {
 		if (type === 'single') {
