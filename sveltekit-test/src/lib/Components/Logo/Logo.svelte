@@ -50,6 +50,8 @@
 	on:click={handleClick}
 	on:mousemove={handleMouse}
 	on:touchmove={handleTouch}
+	on:touchstart={handleTouch}
+	on:touchend={handleTouch}
 />
 
 <svg
