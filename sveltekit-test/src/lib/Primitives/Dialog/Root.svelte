@@ -32,22 +32,16 @@
 		$open = true;
 	};
 	$setClose = () => {
-		console.log($trap);
 		if ($trap) {
 			$trap.deactivate();
 			$trap = undefined;
 		}
-
-		console.log($activeDialogs);
-		console.log(computedId);
 
 		$activeDialogs = [
 			...$activeDialogs.filter(
 				(activeDialog) => activeDialog !== computedId,
 			),
 		];
-
-		console.log($activeDialogs);
 
 		if ($activeDialogs.length === 0) {
 			document.body.classList.remove('dialog-open');

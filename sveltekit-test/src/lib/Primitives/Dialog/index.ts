@@ -6,3 +6,4 @@ export { default as Content } from './Content.svelte';
 export { default as Title } from './Title.svelte';
 export { default as Description } from './Description.svelte';
 export { default as Close } from './Close.svelte';
+export { default as Form } from './Form.svelte';
