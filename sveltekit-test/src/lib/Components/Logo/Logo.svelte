@@ -29,9 +29,9 @@
 		}
 	};
 
-	const handleTouch = ({ touches }: TouchEvent) => {
-		if (animated && touches[0]) {
-			computeAngle(touches[0].clientX);
+	const handleTouch = (e: TouchEvent) => {
+		if (animated && e.touches[0]) {
+			computeAngle(e.touches[0].clientX);
 		}
 	};
 
