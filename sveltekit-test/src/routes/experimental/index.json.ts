@@ -1,9 +1,7 @@
 import type { GetReturnType } from '$lib/types';
-import { slugFromPath } from '$lib/Utils';
 
 /** @type {import('@sveltejs/kit').RequestHandler} */
 export async function get({ url }: { url: URL }): GetReturnType {
-	const modules = import.meta.glob('./*');
 	const nested = import.meta.glob('./*/index.*');
 	const projectPromises: Promise<{
 		slug: string;
@@ -15,21 +13,6 @@ export async function get({ url }: { url: URL }): GetReturnType {
 		return {
 			status: 400,
 		};
-	}
-	for (const [path, resolver] of Object.entries(modules)) {
-		const slug = slugFromPath(path);
-		if (
-			!slug ||
-			slug === 'index' ||
-			slug === 'reset' ||
-			slug === '__layout'
-		) {
-			continue;
-		}
-		const promise = resolver().then(({ thumbnail }) => {
-			return { slug, thumbnail };
-		});
-		projectPromises.push(promise);
 	}
 
 	for (const [path, resolver] of Object.entries(nested)) {
