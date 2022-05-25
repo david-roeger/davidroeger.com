@@ -37,8 +37,8 @@
 	<svelte:element
 		this={asTag}
 		{id}
-		class={unstyled ? '' : variantClass}
-		class:c
+		class="{unstyled ? '' : variantClass} {c}"
+		{...$$restProps}
 	>
 		<slot />
 	</svelte:element>
