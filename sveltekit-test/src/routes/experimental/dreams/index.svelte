@@ -27,19 +27,42 @@
 	import { getDreams } from '$lib/Utils/Auth/request';
 	import { user } from '$lib/Utils/Auth/store';
 	import { session } from '$app/stores';
+	import Headline from '$lib/Components/Headline/Headline.svelte';
+	import { getRandomEmoji } from '$lib/Utils';
 
 	console.info('experimental/dreams Page: script call');
-	$: console.log($session.dreams);
+
+	$: dreams = ($session.dreams ?? []).sort((a, b) => {
+		return (
+			new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+		);
+	});
+
+	const formatDate = (date: string) => {
+		const parsed = new Date(date);
+		return parsed.toLocaleDateString();
+	};
 </script>
 
-<h1>all my dreams</h1>
-<p>user: {$user?.id}</p>
-{#each $session.dreams as dream}
-	<p>Created at: {dream.created_at}</p>
-	<p>Updated at: {dream.updated_at}</p>
+<Headline containerClass="py-8 md:py-16">My Dreams</Headline>
 
-	<p>{dream.text}</p>
-	<p>--------------</p>
-{:else}
-	<p>no dreams recorded yet</p>
-{/each}
+<ul class="grid grid-cols-1 p-1 md:grid-cols-2 lg:grid-cols-3">
+	{#each dreams as dream (dream.id)}
+		<li class="flex flex-col m-1 -0 bg-white/[.85] border border-mauve-6">
+			<div>
+				<span>{dream.emoji}</span>
+			</div>
+			<Headline type="quaternary" class="">
+				{formatDate(dream.created_at)}
+				<span class="text-mauve-11">
+					({formatDate(dream.updated_at)})
+				</span>
+			</Headline>
+			<div class="p-2">
+				<p class="whitespace-pre-line">{dream.text}</p>
+			</div>
+		</li>
+	{:else}
+		<li>No dreams</li>
+	{/each}
+</ul>
