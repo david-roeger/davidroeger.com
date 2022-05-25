@@ -1,3 +1,4 @@
+import type { Dream } from '$lib/types';
 import { supabase } from './supabaseClient';
 
 export const getSupabaseProfile = async (
@@ -28,5 +29,27 @@ export const getSupabaseProfile = async (
 		return null;
 	} catch (error) {
 		alert(error.error_description || error.message);
+	}
+};
+
+export const getDreams = async (): Promise<{
+	dreams?: Dream[];
+	error?: Error;
+	status?: number;
+}> => {
+	try {
+		const {
+			data: dreams,
+			error,
+			status,
+		} = await supabase
+			.from('dreams')
+			.select(`text, created_at, updated_at`);
+
+		if (error && status !== 406) throw error;
+
+		return { dreams: dreams as Dream[] };
+	} catch (error) {
+		return { error, status: 500 };
 	}
 };

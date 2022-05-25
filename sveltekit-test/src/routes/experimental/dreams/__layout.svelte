@@ -1,31 +1,22 @@
 <script context="module" lang="ts">
 	console.info('experimental/dreams Layout: script module call');
-
-	import type { Load } from '@sveltejs/kit';
-
-	export const load: Load = async ({ params, fetch, session, stuff }) => {
-		console.info('experimental/dreams Layout: load call');
-		return { props: {} };
-	};
 </script>
 
 <script lang="ts">
+	import { session } from '$app/stores';
+
 	import Button from '$lib/Components/Button/Button.svelte';
 	import Dialog from '$lib/Components/Dialog/Dialog.svelte';
 	import { Form } from '$lib/Primitives/Dialog';
 	import * as VisuallyHidden from '$lib/Primitives/VisuallyHidden';
+	import type { Dream } from '$lib/types';
 
 	import { user, profile } from '$lib/Utils/Auth/store';
 	import { supabase } from '$lib/Utils/Auth/supabaseClient';
+	import { onMount } from 'svelte';
 	import { writable } from 'svelte/store';
 
 	let loading = false;
-
-	const handleLoginDialog = (
-		e: CustomEvent<{
-			open: boolean;
-		}>,
-	) => {};
 
 	const handleSignIn = async ({ email = '', password = '' }) => {};
 
@@ -88,73 +79,126 @@
 			return false;
 		}
 	};
+
+	const handleDreamSubmit = async (
+		e: SubmitEvent & {
+			currentTarget: EventTarget & HTMLFormElement;
+		},
+	) => {
+		console.log('handleDreamSubmit form');
+		e.preventDefault();
+
+		const formData = new FormData(e.currentTarget);
+		const text = formData.get('text') as string;
+
+		try {
+			loading = true;
+
+			if (!text || text.length === 0) {
+				throw new Error('Enter a dream is required');
+			}
+
+			if (!$user || !$user.id) {
+				throw new Error('Not logged in');
+			}
+			const { data: dreams, error } = await supabase
+				.from('dreams')
+				.insert([{ text, created_by: $user.id }]);
+
+			if (error) throw error;
+			const oldDreams = $session.dreams ?? [];
+			$session.dreams = [...oldDreams, ...(dreams as Dream[])];
+			loading = false;
+			return true;
+		} catch (error) {
+			loading = false;
+			alert(error.error_description || error.message);
+			return false;
+		}
+	};
+
+	onMount(() => {
+		console.log('onMount');
+		console.log($user);
+		console.log('-----');
+	});
 </script>
 
 <div class="border-b xl:max-w-7xl border-mauve-6">
-	<p>Loading: {loading ? 'true' : 'false'}</p>
 	<h3><VisuallyHidden.Root>Sub Menu</VisuallyHidden.Root></h3>
 
-	<ul class="flex justify-end">
+	<ul class="flex flex-wrap justify-end">
 		<li class="w-auto p-2 mr-auto list-none">
-			<Button class={`block bg-white hover:bg-blue-5`}>
-				🧿 Neuer Traum
-			</Button>
-		</li>
-		<li>
-			<ul class="flex flex-wrap justify-end p-1">
-				<li class="p-1 list-none">
-					<Button variant="rounded" class="block bg-blue-5">
-						Login
-					</Button>
-				</li>
-				<li class="p-1 list-none">
-					<Button
-						variant="rounded"
-						class="block bg-blue-5"
-						on:click={handleSignOut}
-					>
-						Logout
-					</Button>
-				</li>
-			</ul>
-		</li>
-		<li>
 			<Dialog
-				trigger="Trigger"
+				disabled={loading || !$user}
+				trigger="🧿 Neuer Traum"
+				triggerClass="bg-white hover:bg-blue-5"
 				title="Title"
 				description="description"
-				on:openChange={handleLoginDialog}
 			>
-				<Form handleSubmit={handleLoginSubmit}>
-					<input
-						type="email"
-						name="email"
-						required
-						disabled={loading}
-						placeholder="E-Mail"
-					/>
-					<input
-						type="password"
-						name="password"
-						required
-						disabled={loading}
-						placeholder="Passwort"
-					/>
+				<Form handleSubmit={handleDreamSubmit}>
+					<textarea name="text" class="resize-none ">
+						At w3schools.com you will learn how to make a website.
+						They offer free tutorials in all web development
+						technologies.
+					</textarea>
 
-					<button disabled={loading}>Login</button>
+					<button disabled={loading || !$user}>Absenden</button>
 				</Form>
 			</Dialog>
 		</li>
+		<li>
+			<ul class="flex flex-wrap justify-end p-1">
+				{#if $user}
+					<li class="p-1 list-none">
+						<Button
+							variant="rounded"
+							class="block bg-white hover:bg-blue-5"
+							on:click={handleSignOut}
+						>
+							🔒 Logout
+						</Button>
+					</li>
+				{:else}
+					<li class="p-1 list-none">
+						<Dialog
+							trigger="🔓 Login"
+							triggerClass="bg-white hover:bg-blue-5"
+							triggerRounded
+							title="Title"
+							description="description"
+						>
+							<Form handleSubmit={handleLoginSubmit}>
+								<input
+									type="email"
+									name="email"
+									required
+									disabled={loading}
+									placeholder="E-Mail"
+								/>
+								<input
+									type="password"
+									name="password"
+									required
+									disabled={loading}
+									placeholder="Passwort"
+								/>
+
+								<button disabled={loading}>Login</button>
+							</Form>
+						</Dialog>
+					</li>
+				{/if}
+			</ul>
+		</li>
+		<li />
 	</ul>
-	<p>id: {$user?.id}</p>
-	<p>username: {$profile?.username}</p>
 </div>
 
-<p>// submenu login || add dream (modal?) // submenu login</p>
-
-<p>edit dream (in modal)</p>
-<p>if logged in: edit and delete</p>
-<p>created at, updated at</p>
-<p>text</p>
-
+<p>Loading: {loading ? 'true' : 'false'}</p>
+<p>id: {$user?.id}</p>
+<p>username: {$profile?.username}</p>
+<br />
+<br />
+<br />
 <slot />

@@ -13,11 +13,8 @@
 	const roundedClass = 'px-4 py-2 rounded-full';
 	const iconClass = '';
 
-	let disabledClass;
-	if (disabled) {
-		disabledClass =
-			'cursor-not-allowed !bg-white border-mauve-11 ring-mauve-11 text-mauve-11';
-	}
+	let disabledClass =
+		'cursor-not-allowed !bg-white border-mauve-11 ring-mauve-11 text-mauve-11';
 
 	let variantClass;
 	switch (variant) {
@@ -32,6 +29,8 @@
 			variantClass = roundedClass;
 			break;
 	}
+
+	$: console.log('disable: ', disabled);
 </script>
 
 <button
@@ -39,7 +38,9 @@
 	{role}
 	use:buttonType={type}
 	on:click
-	class="border border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 transition-colors {variantClass} {customClass} {disabledClass}"
+	class="border border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 transition-colors {variantClass} {customClass} {disabled
+		? disabledClass
+		: ''}"
 >
 	<slot />
 </button>

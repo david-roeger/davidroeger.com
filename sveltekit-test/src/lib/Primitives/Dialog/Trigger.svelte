@@ -1,6 +1,7 @@
 <script lang="ts">
 	let c = '';
 	export { c as class };
+	export let disabled = false;
 
 	import { getContext } from 'svelte';
 	import { derived } from 'svelte/store';
@@ -22,6 +23,7 @@
 	aria-expanded={$open}
 	aria-controls="{id}-content"
 	class={c}
+	disabled={disabled ? true : undefined}
 >
 	<slot />
 </button>

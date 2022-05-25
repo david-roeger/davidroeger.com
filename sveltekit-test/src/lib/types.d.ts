@@ -34,3 +34,9 @@ export interface ProjectMetaData {
 	github: string;
 	published: boolean;
 }
+
+export interface Dream {
+	text: string;
+	created_at: string;
+	updated_at: string;
+}
