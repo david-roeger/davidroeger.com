@@ -1,8 +1,10 @@
 import type { Dream } from '$lib/types';
+import type { User } from '@supabase/supabase-js';
+import { getRandomEmoji } from '..';
 import { supabase } from './supabaseClient';
 
 export const getSupabaseProfile = async (
-	user: { id: string } = { id: undefined },
+	user: User,
 ): Promise<{
 	username: string;
 	createdAt: string;
@@ -44,7 +46,7 @@ export const getDreams = async (): Promise<{
 			status,
 		} = await supabase
 			.from('dreams')
-			.select(`text, created_at, updated_at`);
+			.select(`id, text, emoji, created_at, updated_at`);
 
 		if (error && status !== 406) throw error;
 

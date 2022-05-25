@@ -10,6 +10,7 @@
 	import { Form } from '$lib/Primitives/Dialog';
 	import * as VisuallyHidden from '$lib/Primitives/VisuallyHidden';
 	import type { Dream } from '$lib/types';
+	import { getRandomEmoji } from '$lib/Utils';
 
 	import { user, profile } from '$lib/Utils/Auth/store';
 	import { supabase } from '$lib/Utils/Auth/supabaseClient';
@@ -17,8 +18,6 @@
 	import { writable } from 'svelte/store';
 
 	let loading = false;
-
-	const handleSignIn = async ({ email = '', password = '' }) => {};
 
 	const handleSignOut = async () => {
 		try {
@@ -28,7 +27,6 @@
 				if (error) throw error;
 			}
 		} catch (error) {
-			console.log(error.error_description || error.message);
 			alert(error.message);
 		} finally {
 			loading = false;
@@ -61,7 +59,7 @@
 				user: userData,
 				error,
 			} = await supabase.auth.signIn(
-				{ email, password: password ?? undefined },
+				{ email, password },
 				{
 					shouldCreateUser: false,
 				},
@@ -71,12 +69,12 @@
 			if (!sessionData) throw new Error('Session is not defined');
 			if (!userData) throw new Error('User is not defined');
 
-			loading = false;
 			return true;
 		} catch (error) {
-			loading = false;
 			alert(error.error_description || error.message);
 			return false;
+		} finally {
+			loading = false;
 		}
 	};
 
@@ -90,7 +88,6 @@
 
 		const formData = new FormData(e.currentTarget);
 		const text = formData.get('text') as string;
-
 		try {
 			loading = true;
 
@@ -103,11 +100,20 @@
 			}
 			const { data: dreams, error } = await supabase
 				.from('dreams')
-				.insert([{ text, created_by: $user.id }]);
+				.insert([
+					{ text, created_by: $user.id, emoji: getRandomEmoji() },
+				]);
 
 			if (error) throw error;
 			const oldDreams = $session.dreams ?? [];
-			$session.dreams = [...oldDreams, ...(dreams as Dream[])];
+			const newDreams = dreams.map((dream: Dream) => ({
+				id: dream.id,
+				text: dream.text,
+				created_at: dream.created_at,
+				updated_at: dream.updated_at,
+				emoji: dream.emoji,
+			}));
+			$session.dreams = [...oldDreams, ...newDreams];
 			loading = false;
 			return true;
 		} catch (error) {

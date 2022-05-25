@@ -36,7 +36,9 @@ export interface ProjectMetaData {
 }
 
 export interface Dream {
+	id: number;
 	text: string;
+	emoji: string;
 	created_at: string;
 	updated_at: string;
 }
