@@ -29,8 +29,6 @@
 			variantClass = roundedClass;
 			break;
 	}
-
-	$: console.log('disable: ', disabled);
 </script>
 
 <button
