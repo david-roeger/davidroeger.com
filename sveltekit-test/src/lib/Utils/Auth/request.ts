@@ -1,6 +1,5 @@
 import type { Dream } from '$lib/types';
 import type { User } from '@supabase/supabase-js';
-import { getRandomEmoji } from '..';
 import { supabase } from './supabaseClient';
 
 export const getSupabaseProfile = async (
