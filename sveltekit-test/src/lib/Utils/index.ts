@@ -125,3 +125,13 @@ export const emojis = [
 
 export const getRandomEmoji = (): string =>
 	emojis[Math.floor(Math.random() * emojis.length)];
+
+export const getRandomEmojis = (limit = 10): string[] => {
+	const normalize = Math.max(0, Math.min(limit, emojis.length));
+	const randomEmojis: Set<string> = new Set();
+	while (randomEmojis.size < normalize) {
+		randomEmojis.add(getRandomEmoji());
+	}
+
+	return [...randomEmojis];
+};
