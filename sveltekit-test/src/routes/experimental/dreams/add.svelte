@@ -4,12 +4,14 @@
 	import Button from '$lib/Components/Button/Button.svelte';
 	import Headline from '$lib/Components/Headline/Headline.svelte';
 	import type { Dream } from '$lib/types';
-	import { emojis, getRandomEmoji } from '$lib/Utils';
+	import { getRandomEmoji } from '$lib/Utils';
 
-	import { user } from '$lib/Utils/Auth/store';
+	import { profile, user } from '$lib/Utils/Auth/store';
 	import { supabase } from '$lib/Utils/Auth/supabaseClient';
 
 	import { onMount } from 'svelte';
+
+	console.info('experimental/dreams/add: script call');
 
 	let loading = true;
 	onMount(() => {
@@ -92,21 +94,31 @@
 	};
 </script>
 
+<div class="p-2 border-b xl:max-w-7xl border-mauve-6">
+	User: {$profile?.username}
+</div>
+
 <Headline containerClass="py-8 md:py-16">Neuer Traum</Headline>
 
 <form
-	class="p-2 mb-32 border-b border-mauve-6 bg-white/[0.85]"
+	class=" mb-32 border-b border-mauve-6 p-2 bg-white/[.85]"
 	on:submit={handleDreamSubmit}
 	disabled={loading || !$user}
 >
-	<textarea
-		name="text"
-		class="block w-full max-w-[60ch] h-[20ch] p-2 bg-white border resize-none border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1"
-		disabled={loading || !$user}
-		placeholder="Wovon träumst du nachts..."
-		required
-	/>
-	<div class="w-[60ch] h-[60ch] overflow-scroll relative">
+	<div class="max-w-[60ch] max-h-[60ch]">
+		<div class="aspect-w-1 aspect-h-1">
+			<textarea
+				id="text"
+				name="text"
+				placeholder="Wovon träumst du nachts..."
+				class="block w-full h-full p-2 bg-white border resize-none aspect-square border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 placeholder-mauve-11"
+				disabled={loading || !$user}
+				required
+			/>
+		</div>
+	</div>
+
+	<!--div class="w-[60ch] h-[60ch] overflow-scroll relative">
 		{#each testEmojis as emoji, index}
 			{@const { x, y } = getCoordinates(index)}
 
@@ -117,7 +129,7 @@
 				{emoji}
 			</Button>
 		{/each}
-	</div>
+	</div-->
 
 	<Button
 		type="submit"
