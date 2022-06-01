@@ -8,6 +8,7 @@
 
 	let customClass = '';
 	export { customClass as class };
+	export let style = '';
 
 	const primaryClass = 'px-4 py-2';
 	const roundedClass = 'px-4 py-2 rounded-full';
@@ -36,6 +37,7 @@
 	{role}
 	use:buttonType={type}
 	on:click
+	{style}
 	class="border border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 transition-colors {variantClass} {customClass} {disabled
 		? disabledClass
 		: ''}"
