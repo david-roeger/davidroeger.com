@@ -55,11 +55,9 @@
 		const parsed = new Date(date);
 		return parsed.toLocaleDateString('en-GB');
 	};
-
-	console.log(emojis);
 </script>
 
-<Headline containerClass="py-8 md:py-16">My Dreams</Headline>
+<Headline containerClass="py-8 md:py-16">Meine Träume</Headline>
 
 <ul class="grid grid-cols-1 p-1 md:grid-cols-2 lg:grid-cols-3">
 	{#each dreams as dream, index (dream.id)}
