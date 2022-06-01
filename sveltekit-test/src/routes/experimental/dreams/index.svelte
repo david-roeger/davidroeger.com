@@ -80,7 +80,11 @@
 						{!!dream.emoji ? dream.emoji : emojis[index]}
 					</span>
 				</span>
-				<Headline type="quaternary" containerClass="grow border-l">
+				<Headline
+					as="h2"
+					type="quaternary"
+					containerClass="grow border-l"
+				>
 					{formatDate(dream.created_at)}
 					<span class="text-mauve-11">
 						({formatDate(dream.updated_at)})
