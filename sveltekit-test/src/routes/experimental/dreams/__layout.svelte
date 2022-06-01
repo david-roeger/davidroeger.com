@@ -15,7 +15,6 @@
 	import { user, profile } from '$lib/Utils/Auth/store';
 	import { supabase } from '$lib/Utils/Auth/supabaseClient';
 	import { onMount } from 'svelte';
-	import { writable } from 'svelte/store';
 
 	let loading = false;
 
@@ -68,7 +67,6 @@
 			if (error) throw error;
 			if (!sessionData) throw new Error('Session is not defined');
 			if (!userData) throw new Error('User is not defined');
-
 			return true;
 		} catch (error) {
 			alert(error.error_description || error.message);
@@ -114,12 +112,12 @@
 				emoji: dream.emoji,
 			}));
 			$session.dreams = [...oldDreams, ...newDreams];
-			loading = false;
 			return true;
 		} catch (error) {
-			loading = false;
 			alert(error.error_description || error.message);
 			return false;
+		} finally {
+			loading = false;
 		}
 	};
 
