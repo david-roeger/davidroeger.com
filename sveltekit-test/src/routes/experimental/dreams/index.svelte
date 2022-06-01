@@ -14,12 +14,11 @@
 
 		session.dreams = dreams;
 		const res: Response = await fetch(
-			`dreams/emojis.json?limit=${dreams.length}`,
+			`/experimental/dreams/emojis.json?limit=${dreams.length}`,
 		);
 
 		if (res.ok) {
 			const emojis = await res.json();
-			console.log(emojis);
 			return {
 				props: {
 					emojis: emojis as string[],
