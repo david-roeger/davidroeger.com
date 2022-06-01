@@ -172,6 +172,12 @@ module.exports = {
 						transform: 'rotate(360deg)',
 					},
 				},
+				wiggle: {
+					'10%, 90%': { transform: 'translate(-1px)' },
+					'20%,80%': { transform: 'translate(2px,-4px)' },
+					'30%,50%,70%': { transform: 'translate(-4px,-4px)' },
+					'40%,60%': { transform: 'translate(4px,-4px)' },
+				},
 			},
 			animation: {
 				'wave-1': 'wave 1.2s -200ms linear infinite',
@@ -179,6 +185,8 @@ module.exports = {
 				'wave-3': 'wave 2.0s -500ms linear infinite',
 				'wave-4': 'wave 1.4s -2s linear infinite',
 				loading: 'loading 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;',
+				'cool-wiggle':
+					'wiggle 0.82s cubic-bezier(.36,.07,.19,.97) both',
 			},
 		},
 	},
