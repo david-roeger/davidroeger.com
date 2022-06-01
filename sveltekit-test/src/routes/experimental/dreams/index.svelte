@@ -188,7 +188,7 @@
 				<Form handleSubmit={handleDreamSubmit}>
 					<textarea
 						name="text"
-						class="resize-none"
+						class="rounded-none resize-none"
 						placeholder="Wovon träumst du nachts..."
 						required
 					/>
@@ -268,7 +268,9 @@
 
 <Headline containerClass="py-8 md:py-16">Meine Träume</Headline>
 
-<ul class="grid grid-cols-1 p-1 md:grid-cols-2 lg:grid-cols-3">
+<ul
+	class="grid grid-cols-1 p-1 mb-32 border-b md:grid-cols-2 lg:grid-cols-3 border-mauve-6"
+>
 	{#each dreams as dream, index (dream.id)}
 		<li
 			class="flex flex-col m-1 border border-mauve-6 scroll-m-2 {$page.url

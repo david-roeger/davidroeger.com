@@ -111,7 +111,7 @@
 				id="text"
 				name="text"
 				placeholder="Wovon träumst du nachts..."
-				class="block w-full h-full p-2 bg-white border resize-none aspect-square border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 placeholder-mauve-11"
+				class="block w-full h-full p-2 bg-white border rounded-none resize-none aspect-square border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 placeholder-mauve-11"
 				disabled={loading || !$user}
 				required
 			/>
