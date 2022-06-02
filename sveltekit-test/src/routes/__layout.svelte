@@ -133,11 +133,7 @@
 			sizes: '196x196',
 			href: '/meta/favicon-196x196.png',
 		},
-		// manifest
-		{
-			rel: 'manifest',
-			href: '/manifest.webmanifest',
-		},
+
 		// maskable icon
 		{
 			rel: 'mask-icon',
