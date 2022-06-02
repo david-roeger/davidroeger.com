@@ -2,6 +2,7 @@
 	import { goto } from '$app/navigation';
 	import { session } from '$app/stores';
 	import Button from '$lib/Components/Button/Button.svelte';
+	import Head from '$lib/Components/Head/Head.svelte';
 	import Headline from '$lib/Components/Headline/Headline.svelte';
 	import type { Dream } from '$lib/types';
 	import { getRandomEmoji } from '$lib/Utils';
@@ -93,6 +94,19 @@
 		};
 	};
 </script>
+
+<Head
+	additionalMetaTags={[
+		{
+			name: 'apple-mobile-web-app-capable',
+			content: 'yes',
+		},
+		{
+			name: 'apple-mobile-web-app-status-bar-style',
+			content: 'default',
+		},
+	]}
+/>
 
 <div class="p-2 border-b xl:max-w-7xl border-mauve-6">
 	User: {$profile?.username}

@@ -51,6 +51,7 @@
 	import NavLink from '$lib/Components/NavLink/NavLink.svelte';
 	import { Form } from '$lib/Primitives/Dialog';
 	import * as VisuallyHidden from '$lib/Primitives/VisuallyHidden';
+	import Head from '$lib/Components/Head/Head.svelte';
 
 	export let emojis: string[];
 	console.info('experimental/dreams Page: script call');
@@ -172,6 +173,19 @@
 		}
 	};
 </script>
+
+<Head
+	additionalMetaTags={[
+		{
+			name: 'apple-mobile-web-app-capable',
+			content: 'yes',
+		},
+		{
+			name: 'apple-mobile-web-app-status-bar-style',
+			content: 'default',
+		},
+	]}
+/>
 
 <div class="border-b xl:max-w-7xl border-mauve-6">
 	<h3><VisuallyHidden.Root>Sub Menu</VisuallyHidden.Root></h3>

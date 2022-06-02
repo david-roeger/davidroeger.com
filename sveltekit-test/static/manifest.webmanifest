@@ -1,7 +1,7 @@
 {
 	"short_name": "davidroeger",
 	"name": "davidroeger.com",
-	"start_url": "/",
+	"start_url": "./",
 	"icons": [
 		{
 			"src": "https://www.davidroeger.com/meta/android-chrome-192x192.png",
