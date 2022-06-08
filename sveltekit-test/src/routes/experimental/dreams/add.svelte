@@ -7,8 +7,8 @@
 	import type { Dream } from '$lib/types';
 	import { getRandomEmoji } from '$lib/Utils';
 
-	import { profile, user } from '$lib/Utils/Auth/store';
-	import { supabase } from '$lib/Utils/Auth/supabaseClient';
+	import { profile, dreamsStore } from '$lib/Utils/Auth/store';
+	import { supabaseClient } from '$lib/Utils/Auth/supabaseClient';
 
 	import { onMount } from 'svelte';
 
@@ -16,7 +16,7 @@
 
 	let loading = true;
 	onMount(() => {
-		if (!$user) goto('./', { replaceState: true });
+		if (!$session.user) goto('./', { replaceState: true });
 		loading = false;
 	});
 
@@ -36,17 +36,21 @@
 				throw new Error('Enter a dream is required');
 			}
 
-			if (!$user || !$user.id) {
+			if (!$session.user || !$session.user.id) {
 				throw new Error('Not logged in');
 			}
-			const { data: dreams, error } = await supabase
+			const { data: dreams, error } = await supabaseClient
 				.from('dreams')
 				.insert([
-					{ text, created_by: $user.id, emoji: getRandomEmoji() },
+					{
+						text,
+						created_by: $session.user.id,
+						emoji: getRandomEmoji(),
+					},
 				]);
 
 			if (error) throw error;
-			const oldDreams = $session.dreams ?? [];
+			const oldDreams = $dreamsStore ?? [];
 			const newDreams = dreams.map((dream: Dream) => ({
 				id: dream.id,
 				text: dream.text,
@@ -54,7 +58,7 @@
 				updated_at: dream.updated_at,
 				emoji: dream.emoji,
 			}));
-			$session.dreams = [...oldDreams, ...newDreams];
+			$dreamsStore = [...oldDreams, ...newDreams];
 			if (newDreams.length !== 0) {
 				goto(`../dreams#${newDreams[0].id}`);
 			} else {

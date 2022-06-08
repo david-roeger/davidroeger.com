@@ -1,9 +1,16 @@
 <script context="module" lang="ts">
 	import type { Load } from '@sveltejs/kit';
+	import type { Dream } from '$lib/types';
 
-	export const load: Load = async ({ session, props, fetch }) => {
-		const { dreams, ...restProps } = props;
-		session.dreams = dreams;
+	export const load: Load = async ({ fetch, session }) => {
+		const { dreams, error, status } = await getDreams({ session });
+
+		if (error) {
+			return {
+				status,
+				body: { error: new Error(error.message) },
+			};
+		}
 
 		const res: Response = await fetch(
 			`/experimental/dreams/emojis.json?limit=${dreams.length}`,
@@ -13,7 +20,7 @@
 			const emojis = await res.json();
 			return {
 				props: {
-					...restProps,
+					dreams: dreams as Dream[],
 					emojis: emojis as string[],
 				},
 			};
@@ -32,30 +39,36 @@
 <script lang="ts">
 	import { page, session } from '$app/stores';
 	import Headline from '$lib/Components/Headline/Headline.svelte';
-	import { profile, user } from '$lib/Utils/Auth/store';
 	import { goto } from '$app/navigation';
-	import type { Dream } from '$lib/types';
 	import { getRandomEmoji } from '$lib/Utils';
-	import { supabase } from '$lib/Utils/Auth/supabaseClient';
+	import { supabaseClient } from '$lib/Utils/Auth/supabaseClient';
 	import Button from '$lib/Components/Button/Button.svelte';
 	import Dialog from '$lib/Components/Dialog/Dialog.svelte';
 	import NavLink from '$lib/Components/NavLink/NavLink.svelte';
 	import { Form } from '$lib/Primitives/Dialog';
 	import * as VisuallyHidden from '$lib/Primitives/VisuallyHidden';
-	import DreamIcon from '$assets/Icons/96/dream.svg';
-	import AccessibleIcon from '$lib/Components/AccessibleIcon';
 	import Head from '$lib/Components/Head/Head.svelte';
+	import { onMount } from 'svelte';
+	import { dreamsStore, profile } from '$lib/Utils/Auth/store';
+	import { getDreams } from '$lib/Utils/Auth/request';
 
 	export let emojis: string[];
+	export let dreams: Dream[];
 	export let error: string;
 
 	console.info('experimental/dreams Page: script call');
 
-	$: dreams = ($session.dreams ?? []).sort((a, b) => {
+	$: sortedDreams = (dreams ?? []).sort((a, b) => {
 		return (
 			new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
 		);
 	});
+
+	onMount(() => {
+		$dreamsStore = sortedDreams;
+	});
+
+	$: computedDreams = $dreamsStore ?? sortedDreams;
 
 	const formatDate = (date: string) => {
 		const parsed = new Date(date);
@@ -67,8 +80,8 @@
 	const handleSignOut = async () => {
 		try {
 			loading = true;
-			if ($user) {
-				let { error } = await supabase.auth.signOut();
+			if ($session.user) {
+				let { error } = await supabaseClient.auth.signOut();
 				if (error) throw error;
 			}
 		} catch (error) {
@@ -103,7 +116,7 @@
 				session: sessionData,
 				user: userData,
 				error,
-			} = await supabase.auth.signIn(
+			} = await supabaseClient.auth.signIn(
 				{ email, password },
 				{
 					shouldCreateUser: false,
@@ -139,17 +152,21 @@
 				throw new Error('Enter a dream is required');
 			}
 
-			if (!$user || !$user.id) {
+			if (!$session.user || !$session.user.id) {
 				throw new Error('Not logged in');
 			}
-			const { data: dreams, error } = await supabase
+			const { data: dreams, error } = await supabaseClient
 				.from('dreams')
 				.insert([
-					{ text, created_by: $user.id, emoji: getRandomEmoji() },
+					{
+						text,
+						created_by: $session.user.id,
+						emoji: getRandomEmoji(),
+					},
 				]);
 
 			if (error) throw error;
-			const oldDreams = $session.dreams ?? [];
+			const oldDreams = $dreamsStore ?? [];
 			const newDreams = dreams.map((dream: Dream) => ({
 				id: dream.id,
 				text: dream.text,
@@ -157,7 +174,7 @@
 				updated_at: dream.updated_at,
 				emoji: dream.emoji,
 			}));
-			$session.dreams = [...oldDreams, ...newDreams];
+			$dreamsStore = [...oldDreams, ...newDreams];
 			goto('');
 			return true;
 		} catch (error) {
@@ -167,6 +184,8 @@
 			loading = false;
 		}
 	};
+
+	$: console.log($session);
 </script>
 
 <Head
@@ -190,9 +209,9 @@
 	<h3><VisuallyHidden.Root>Sub Menu</VisuallyHidden.Root></h3>
 
 	<ul class="flex flex-wrap justify-end">
-		<li class="w-auto p-2 list-none {$user ? 'mr-0' : 'mr-auto '}">
+		<li class="w-auto p-2 list-none {$session.user ? 'mr-0' : 'mr-auto '}">
 			<Dialog
-				disabled={loading || !$user}
+				disabled={loading || !$session.user}
 				trigger="🧿 New Dreams"
 				triggerClass="bg-white hover:bg-blue-5"
 				title="Title"
@@ -208,14 +227,14 @@
 
 					<Button
 						class="block bg-white hover:bg-green-5"
-						disabled={loading || !$user}
+						disabled={loading || !$session.user}
 					>
 						Submit
 					</Button>
 				</Form>
 			</Dialog>
 		</li>
-		{#if $user}
+		{#if $session.user}
 			<li class="w-auto p-2 pl-0 mr-auto list-none">
 				<NavLink
 					href="/experimental/dreams/add"
@@ -227,7 +246,7 @@
 		{/if}
 		<li>
 			<ul class="flex flex-wrap justify-end p-1">
-				{#if $user}
+				{#if $session.user}
 					<li class="p-1 list-none">
 						<Button
 							variant="rounded"
@@ -279,14 +298,12 @@
 	</div>
 {/if}
 
-<Headline containerClass="py-8 md:py-16" class="flex">
-	<span>Meine Träume</span>
-</Headline>
+<Headline containerClass="py-8 md:py-16" class="flex" />
 
 <ul
 	class="grid grid-cols-1 p-1 mb-32 border-b md:grid-cols-2 lg:grid-cols-3 border-mauve-6"
 >
-	{#each dreams as dream, index (dream.id)}
+	{#each computedDreams as dream, index (dream.id)}
 		<li
 			class="flex flex-col m-1 border border-mauve-6 scroll-m-2 {$page.url
 				.hash === `#${dream.id.toString()}`
@@ -294,7 +311,7 @@
 				: ''}"
 			id={dream.id.toString()}
 		>
-			{#if $user}
+			{#if $session.user}
 				<p class="bg-white border-b border-mauve-6">edit</p>
 			{/if}
 			<div class="flex bg-white">

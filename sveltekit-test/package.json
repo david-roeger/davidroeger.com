@@ -39,6 +39,8 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@supabase/auth-helpers-svelte": "^0.4.0",
+		"@supabase/auth-helpers-sveltekit": "^0.6.0",
 		"@supabase/supabase-js": "^1.35.3",
 		"bezier-easing": "^2.1.0",
 		"colorthief": "^2.3.2",

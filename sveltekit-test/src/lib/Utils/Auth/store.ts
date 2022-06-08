@@ -1,26 +1,21 @@
-import { derived, readable } from 'svelte/store';
-
+import type { Dream } from '$lib/types';
+import { readable, type Readable, type Writable } from 'svelte/store';
 import { getSupabaseProfile } from './request';
-import { supabase } from './supabaseClient';
+import { session } from '$app/stores';
+import { writable } from 'svelte/store';
 
-export const user = readable(supabase.auth.user(), (set) => {
-	supabase.auth.onAuthStateChange(async (event, session) => {
-		console.log('auth state changed', event, session);
-		if (event === 'SIGNED_IN') {
-			set(session.user);
-		} else {
-			set(null);
-		}
-	});
-});
-
-export const profile = readable(null, (set) => {
-	user.subscribe(async (newUser) => {
-		if (newUser) {
-			const newProfile = await getSupabaseProfile(newUser);
+export const profile: Readable<{
+	username: string;
+	createdAt: string;
+	updatedAt: string;
+}> = readable(null, (set) => {
+	session.subscribe(async (newSession) => {
+		if (newSession.user) {
+			const newProfile = await getSupabaseProfile(newSession.user);
 			set(newProfile);
 		} else {
 			set(null);
 		}
 	});
 });
+export const dreamsStore: Writable<Dream[]> = writable(undefined);
