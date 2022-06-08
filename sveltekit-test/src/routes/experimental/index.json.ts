@@ -2,7 +2,7 @@ import type { GetReturnType } from '$lib/types';
 
 /** @type {import('@sveltejs/kit').RequestHandler} */
 export async function get({ url }: { url: URL }): GetReturnType {
-	const nested = import.meta.glob('./*/index.*');
+	const nested = import.meta.glob('./*/index.svelte');
 	const projectPromises: Promise<{
 		slug: string;
 		thumbnail: string;

@@ -98,6 +98,10 @@
 <Head
 	additionalMetaTags={[
 		{
+			name: 'theme-color',
+			content: '#EDF6FF',
+		},
+		{
 			name: 'apple-mobile-web-app-capable',
 			content: 'yes',
 		},

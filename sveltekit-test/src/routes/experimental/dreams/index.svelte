@@ -1,18 +1,10 @@
 <script context="module" lang="ts">
-	console.info('experimental/dreams Page: script module call');
-
 	import type { Load } from '@sveltejs/kit';
 
-	export const load: Load = async ({ session, fetch }) => {
-		const { dreams, error, status } = await getDreams();
-		if (error) {
-			return {
-				status,
-				error: new Error(error.message),
-			};
-		}
-
+	export const load: Load = async ({ session, props, fetch }) => {
+		const { dreams, ...restProps } = props;
 		session.dreams = dreams;
+
 		const res: Response = await fetch(
 			`/experimental/dreams/emojis.json?limit=${dreams.length}`,
 		);
@@ -21,6 +13,7 @@
 			const emojis = await res.json();
 			return {
 				props: {
+					...restProps,
 					emojis: emojis as string[],
 				},
 			};
@@ -33,12 +26,10 @@
 	};
 
 	export const prerender = false;
-
 	export const thumbnail = 'dreams.png';
 </script>
 
 <script lang="ts">
-	import { getDreams } from '$lib/Utils/Auth/request';
 	import { page, session } from '$app/stores';
 	import Headline from '$lib/Components/Headline/Headline.svelte';
 	import { profile, user } from '$lib/Utils/Auth/store';
@@ -51,9 +42,13 @@
 	import NavLink from '$lib/Components/NavLink/NavLink.svelte';
 	import { Form } from '$lib/Primitives/Dialog';
 	import * as VisuallyHidden from '$lib/Primitives/VisuallyHidden';
+	import DreamIcon from '$assets/Icons/96/dream.svg';
+	import AccessibleIcon from '$lib/Components/AccessibleIcon';
 	import Head from '$lib/Components/Head/Head.svelte';
 
 	export let emojis: string[];
+	export let error: string;
+
 	console.info('experimental/dreams Page: script call');
 
 	$: dreams = ($session.dreams ?? []).sort((a, b) => {
@@ -177,6 +172,10 @@
 <Head
 	additionalMetaTags={[
 		{
+			name: 'theme-color',
+			content: '#EDF6FF',
+		},
+		{
 			name: 'apple-mobile-web-app-capable',
 			content: 'yes',
 		},
@@ -280,7 +279,9 @@
 	</div>
 {/if}
 
-<Headline containerClass="py-8 md:py-16">Meine Träume</Headline>
+<Headline containerClass="py-8 md:py-16" class="flex">
+	<span>Meine Träume</span>
+</Headline>
 
 <ul
 	class="grid grid-cols-1 p-1 mb-32 border-b md:grid-cols-2 lg:grid-cols-3 border-mauve-6"
