@@ -22,7 +22,7 @@
 	};
 
 	import { session } from '$app/stores';
-	import { supabaseClient } from '$lib/Utils/Auth/supabaseClient';
+	import { supabaseClient } from '$lib/Utils/Supabase/supabaseClient';
 	import { SupaAuthHelper } from '@supabase/auth-helpers-svelte';
 </script>
 

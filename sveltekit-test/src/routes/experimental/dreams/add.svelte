@@ -1,5 +1,5 @@
 <script context="module" lang="ts">
-	import { getSupabaseProfile } from '$lib/Utils/Auth/request';
+	import { getSupabaseProfile } from '$lib/Utils/Supabase/request';
 	import type { Load } from '@sveltejs/kit';
 	console.info('experimental/dreams/add: module call');
 
@@ -37,7 +37,7 @@
 	import type { Dream } from '$lib/types';
 	import { getRandomEmoji } from '$lib/Utils';
 
-	import { supabaseClient } from '$lib/Utils/Auth/supabaseClient';
+	import { supabaseClient } from '$lib/Utils/Supabase/supabaseClient';
 
 	import type { User } from '@supabase/supabase-js';
 

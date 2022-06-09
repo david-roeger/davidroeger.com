@@ -1,7 +1,7 @@
 <script context="module" lang="ts">
 	import type { Load } from '@sveltejs/kit';
 	import type { Dream } from '$lib/types';
-	import { getSupabaseProfile } from '$lib/Utils/Auth/request';
+	import { getSupabaseProfile } from '$lib/Utils/Supabase/request';
 
 	export const load: Load = async ({ fetch, session }) => {
 		const { dreams, error, status } = await getDreams({ session });
@@ -48,7 +48,7 @@
 	import Headline from '$lib/Components/Headline/Headline.svelte';
 	import { goto } from '$app/navigation';
 	import { getRandomEmoji } from '$lib/Utils';
-	import { supabaseClient } from '$lib/Utils/Auth/supabaseClient';
+	import { supabaseClient } from '$lib/Utils/Supabase/supabaseClient';
 	import Button from '$lib/Components/Button/Button.svelte';
 	import Dialog from '$lib/Components/Dialog/Dialog.svelte';
 	import NavLink from '$lib/Components/NavLink/NavLink.svelte';
@@ -56,7 +56,7 @@
 	import * as VisuallyHidden from '$lib/Primitives/VisuallyHidden';
 	import Head from '$lib/Components/Head/Head.svelte';
 	import { onMount } from 'svelte';
-	import { getDreams } from '$lib/Utils/Auth/request';
+	import { getDreams } from '$lib/Utils/Supabase/request';
 	import type { User } from '@supabase/supabase-js';
 	import { writable, type Writable } from 'svelte/store';
 
