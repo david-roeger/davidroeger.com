@@ -14,7 +14,6 @@ export const handle: Handle = sequence(
 
 export const getSession: GetSession = async (event) => {
 	const { user, accessToken } = event.locals;
-	console.log('locals ------------', event.locals);
 
 	return {
 		user,

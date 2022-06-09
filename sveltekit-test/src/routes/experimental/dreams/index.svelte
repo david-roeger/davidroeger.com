@@ -1,6 +1,7 @@
 <script context="module" lang="ts">
 	import type { Load } from '@sveltejs/kit';
 	import type { Dream } from '$lib/types';
+	import { getSupabaseProfile } from '$lib/Utils/Auth/request';
 
 	export const load: Load = async ({ fetch, session }) => {
 		const { dreams, error, status } = await getDreams({ session });
@@ -16,12 +17,18 @@
 			`/experimental/dreams/emojis.json?limit=${dreams.length}`,
 		);
 
+		const user = session.user;
+		const profile = user
+			? await getSupabaseProfile(user, session)
+			: undefined;
 		if (res.ok) {
 			const emojis = await res.json();
 			return {
 				props: {
 					dreams: dreams as Dream[],
 					emojis: emojis as string[],
+					user,
+					profile,
 				},
 			};
 		}
@@ -49,26 +56,35 @@
 	import * as VisuallyHidden from '$lib/Primitives/VisuallyHidden';
 	import Head from '$lib/Components/Head/Head.svelte';
 	import { onMount } from 'svelte';
-	import { dreamsStore, profile } from '$lib/Utils/Auth/store';
 	import { getDreams } from '$lib/Utils/Auth/request';
+	import type { User } from '@supabase/supabase-js';
+	import { writable, type Writable } from 'svelte/store';
+
+	const dreamsStore: Writable<Dream[]> = writable([]);
 
 	export let emojis: string[];
 	export let dreams: Dream[];
 	export let error: string;
+	export let user: User;
+	export let profile: {
+		username: string;
+		createdAt: string;
+		updatedAt: string;
+	};
 
 	console.info('experimental/dreams Page: script call');
 
-	$: sortedDreams = (dreams ?? []).sort((a, b) => {
+	$: sortedDreams = (
+		$dreamsStore && $dreamsStore.length !== 0 ? $dreamsStore : dreams ?? []
+	).sort((a, b) => {
 		return (
 			new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
 		);
 	});
 
 	onMount(() => {
-		$dreamsStore = sortedDreams;
+		$dreamsStore = dreams;
 	});
-
-	$: computedDreams = $dreamsStore ?? sortedDreams;
 
 	const formatDate = (date: string) => {
 		const parsed = new Date(date);
@@ -80,7 +96,7 @@
 	const handleSignOut = async () => {
 		try {
 			loading = true;
-			if ($session.user) {
+			if (user) {
 				let { error } = await supabaseClient.auth.signOut();
 				if (error) throw error;
 			}
@@ -96,7 +112,6 @@
 			currentTarget: EventTarget & HTMLFormElement;
 		},
 	) => {
-		console.log('handleLoginSubmit form');
 		e.preventDefault();
 
 		const formData = new FormData(e.currentTarget);
@@ -140,7 +155,6 @@
 			currentTarget: EventTarget & HTMLFormElement;
 		},
 	) => {
-		console.log('handleDreamSubmit form');
 		e.preventDefault();
 
 		const formData = new FormData(e.currentTarget);
@@ -152,15 +166,16 @@
 				throw new Error('Enter a dream is required');
 			}
 
-			if (!$session.user || !$session.user.id) {
+			if (!user || !user.id) {
 				throw new Error('Not logged in');
 			}
+
 			const { data: dreams, error } = await supabaseClient
 				.from('dreams')
 				.insert([
 					{
 						text,
-						created_by: $session.user.id,
+						created_by: user.id,
 						emoji: getRandomEmoji(),
 					},
 				]);
@@ -184,8 +199,6 @@
 			loading = false;
 		}
 	};
-
-	$: console.log($session);
 </script>
 
 <Head
@@ -209,9 +222,9 @@
 	<h3><VisuallyHidden.Root>Sub Menu</VisuallyHidden.Root></h3>
 
 	<ul class="flex flex-wrap justify-end">
-		<li class="w-auto p-2 list-none {$session.user ? 'mr-0' : 'mr-auto '}">
+		<li class="w-auto p-2 list-none {user ? 'mr-0' : 'mr-auto '}">
 			<Dialog
-				disabled={loading || !$session.user}
+				disabled={loading || !user}
 				trigger="🧿 New Dreams"
 				triggerClass="bg-white hover:bg-blue-5"
 				title="Title"
@@ -227,14 +240,16 @@
 
 					<Button
 						class="block bg-white hover:bg-green-5"
-						disabled={loading || !$session.user}
+						disabled={loading || !user}
+						type="submit"
 					>
 						Submit
 					</Button>
+					<p>disabled: {loading || !user}</p>
 				</Form>
 			</Dialog>
 		</li>
-		{#if $session.user}
+		{#if user}
 			<li class="w-auto p-2 pl-0 mr-auto list-none">
 				<NavLink
 					href="/experimental/dreams/add"
@@ -246,7 +261,7 @@
 		{/if}
 		<li>
 			<ul class="flex flex-wrap justify-end p-1">
-				{#if $session.user}
+				{#if user}
 					<li class="p-1 list-none">
 						<Button
 							variant="rounded"
@@ -281,7 +296,13 @@
 									placeholder="Passwort"
 								/>
 
-								<button disabled={loading}>Login</button>
+								<Button
+									class="block bg-white hover:bg-green-5"
+									disabled={loading}
+									type="submit"
+								>
+									Login
+								</Button>
 							</Form>
 						</Dialog>
 					</li>
@@ -292,9 +313,15 @@
 	</ul>
 </div>
 
-{#if $profile}
+{#if error}
 	<div class="p-2 border-b xl:max-w-7xl border-mauve-6">
-		User: {$profile?.username}
+		error: {error}
+	</div>
+{/if}
+
+{#if profile}
+	<div class="p-2 border-b xl:max-w-7xl border-mauve-6">
+		Profile: {profile?.username}
 	</div>
 {/if}
 
@@ -303,7 +330,7 @@
 <ul
 	class="grid grid-cols-1 p-1 mb-32 border-b md:grid-cols-2 lg:grid-cols-3 border-mauve-6"
 >
-	{#each computedDreams as dream, index (dream.id)}
+	{#each sortedDreams as dream, index (dream.id)}
 		<li
 			class="flex flex-col m-1 border border-mauve-6 scroll-m-2 {$page.url
 				.hash === `#${dream.id.toString()}`
@@ -311,7 +338,7 @@
 				: ''}"
 			id={dream.id.toString()}
 		>
-			{#if $session.user}
+			{#if user}
 				<p class="bg-white border-b border-mauve-6">edit</p>
 			{/if}
 			<div class="flex bg-white">

@@ -1,10 +1,11 @@
 import type { Dream } from '$lib/types';
 import type { User } from '@supabase/supabase-js';
-import { supabaseClient } from './supabaseClient';
+import { browser } from '$app/env';
 import { supabaseServerClient } from '@supabase/auth-helpers-sveltekit';
 
 export const getSupabaseProfile = async (
 	user: User,
+	session: App.Session,
 ): Promise<{
 	username: string;
 	createdAt: string;
@@ -13,7 +14,9 @@ export const getSupabaseProfile = async (
 	try {
 		if (!user || !user.id) throw new Error('Please sign first in');
 
-		const { data, error, status } = await supabaseClient
+		const { data, error, status } = await supabaseServerClient(
+			session.accessToken,
+		)
 			.from('profiles')
 			.select(`username, created_at, updated_at`)
 			.eq('id', user.id)
@@ -30,7 +33,8 @@ export const getSupabaseProfile = async (
 
 		return null;
 	} catch (error) {
-		alert(error.error_description || error.message);
+		console.error(error.error_description || error.message);
+		return undefined;
 	}
 };
 

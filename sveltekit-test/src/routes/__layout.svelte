@@ -24,10 +24,6 @@
 	import { session } from '$app/stores';
 	import { supabaseClient } from '$lib/Utils/Auth/supabaseClient';
 	import { SupaAuthHelper } from '@supabase/auth-helpers-svelte';
-
-	const onUserUpdate = async (user) => {
-		console.log(user);
-	};
 </script>
 
 <DefaultHead
@@ -166,7 +162,7 @@
 	]}
 />
 
-<SupaAuthHelper {supabaseClient} {onUserUpdate} {session}>
+<SupaAuthHelper {supabaseClient} {session}>
 	<div class="font-sans text-mauve-12">
 		<Header class="z-30" />
 		<main class="z-10 xl:max-w-7xl xl:border-r border-mauve-6">
