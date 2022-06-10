@@ -1,6 +1,5 @@
 import type { Dream } from '$lib/types';
 import type { User } from '@supabase/supabase-js';
-import { browser } from '$app/env';
 import { supabaseServerClient } from '@supabase/auth-helpers-sveltekit';
 
 export const getSupabaseProfile = async (
