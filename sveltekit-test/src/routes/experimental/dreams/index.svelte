@@ -321,6 +321,13 @@
 </script>
 
 <Head
+	additionalLinkTags={[
+		// manifest
+		{
+			rel: 'manifest',
+			href: '/dreams.webmanifest',
+		},
+	]}
 	additionalMetaTags={[
 		{
 			name: 'theme-color',
