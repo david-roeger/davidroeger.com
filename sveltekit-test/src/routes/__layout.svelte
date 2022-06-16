@@ -140,6 +140,12 @@
 			href: '/meta/safari-pinned-tab.svg',
 			color: '#E4E4E2',
 		},
+
+		// manifest
+		{
+			rel: 'manifest',
+			href: '/manifest.webmanifest',
+		},
 	]}
 	additionalMetaTags={[
 		{
