@@ -54,3 +54,86 @@ export const getDreams = async (): Promise<{
 		return { error, status: 500 };
 	}
 };
+
+export const insertDream = async (newDream: {
+	text: string;
+	created_by: string;
+	emoji: string;
+}): Promise<{
+	dream?: Dream;
+	error?: Error;
+	status?: number;
+}> => {
+	try {
+		const {
+			data: dream,
+			status,
+			error,
+		} = await supabase.from('dreams').insert([newDream]).single();
+		if (error && status !== 406) throw error;
+
+		return { dream: dream as Dream };
+	} catch (error) {
+		return { error, status: 500 };
+	}
+};
+
+export const updateDream = async ({
+	text,
+	emoji,
+	id,
+}: {
+	text?: string;
+	emoji?: string;
+	id;
+}): Promise<{
+	dream?: Dream;
+	error?: Error;
+	status?: number;
+}> => {
+	try {
+		const updateOptions: { text?: string; emoji?: string } = {};
+		if (text) updateOptions.text = text;
+		if (emoji) updateOptions.emoji = emoji;
+
+		const {
+			data: dream,
+			error,
+			status,
+		} = await supabase
+			.from('dreams')
+			.update(updateOptions)
+			.eq('id', id)
+			.single();
+
+		if (error && status !== 406) throw error;
+
+		return { dream: dream as Dream };
+	} catch (error) {
+		return { error, status: 500 };
+	}
+};
+
+export const deleteDream = async ({
+	id,
+}: {
+	id: number;
+}): Promise<{
+	dream?: Dream;
+	error?: Error;
+	status?: number;
+}> => {
+	try {
+		const {
+			data: dream,
+			error,
+			status,
+		} = await supabase.from('dreams').delete().eq('id', id).single();
+
+		if (error && status !== 406) throw error;
+
+		return { dream: dream as Dream };
+	} catch (error) {
+		return { error, status: 500 };
+	}
+};

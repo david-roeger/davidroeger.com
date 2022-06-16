@@ -70,6 +70,11 @@
 	import AccessibleIcon from '$lib/Components/AccessibleIcon';
 	import EditIcon from '$assets/Icons/24/edit.svg?component';
 	import CloseIcon from '$assets/Icons/24/close.svg?component';
+	import {
+		insertDream,
+		updateDream,
+		deleteDream,
+	} from '$lib/Utils/Auth/request';
 
 	export let emojiMap: { [key: string]: string };
 	export let error: string;
@@ -165,25 +170,30 @@
 			if (!$user || !$user.id) {
 				throw new Error('Not logged in');
 			}
-			const { data: dreams, error } = await supabase
-				.from('dreams')
-				.insert([
-					{ text, created_by: $user.id, emoji: getRandomEmoji() },
-				]);
+
+			const { dream, error } = await insertDream({
+				text,
+				created_by: $user.id,
+				emoji: getRandomEmoji(),
+			});
 
 			if (error) throw error;
+
+			if (!dream) {
+				throw new Error('Something went wrong. No dream was returned');
+			}
+
 			const oldDreams = $session.dreams ?? [];
-			const newDreams = dreams.map((dream: Dream) => ({
+			const newDream = {
 				id: dream.id,
 				text: dream.text,
 				created_at: dream.created_at,
 				updated_at: dream.updated_at,
 				emoji: dream.emoji,
-			}));
-			$session.dreams = [...oldDreams, ...newDreams];
-			if (newDreams.length !== 0) {
-				goto(`#${newDreams[0].id}`);
-			}
+			};
+			$session.dreams = [...oldDreams, newDream];
+			goto(`#${newDream.id}`);
+
 			return true;
 		} catch (error) {
 			alert(error.error_description || error.message);
@@ -197,7 +207,7 @@
 		e: SubmitEvent & {
 			currentTarget: EventTarget & HTMLFormElement;
 		},
-		dream: Dream,
+		oldDream: Dream,
 	) => {
 		e.preventDefault();
 
@@ -214,42 +224,43 @@
 				throw new Error('Not logged in');
 			}
 
-			if (!dream || !dream.id) {
+			if (!oldDream || !oldDream.id) {
 				throw new Error('Something went wrong. No dream found');
 			}
 
-			if (text === dream.text) {
-				goto(`#${dream.id}`);
+			if (text === oldDream.text) {
+				goto(`#${oldDream.id}`);
 				return true;
 			}
 
-			const { data: dreams, error } = await supabase
-				.from('dreams')
-				.update({ text })
-				.eq('id', dream.id);
+			const { dream, error } = await updateDream({
+				text,
+				id: oldDream.id,
+			});
 
 			if (error) throw error;
+
+			if (!dream) {
+				throw new Error('Something went wrong. No dream was returned');
+			}
+
 			const oldDreams = $session.dreams ?? [];
-			const newDreams = dreams.map((dream: Dream) => ({
+			const updatedDream = {
 				id: dream.id,
 				text: dream.text,
 				created_at: dream.created_at,
 				updated_at: dream.updated_at,
 				emoji: dream.emoji,
-			}));
+			};
+
 			const computedDreams = oldDreams.map((oldDream: Dream) => {
-				const id = oldDream.id;
-				const newDream = newDreams.find(
-					(dream: Dream) => dream.id === id,
-				);
-				if (newDream) return newDream;
+				if (oldDream.id === updatedDream.id) return updatedDream;
 				return oldDream;
 			});
+
 			$session.dreams = [...computedDreams];
 
-			if (newDreams.length !== 0) {
-				goto(`#${newDreams[0].id}`);
-			}
+			goto(`#${updatedDream.id}`);
 
 			return true;
 		} catch (error) {
@@ -264,7 +275,7 @@
 		e: SubmitEvent & {
 			currentTarget: EventTarget & HTMLFormElement;
 		},
-		dream: Dream,
+		oldDream: Dream,
 	) => {
 		e.preventDefault();
 
@@ -275,31 +286,29 @@
 				throw new Error('Not logged in');
 			}
 
-			if (!dream || !dream.id) {
+			if (!oldDream || !oldDream.id) {
 				throw new Error('Something went wrong. No dream found');
 			}
 
-			const { data: deletedDreams, error } = await supabase
-				.from('dreams')
-				.delete()
-				.eq('id', dream.id);
+			const { dream: deletedDream, error } = await deleteDream({
+				id: oldDream.id,
+			});
 
-			console.log(dreams);
+			if (error) throw error;
+
+			if (!deletedDream) {
+				throw new Error('Something went wrong. No dream was returned');
+			}
 
 			if (error) throw error;
 			const oldDreams = $session.dreams ?? [];
 			const computedDreams = oldDreams.filter(
-				(oldDream: Dream) =>
-					!deletedDreams.some(
-						(deletedDream: Dream) => deletedDream.id == oldDream.id,
-					),
+				(oldDream: Dream) => oldDream.id !== deletedDream.id,
 			);
 
 			$session.dreams = [...computedDreams];
 
-			if (deletedDreams.length !== 0) {
-				goto('');
-			}
+			goto('', { noscroll: true });
 
 			return true;
 		} catch (error) {
