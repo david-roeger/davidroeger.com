@@ -1,18 +1,22 @@
 <script lang="ts">
 	import * as Dialog from '$primitives/Dialog';
-	export let title = '';
 
 	export let trigger: string = '';
 	export let triggerClass: string;
 	export let triggerRounded: boolean = false;
+	const roundedClass = triggerRounded ? 'rounded-full' : '';
 	export let disabled = false;
-
-	let disabledClass =
+	const disabledClass =
 		'cursor-not-allowed !bg-white border-mauve-11 ring-mauve-11 text-mauve-11';
 
-	let roundedClass = triggerRounded ? 'rounded-full' : '';
+	export let title = '';
+	export let titleClass = '';
 
 	export let description = '';
+	export let descriptionClass = '';
+
+	export let close = true;
+	export let closeClass = '';
 </script>
 
 <Dialog.Root defaultOpen={false} on:openChange>
@@ -29,13 +33,17 @@
 		<Dialog.Overlay class="fixed top-0 w-full h-full bg-mauve-12/50" />
 		<Dialog.Content class="fixed top-0 bg-mauve-1">
 			{#if title}
-				<Dialog.Title>{title}</Dialog.Title>
+				<Dialog.Title class={titleClass}>{title}</Dialog.Title>
 			{/if}
 			{#if description}
-				<Dialog.Description>{description}</Dialog.Description>
+				<Dialog.Description class={descriptionClass}>
+					{description}
+				</Dialog.Description>
 			{/if}
 			<slot />
-			<Dialog.Close>Close</Dialog.Close>
+			{#if close}
+				<Dialog.Close class={closeClass}>Close</Dialog.Close>
+			{/if}
 		</Dialog.Content>
 	</Dialog.Portal>
 </Dialog.Root>
