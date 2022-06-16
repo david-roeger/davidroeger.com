@@ -1,24 +1,56 @@
+<script context="module" lang="ts">
+	import { getSupabaseProfile } from '$lib/Utils/Supabase/request';
+	import type { Load } from '@sveltejs/kit';
+	console.info('experimental/dreams/add: module call');
+
+	export const load: Load = async ({ fetch, session }) => {
+		console.info('experimental/dreams/add: load call');
+
+		const user = session.user;
+		if (!user)
+			return {
+				status: 302,
+				redirect: './',
+			};
+
+		const profile = user
+			? await getSupabaseProfile(user, session)
+			: undefined;
+
+		return {
+			props: {
+				user,
+				profile,
+			},
+		};
+	};
+
+	export const prerender = false;
+	export const thumbnail = 'dreams.png';
+</script>
+
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import { session } from '$app/stores';
 	import Button from '$lib/Components/Button/Button.svelte';
 	import Head from '$lib/Components/Head/Head.svelte';
 	import Headline from '$lib/Components/Headline/Headline.svelte';
 	import type { Dream } from '$lib/types';
 	import { getRandomEmoji } from '$lib/Utils';
 
-	import { profile, user } from '$lib/Utils/Auth/store';
-	import { supabase } from '$lib/Utils/Auth/supabaseClient';
+	import { supabaseClient } from '$lib/Utils/Supabase/supabaseClient';
 
-	import { onMount } from 'svelte';
+	import type { User } from '@supabase/supabase-js';
+
+	export let user: User;
+	export let profile: {
+		username: string;
+		createdAt: string;
+		updatedAt: string;
+	};
 
 	console.info('experimental/dreams/add: script call');
 
-	let loading = true;
-	onMount(() => {
-		if (!$user) goto('./', { replaceState: true });
-		loading = false;
-	});
+	let loading = false;
 
 	const handleDreamSubmit = async (
 		e: SubmitEvent & {
@@ -36,27 +68,22 @@
 				throw new Error('Enter a dream is required');
 			}
 
-			if (!$user || !$user.id) {
+			if (!user || !user.id) {
 				throw new Error('Not logged in');
 			}
-			const { data: dreams, error } = await supabase
+			const { data: dreams, error } = await supabaseClient
 				.from('dreams')
 				.insert([
-					{ text, created_by: $user.id, emoji: getRandomEmoji() },
+					{
+						text,
+						created_by: user.id,
+						emoji: getRandomEmoji(),
+					},
 				]);
 
 			if (error) throw error;
-			const oldDreams = $session.dreams ?? [];
-			const newDreams = dreams.map((dream: Dream) => ({
-				id: dream.id,
-				text: dream.text,
-				created_at: dream.created_at,
-				updated_at: dream.updated_at,
-				emoji: dream.emoji,
-			}));
-			$session.dreams = [...oldDreams, ...newDreams];
-			if (newDreams.length !== 0) {
-				goto(`../dreams#${newDreams[0].id}`);
+			if (dreams.length !== 0) {
+				goto(`../dreams#${dreams[0].id}`);
 			} else {
 				goto(`../dreams`);
 			}
@@ -112,16 +139,18 @@
 	]}
 />
 
-<div class="p-2 border-b xl:max-w-7xl border-mauve-6">
-	User: {$profile?.username}
-</div>
+{#if profile}
+	<div class="p-2 border-b xl:max-w-7xl border-mauve-6">
+		Profile: {profile?.username}
+	</div>
+{/if}
 
 <Headline containerClass="py-8 md:py-16">Neuer Traum</Headline>
 
 <form
 	class=" mb-32 border-b border-mauve-6 p-2 bg-white/[.85]"
 	on:submit={handleDreamSubmit}
-	disabled={loading || !$user}
+	disabled={loading || !user}
 >
 	<div class="max-w-[60ch] max-h-[60ch]">
 		<div class="aspect-w-1 aspect-h-1">
@@ -130,7 +159,7 @@
 				name="text"
 				placeholder="Wovon träumst du nachts..."
 				class="block w-full h-full p-2 bg-white border rounded-none resize-none aspect-square border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 placeholder-mauve-11"
-				disabled={loading || !$user}
+				disabled={loading || !user}
 				required
 			/>
 		</div>
@@ -153,7 +182,7 @@
 		type="submit"
 		variant="rounded"
 		class="block w-full max-w-[60ch] mt-2 bg-white hover:bg-green-5"
-		disabled={loading || !$user}
+		disabled={loading || !user}
 	>
 		Submit
 	</Button>
