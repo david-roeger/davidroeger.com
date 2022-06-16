@@ -17,7 +17,7 @@ export const user = readable(supabase.auth.user(), (set) => {
 export const profile = readable(null, (set) => {
 	user.subscribe(async (newUser) => {
 		if (newUser) {
-			const newProfile = await getSupabaseProfile(newUser);
+			const newProfile = await getSupabaseProfile({ user: newUser });
 			set(newProfile);
 		} else {
 			set(null);

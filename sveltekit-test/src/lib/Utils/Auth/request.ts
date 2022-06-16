@@ -2,9 +2,11 @@ import type { Dream } from '$lib/types';
 import type { User } from '@supabase/supabase-js';
 import { supabase } from './supabaseClient';
 
-export const getSupabaseProfile = async (
-	user: User,
-): Promise<{
+export const getSupabaseProfile = async ({
+	user,
+}: {
+	user: User;
+}): Promise<{
 	username: string;
 	createdAt: string;
 	updatedAt: string;
