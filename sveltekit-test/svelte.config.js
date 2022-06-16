@@ -1,11 +1,9 @@
+import adapter from '@sveltejs/adapter-auto';
+import { imagetools } from 'vite-imagetools';
 import { mdsvex } from 'mdsvex';
 import mdsvexConfig from './mdsvex.config.js';
-import adapter from '@sveltejs/adapter-auto';
-import preprocess from 'svelte-preprocess';
-
 import path from 'path';
-
-import { imagetools } from 'vite-imagetools';
+import preprocess from 'svelte-preprocess';
 import svg from '@poppanator/sveltekit-svg';
 
 /** @type {import('@sveltejs/kit').Config} */
@@ -42,7 +40,20 @@ const config = {
 				},
 			},
 
-			plugins: [svg(), imagetools({ force: true })],
+			plugins: [
+				svg({
+					// preserve viewbox
+					svgoOptions: {
+						plugins: [
+							{
+								name: 'preset-default',
+								params: { overrides: { removeViewBox: false } },
+							},
+						],
+					},
+				}),
+				imagetools({ force: true }),
+			],
 		},
 	},
 };

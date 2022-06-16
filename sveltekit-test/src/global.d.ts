@@ -1,26 +1,18 @@
 /// <reference types="@sveltejs/kit" />
 
 declare namespace App {
-	interface Locals {}
-
-	interface Platform {}
-
 	interface Session {
 		dreams: import('$lib/types').Dream[];
 	}
-
-	interface Stuff {}
 }
 
 declare module '*.svg' {
-	import { SvelteComponent } from 'svelte';
-	const content: SvelteComponent;
+	const content: string;
 	export default content;
 }
-
 declare module '*.svg?component' {
-	import { SvelteComponent } from 'svelte';
-	const content: SvelteComponent;
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	const content: any;
 	export default content;
 }
 
