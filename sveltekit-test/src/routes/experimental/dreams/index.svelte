@@ -1,27 +1,44 @@
 <script context="module" lang="ts">
+	console.info('experimental/dreams Page: module call');
 	import type { Load } from '@sveltejs/kit';
 
 	export const load: Load = async ({ session, props, fetch }) => {
+		console.info('experimental/dreams Page: load call');
 		const { dreams, ...restProps } = props;
 		session.dreams = dreams;
 
+		const dreamsWithoutEmoji = dreams.filter((dream) => !dream.emoji);
+
+		if (dreamsWithoutEmoji.length === 0) {
+			return {
+				props: {
+					...restProps,
+					emojis: [],
+				},
+			};
+		}
+
 		const res: Response = await fetch(
-			`/experimental/dreams/emojis.json?limit=${dreams.length}`,
+			`/experimental/dreams/emojis.json?limit=${dreamsWithoutEmoji.length}`,
 		);
 
 		if (res.ok) {
 			const emojis = await res.json();
+			const emojiMap = {};
+			dreamsWithoutEmoji.forEach((dream, index) => {
+				emojiMap[dream.id] = emojis[index];
+			});
 			return {
 				props: {
 					...restProps,
-					emojis: emojis as string[],
+					emojiMap: emojiMap as { [key: string]: string },
 				},
 			};
 		}
 
 		return {
 			status: 404,
-			error: new Error('No Emojis found'),
+			body: { error: new Error('No Emojis found') },
 		};
 	};
 
@@ -30,23 +47,31 @@
 </script>
 
 <script lang="ts">
-	import { page, session } from '$app/stores';
-	import Headline from '$lib/Components/Headline/Headline.svelte';
-	import { profile, user } from '$lib/Utils/Auth/store';
-	import { goto } from '$app/navigation';
 	import type { Dream } from '$lib/types';
+
+	import { goto } from '$app/navigation';
+
+	import { page, session } from '$app/stores';
+	import { profile, user } from '$lib/Utils/Auth/store';
+
 	import { getRandomEmoji } from '$lib/Utils';
 	import { supabase } from '$lib/Utils/Auth/supabaseClient';
-	import Button from '$lib/Components/Button/Button.svelte';
-	import Dialog from '$lib/Components/Dialog/Dialog.svelte';
-	import NavLink from '$lib/Components/NavLink/NavLink.svelte';
-	import { Form } from '$lib/Primitives/Dialog';
-	import * as VisuallyHidden from '$lib/Primitives/VisuallyHidden';
-	import DreamIcon from '$assets/Icons/96/dream.svg';
-	import AccessibleIcon from '$lib/Components/AccessibleIcon';
-	import Head from '$lib/Components/Head/Head.svelte';
 
-	export let emojis: string[];
+	import Head from '$lib/Components/Head/Head.svelte';
+	import Headline from '$lib/Components/Headline/Headline.svelte';
+
+	import Dialog from '$lib/Components/Dialog/Dialog.svelte';
+	import { Form, Close } from '$lib/Primitives/Dialog';
+
+	import Button from '$lib/Components/Button/Button.svelte';
+	import NavLink from '$lib/Components/NavLink/NavLink.svelte';
+
+	import * as VisuallyHidden from '$lib/Primitives/VisuallyHidden';
+	import AccessibleIcon from '$lib/Components/AccessibleIcon';
+	import EditIcon from '$assets/Icons/24/edit.svg?component';
+	import CloseIcon from '$assets/Icons/24/close.svg?component';
+
+	export let emojiMap: { [key: string]: string };
 	export let error: string;
 
 	console.info('experimental/dreams Page: script call');
@@ -83,7 +108,6 @@
 			currentTarget: EventTarget & HTMLFormElement;
 		},
 	) => {
-		console.log('handleLoginSubmit form');
 		e.preventDefault();
 
 		const formData = new FormData(e.currentTarget);
@@ -122,12 +146,11 @@
 		}
 	};
 
-	const handleDreamSubmit = async (
+	const handleAddDreamSubmit = async (
 		e: SubmitEvent & {
 			currentTarget: EventTarget & HTMLFormElement;
 		},
 	) => {
-		console.log('handleDreamSubmit form');
 		e.preventDefault();
 
 		const formData = new FormData(e.currentTarget);
@@ -158,7 +181,126 @@
 				emoji: dream.emoji,
 			}));
 			$session.dreams = [...oldDreams, ...newDreams];
-			goto('');
+			if (newDreams.length !== 0) {
+				goto(`#${newDreams[0].id}`);
+			}
+			return true;
+		} catch (error) {
+			alert(error.error_description || error.message);
+			return false;
+		} finally {
+			loading = false;
+		}
+	};
+
+	const handleUpdateDreamSubmit = async (
+		e: SubmitEvent & {
+			currentTarget: EventTarget & HTMLFormElement;
+		},
+		dream: Dream,
+	) => {
+		e.preventDefault();
+
+		const formData = new FormData(e.currentTarget);
+		const text = formData.get('text') as string;
+		try {
+			loading = true;
+
+			if (!text || text.length === 0) {
+				throw new Error('Enter a dream is required');
+			}
+
+			if (!$user || !$user.id) {
+				throw new Error('Not logged in');
+			}
+
+			if (!dream || !dream.id) {
+				throw new Error('Something went wrong. No dream found');
+			}
+
+			if (text === dream.text) {
+				goto(`#${dream.id}`);
+				return true;
+			}
+
+			const { data: dreams, error } = await supabase
+				.from('dreams')
+				.update({ text })
+				.eq('id', dream.id);
+
+			if (error) throw error;
+			const oldDreams = $session.dreams ?? [];
+			const newDreams = dreams.map((dream: Dream) => ({
+				id: dream.id,
+				text: dream.text,
+				created_at: dream.created_at,
+				updated_at: dream.updated_at,
+				emoji: dream.emoji,
+			}));
+			const computedDreams = oldDreams.map((oldDream: Dream) => {
+				const id = oldDream.id;
+				const newDream = newDreams.find(
+					(dream: Dream) => dream.id === id,
+				);
+				if (newDream) return newDream;
+				return oldDream;
+			});
+			$session.dreams = [...computedDreams];
+
+			if (newDreams.length !== 0) {
+				goto(`#${newDreams[0].id}`);
+			}
+
+			return true;
+		} catch (error) {
+			alert(error.error_description || error.message);
+			return false;
+		} finally {
+			loading = false;
+		}
+	};
+
+	const handleDeleteDreamSubmit = async (
+		e: SubmitEvent & {
+			currentTarget: EventTarget & HTMLFormElement;
+		},
+		dream: Dream,
+	) => {
+		e.preventDefault();
+
+		try {
+			loading = true;
+
+			if (!$user || !$user.id) {
+				throw new Error('Not logged in');
+			}
+
+			if (!dream || !dream.id) {
+				throw new Error('Something went wrong. No dream found');
+			}
+
+			const { data: deletedDreams, error } = await supabase
+				.from('dreams')
+				.delete()
+				.eq('id', dream.id);
+
+			console.log(dreams);
+
+			if (error) throw error;
+			const oldDreams = $session.dreams ?? [];
+			const computedDreams = oldDreams.filter(
+				(oldDream: Dream) =>
+					!deletedDreams.some(
+						(deletedDream: Dream) => deletedDream.id == oldDream.id,
+					),
+			);
+
+			$session.dreams = [...computedDreams];
+
+			if (deletedDreams.length !== 0) {
+				goto('');
+			}
+
 			return true;
 		} catch (error) {
 			alert(error.error_description || error.message);
@@ -186,19 +328,155 @@
 	]}
 />
 
-<div class="border-b xl:max-w-7xl border-mauve-6">
+<Headline containerClass="py-8 md:py-16" class="flex">
+	<span>Meine Träume</span>
+</Headline>
+
+<ul
+	class="grid grid-cols-1 p-1 mb-8 border-b md:grid-cols-2 lg:grid-cols-3 border-mauve-6 md:mb-16 grid-rows-[masonry]"
+>
+	{#each dreams as dream (dream.id)}
+		<li
+			class="flex flex-col m-1 border border-mauve-6 scroll-m-2 {$page.url
+				.hash === `#${dream.id.toString()}`
+				? 'ring-1 ring-mauve-6'
+				: ''}"
+			id={dream.id.toString()}
+		>
+			<div class="flex bg-white">
+				<span
+					class="w-10 p-2 text-center border-b border-mauve-6 group"
+				>
+					{#if $user}
+						<span class="block">
+							{dream.id}
+						</span>
+					{:else}
+						<span
+							class="block transition-transform group-hover:animate-cool-wiggle"
+						>
+							{!!dream.emoji ? dream.emoji : emojiMap[dream.id]}
+						</span>
+					{/if}
+				</span>
+				<Headline
+					as="h2"
+					type="quaternary"
+					containerClass="grow border-l flex"
+				>
+					{formatDate(dream.created_at)}
+					<span class="text-mauve-11">
+						({formatDate(dream.updated_at)})
+					</span>
+				</Headline>
+
+				<!-- edit dialog-->
+				{#if $user}
+					<Dialog
+						disabled={loading || !$user}
+						triggerClass="w-10 !px-2 text-center transition-colors border-t-0 border-r-0 !border-mauve-6 focus:outline-none ring-mauve-6 focus:ring-1 ring-inset {!loading &&
+						$user
+							? 'group'
+							: ''}"
+						title="Title"
+						description="description"
+					>
+						<AccessibleIcon label="edit" slot="trigger">
+							<EditIcon
+								class="block w-auto h-full group-hover:animate-spin"
+							/>
+						</AccessibleIcon>
+						<Form
+							handleSubmit={(e) =>
+								handleUpdateDreamSubmit(e, dream)}
+						>
+							<textarea
+								name="text"
+								class="rounded-none resize-none disab"
+								placeholder="Wovon träumst du nachts..."
+								value={dream.text}
+								required
+							/>
+
+							<Button
+								class="block bg-white hover:bg-green-5"
+								type="submit"
+								disabled={loading || !$user}
+							>
+								Update
+							</Button>
+						</Form>
+					</Dialog>
+				{/if}
+
+				<!-- delete dialog-->
+				{#if $user}
+					<Dialog
+						disabled={loading || !$user}
+						triggerClass="w-10 !px-2 text-center transition-colors border-t-0 border-r-0 !border-mauve-6 focus:outline-none ring-mauve-6 focus:ring-1 ring-inset {!loading &&
+						$user
+							? 'group'
+							: ''}"
+						title="Traum löschen ({dream.id})"
+						description="Dies kann nicht rückgängig gemacht werden. Bist du sicher?"
+					>
+						<span
+							class="w-auto h-full transition-transform group-hover:animate-spin group-focus:animate-spin"
+							slot="trigger"
+						>
+							<AccessibleIcon label="edit">
+								<CloseIcon />
+							</AccessibleIcon>
+						</span>
+						<Form
+							handleSubmit={(e) =>
+								handleDeleteDreamSubmit(e, dream)}
+						>
+							<Close
+								class="block px-4 py-2 transition-colors bg-white border border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 hover:bg-green-5"
+							>
+								Abbrechen
+							</Close>
+							<Button
+								class="block bg-red-5 hover:font-bold"
+								type="submit"
+								disabled={loading || !$user}
+							>
+								Löschen
+							</Button>
+						</Form>
+					</Dialog>
+				{/if}
+			</div>
+			<div class="p-2 bg-white/[.85] grow">
+				<p class="whitespace-pre-line">{dream.text}</p>
+			</div>
+		</li>
+	{:else}
+		<li>No dreams yet recorded 😴</li>
+	{/each}
+</ul>
+
+{#if $profile}
+	<div class="p-2 border-t xl:max-w-7xl border-mauve-6">
+		Profile: {$profile?.username}
+	</div>
+{/if}
+
+<div class="mb-32 border-t border-b xl:max-w-7xl border-mauve-6">
 	<h3><VisuallyHidden.Root>Sub Menu</VisuallyHidden.Root></h3>
 
 	<ul class="flex flex-wrap justify-end">
 		<li class="w-auto p-2 list-none {$user ? 'mr-0' : 'mr-auto '}">
+			<!-- add dialog-->
 			<Dialog
 				disabled={loading || !$user}
-				trigger="🧿 New Dreams"
+				trigger="🧿 New Dream"
 				triggerClass="bg-white hover:bg-blue-5"
 				title="Title"
 				description="description"
 			>
-				<Form handleSubmit={handleDreamSubmit}>
+				<Form handleSubmit={handleAddDreamSubmit}>
 					<textarea
 						name="text"
 						class="rounded-none resize-none"
@@ -209,6 +487,7 @@
 					<Button
 						class="block bg-white hover:bg-green-5"
 						disabled={loading || !$user}
+						type="submit"
 					>
 						Submit
 					</Button>
@@ -272,55 +551,3 @@
 		<li />
 	</ul>
 </div>
-
-{#if $profile}
-	<div class="p-2 border-b xl:max-w-7xl border-mauve-6">
-		User: {$profile?.username}
-	</div>
-{/if}
-
-<Headline containerClass="py-8 md:py-16" class="flex">
-	<span>Meine Träume</span>
-</Headline>
-
-<ul
-	class="grid grid-cols-1 p-1 mb-32 border-b md:grid-cols-2 lg:grid-cols-3 border-mauve-6"
->
-	{#each dreams as dream, index (dream.id)}
-		<li
-			class="flex flex-col m-1 border border-mauve-6 scroll-m-2 {$page.url
-				.hash === `#${dream.id.toString()}`
-				? 'ring-1 ring-mauve-6'
-				: ''}"
-			id={dream.id.toString()}
-		>
-			{#if $user}
-				<p class="bg-white border-b border-mauve-6">edit</p>
-			{/if}
-			<div class="flex bg-white">
-				<span
-					class="w-10 p-2 text-center border-b border-mauve-6 group"
-				>
-					<span class="block group-hover:animate-cool-wiggle">
-						{!!dream.emoji ? dream.emoji : emojis[index]}
-					</span>
-				</span>
-				<Headline
-					as="h2"
-					type="quaternary"
-					containerClass="grow border-l"
-				>
-					{formatDate(dream.created_at)}
-					<span class="text-mauve-11">
-						({formatDate(dream.updated_at)})
-					</span>
-				</Headline>
-			</div>
-			<div class="p-2 bg-white/[.85] grow">
-				<p class="whitespace-pre-line">{dream.text}</p>
-			</div>
-		</li>
-	{:else}
-		<li>No dreams</li>
-	{/each}
-</ul>
