@@ -2,7 +2,7 @@
 	import * as Dialog from '$primitives/Dialog';
 	export let title = '';
 
-	export let trigger: string;
+	export let trigger: string = '';
 	export let triggerClass: string;
 	export let triggerRounded: boolean = false;
 	export let disabled = false;
@@ -23,6 +23,7 @@
 		}`}
 	>
 		{trigger}
+		<slot name="trigger" />
 	</Dialog.Trigger>
 	<Dialog.Portal>
 		<Dialog.Overlay class="fixed top-0 w-full h-full bg-mauve-12/50" />
