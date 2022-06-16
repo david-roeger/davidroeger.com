@@ -1,17 +1,12 @@
 /// <reference types="@sveltejs/kit" />
 
 declare namespace App {
-	interface Locals {
-		user: import('@supabase/supabase-js').User;
-		accessToken: string | null;
-		error: import('@supabase/supabase-js').ApiError;
-	}
+	interface Locals {}
 
 	interface Platform {}
 
 	interface Session {
-		user: import('@supabase/supabase-js').User;
-		accessToken?: string;
+		dreams: import('$lib/types').Dream[];
 	}
 
 	interface Stuff {}

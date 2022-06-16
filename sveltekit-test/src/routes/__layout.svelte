@@ -20,10 +20,6 @@
 		});
 		return finalPath;
 	};
-
-	import { session } from '$app/stores';
-	import { supabaseClient } from '$lib/Utils/Supabase/supabaseClient';
-	import { SupaAuthHelper } from '@supabase/auth-helpers-svelte';
 </script>
 
 <DefaultHead
@@ -162,18 +158,16 @@
 	]}
 />
 
-<SupaAuthHelper {supabaseClient} {session}>
-	<div class="font-sans text-mauve-12">
-		<Header class="z-30" />
-		<main class="z-10 xl:max-w-7xl xl:border-r border-mauve-6">
-			<BreakpointProvider>
-				<slot />
-			</BreakpointProvider>
-		</main>
+<div class="font-sans text-mauve-12">
+	<Header class="z-30" />
+	<main class="z-10 xl:max-w-7xl xl:border-r border-mauve-6">
+		<BreakpointProvider>
+			<slot />
+		</BreakpointProvider>
+	</main>
 
-		<BttButton>
-			<AccessibleIcon label="Back to top"><North /></AccessibleIcon>
-		</BttButton>
-		<!--footer class="z-20 " /-->
-	</div>
-</SupaAuthHelper>
+	<BttButton>
+		<AccessibleIcon label="Back to top"><North /></AccessibleIcon>
+	</BttButton>
+	<!--footer class="z-20 " /-->
+</div>

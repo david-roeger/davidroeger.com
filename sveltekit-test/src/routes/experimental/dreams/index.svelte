@@ -1,34 +1,20 @@
 <script context="module" lang="ts">
 	import type { Load } from '@sveltejs/kit';
-	import type { Dream } from '$lib/types';
-	import { getSupabaseProfile } from '$lib/Utils/Supabase/request';
 
-	export const load: Load = async ({ fetch, session }) => {
-		const { dreams, error, status } = await getDreams({ session });
-
-		if (error) {
-			return {
-				status,
-				body: { error: new Error(error.message) },
-			};
-		}
+	export const load: Load = async ({ session, props, fetch }) => {
+		const { dreams, ...restProps } = props;
+		session.dreams = dreams;
 
 		const res: Response = await fetch(
 			`/experimental/dreams/emojis.json?limit=${dreams.length}`,
 		);
 
-		const user = session.user;
-		const profile = user
-			? await getSupabaseProfile(user, session)
-			: undefined;
 		if (res.ok) {
 			const emojis = await res.json();
 			return {
 				props: {
-					dreams: dreams as Dream[],
+					...restProps,
 					emojis: emojis as string[],
-					user,
-					profile,
 				},
 			};
 		}
@@ -46,44 +32,29 @@
 <script lang="ts">
 	import { page, session } from '$app/stores';
 	import Headline from '$lib/Components/Headline/Headline.svelte';
+	import { profile, user } from '$lib/Utils/Auth/store';
 	import { goto } from '$app/navigation';
+	import type { Dream } from '$lib/types';
 	import { getRandomEmoji } from '$lib/Utils';
-	import { supabaseClient } from '$lib/Utils/Supabase/supabaseClient';
+	import { supabase } from '$lib/Utils/Auth/supabaseClient';
 	import Button from '$lib/Components/Button/Button.svelte';
 	import Dialog from '$lib/Components/Dialog/Dialog.svelte';
 	import NavLink from '$lib/Components/NavLink/NavLink.svelte';
 	import { Form } from '$lib/Primitives/Dialog';
 	import * as VisuallyHidden from '$lib/Primitives/VisuallyHidden';
+	import DreamIcon from '$assets/Icons/96/dream.svg';
+	import AccessibleIcon from '$lib/Components/AccessibleIcon';
 	import Head from '$lib/Components/Head/Head.svelte';
-	import { onMount } from 'svelte';
-	import { getDreams } from '$lib/Utils/Supabase/request';
-	import type { User } from '@supabase/supabase-js';
-	import { writable, type Writable } from 'svelte/store';
-
-	const dreamsStore: Writable<Dream[]> = writable([]);
 
 	export let emojis: string[];
-	export let dreams: Dream[];
 	export let error: string;
-	export let user: User;
-	export let profile: {
-		username: string;
-		createdAt: string;
-		updatedAt: string;
-	};
 
 	console.info('experimental/dreams Page: script call');
 
-	$: sortedDreams = (
-		$dreamsStore && $dreamsStore.length !== 0 ? $dreamsStore : dreams ?? []
-	).sort((a, b) => {
+	$: dreams = ($session.dreams ?? []).sort((a, b) => {
 		return (
 			new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
 		);
-	});
-
-	onMount(() => {
-		$dreamsStore = dreams;
 	});
 
 	const formatDate = (date: string) => {
@@ -96,8 +67,8 @@
 	const handleSignOut = async () => {
 		try {
 			loading = true;
-			if (user) {
-				let { error } = await supabaseClient.auth.signOut();
+			if ($user) {
+				let { error } = await supabase.auth.signOut();
 				if (error) throw error;
 			}
 		} catch (error) {
@@ -112,6 +83,7 @@
 			currentTarget: EventTarget & HTMLFormElement;
 		},
 	) => {
+		console.log('handleLoginSubmit form');
 		e.preventDefault();
 
 		const formData = new FormData(e.currentTarget);
@@ -131,7 +103,7 @@
 				session: sessionData,
 				user: userData,
 				error,
-			} = await supabaseClient.auth.signIn(
+			} = await supabase.auth.signIn(
 				{ email, password },
 				{
 					shouldCreateUser: false,
@@ -155,6 +127,7 @@
 			currentTarget: EventTarget & HTMLFormElement;
 		},
 	) => {
+		console.log('handleDreamSubmit form');
 		e.preventDefault();
 
 		const formData = new FormData(e.currentTarget);
@@ -166,22 +139,17 @@
 				throw new Error('Enter a dream is required');
 			}
 
-			if (!user || !user.id) {
+			if (!$user || !$user.id) {
 				throw new Error('Not logged in');
 			}
-
-			const { data: dreams, error } = await supabaseClient
+			const { data: dreams, error } = await supabase
 				.from('dreams')
 				.insert([
-					{
-						text,
-						created_by: user.id,
-						emoji: getRandomEmoji(),
-					},
+					{ text, created_by: $user.id, emoji: getRandomEmoji() },
 				]);
 
 			if (error) throw error;
-			const oldDreams = $dreamsStore ?? [];
+			const oldDreams = $session.dreams ?? [];
 			const newDreams = dreams.map((dream: Dream) => ({
 				id: dream.id,
 				text: dream.text,
@@ -189,7 +157,7 @@
 				updated_at: dream.updated_at,
 				emoji: dream.emoji,
 			}));
-			$dreamsStore = [...oldDreams, ...newDreams];
+			$session.dreams = [...oldDreams, ...newDreams];
 			goto('');
 			return true;
 		} catch (error) {
@@ -222,9 +190,9 @@
 	<h3><VisuallyHidden.Root>Sub Menu</VisuallyHidden.Root></h3>
 
 	<ul class="flex flex-wrap justify-end">
-		<li class="w-auto p-2 list-none {user ? 'mr-0' : 'mr-auto '}">
+		<li class="w-auto p-2 list-none {$user ? 'mr-0' : 'mr-auto '}">
 			<Dialog
-				disabled={loading || !user}
+				disabled={loading || !$user}
 				trigger="🧿 New Dreams"
 				triggerClass="bg-white hover:bg-blue-5"
 				title="Title"
@@ -240,16 +208,14 @@
 
 					<Button
 						class="block bg-white hover:bg-green-5"
-						disabled={loading || !user}
-						type="submit"
+						disabled={loading || !$user}
 					>
 						Submit
 					</Button>
-					<p>disabled: {loading || !user}</p>
 				</Form>
 			</Dialog>
 		</li>
-		{#if user}
+		{#if $user}
 			<li class="w-auto p-2 pl-0 mr-auto list-none">
 				<NavLink
 					href="/experimental/dreams/add"
@@ -261,7 +227,7 @@
 		{/if}
 		<li>
 			<ul class="flex flex-wrap justify-end p-1">
-				{#if user}
+				{#if $user}
 					<li class="p-1 list-none">
 						<Button
 							variant="rounded"
@@ -296,13 +262,7 @@
 									placeholder="Passwort"
 								/>
 
-								<Button
-									class="block bg-white hover:bg-green-5"
-									disabled={loading}
-									type="submit"
-								>
-									Login
-								</Button>
+								<button disabled={loading}>Login</button>
 							</Form>
 						</Dialog>
 					</li>
@@ -313,24 +273,20 @@
 	</ul>
 </div>
 
-{#if error}
+{#if $profile}
 	<div class="p-2 border-b xl:max-w-7xl border-mauve-6">
-		error: {error}
+		User: {$profile?.username}
 	</div>
 {/if}
 
-{#if profile}
-	<div class="p-2 border-b xl:max-w-7xl border-mauve-6">
-		Profile: {profile?.username}
-	</div>
-{/if}
-
-<Headline containerClass="py-8 md:py-16" class="flex" />
+<Headline containerClass="py-8 md:py-16" class="flex">
+	<span>Meine Träume</span>
+</Headline>
 
 <ul
 	class="grid grid-cols-1 p-1 mb-32 border-b md:grid-cols-2 lg:grid-cols-3 border-mauve-6"
 >
-	{#each sortedDreams as dream, index (dream.id)}
+	{#each dreams as dream, index (dream.id)}
 		<li
 			class="flex flex-col m-1 border border-mauve-6 scroll-m-2 {$page.url
 				.hash === `#${dream.id.toString()}`
@@ -338,7 +294,7 @@
 				: ''}"
 			id={dream.id.toString()}
 		>
-			{#if user}
+			{#if $user}
 				<p class="bg-white border-b border-mauve-6">edit</p>
 			{/if}
 			<div class="flex bg-white">
