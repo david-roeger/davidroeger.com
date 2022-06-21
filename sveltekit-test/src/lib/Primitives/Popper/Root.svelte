@@ -44,6 +44,8 @@
 		contentStyles,
 	} = rootContext;
 
+	export const closePopper = setClose;
+
 	$setOpen = () => {
 		$open = true;
 	};
