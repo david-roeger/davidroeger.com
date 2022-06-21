@@ -344,12 +344,109 @@
 	]}
 />
 
+<div class="border-b xl:max-w-7xl border-mauve-6">
+	<h3><VisuallyHidden.Root>Sub Menu</VisuallyHidden.Root></h3>
+
+	<ul class="flex flex-wrap justify-end">
+		{#if $user}
+			<li class="w-auto p-2 list-none {$user ? 'mr-0' : 'mr-auto '}">
+				<!-- add dialog-->
+				<Dialog
+					disabled={loading || !$user}
+					trigger="🧿 New Dream"
+					triggerClass="bg-white hover:bg-blue-5"
+					title="Title"
+					description="description"
+				>
+					<Form handleSubmit={handleAddDreamSubmit}>
+						<textarea
+							name="text"
+							class="rounded-none resize-none"
+							placeholder="Wovon träumst du nachts..."
+							required
+						/>
+
+						<Button
+							class="block bg-white hover:bg-green-5"
+							disabled={loading || !$user}
+							type="submit"
+						>
+							Submit
+						</Button>
+					</Form>
+				</Dialog>
+			</li>
+		{/if}
+		{#if $user}
+			<li class="w-auto p-2 pl-0 mr-auto list-none">
+				<NavLink
+					href="/experimental/dreams/add"
+					class="block bg-white hover:bg-blue-5"
+				>
+					Add
+				</NavLink>
+			</li>
+		{/if}
+		<li>
+			<ul class="flex flex-wrap justify-end p-1">
+				{#if $user}
+					<li class="p-1 list-none">
+						<Button
+							variant="rounded"
+							class="block bg-white hover:bg-blue-5"
+							on:click={handleSignOut}
+						>
+							🔒 Logout
+						</Button>
+					</li>
+				{:else}
+					<li class="p-1 list-none">
+						<Dialog
+							trigger="🔓 Login"
+							triggerClass="bg-white hover:bg-blue-5"
+							triggerRounded
+							title="Title"
+							description="description"
+						>
+							<Form handleSubmit={handleLoginSubmit}>
+								<input
+									type="email"
+									name="email"
+									required
+									disabled={loading}
+									placeholder="E-Mail"
+								/>
+								<input
+									type="password"
+									name="password"
+									required
+									disabled={loading}
+									placeholder="Passwort"
+								/>
+
+								<button disabled={loading}>Login</button>
+							</Form>
+						</Dialog>
+					</li>
+				{/if}
+			</ul>
+		</li>
+		<li />
+	</ul>
+</div>
+
+{#if $profile}
+	<div class="p-2 border-b xl:max-w-7xl border-mauve-6 ">
+		Profile: {$profile?.username}
+	</div>
+{/if}
+
 <Headline containerClass="py-8 md:py-16" class="flex">
 	<span>Meine Träume</span>
 </Headline>
 
 <ul
-	class="grid grid-cols-1 p-1 mb-8 border-b md:grid-cols-2 lg:grid-cols-3 border-mauve-6 md:mb-16 grid-rows-[masonry]"
+	class="mb-32 grid grid-cols-1 p-1  border-b md:grid-cols-2 lg:grid-cols-3 border-mauve-6 grid-rows-[masonry]"
 >
 	{#each dreams as dream (dream.id)}
 		<li
@@ -363,23 +460,23 @@
 				<span
 					class="w-10 p-2 text-center border-b border-mauve-6 group"
 				>
-					{#if $user}
-						<span class="block">
-							{dream.id}
-						</span>
-					{:else}
-						<span
-							class="block transition-transform group-hover:animate-cool-wiggle"
-						>
-							{!!dream.emoji ? dream.emoji : emojiMap[dream.id]}
-						</span>
-					{/if}
+					<span
+						class="block transition-transform group-hover:animate-cool-wiggle"
+					>
+						{!!dream.emoji ? dream.emoji : emojiMap[dream.id]}
+					</span>
 				</span>
+
 				<Headline
 					as="h2"
 					type="quaternary"
 					containerClass="grow border-l flex"
 				>
+					{#if $user}
+						<span>
+							{dream.id} //
+						</span>
+					{/if}
 					{formatDate(dream.created_at)}
 					<span class="text-mauve-11">
 						({formatDate(dream.updated_at)})
