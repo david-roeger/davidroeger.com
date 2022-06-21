@@ -34,6 +34,7 @@
 	aria-expanded={$open}
 	aria-controls="{id}-content"
 	class={c}
+	type="button"
 	{disabled}
 >
 	<slot />

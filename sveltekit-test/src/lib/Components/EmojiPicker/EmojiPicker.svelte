@@ -61,8 +61,8 @@
 	});
 
 	let root;
+	let container;
 
-	let trigger;
 	let renderInput = false;
 
 	async function getEmojiData() {
@@ -81,7 +81,7 @@
 	}
 
 	onMount(() => {
-		if (hasParentOfType(trigger, 'form')) {
+		if (hasParentOfType(root, 'form')) {
 			renderInput = true;
 		}
 	});
@@ -99,7 +99,7 @@
 		if ($emojiData) {
 			if (!categoryElements.length) {
 				categoryElements = Array.from(
-					root.querySelectorAll(':scope div[data-state]'),
+					container.querySelectorAll(':scope div[data-state]'),
 				);
 				categoryElements.forEach((categoryElement, index) => {
 					emojiElements[index] = Array.from(
@@ -303,58 +303,68 @@
 	/>
 {/if}
 
-<Popper.Root defaultOpen={false} bind:closePopper>
-	<Popper.Trigger
-		bind:this={trigger}
-		{disabled}
-		class="p-2 border border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1"
-	>
-		<VisuallyHidden.Root>Choose emoji. Current Emoji:</VisuallyHidden.Root>
-		{$activeValue ?? 'Choose Emoji'}
-	</Popper.Trigger>
-	<Popper.Content
-		class="bg-white border border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1"
-		side="bottom"
-		align="start"
-		on:keydown={handleKeyDown}
-	>
-		<form
-			bind:this={root}
-			class="relative w-full max-w-[282px] max-h-[360px] overflow-auto"
+<div bind:this={root}>
+	<Popper.Root defaultOpen={false} bind:closePopper>
+		<Popper.Trigger
+			{disabled}
+			class="p-2 border border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1"
 		>
-			<Headline as="h2" type="tertiary" class="border-b-0 ">
-				Choose an emoji:
-			</Headline>
-			{#await getEmojiData()}
-				<p>...waiting</p>
-			{:then data}
-				{#each data.categories as category, categoryIndex (category.id)}
-					<div class="relative" data-state={categoryIndex}>
-						<Headline
-							as="h3"
-							type="quaternary"
-							containerClass="sticky top-0 bg-white/[.85]"
-							class="border-b-0"
-						>
-							{category.id.charAt(0).toUpperCase() +
-								category.id.slice(1)}
-						</Headline>
-						<div class="w-full flex flex-wrap p-2 -m-0.5">
-							{#each category.emojis as emoji, emojiIndex (emoji)}
-								<Button
-									data-state={emojiIndex}
-									class="m-0.5 w-[34px] flex justify-center !p-1 rounded-full"
-								>
-									{data.emojis[emoji].skins[0].native}
-								</Button>
-							{/each}
+			<VisuallyHidden.Root>
+				Choose emoji. Current Emoji:
+			</VisuallyHidden.Root>
+			{$activeValue ?? 'Choose Emoji'}
+		</Popper.Trigger>
+		<Popper.Content
+			class="bg-white border border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1"
+			side="bottom"
+			align="start"
+			on:keydown={handleKeyDown}
+		>
+			<div
+				bind:this={container}
+				class="relative w-full max-w-[282px] max-h-[360px] overflow-auto"
+			>
+				<Headline as="h2" type="tertiary" class="border-b-0 ">
+					Choose an emoji:
+				</Headline>
+				{#await getEmojiData()}
+					<p>...waiting</p>
+				{:then data}
+					{#each data.categories as category, categoryIndex (category.id)}
+						<div class="relative" data-state={categoryIndex}>
+							<Headline
+								as="h3"
+								type="quaternary"
+								containerClass="sticky top-0 bg-white/[.85]"
+								class="border-b-0"
+							>
+								{category.id.charAt(0).toUpperCase() +
+									category.id.slice(1)}
+							</Headline>
+							<div class="w-full flex flex-wrap p-2 -m-0.5">
+								{#each category.emojis as emoji, emojiIndex (emoji)}
+									<Button
+										on:click={() => {
+											setEmoji(
+												data.emojis[emoji].skins[0]
+													.native,
+											);
+										}}
+										data-state={emojiIndex}
+										class="m-0.5 w-[34px] flex justify-center !p-1 rounded-full"
+									>
+										{data.emojis[emoji].skins[0].native}
+									</Button>
+								{/each}
+							</div>
 						</div>
-					</div>
-				{/each}
-			{:catch error}
-				<p class="p-2 text-sm text-mauve-11">
-					Error: {error.message} 😭
-				</p>{/await}
-		</form>
-	</Popper.Content>
-</Popper.Root>
+					{/each}
+				{:catch error}
+					<p class="p-2 text-sm text-mauve-11">
+						Error: {error.message} 😭
+					</p>
+				{/await}
+			</div>
+		</Popper.Content>
+	</Popper.Root>
+</div>

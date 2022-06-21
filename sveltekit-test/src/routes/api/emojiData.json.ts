@@ -8,7 +8,6 @@ export async function get(): GetReturnType {
 		const response = await fetch(
 			'https://cdn.jsdelivr.net/npm/@emoji-mart/data',
 		);
-		console.log(response);
 		if (response.ok) {
 			const emojiData = await response.json();
 			return {
