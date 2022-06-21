@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { session } from '$app/stores';
-	import Button from '$lib/Components/Button/Button.svelte';
+	import { Button } from '$lib/Components/Button';
 	import Head from '$lib/Components/Head/Head.svelte';
 	import Headline from '$lib/Components/Headline/Headline.svelte';
 	import type { Dream } from '$lib/types';
