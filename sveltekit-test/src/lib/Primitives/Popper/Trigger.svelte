@@ -2,6 +2,8 @@
 	let c = '';
 	export { c as class };
 
+	export let disabled = false;
+
 	import { getContext, onMount } from 'svelte';
 	import { derived } from 'svelte/store';
 	import type { RootContext } from './types';
@@ -32,6 +34,7 @@
 	aria-expanded={$open}
 	aria-controls="{id}-content"
 	class={c}
+	{disabled}
 >
 	<slot />
 </button>
