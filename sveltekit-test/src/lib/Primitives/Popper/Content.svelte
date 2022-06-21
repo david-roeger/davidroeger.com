@@ -85,6 +85,7 @@
 	class={c}
 	tabindex="-1"
 	bind:this={content}
+	on:keydown
 	on:keydown={handleKeyDown}
 	aria-hidden={!$open}
 	use:clickOutside={() => {
