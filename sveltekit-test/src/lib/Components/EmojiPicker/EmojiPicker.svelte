@@ -14,7 +14,7 @@
 	let c = '';
 	export { c as class };
 
-	import { setContext, onMount } from 'svelte';
+	import { setContext, onMount, tick } from 'svelte';
 
 	import { writable } from 'svelte/store';
 	import { createEventDispatcher } from 'svelte';
@@ -29,7 +29,7 @@
 	import AccessibleIcon from '$components/AccessibleIcon';
 
 	import Close from '$assets/Icons/24/close.svg';
-	import { hasParentOfType } from '$lib/Utils';
+	import { emojis, hasParentOfType } from '$lib/Utils';
 	import { emojiData } from './store';
 
 	id++;
@@ -46,9 +46,9 @@
 	const setEmoji = (value: string) => {
 		if ($activeValue !== value) {
 			$activeValue = value;
-			if ($closePopper) {
-				$closePopper();
-			}
+		}
+		if ($closePopper) {
+			$closePopper();
 		}
 	};
 
@@ -61,7 +61,7 @@
 	});
 
 	let root;
-	let container;
+	let container: HTMLDivElement;
 
 	let renderInput = false;
 
@@ -288,7 +288,20 @@
 		}
 	};
 
+	const handlePopperOpen = async (open: boolean) => {
+		if (container && open) {
+			await tick();
+			const emoji: HTMLButtonElement = container.querySelector(
+				`:scope button[data-emoji="${$activeValue}"]`,
+			);
+			if (emoji) emoji.focus();
+		}
+	};
+
 	let closePopper: Writable<() => void | undefined>;
+	let popperOpen: Writable<boolean | undefined>;
+
+	$: handlePopperOpen($popperOpen);
 </script>
 
 {#if renderInput}
@@ -304,15 +317,17 @@
 {/if}
 
 <div bind:this={root}>
-	<Popper.Root defaultOpen={false} bind:closePopper>
+	<Popper.Root defaultOpen={false} bind:closePopper bind:popperOpen>
 		<Popper.Trigger
 			{disabled}
 			class="p-2 border border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1"
 		>
-			<VisuallyHidden.Root>
-				Choose emoji. Current Emoji:
-			</VisuallyHidden.Root>
-			{$activeValue ?? 'Choose Emoji'}
+			<span>
+				<VisuallyHidden.Root>
+					Choose emoji. Current Emoji:
+				</VisuallyHidden.Root>
+				{$activeValue ?? 'Choose Emoji'}
+			</span>
 		</Popper.Trigger>
 		<Popper.Content
 			class="bg-white border border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1"
@@ -351,6 +366,8 @@
 											);
 										}}
 										data-state={emojiIndex}
+										data-emoji={data.emojis[emoji].skins[0]
+											.native}
 										class="m-0.5 w-[34px] flex justify-center !p-1 rounded-full"
 									>
 										{data.emojis[emoji].skins[0].native}
