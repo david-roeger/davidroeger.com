@@ -1,10 +1,10 @@
 <script lang="ts">
 	import * as Music from '$components/Music';
 	import { Link } from '$components/Link';
-	import AccessibleIcon from '$lib/Components/AccessibleIcon';
+	import AccessibleIcon from '$components/AccessibleIcon';
 	import Album from '$assets/Icons/24/album.svg';
 	import Artist from '$assets/Icons/24/artist.svg';
-	import Wave from '$lib/Components/Wave/Wave.svelte';
+	import Wave from '$components/Wave/Wave.svelte';
 
 	import type {
 		SpotifyLastTrackResponse,

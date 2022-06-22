@@ -31,27 +31,27 @@
 
 	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
-	import { mapToRange, replaceStateWithQuery } from '$utils';
+	import { mapToRange, replaceStateWithQuery } from '$lib/Utils';
 
 	import { writable } from 'svelte/store';
 
 	import * as Tags from '$primitives/Tags';
 	import * as Gallery from '$primitives/Gallery';
 	import type { ProjectMetaData } from '$lib/types';
-	import Headline from '$lib/Components/Headline/Headline.svelte';
-	import { Media } from '$lib/Components/Media';
+	import Headline from '$components/Headline/Headline.svelte';
+	import { Media } from '$components/Media';
 	import East from '$assets/Icons/24/east.svg';
 	import West from '$assets/Icons/24/west.svg';
 	import Close16 from '$assets/Icons/16/close.svg';
 	import East16 from '$assets/Icons/16/east.svg';
 
-	import AccessibleIcon from '$lib/Components/AccessibleIcon';
+	import AccessibleIcon from '$components/AccessibleIcon';
 
 	import BezierEasing from 'bezier-easing';
 
 	import type { ProjectMediaData } from '$lib/types';
 	import projectsMediaData from '$assets/projectsMediaData.json';
-	import Head from '$lib/Components/Head/Head.svelte';
+	import Head from '$components/Head/Head.svelte';
 
 	export let projects: ProjectMetaData[] = [];
 	export let experimental: { slug: string; thumbnail?: string }[] = [];

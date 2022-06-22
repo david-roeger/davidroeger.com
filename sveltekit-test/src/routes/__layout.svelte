@@ -1,13 +1,13 @@
 <script lang="ts">
 	import '../app.css';
-	import { BreakpointProvider } from '$lib/Provider/Breakpoint';
-	import { Header } from '$lib/Slices/Header';
-	import { BttButton } from '$lib/Components/BttButton';
-	import AccessibleIcon from '$lib/Components/AccessibleIcon';
+	import { BreakpointProvider } from '$provider/Breakpoint';
+	import { Header } from '$slices/Header';
+	import { BttButton } from '$components/BttButton';
+	import AccessibleIcon from '$components/AccessibleIcon';
 	import North from '$assets/Icons/24/north.svg';
 
 	import { page } from '$app/stores';
-	import DefaultHead from '$lib/Components/Head/DefaultHead.svelte';
+	import DefaultHead from '$components/Head/DefaultHead.svelte';
 
 	const getTitle = (path: string) => {
 		const pathArray = path.split('/').filter((item) => item !== '');

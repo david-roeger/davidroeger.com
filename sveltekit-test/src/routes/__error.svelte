@@ -11,11 +11,11 @@
 </script>
 
 <script lang="ts">
-	import Headline from '$lib/Components/Headline/Headline.svelte';
-	import NavLink from '$lib/Components/NavLink/NavLink.svelte';
+	import Headline from '$components/Headline/Headline.svelte';
+	import NavLink from '$components/NavLink/NavLink.svelte';
 	import East from '$assets/Icons/24/east.svg';
 	import { Background } from '$components/Background';
-	import Head from '$lib/Components/Head/Head.svelte';
+	import Head from '$components/Head/Head.svelte';
 
 	export let error: any;
 	export let status: any;

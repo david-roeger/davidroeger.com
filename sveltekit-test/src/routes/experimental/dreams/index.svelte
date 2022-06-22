@@ -54,28 +54,23 @@
 	import { page, session } from '$app/stores';
 	import { profile, user } from '$lib/Utils/Auth/store';
 
-	import { getRandomEmoji } from '$lib/Utils';
 	import { supabase } from '$lib/Utils/Auth/supabaseClient';
 
-	import Head from '$lib/Components/Head/Head.svelte';
-	import Headline from '$lib/Components/Headline/Headline.svelte';
+	import Head from '$components/Head/Head.svelte';
+	import Headline from '$components/Headline/Headline.svelte';
 
-	import Dialog from '$lib/Components/Dialog/Dialog.svelte';
-	import { Form, Close } from '$lib/Primitives/Dialog';
+	import Dialog from '$components/Dialog/Dialog.svelte';
+	import { Form, Close } from '$primitives/Dialog';
 
-	import { Button } from '$lib/Components/Button';
-	import NavLink from '$lib/Components/NavLink/NavLink.svelte';
-	import EmojiPicker from '$lib/Components/EmojiPicker';
+	import { Button } from '$components/Button';
+	import NavLink from '$components/NavLink/NavLink.svelte';
+	import EmojiPicker from '$components/EmojiPicker';
 
-	import * as VisuallyHidden from '$lib/Primitives/VisuallyHidden';
-	import AccessibleIcon from '$lib/Components/AccessibleIcon';
+	import * as VisuallyHidden from '$primitives/VisuallyHidden';
+	import AccessibleIcon from '$components/AccessibleIcon';
 	import EditIcon from '$assets/Icons/24/edit.svg?component';
 	import CloseIcon from '$assets/Icons/24/close.svg?component';
-	import {
-		insertDream,
-		updateDream,
-		deleteDream,
-	} from '$lib/Utils/Auth/request';
+	import { insertDream, updateDream, deleteDream } from '$lib/Utils/Auth/request';
 
 	export let emojiMap: { [key: string]: string };
 	export let error: string;

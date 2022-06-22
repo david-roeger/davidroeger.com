@@ -51,7 +51,7 @@
 	export let html = '';
 
 	import AccessibleIcon from '$components/AccessibleIcon/AccessibleIcon.svelte';
-	import { Media } from '$lib/Components/Media';
+	import { Media } from '$components/Media';
 
 	import TagIcon from '$assets/Icons/24/tag.svg';
 	import LinkIcon from '$assets/Icons/24/link.svg';
@@ -60,7 +60,7 @@
 	import Headline from '$components/Headline/Headline.svelte';
 
 	import projectsMediaData from '$assets/projectsMediaData.json';
-	import Head from '$lib/Components/Head/Head.svelte';
+	import Head from '$components/Head/Head.svelte';
 
 	const projectMediaData = projectsMediaData[slug];
 

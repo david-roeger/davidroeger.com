@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Background } from '$components/Background';
-	import Head from '$lib/Components/Head/Head.svelte';
+	import Head from '$components/Head/Head.svelte';
 </script>
 
 <Head

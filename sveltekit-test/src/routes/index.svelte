@@ -12,7 +12,7 @@
 	import * as Accordion from '$primitives/Accordion';
 	import Logo from '$components/Logo/Logo.svelte';
 	import AccessibleIcon from '$components/AccessibleIcon/AccessibleIcon.svelte';
-	import Head from '$lib/Components/Head/Head.svelte';
+	import Head from '$components/Head/Head.svelte';
 
 	let content = [
 		{ value: '1' },

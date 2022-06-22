@@ -1,7 +1,7 @@
 <script lang="ts">
 	import * as Music from '$components/Music';
 	import { Link } from '$components/Link';
-	import AccessibleIcon from '$lib/Components/AccessibleIcon';
+	import AccessibleIcon from '$components/AccessibleIcon';
 	import Tag from '$assets/Icons/24/tag.svg';
 	import Score from '$assets/Icons/24/score.svg';
 	import type {

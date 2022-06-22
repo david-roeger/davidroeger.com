@@ -13,7 +13,7 @@
 	console.info('experimental/move Page: script call');
 
 	import * as Slider from '$primitives/Slider';
-	import AccessibleIcon from '$lib/Components/AccessibleIcon';
+	import AccessibleIcon from '$components/AccessibleIcon';
 
 	import Close from '$assets/Icons/24/close.svg';
 	import West from '$assets/Icons/24/west.svg';

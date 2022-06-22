@@ -35,7 +35,7 @@ const config = {
 					$primitives: path.resolve('./src/lib/Primitives'),
 					$components: path.resolve('./src/lib/Components'),
 					$slices: path.resolve('./src/lib/Slices'),
-					$utils: path.resolve('./src/lib/Utils'),
+					$provider: path.resolve('./src/lib/Provider'),
 					$assets: path.resolve('./src/lib/Assets'),
 				},
 			},

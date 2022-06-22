@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { buttonType } from '$lib/Actions';
+	import { buttonType } from '$actions';
 
 	export let variant: 'primary' | 'icon' | 'rounded' = 'primary';
 	export let type: 'button' | 'submit' | 'reset' = 'button';

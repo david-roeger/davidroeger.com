@@ -2,9 +2,9 @@
 	let c = '';
 	export { c as class };
 
-	import AccessibleIcon from '$lib/Components/AccessibleIcon';
-	import Logo from '$lib/Components/Logo/Logo.svelte';
-	import { NavLink } from '$lib/Components/NavLink';
+	import AccessibleIcon from '$components/AccessibleIcon';
+	import Logo from '$components/Logo/Logo.svelte';
+	import { NavLink } from '$components/NavLink';
 	import * as VisuallyHidden from '$primitives/VisuallyHidden';
 
 	import { page } from '$app/stores';

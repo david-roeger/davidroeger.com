@@ -1,4 +1,4 @@
-import type { EmojiData } from '$lib/Components/EmojiPicker/types';
+import type { EmojiData } from '$components/EmojiPicker/types';
 import type { GetReturnType } from '$lib/types';
 
 /** @type {import('@sveltejs/kit').RequestHandler} */

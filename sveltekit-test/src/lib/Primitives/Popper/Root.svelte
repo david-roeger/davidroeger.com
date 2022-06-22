@@ -15,7 +15,7 @@
 
 	import { useRect } from './useRect';
 	import { useSize } from './useSize';
-	import { convertStyleString } from '$utils';
+	import { convertStyleString } from '$lib/Utils';
 
 	import { getPlacementData } from './popper';
 

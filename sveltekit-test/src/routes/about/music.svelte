@@ -59,10 +59,10 @@
 
 	import * as Tabs from '$primitives/Tabs';
 	import { writable } from 'svelte/store';
-	import Link from '$lib/Components/Link/Link.svelte';
-	import * as Popper from '$lib/Primitives/Popper';
-	import AccessibleIcon from '$lib/Components/AccessibleIcon';
-	import * as RadioGroup from '$lib/Primitives/RadioGroup';
+	import Link from '$components/Link/Link.svelte';
+	import * as Popper from '$primitives/Popper';
+	import AccessibleIcon from '$components/AccessibleIcon';
+	import * as RadioGroup from '$primitives/RadioGroup';
 	import Filter from '$assets/Icons/24/filter.svg';
 	import Close from '$assets/Icons/24/close.svg';
 

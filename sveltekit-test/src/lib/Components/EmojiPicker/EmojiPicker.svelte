@@ -26,10 +26,7 @@
 	import { Headline } from '$components/Headline';
 	import { Button } from '$components/Button';
 
-	import AccessibleIcon from '$components/AccessibleIcon';
-
-	import Close from '$assets/Icons/24/close.svg';
-	import { emojis, hasParentOfType } from '$lib/Utils';
+	import { hasParentOfType } from '$lib/Utils';
 	import { emojiData } from './store';
 
 	id++;

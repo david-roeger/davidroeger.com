@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import BezierEasing from 'bezier-easing';
-	import { mapToRange } from '$utils';
+	import { mapToRange } from '$lib/Utils';
 
 	export let disabled = false;
 

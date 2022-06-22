@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { buttonType } from '$lib/Actions';
+	import { buttonType } from '$actions';
 
 	import { hasParentOfType } from '$lib/Utils';
 

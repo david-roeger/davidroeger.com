@@ -1,9 +1,9 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { session } from '$app/stores';
-	import { Button } from '$lib/Components/Button';
-	import Head from '$lib/Components/Head/Head.svelte';
-	import Headline from '$lib/Components/Headline/Headline.svelte';
+	import { Button } from '$components/Button';
+	import Head from '$components/Head/Head.svelte';
+	import Headline from '$components/Headline/Headline.svelte';
 	import type { Dream } from '$lib/types';
 	import { getRandomEmoji } from '$lib/Utils';
 
