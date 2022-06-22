@@ -65,7 +65,7 @@
 
 	import { Button } from '$lib/Components/Button';
 	import NavLink from '$lib/Components/NavLink/NavLink.svelte';
-	import EmojiPicker from '$lib/components/EmojiPicker';
+	import EmojiPicker from '$lib/Components/EmojiPicker';
 
 	import * as VisuallyHidden from '$lib/Primitives/VisuallyHidden';
 	import AccessibleIcon from '$lib/Components/AccessibleIcon';
