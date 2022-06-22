@@ -301,7 +301,7 @@
 {/if}
 
 <div bind:this={root}>
-	<Popper.Root defaultOpen={false} bind:closePopper bind:popperOpen>
+	<Popper.Root defaultOpen={false} bind:closePopper>
 		<Popper.Trigger
 			{disabled}
 			class="p-2 border border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1"
