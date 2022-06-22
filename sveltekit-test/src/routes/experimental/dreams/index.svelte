@@ -65,6 +65,7 @@
 
 	import { Button } from '$lib/Components/Button';
 	import NavLink from '$lib/Components/NavLink/NavLink.svelte';
+	import EmojiPicker from '$lib/components/EmojiPicker';
 
 	import * as VisuallyHidden from '$lib/Primitives/VisuallyHidden';
 	import AccessibleIcon from '$lib/Components/AccessibleIcon';
@@ -160,11 +161,16 @@
 
 		const formData = new FormData(e.currentTarget);
 		const text = formData.get('text') as string;
+		const emoji = formData.get('emoji') as string;
+
 		try {
 			loading = true;
 
 			if (!text || text.length === 0) {
-				throw new Error('Enter a dream is required');
+				throw new Error('Dream is required');
+			}
+			if (!emoji || emoji.length === 0) {
+				throw new Error('Emoji is required');
 			}
 
 			if (!$user || !$user.id) {
@@ -174,7 +180,7 @@
 			const { dream, error } = await insertDream({
 				text,
 				created_by: $user.id,
-				emoji: getRandomEmoji(),
+				emoji,
 			});
 
 			if (error) throw error;
@@ -192,7 +198,7 @@
 				emoji: dream.emoji,
 			};
 			$session.dreams = [...oldDreams, newDream];
-			goto(`#${newDream.id}`);
+			goto(`#${newDream.id}`, { noscroll: true });
 
 			return true;
 		} catch (error) {
@@ -365,6 +371,7 @@
 							placeholder="Wovon träumst du nachts..."
 							required
 						/>
+						<EmojiPicker name="emoji" />
 
 						<Button
 							class="block bg-white hover:bg-green-5"
@@ -449,9 +456,9 @@
 	class="mb-32 grid grid-cols-1 p-1  border-b md:grid-cols-2 lg:grid-cols-3 border-mauve-6 grid-rows-[masonry]"
 >
 	{#each dreams as dream (dream.id)}
+		{@const active = $page.url.hash === `#${dream.id.toString()}`}
 		<li
-			class="flex flex-col m-1 border border-mauve-6 scroll-m-2 {$page.url
-				.hash === `#${dream.id.toString()}`
+			class="flex flex-col m-1 border border-mauve-6 scroll-m-2 {active
 				? 'ring-1 ring-mauve-6'
 				: ''}"
 			id={dream.id.toString()}
@@ -569,3 +576,11 @@
 		<li>No dreams yet recorded 😴</li>
 	{/each}
 </ul>
+
+<style>
+	.disco {
+		box-shadow: -15px 0 30px -10px hsl(24 100% 75.3%),
+			0 0 30px -10px hsl(295 48.2% 78.9%),
+			15px 0 30px -10px hsl(273 61% 81.7%);
+	}
+</style>
