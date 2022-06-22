@@ -70,10 +70,13 @@
 	import AccessibleIcon from '$components/AccessibleIcon';
 	import EditIcon from '$assets/Icons/24/edit.svg?component';
 	import CloseIcon from '$assets/Icons/24/close.svg?component';
-	import { insertDream, updateDream, deleteDream } from '$lib/Utils/Auth/request';
+	import {
+		insertDream,
+		updateDream,
+		deleteDream,
+	} from '$lib/Utils/Auth/request';
 
 	export let emojiMap: { [key: string]: string };
-	export let error: string;
 
 	console.info('experimental/dreams Page: script call');
 
@@ -571,11 +574,3 @@
 		<li>No dreams yet recorded 😴</li>
 	{/each}
 </ul>
-
-<style>
-	.disco {
-		box-shadow: -15px 0 30px -10px hsl(24 100% 75.3%),
-			0 0 30px -10px hsl(295 48.2% 78.9%),
-			15px 0 30px -10px hsl(273 61% 81.7%);
-	}
-</style>

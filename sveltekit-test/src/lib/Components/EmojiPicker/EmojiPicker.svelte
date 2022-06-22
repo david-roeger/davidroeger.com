@@ -285,20 +285,7 @@
 		}
 	};
 
-	const handlePopperOpen = async (open: boolean) => {
-		if (container && open) {
-			await tick();
-			const emoji: HTMLButtonElement = container.querySelector(
-				`:scope button[data-emoji="${$activeValue}"]`,
-			);
-			if (emoji) emoji.focus();
-		}
-	};
-
 	let closePopper: Writable<() => void | undefined>;
-	let popperOpen: Writable<boolean | undefined>;
-
-	$: handlePopperOpen($popperOpen);
 </script>
 
 {#if renderInput}

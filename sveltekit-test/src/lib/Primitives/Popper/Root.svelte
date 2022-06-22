@@ -45,7 +45,6 @@
 	} = rootContext;
 
 	export const closePopper = setClose;
-	export const popperOpen = open;
 
 	$setOpen = () => {
 		$open = true;
