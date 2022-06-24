@@ -3,6 +3,7 @@
 </script>
 
 <script lang="ts">
+	import { disablePageScroll, enablePageScroll } from 'scroll-lock';
 	export let defaultOpen: boolean;
 
 	let c = '';
@@ -27,7 +28,11 @@
 	const { open, trap, setOpen, setClose, computedId } = rootContext;
 	$setOpen = () => {
 		$activeDialogs = [...$activeDialogs, computedId];
+		if ($activeDialogs.length === 1) {
+			disablePageScroll();
+		}
 		document.body.classList.add('dialog-open');
+
 		$open = true;
 	};
 	$setClose = () => {
@@ -43,6 +48,7 @@
 		];
 
 		if ($activeDialogs.length === 0) {
+			enablePageScroll();
 			document.body.classList.remove('dialog-open');
 		}
 		$open = false;
