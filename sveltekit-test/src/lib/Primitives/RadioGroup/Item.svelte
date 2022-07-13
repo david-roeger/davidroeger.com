@@ -41,20 +41,6 @@
 	});
 </script>
 
-{#if renderInput}
-	<input
-		type="radio"
-		{name}
-		{value}
-		checked={$active}
-		aria-hidden="true"
-		tabindex="-1"
-		style="position: absolute; pointer-events: none; opacity: 0;"
-		{disabled}
-		{required}
-	/>
-{/if}
-
 <button
 	{id}
 	use:buttonType
@@ -72,3 +58,17 @@
 >
 	<slot />
 </button>
+
+{#if renderInput}
+	<input
+		type="radio"
+		{name}
+		{value}
+		checked={$active}
+		aria-hidden="true"
+		tabindex="-1"
+		style="position: absolute; pointer-events: none; opacity: 0;"
+		{disabled}
+		{required}
+	/>
+{/if}
