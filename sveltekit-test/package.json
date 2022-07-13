@@ -41,6 +41,7 @@
 	"dependencies": {
 		"@supabase/supabase-js": "^1.35.3",
 		"bezier-easing": "^2.1.0",
-		"focus-trap": "^6.7.2"
+		"focus-trap": "^6.7.2",
+		"open-simplex-noise": "^2.5.0"
 	}
 }
