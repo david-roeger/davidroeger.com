@@ -6,12 +6,13 @@
 	import Svg from './Svg.svelte';
 
 	const thresholds = [];
-	for (let i = 0; i < 100; i += 1) {
-		const threshold = i / 100;
+	const MAX_TRESHOLDS = 10000;
+	for (let i = 0; i < MAX_TRESHOLDS; i += 1) {
+		const threshold = i / MAX_TRESHOLDS;
 		thresholds.push(threshold);
 	}
 
-	const options = {
+	const options: IntersectionObserverInit = {
 		root: null,
 		rootMargin: '0px',
 		threshold: thresholds,
