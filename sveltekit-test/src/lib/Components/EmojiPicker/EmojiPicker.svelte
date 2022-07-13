@@ -14,7 +14,7 @@
 	let c = '';
 	export { c as class };
 
-	import { setContext, onMount, tick } from 'svelte';
+	import { setContext, onMount } from 'svelte';
 
 	import { writable } from 'svelte/store';
 	import { createEventDispatcher } from 'svelte';

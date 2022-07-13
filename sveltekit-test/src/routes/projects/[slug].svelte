@@ -204,7 +204,7 @@
 			<div
 				class="py-8 px-2 grow md:grow-0 md:w-3/4 md:border-r border-mauve-6 md:p-8 xl:p-16 bg-white/[.85]"
 			>
-				<div class="max-w-[60ch] markdown">
+				<div class="readable markdown">
 					{@html html}
 				</div>
 			</div>
