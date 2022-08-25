@@ -2,10 +2,6 @@ import { error, json, type RequestHandler } from '@sveltejs/kit';
 
 export const GET: RequestHandler = async ({ url }) => {
 	const nested = import.meta.glob('../../experimental/*/+page.svelte');
-	const projectPromises: Promise<{
-		slug: string;
-		thumbnail: string;
-	}>[] = [];
 	const limit = Number(url.searchParams.get('limit') ?? Infinity);
 
 	if (Number.isNaN(limit)) {
@@ -15,7 +11,7 @@ export const GET: RequestHandler = async ({ url }) => {
 	const projects = [];
 
 	for (const [path] of Object.entries(nested)) {
-		const slug = path.match(/\.\.\/\.\.\/experimental\/(.*?)\//i)?.[1] ?? null;
+		const slug = path.match(/\.\.\/\.\.\/experimental\/(.*?)\//i)?.[1] ?? undefined;
 		if (!slug || slug === 'template') {
 			continue;
 		}
