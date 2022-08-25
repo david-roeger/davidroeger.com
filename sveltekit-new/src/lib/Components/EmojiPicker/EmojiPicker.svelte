@@ -64,7 +64,7 @@
 			return $emojiData;
 		}
 
-		const res = await fetch(`/api/emojiData.json`);
+		const res = await fetch(`/_api/emojiData`);
 		if (res.ok) {
 			const data = await res.json();
 			$emojiData = data as EmojiData;
@@ -357,7 +357,7 @@
 					{/each}
 				{:catch error}
 					<p class="p-2 text-sm text-mauve-11">
-						Error: {error.message} 😭
+						Something went wrong and now there are no emojis 😭
 					</p>
 				{/await}
 			</div>
