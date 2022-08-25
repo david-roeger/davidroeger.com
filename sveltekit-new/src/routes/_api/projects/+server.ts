@@ -2,7 +2,7 @@ import { slugFromPath } from '$lib/Utils';
 import { error, json, type RequestHandler } from '@sveltejs/kit';
 
 export const GET: RequestHandler = async ({ url }) => {
-	const modules = import.meta.glob('./content/*.{md,svx,svelte.md}');
+	const modules = import.meta.glob('../../projects/content/*.{md,svx,svelte.md}');
 	const projectPromises = [];
 	const limit = Number(url.searchParams.get('limit') ?? Infinity);
 
@@ -12,7 +12,6 @@ export const GET: RequestHandler = async ({ url }) => {
 
 	for (const [path, resolver] of Object.entries(modules)) {
 		const slug = slugFromPath(path);
-		console.log(slug, path);
 		const promise = resolver().then((project) => ({
 			slug,
 			...project.metadata

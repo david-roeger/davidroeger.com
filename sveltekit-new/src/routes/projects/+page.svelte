@@ -28,9 +28,9 @@
 	const projectsMediaData: ProjectsMediaData = { ...pmd };
 
 	export let data: PageData;
-	export let experimental: { slug: string; thumbnail?: string }[] = [];
 
 	const projects = data.projects;
+	const experimental = data.experimental;
 
 	let filteredProjects: ProjectMetaData[] = [];
 
@@ -262,16 +262,14 @@
 					title="Read more about the project {experiment.slug}"
 				>
 					<span class="flex">
-						{#if experiment.thumbnail}
-							<img
-								loading="lazy"
-								alt={`Thumbnail for experimental Project ${computed}`}
-								width="40"
-								height="40"
-								class="block w-12 h-12 bg-white max-w-none"
-								src={`./assets/experimental/${experiment.thumbnail}`}
-							/>
-						{/if}
+						<img
+							loading="lazy"
+							alt={`Thumbnail for experimental Project ${computed}`}
+							width="40"
+							height="40"
+							class="block w-12 h-12 bg-white max-w-none"
+							src={`./assets/experimental/${experiment.slug}.png`}
+						/>
 						<span
 							class={`block p-2 group-hover:underline group-focus:underline decoration-from-font ${
 								experiment.thumbnail ? 'border-l border-mauve-6' : ''

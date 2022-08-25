@@ -2,11 +2,8 @@ import { slugFromPath } from '$lib/Utils';
 import { error, json, type RequestHandler } from '@sveltejs/kit';
 
 export const GET: RequestHandler = async ({ params }) => {
-	console.log('GET');
-	const modules = import.meta.glob(`../content/*.{md,svx,svelte.md}`);
+	const modules = import.meta.glob(`../../../projects/content/*.{md,svx,svelte.md}`);
 	const { slug } = params;
-
-	console.log(modules);
 
 	for (const [path, resolver] of Object.entries(modules)) {
 		const computedSlug = slugFromPath(path);
