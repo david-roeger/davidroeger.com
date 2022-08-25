@@ -1,57 +1,10 @@
-<script context="module" lang="ts">
-	console.info('experimental/dreams Page: module call');
-	import type { Load } from '@sveltejs/kit';
-
-	export const load: Load = async ({ session, props, fetch }) => {
-		console.info('experimental/dreams Page: load call');
-		const { dreams, ...restProps } = props;
-		session.dreams = dreams;
-
-		const dreamsWithoutEmoji = dreams.filter((dream) => !dream.emoji);
-
-		if (dreamsWithoutEmoji.length === 0) {
-			return {
-				props: {
-					...restProps,
-					emojis: [],
-				},
-			};
-		}
-
-		const res: Response = await fetch(
-			`/experimental/dreams/emojis.json?limit=${dreamsWithoutEmoji.length}`,
-		);
-
-		if (res.ok) {
-			const emojis = await res.json();
-			const emojiMap = {};
-			dreamsWithoutEmoji.forEach((dream, index) => {
-				emojiMap[dream.id] = emojis[index];
-			});
-			return {
-				props: {
-					...restProps,
-					emojiMap: emojiMap as { [key: string]: string },
-				},
-			};
-		}
-
-		return {
-			status: 404,
-			body: { error: new Error('No Emojis found') },
-		};
-	};
-
-	export const prerender = false;
-	export const thumbnail = 'dreams.png';
-</script>
-
 <script lang="ts">
+	import { onMount } from 'svelte';
 	import type { Dream } from '$lib/types';
 
 	import { goto } from '$app/navigation';
 
-	import { page, session } from '$app/stores';
+	import { page } from '$app/stores';
 	import { profile, user } from '$lib/Utils/Auth/store';
 
 	import { supabase } from '$lib/Utils/Auth/supabaseClient';
@@ -70,20 +23,22 @@
 	import AccessibleIcon from '$components/AccessibleIcon';
 	import EditIcon from '$assets/Icons/24/edit.svg?component';
 	import CloseIcon from '$assets/Icons/24/close.svg?component';
-	import {
-		insertDream,
-		updateDream,
-		deleteDream,
-	} from '$lib/Utils/Auth/request';
-
-	export let emojiMap: { [key: string]: string };
+	import { insertDream, updateDream, deleteDream } from '$lib/Utils/Auth/request';
 
 	console.info('experimental/dreams Page: script call');
 
-	$: dreams = ($session.dreams ?? []).sort((a, b) => {
-		return (
-			new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
-		);
+	import { sessionDreams } from './store';
+
+	import type { PageData } from './$types';
+	import { emojis } from '$lib/Utils';
+	export let data: PageData;
+
+	onMount(() => {
+		$sessionDreams = data.dreams;
+	});
+
+	$: dreams = ($sessionDreams.length > 0 ? $sessionDreams : data.dreams ?? []).sort((a, b) => {
+		return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
 	});
 
 	const formatDate = (date: string) => {
@@ -110,7 +65,7 @@
 	const handleLoginSubmit = async (
 		e: SubmitEvent & {
 			currentTarget: EventTarget & HTMLFormElement;
-		},
+		}
 	) => {
 		e.preventDefault();
 
@@ -130,12 +85,12 @@
 			const {
 				session: sessionData,
 				user: userData,
-				error,
+				error
 			} = await supabase.auth.signIn(
 				{ email, password },
 				{
-					shouldCreateUser: false,
-				},
+					shouldCreateUser: false
+				}
 			);
 
 			if (error) throw error;
@@ -153,7 +108,7 @@
 	const handleAddDreamSubmit = async (
 		e: SubmitEvent & {
 			currentTarget: EventTarget & HTMLFormElement;
-		},
+		}
 	) => {
 		e.preventDefault();
 
@@ -178,7 +133,7 @@
 			const { dream, error } = await insertDream({
 				text,
 				created_by: $user.id,
-				emoji,
+				emoji
 			});
 
 			if (error) throw error;
@@ -187,15 +142,16 @@
 				throw new Error('Something went wrong. No dream was returned');
 			}
 
-			const oldDreams = $session.dreams ?? [];
+			const oldDreams = $sessionDreams ?? [];
 			const newDream = {
 				id: dream.id,
 				text: dream.text,
 				created_at: dream.created_at,
 				updated_at: dream.updated_at,
-				emoji: dream.emoji,
+				emoji: dream.emoji
 			};
-			$session.dreams = [...oldDreams, newDream];
+			$sessionDreams = [...oldDreams, newDream];
+
 			goto(`#${newDream.id}`, { noscroll: true });
 
 			return true;
@@ -211,12 +167,13 @@
 		e: SubmitEvent & {
 			currentTarget: EventTarget & HTMLFormElement;
 		},
-		oldDream: Dream,
+		oldDream: Dream
 	) => {
 		e.preventDefault();
 
 		const formData = new FormData(e.currentTarget);
 		const text = formData.get('text') as string;
+		const emoji = formData.get('emoji') as string;
 		try {
 			loading = true;
 
@@ -232,14 +189,15 @@
 				throw new Error('Something went wrong. No dream found');
 			}
 
-			if (text === oldDream.text) {
-				goto(`#${oldDream.id}`);
+			if (text === oldDream.text && emoji === oldDream.emoji) {
+				goto(`#${oldDream.id}`, { noscroll: true });
 				return true;
 			}
 
 			const { dream, error } = await updateDream({
 				text,
-				id: oldDream.id,
+				emoji,
+				id: oldDream.id
 			});
 
 			if (error) throw error;
@@ -248,13 +206,13 @@
 				throw new Error('Something went wrong. No dream was returned');
 			}
 
-			const oldDreams = $session.dreams ?? [];
+			const oldDreams = $sessionDreams ?? [];
 			const updatedDream = {
 				id: dream.id,
 				text: dream.text,
 				created_at: dream.created_at,
 				updated_at: dream.updated_at,
-				emoji: dream.emoji,
+				emoji: dream.emoji
 			};
 
 			const computedDreams = oldDreams.map((oldDream: Dream) => {
@@ -262,10 +220,9 @@
 				return oldDream;
 			});
 
-			$session.dreams = [...computedDreams];
+			$sessionDreams = [...computedDreams];
 
-			goto(`#${updatedDream.id}`);
-
+			goto(`#${updatedDream.id}`, { noscroll: true });
 			return true;
 		} catch (error) {
 			alert(error.error_description || error.message);
@@ -279,7 +236,7 @@
 		e: SubmitEvent & {
 			currentTarget: EventTarget & HTMLFormElement;
 		},
-		oldDream: Dream,
+		oldDream: Dream
 	) => {
 		e.preventDefault();
 
@@ -295,7 +252,7 @@
 			}
 
 			const { dream: deletedDream, error } = await deleteDream({
-				id: oldDream.id,
+				id: oldDream.id
 			});
 
 			if (error) throw error;
@@ -305,15 +262,13 @@
 			}
 
 			if (error) throw error;
-			const oldDreams = $session.dreams ?? [];
-			const computedDreams = oldDreams.filter(
-				(oldDream: Dream) => oldDream.id !== deletedDream.id,
-			);
 
-			$session.dreams = [...computedDreams];
+			const oldDreams = $sessionDreams ?? [];
+			const computedDreams = oldDreams.filter((oldDream: Dream) => oldDream.id !== deletedDream.id);
+
+			$sessionDreams = [...computedDreams];
 
 			goto('', { noscroll: true });
-
 			return true;
 		} catch (error) {
 			alert(error.error_description || error.message);
@@ -329,22 +284,22 @@
 		// manifest
 		{
 			rel: 'manifest',
-			href: '/dreams.webmanifest',
-		},
+			href: '/dreams.webmanifest'
+		}
 	]}
 	additionalMetaTags={[
 		{
 			name: 'theme-color',
-			content: '#EDF6FF',
+			content: '#EDF6FF'
 		},
 		{
 			name: 'apple-mobile-web-app-capable',
-			content: 'yes',
+			content: 'yes'
 		},
 		{
 			name: 'apple-mobile-web-app-status-bar-style',
-			content: 'default',
-		},
+			content: 'default'
+		}
 	]}
 />
 
@@ -384,10 +339,7 @@
 		{/if}
 		{#if $user}
 			<li class="w-auto p-2 pl-0 mr-auto list-none">
-				<NavLink
-					href="/experimental/dreams/add"
-					class="block bg-white hover:bg-blue-5"
-				>
+				<NavLink href="/experimental/dreams/add" class="block bg-white hover:bg-blue-5">
 					Add
 				</NavLink>
 			</li>
@@ -414,13 +366,7 @@
 							description="description"
 						>
 							<Form handleSubmit={handleLoginSubmit}>
-								<input
-									type="email"
-									name="email"
-									required
-									disabled={loading}
-									placeholder="E-Mail"
-								/>
+								<input type="email" name="email" required disabled={loading} placeholder="E-Mail" />
 								<input
 									type="password"
 									name="password"
@@ -462,21 +408,13 @@
 			id={dream.id.toString()}
 		>
 			<div class="flex bg-white">
-				<span
-					class="w-10 p-2 text-center border-b border-mauve-6 group"
-				>
-					<span
-						class="block transition-transform group-hover:animate-cool-wiggle"
-					>
-						{!!dream.emoji ? dream.emoji : emojiMap[dream.id]}
+				<span class="w-10 p-2 text-center border-b border-mauve-6 group">
+					<span class="block transition-transform group-hover:animate-cool-wiggle">
+						{!!dream.emoji ? dream.emoji : data?.emojiMap?.[dream.id] ?? ''}
 					</span>
 				</span>
 
-				<Headline
-					as="h2"
-					type="quaternary"
-					containerClass="grow border-l flex"
-				>
+				<Headline as="h2" type="quaternary" containerClass="grow border-l flex">
 					{#if $user}
 						<span>
 							{dream.id} //
@@ -500,20 +438,20 @@
 						description="description"
 					>
 						<AccessibleIcon label="edit" slot="trigger">
-							<EditIcon
-								class="block w-auto h-full group-hover:animate-spin"
-							/>
+							<EditIcon class="block w-auto h-full group-hover:animate-spin" />
 						</AccessibleIcon>
-						<Form
-							handleSubmit={(e) =>
-								handleUpdateDreamSubmit(e, dream)}
-						>
+						<Form handleSubmit={(e) => handleUpdateDreamSubmit(e, dream)}>
 							<textarea
 								name="text"
 								class="rounded-none resize-none disab"
 								placeholder="Wovon träumst du nachts..."
 								value={dream.text}
 								required
+							/>
+
+							<EmojiPicker
+								name="emoji"
+								defaultValue={dream.emoji ? dream.emoji : data?.emojiMap?.[dream.id]}
 							/>
 
 							<Button
@@ -546,10 +484,7 @@
 								<CloseIcon />
 							</AccessibleIcon>
 						</span>
-						<Form
-							handleSubmit={(e) =>
-								handleDeleteDreamSubmit(e, dream)}
-						>
+						<Form handleSubmit={(e) => handleDeleteDreamSubmit(e, dream)}>
 							<Close
 								class="block px-4 py-2 transition-colors bg-white border border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 hover:bg-green-5"
 							>
