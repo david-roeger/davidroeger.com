@@ -10,6 +10,7 @@
 	} from '$components/Music/types';
 
 	export let topTracksResponse: SpotifyTopTracksResponse;
+	console.log(topTracksResponse)
 	let c = '';
 	export { c as class };
 	export let labelledby: string | undefined = '';

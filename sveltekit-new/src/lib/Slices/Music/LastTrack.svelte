@@ -47,81 +47,79 @@
 	};
 </script>
 
-{#if track}
-	<section class={c}>
-		{#if valid === true && 'item' in lastTrackResponse.body}
-			<Music.Root {labelledby}>
-				<Music.Row class="flex">
-					{#if track.album.images.length}
-						<Music.Atom>
-							<Link href={track.external_urls.spotify} type="ghost">
-								<Music.Image
-									url={getImageUrl(track.album.images)}
-									alt="{track.album.name} Album Cover"
-								/>
-							</Link>
-						</Music.Atom>
-					{/if}
-					<Music.Atom class="flex-1 min-w-0 border-l border-mauve-6">
-						<Music.Detail
-							subline={[
-								track.artists
-									.map((artist) => artist.name)
-									.join(', '),
-								track.album.name,
-							]}
-						>
-							<AccessibleIcon label="Artist:" slot="preline">
-								<Artist />
-							</AccessibleIcon>
-							<Link href={track.external_urls.spotify}>
-								{track.name}
-							</Link>
-							<div slot="headline">
-								{#if 'is_playable' in track}
-									<AccessibleIcon label="Currently Playing:">
-										<Wave
-											fill={[
-												'icon-green-9',
-												'icon-green-9',
-												'icon-green-9',
-												'icon-green-9',
-											]}
-										/>
-									</AccessibleIcon>
-								{/if}
-							</div>
-							<AccessibleIcon label="Album:" slot="subline">
-								<Album />
-							</AccessibleIcon>
-						</Music.Detail>
-					</Music.Atom>
-				</Music.Row>
-			</Music.Root>
-		{:else if valid === false && 'error' in lastTrackResponse.body}
-			<Music.Root {labelledby}>
-				<Music.Row class="flex">
+<section class={c}>
+	{#if valid === true && 'item' in lastTrackResponse.body}
+		<Music.Root {labelledby}>
+			<Music.Row class="flex">
+				{#if track.album.images.length}
 					<Music.Atom>
-						<div
-							class="h-[68px] md:h-[92px] w-[68px] md:w-[92px] bg-purple-3"
-						/>
+						<Link href={track.external_urls.spotify} type="ghost">
+							<Music.Image
+								url={getImageUrl(track.album.images)}
+								alt="{track.album.name} Album Cover"
+							/>
+						</Link>
 					</Music.Atom>
-					<Music.Atom class="flex-1 min-w-0 border-l border-mauve-6">
-						<Music.Detail subline={['', '']}>
-							{#if typeof lastTrackResponse.body.error === 'string'}
-								<p>Error:</p>
-								<p>{lastTrackResponse.body.error}</p>
-							{:else if typeof lastTrackResponse === 'object'}
-								<p class="text-xs">Error:</p>
-								<p class="text">
-									{lastTrackResponse.body.error.status}
-									{lastTrackResponse.body.error.message}
-								</p>
+				{/if}
+				<Music.Atom class="flex-1 min-w-0 border-l border-mauve-6">
+					<Music.Detail
+						subline={[
+							track.artists
+								.map((artist) => artist.name)
+								.join(', '),
+							track.album.name,
+						]}
+					>
+						<AccessibleIcon label="Artist:" slot="preline">
+							<Artist />
+						</AccessibleIcon>
+						<Link href={track.external_urls.spotify}>
+							{track.name}
+						</Link>
+						<div slot="headline">
+							{#if 'is_playable' in track}
+								<AccessibleIcon label="Currently Playing:">
+									<Wave
+										fill={[
+											'icon-green-9',
+											'icon-green-9',
+											'icon-green-9',
+											'icon-green-9',
+										]}
+									/>
+								</AccessibleIcon>
 							{/if}
-						</Music.Detail>
-					</Music.Atom>
-				</Music.Row>
-			</Music.Root>
-		{/if}
-	</section>
-{/if}
+						</div>
+						<AccessibleIcon label="Album:" slot="subline">
+							<Album />
+						</AccessibleIcon>
+					</Music.Detail>
+				</Music.Atom>
+			</Music.Row>
+		</Music.Root>
+	{:else if valid === false && 'error' in lastTrackResponse.body}
+		<Music.Root {labelledby}>
+			<Music.Row class="flex">
+				<Music.Atom>
+					<div
+						class="h-[68px] md:h-[92px] w-[68px] md:w-[92px] bg-purple-3"
+					/>
+				</Music.Atom>
+				<Music.Atom class="flex-1 min-w-0 border-l border-mauve-6">
+					<Music.Detail subline={['', '']}>
+						{#if typeof lastTrackResponse.body.error === 'string'}
+							<p>Error:</p>
+							<p>{lastTrackResponse.body.error}</p>
+						{:else if typeof lastTrackResponse === 'object'}
+							<p class="text-xs">Error:</p>
+							<p class="text">
+								{lastTrackResponse.body.error.status}
+								{lastTrackResponse.body.error.message}
+							</p>
+						{/if}
+					</Music.Detail>
+				</Music.Atom>
+			</Music.Row>
+		</Music.Root>
+	{/if}
+</section>

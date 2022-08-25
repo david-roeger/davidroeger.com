@@ -1,19 +1,15 @@
-export type ErrorBody =
-	| {
-			status: number;
-			message: string;
-	  }
-	| string;
+export type ErrorBody = {
+	status: number;
+	message: string;
+}
 
 export interface SpotifyResponse {
 	ok: boolean;
 	status: number;
-	body:
-		| {
-				// eslint-disable-next-line @typescript-eslint/no-explicit-any
-				[key: string]: any;
-		  }
-		| { error: ErrorBody };
+	body: {
+		error?: ErrorBody
+		[key: string]: unknown;
+	}
 }
 
 export interface SpotifyTopTracksResponse extends SpotifyResponse {
