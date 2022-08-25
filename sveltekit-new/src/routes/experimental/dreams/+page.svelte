@@ -83,15 +83,9 @@
 				throw new Error('Password is required');
 			}
 			const {
-				session: sessionData,
-				user: userData,
+				data: { session: sessionData, user: userData },
 				error
-			} = await supabase.auth.signIn(
-				{ email, password },
-				{
-					shouldCreateUser: false
-				}
-			);
+			} = await supabase.auth.signInWithPassword({ email, password });
 
 			if (error) throw error;
 			if (!sessionData) throw new Error('Session is not defined');

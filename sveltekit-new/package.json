@@ -39,7 +39,7 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"@supabase/supabase-js": "^1.35.6",
+		"@supabase/supabase-js": "^2.0.0-rc.6",
 		"bezier-easing": "^2.1.0",
 		"focus-trap": "^7.0.0",
 		"open-simplex-noise": "^2.5.0"

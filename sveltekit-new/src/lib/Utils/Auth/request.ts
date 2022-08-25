@@ -6,11 +6,14 @@ export const getSupabaseProfile = async ({
 	user
 }: {
 	user: User;
-}): Promise<{
-	username: string;
-	createdAt: string;
-	updatedAt: string;
-} | null> => {
+}): Promise<
+	| {
+			username: string;
+			createdAt: string;
+			updatedAt: string;
+	  }
+	| undefined
+> => {
 	try {
 		if (!user || !user.id) throw new Error('Please sign first in');
 
@@ -29,10 +32,10 @@ export const getSupabaseProfile = async ({
 			};
 		}
 
-		return null;
+		return undefined;
 	} catch (error) {
 		alert(error.error_description || error.message);
-		return null;
+		return undefined;
 	}
 };
 
@@ -70,7 +73,7 @@ export const insertDream = async (newDream: {
 			data: dream,
 			status,
 			error
-		} = await supabase.from('dreams').insert([newDream]).single();
+		} = await supabase.from('dreams').insert([newDream]).select().single();
 		if (error && status !== 406) throw error;
 
 		return { dream: dream as Dream };
@@ -101,7 +104,7 @@ export const updateDream = async ({
 			data: dream,
 			error,
 			status
-		} = await supabase.from('dreams').update(updateOptions).eq('id', id).single();
+		} = await supabase.from('dreams').update(updateOptions).eq('id', id).select().single();
 
 		if (error && status !== 406) throw error;
 
@@ -125,7 +128,7 @@ export const deleteDream = async ({
 			data: dream,
 			error,
 			status
-		} = await supabase.from('dreams').delete().eq('id', id).single();
+		} = await supabase.from('dreams').delete().eq('id', id).select().single();
 
 		if (error && status !== 406) throw error;
 
