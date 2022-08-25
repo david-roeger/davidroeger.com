@@ -1,5 +1,5 @@
 import { generateAccessToken, getTopTracks, getTopArtists, getLastTrack } from './spotify';
-import { error, json } from '@sveltejs/kit';
+import { error } from '@sveltejs/kit';
 import type {
 	SpotifyTopTracksResponse,
 	SpotifyTopArtistsResponse,

@@ -6,19 +6,13 @@
 	import Artist from '$assets/Icons/24/artist.svg';
 	import Wave from '$components/Wave/Wave.svelte';
 
-	import type {
-		SpotifyLastTrackResponse,
-		Image,
-	} from '$components/Music/types';
+	import type { SpotifyLastTrackResponse, Image } from '$components/Music/types';
 	export let lastTrackResponse: SpotifyLastTrackResponse;
 	let c = '';
 	export { c as class };
-	export let labelledby: string | undefined = undefined;
+	export let labelledby: string | undefined = undefined;
 
-	const track =
-		'item' in lastTrackResponse.body
-			? lastTrackResponse.body.item
-			: undefined;
+	const track = 'item' in lastTrackResponse.body ? lastTrackResponse.body.item : undefined;
 
 	const valid = (() => {
 		if (lastTrackResponse.ok) return true;
@@ -35,10 +29,7 @@
 
 		for (let i = 1; i < images.length; i++) {
 			const image = images[i];
-			if (
-				image.height > 92 &&
-				image.height - targetSize < currentSize - targetSize
-			) {
+			if (image.height > 92 && image.height - targetSize < currentSize - targetSize) {
 				targetIndex = i;
 			}
 		}
@@ -48,7 +39,7 @@
 </script>
 
 <section class={c}>
-	{#if valid === true && 'item' in lastTrackResponse.body}
+	{#if valid === true && 'item' in lastTrackResponse.body && track}
 		<Music.Root {labelledby}>
 			<Music.Row class="flex">
 				{#if track.album.images.length}
@@ -63,12 +54,7 @@
 				{/if}
 				<Music.Atom class="flex-1 min-w-0 border-l border-mauve-6">
 					<Music.Detail
-						subline={[
-							track.artists
-								.map((artist) => artist.name)
-								.join(', '),
-							track.album.name,
-						]}
+						subline={[track.artists.map((artist) => artist.name).join(', '), track.album.name]}
 					>
 						<AccessibleIcon label="Artist:" slot="preline">
 							<Artist />
@@ -79,14 +65,7 @@
 						<div slot="headline">
 							{#if 'is_playable' in track}
 								<AccessibleIcon label="Currently Playing:">
-									<Wave
-										fill={[
-											'icon-green-9',
-											'icon-green-9',
-											'icon-green-9',
-											'icon-green-9',
-										]}
-									/>
+									<Wave fill={['icon-green-9', 'icon-green-9', 'icon-green-9', 'icon-green-9']} />
 								</AccessibleIcon>
 							{/if}
 						</div>
@@ -101,9 +80,7 @@
 		<Music.Root {labelledby}>
 			<Music.Row class="flex">
 				<Music.Atom>
-					<div
-						class="h-[68px] md:h-[92px] w-[68px] md:w-[92px] bg-purple-3"
-					/>
+					<div class="h-[68px] md:h-[92px] w-[68px] md:w-[92px] bg-purple-3" />
 				</Music.Atom>
 				<Music.Atom class="flex-1 min-w-0 border-l border-mauve-6">
 					<Music.Detail subline={['', '']}>

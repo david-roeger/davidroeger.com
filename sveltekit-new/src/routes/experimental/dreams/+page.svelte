@@ -30,7 +30,6 @@
 	import { sessionDreams } from './store';
 
 	import type { PageData } from './$types';
-	import { emojis } from '$lib/Utils';
 	export let data: PageData;
 
 	onMount(() => {
