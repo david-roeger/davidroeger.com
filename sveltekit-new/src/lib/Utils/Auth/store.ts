@@ -4,11 +4,12 @@ import { readable } from 'svelte/store';
 import { getSupabaseProfile } from './request';
 import { supabase } from './supabaseClient';
 
-const {
-	data: { session }
-} = await supabase.auth.getSession();
+const getUser = async () => {
+	const { data } = await supabase.auth.getSession();
+	return data.session?.user;
+};
 
-export const user = readable<User | undefined>(session?.user, (set) => {
+export const user = readable<User | undefined>(await getUser(), (set) => {
 	supabase.auth.onAuthStateChange(async (event, session) => {
 		console.log('auth state changed', event, session);
 		if (event === 'SIGNED_IN') {
