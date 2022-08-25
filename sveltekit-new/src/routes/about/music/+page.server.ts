@@ -1,19 +1,14 @@
-import {
-	generateAccessToken,
-	getTopTracks,
-	getTopArtists,
-	getLastTrack,
-} from './spotify';
+import { generateAccessToken, getTopTracks, getTopArtists, getLastTrack } from './spotify';
 import { error } from '@sveltejs/kit';
 import type {
 	SpotifyTopTracksResponse,
 	SpotifyTopArtistsResponse,
-	SpotifyLastTrackResponse,
+	SpotifyLastTrackResponse
 } from '$components/Music/types';
 
-import type { PageServerLoad} from './$types'
-// GET /api/music
-export const load: PageServerLoad = async() => {
+import type { PageServerLoad } from './$types';
+
+export const load: PageServerLoad = async () => {
 	const response = await generateAccessToken();
 	// if access token is okay
 	if (response.ok) {
@@ -32,29 +27,24 @@ export const load: PageServerLoad = async() => {
 			topTrackLong,
 			topArtistsShort,
 			topArtistsMedium,
-			topArtistsLong,
+			topArtistsLong
 		]).then((responses) => {
 			return {
 				lastTrackResponse: responses[0] as SpotifyLastTrackResponse,
-				topTracksShortResponse:
-					responses[1] as SpotifyTopTracksResponse,
-				topTracksMediumResponse:
-					responses[2] as SpotifyTopTracksResponse,
+				topTracksShortResponse: responses[1] as SpotifyTopTracksResponse,
+				topTracksMediumResponse: responses[2] as SpotifyTopTracksResponse,
 				topTrackLongResponse: responses[3] as SpotifyTopTracksResponse,
-				topArtistsShortResponse:
-					responses[4] as SpotifyTopArtistsResponse,
-				topArtistsMediumResponse:
-					responses[5] as SpotifyTopArtistsResponse,
-				topArtistsLongResponse:
-					responses[6] as SpotifyTopArtistsResponse,
+				topArtistsShortResponse: responses[4] as SpotifyTopArtistsResponse,
+				topArtistsMediumResponse: responses[5] as SpotifyTopArtistsResponse,
+				topArtistsLongResponse: responses[6] as SpotifyTopArtistsResponse
 			};
 		});
 		return response;
 	}
 
-	if(response.body.error) {
-		throw error(response.body.error.status,  response.body.error.message);
+	if (response.body.error) {
+		throw error(response.body.error.status, response.body.error.message);
 	}
 
-    throw error(500, "Couldn't load music data");
-  }
+	throw error(500, "Couldn't load music data");
+};

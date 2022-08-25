@@ -15,24 +15,37 @@ export type GetReturnType = Promise<{
 
 export interface Media {
 	src: string;
-	width?: string;
-	height?: string;
+	width?: number;
+	height?: number;
 	hash?: string;
 }
 
 export interface ProjectMediaData {
 	[key: string]: Media;
 }
+
+export interface ProjectsMediaData {
+	[key: string]: ProjectMediaData;
+}
+
 export interface ProjectMetaData {
 	order: number;
 	title: string;
-	slug: string;
+	meta: string;
+	team?: string[];
+	place?: string;
+	date: string;
+	github?: string;
+	project?: string;
 	tags: string[];
-	media: string[];
 	vertical: string;
 	horizontal: string;
-	github: string;
+	media: string[];
 	published: boolean;
+
+	// this gets added by the server
+	slug: string;
+	html: string;
 }
 
 export interface Dream {

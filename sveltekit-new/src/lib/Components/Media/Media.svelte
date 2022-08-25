@@ -1,16 +1,16 @@
 <script lang="ts">
 	import type { Media } from '$lib/types';
-	export let media: Media;
+	export let media: Media | undefined = undefined;
 	export let src = 'src';
 	export let loading: 'lazy' | undefined = undefined;
 	export let alt: string;
-	export let id: string | undefined = undefined;
+	export let id: string | undefined = undefined;
 
 	let c = '';
 	export { c as class };
 </script>
 
-{#if media.src}
+{#if media && media.src}
 	{#if media.src.includes('mp4')}
 		<video
 			width={media.width || undefined}

@@ -3,7 +3,7 @@ import type { User } from '@supabase/supabase-js';
 import { supabase } from './supabaseClient';
 
 export const getSupabaseProfile = async ({
-	user,
+	user
 }: {
 	user: User;
 }): Promise<{
@@ -25,14 +25,14 @@ export const getSupabaseProfile = async ({
 			return {
 				username: data.username,
 				createdAt: data.created_at,
-				updatedAt: data.updated_at,
+				updatedAt: data.updated_at
 			};
 		}
 
 		return null;
 	} catch (error) {
 		alert(error.error_description || error.message);
-		return null
+		return null;
 	}
 };
 
@@ -45,10 +45,8 @@ export const getDreams = async (): Promise<{
 		const {
 			data: dreams,
 			error,
-			status,
-		} = await supabase
-			.from('dreams')
-			.select(`id, text, emoji, created_at, updated_at`);
+			status
+		} = await supabase.from('dreams').select(`id, text, emoji, created_at, updated_at`);
 
 		if (error && status !== 406) throw error;
 
@@ -71,7 +69,7 @@ export const insertDream = async (newDream: {
 		const {
 			data: dream,
 			status,
-			error,
+			error
 		} = await supabase.from('dreams').insert([newDream]).single();
 		if (error && status !== 406) throw error;
 
@@ -84,7 +82,7 @@ export const insertDream = async (newDream: {
 export const updateDream = async ({
 	text,
 	emoji,
-	id,
+	id
 }: {
 	text?: string;
 	emoji?: string;
@@ -102,12 +100,8 @@ export const updateDream = async ({
 		const {
 			data: dream,
 			error,
-			status,
-		} = await supabase
-			.from('dreams')
-			.update(updateOptions)
-			.eq('id', id)
-			.single();
+			status
+		} = await supabase.from('dreams').update(updateOptions).eq('id', id).single();
 
 		if (error && status !== 406) throw error;
 
@@ -118,7 +112,7 @@ export const updateDream = async ({
 };
 
 export const deleteDream = async ({
-	id,
+	id
 }: {
 	id: number;
 }): Promise<{
@@ -130,14 +124,13 @@ export const deleteDream = async ({
 		const {
 			data: dream,
 			error,
-			status,
+			status
 		} = await supabase.from('dreams').delete().eq('id', id).single();
 
 		if (error && status !== 406) throw error;
 
 		return { dream: dream as Dream };
 	} catch (error) {
-
 		return { error, status: 500 };
 	}
 };

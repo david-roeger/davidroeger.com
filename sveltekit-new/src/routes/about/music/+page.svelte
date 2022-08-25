@@ -1,7 +1,7 @@
 <script lang="ts">
 	console.info('about/music Page: script call');
 
-	import type { PageData } from './$types'
+	import type { PageData } from './$types';
 	export let data: PageData;
 
 	import { Headline } from '$components/Headline';
@@ -21,39 +21,37 @@
 
 	let timeRange = 1;
 	const timeRanges: {
-			label: string,
-			value: 'short' | 'medium' | 'long',
-		}[] = [
+		label: string;
+		value: 'short' | 'medium' | 'long';
+	}[] = [
 		{
 			label: 'last 4 Weeks',
-			value: 'short',
+			value: 'short'
 		},
 		{
 			label: 'last 6 Months',
-			value: 'medium',
+			value: 'medium'
 		},
 		{
 			label: 'probably forever',
-			value: 'long',
-		},
+			value: 'long'
+		}
 	];
 
 	const topTracksResponses = {
 		short: data.topTracksShortResponse,
 		medium: data.topTracksMediumResponse,
 		long: data.topTrackLongResponse
-	}
+	};
 
 	const topArtistsResponses = {
 		short: data.topArtistsShortResponse,
 		medium: data.topArtistsMediumResponse,
 		long: data.topArtistsLongResponse
-	}
+	};
 </script>
 
-<Headline containerClass="flex items-end py-8 md:py-16">
-	Favorite Music
-</Headline>
+<Headline containerClass="flex items-end py-8 md:py-16">Favorite Music</Headline>
 
 {#if data.lastTrackResponse}
 	<Headline
@@ -72,11 +70,7 @@
 	/>
 {/if}
 
-
-<Tabs.Root
-	defaultValue={defaultSelected}
-	on:valueChange={(e) => ($selected = e.detail.value)}
->
+<Tabs.Root defaultValue={defaultSelected} on:valueChange={(e) => ($selected = e.detail.value)}>
 	<p class="p-2 bg-white border-t border-mauve-6">
 		Favorite on Spotify <span class="text-mauve-11">
 			({timeRanges[timeRange].label})
@@ -94,9 +88,7 @@
 				? 'bg-purple-5'
 				: 'bg-white'}"
 		>
-			<Headline as="h2" unstyled id="top_tracks" type="secondary">
-				Tracks
-			</Headline>
+			<Headline as="h2" unstyled id="top_tracks" type="secondary">Tracks</Headline>
 		</Tabs.Trigger>
 		<Tabs.Trigger
 			value="artists"
@@ -105,9 +97,7 @@
 				? 'bg-purple-5'
 				: 'bg-white'}"
 		>
-			<Headline as="h2" unstyled type="secondary" id="top_artists">
-				Artists
-			</Headline>
+			<Headline as="h2" unstyled type="secondary" id="top_artists">Artists</Headline>
 		</Tabs.Trigger>
 		<Popper.Root defaultOpen={false}>
 			<Popper.Trigger
@@ -124,14 +114,7 @@
 				sideOffset={8}
 				alignOffset={0}
 			>
-				<Headline
-					as="h2"
-					id="timeHeadline"
-					type="tertiary"
-					class="border-b-0"
-				>
-					Time Range
-				</Headline>
+				<Headline as="h2" id="timeHeadline" type="tertiary" class="border-b-0">Time Range</Headline>
 
 				<RadioGroup.Root
 					defaultValue={timeRanges[timeRange].value}
@@ -141,9 +124,7 @@
 					orientation="vertical"
 					class="p-2"
 					on:valueChange={(e) =>
-						(timeRange = timeRanges.findIndex(
-							(range) => range.value === e.detail.value,
-						))}
+						(timeRange = timeRanges.findIndex((range) => range.value === e.detail.value))}
 				>
 					{#each timeRanges as range}
 						<div class="flex mb-2 space-x-2 last:mb-0">
@@ -152,9 +133,7 @@
 								id={range.value}
 								class="w-6 h-6 p-1 bg-white border rounded-full b border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1"
 							>
-								<RadioGroup.Indicator
-									class="block w-full h-full p-1 rounded-full bg-plum-5"
-								/>
+								<RadioGroup.Indicator class="block w-full h-full p-1 rounded-full bg-plum-5" />
 							</RadioGroup.Item>
 							<label
 								for={range.value}
@@ -192,8 +171,7 @@
 	>
 		<TopArtists
 			labelledby="top_artists"
-			topArtistsResponse={
-			topArtistsResponses[timeRanges[timeRange].value]}
+			topArtistsResponse={topArtistsResponses[timeRanges[timeRange].value]}
 		/>
 	</Tabs.Content>
 </Tabs.Root>

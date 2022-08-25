@@ -14,7 +14,7 @@ export const GET = async() => {
 				
 		}
         throw error(500)
-	} catch (e) {
+	} catch (err) {
         throw error(500)
 	}
 }

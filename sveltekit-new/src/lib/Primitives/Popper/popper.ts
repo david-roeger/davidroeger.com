@@ -53,13 +53,13 @@ function getPlacementData({
 	alignOffset = 0,
 	shouldAvoidCollisions = true,
 	collisionBoundariesRect,
-	collisionTolerance = 0,
+	collisionTolerance = 0
 }: GetPlacementDataOptions): PlacementData {
 	// if we're not ready to do all the measurements yet,
 	// we return some good default styles
 	if (!triggerRect || !popperSize || !collisionBoundariesRect) {
 		return {
-			popperStyles: UNMEASURED_POPPER_STYLES,
+			popperStyles: UNMEASURED_POPPER_STYLES
 		};
 	}
 
@@ -68,7 +68,7 @@ function getPlacementData({
 		popperSize,
 		triggerRect,
 		sideOffset,
-		alignOffset,
+		alignOffset
 	);
 
 	// get point based on side / align
@@ -81,7 +81,7 @@ function getPlacementData({
 		return {
 			popperStyles,
 			placedSide: side,
-			placedAlign: align,
+			placedAlign: align
 		};
 	}
 
@@ -91,14 +91,11 @@ function getPlacementData({
 	// create a new rect representing the collision boundaries but taking into account any added tolerance
 	const collisionBoundariesRectWithTolerance = getContractedRect(
 		collisionBoundariesRect,
-		collisionTolerance,
+		collisionTolerance
 	);
 
 	// check for any collisions in new placement
-	const popperCollisions = getCollisions(
-		popperRect,
-		collisionBoundariesRectWithTolerance,
-	);
+	const popperCollisions = getCollisions(popperRect, collisionBoundariesRectWithTolerance);
 
 	// do all the same calculations for the opposite side
 	// this is because we need to check for potential collisions if we were to swap side
@@ -106,18 +103,18 @@ function getPlacementData({
 	const oppositeSidePopperPoint = allPlacementPoints[oppositeSide][align];
 	const updatedOppositeSidePopperPoint = DOMRect.fromRect({
 		...popperSize,
-		...oppositeSidePopperPoint,
+		...oppositeSidePopperPoint
 	});
 	const oppositeSidePopperCollisions = getCollisions(
 		updatedOppositeSidePopperPoint,
-		collisionBoundariesRectWithTolerance,
+		collisionBoundariesRectWithTolerance
 	);
 
 	// adjust side accounting for collisions / opposite side collisions
 	const placedSide = getSideAccountingForCollisions(
 		side,
 		popperCollisions,
-		oppositeSidePopperCollisions,
+		oppositeSidePopperCollisions
 	);
 
 	// adjust alignnment accounting for collisions
@@ -126,7 +123,7 @@ function getPlacementData({
 		triggerRect,
 		side,
 		align,
-		popperCollisions,
+		popperCollisions
 	);
 
 	const placedPopperPoint = allPlacementPoints[placedSide][placedAlign];
@@ -137,7 +134,7 @@ function getPlacementData({
 	return {
 		popperStyles,
 		placedSide,
-		placedAlign,
+		placedAlign
 	};
 }
 
@@ -147,7 +144,7 @@ function getAllPlacementPoints(
 	popperSize: Size,
 	triggerRect: DOMRect,
 	sideOffset = 0,
-	alignOffset = 0,
+	alignOffset = 0
 ): AllPlacementPoints {
 	const x = getPopperSlotsForAxis(triggerRect, popperSize, 'x');
 	const y = getPopperSlotsForAxis(triggerRect, popperSize, 'y');
@@ -184,11 +181,7 @@ function getAllPlacementPoints(
 	return map;
 }
 
-function getPopperSlotsForAxis(
-	triggerRect: DOMRect,
-	popperSize: Size,
-	axis: Axis,
-) {
+function getPopperSlotsForAxis(triggerRect: DOMRect, popperSize: Size, axis: Axis) {
 	const startSide = axis === 'x' ? 'left' : 'top';
 	const triggerStart = triggerRect[startSide];
 
@@ -215,14 +208,12 @@ function getSideAccountingForCollisions(
 	/** The collisions for this given side */
 	collisions: Collisions,
 	/** The collisions for the opposite side (if we were to swap side) */
-	oppositeSideCollisions: Collisions,
+	oppositeSideCollisions: Collisions
 ): Side {
 	const oppositeSide = getOppositeSide(side);
 	// in order to prevent premature jumps
 	// we only swap side if there's enough space to fit on the opposite side
-	return collisions[side] && !oppositeSideCollisions[oppositeSide]
-		? oppositeSide
-		: side;
+	return collisions[side] && !oppositeSideCollisions[oppositeSide] ? oppositeSide : side;
 }
 
 /**
@@ -238,7 +229,7 @@ function getAlignAccountingForCollisions(
 	/** The desired align */
 	align: Align,
 	/** The collisions */
-	collisions: Collisions,
+	collisions: Collisions
 ): Align {
 	const isHorizontalSide = side === 'top' || side === 'bottom';
 	const startBound = isHorizontalSide ? 'left' : 'top';
@@ -247,19 +238,13 @@ function getAlignAccountingForCollisions(
 	const istriggerBigger = triggerSize[dimension] > popperSize[dimension];
 
 	if (align === 'start' || align === 'center') {
-		if (
-			(collisions[startBound] && istriggerBigger) ||
-			(collisions[endBound] && !istriggerBigger)
-		) {
+		if ((collisions[startBound] && istriggerBigger) || (collisions[endBound] && !istriggerBigger)) {
 			return 'end';
 		}
 	}
 
 	if (align === 'end' || align === 'center') {
-		if (
-			(collisions[endBound] && istriggerBigger) ||
-			(collisions[startBound] && !istriggerBigger)
-		) {
+		if ((collisions[endBound] && istriggerBigger) || (collisions[startBound] && !istriggerBigger)) {
 			return 'start';
 		}
 	}
@@ -276,7 +261,7 @@ function getPlacementStylesForPoint(point: Point): CSS.Properties {
 		left: 0,
 		minWidth: 'max-content',
 		willChange: 'transform',
-		transform: `translate3d(${x}px, ${y}px, 0)`,
+		transform: `translate3d(${x}px, ${y}px, 0)`
 	};
 }
 
@@ -288,7 +273,7 @@ const UNMEASURED_POPPER_STYLES: CSS.Properties = {
 	left: 0,
 	opacity: 0,
 	transform: 'translate3d(0, -200%, 0)',
-	alignItems: 'center',
+	alignItems: 'center'
 };
 
 /**
@@ -299,7 +284,7 @@ function getOppositeSide(side: Side): Side {
 		top: 'bottom',
 		right: 'left',
 		bottom: 'top',
-		left: 'right',
+		left: 'right'
 	};
 	return oppositeSides[side];
 }
@@ -313,7 +298,7 @@ function getContractedRect(rect: DOMRect, amount: number) {
 		width: rect.width - amount * 2,
 		height: rect.height - amount * 2,
 		x: rect.left + amount,
-		y: rect.top + amount,
+		y: rect.top + amount
 	});
 }
 
@@ -324,13 +309,13 @@ function getCollisions(
 	/** The rect to test collisions against */
 	rect: DOMRect,
 	/** The rect which represents the boundaries for collision checks */
-	collisionBoundariesRect: DOMRect,
+	collisionBoundariesRect: DOMRect
 ) {
 	return {
 		top: rect.top < collisionBoundariesRect.top,
 		right: rect.right > collisionBoundariesRect.right,
 		bottom: rect.bottom > collisionBoundariesRect.bottom,
-		left: rect.left < collisionBoundariesRect.left,
+		left: rect.left < collisionBoundariesRect.left
 	};
 }
 
