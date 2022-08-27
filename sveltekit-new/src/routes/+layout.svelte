@@ -217,7 +217,7 @@
 	]}
 />
 
-<div class="relative flex flex-col h-full font-sans text-mauve-12 ">
+<div class="relative flex flex-col h-full font-sans text-mauve-12">
 	<Header class="z-30" />
 	<main class="z-10 flex flex-col xl:max-w-7xl xl:border-r border-mauve-6">
 		<BreakpointProvider>
