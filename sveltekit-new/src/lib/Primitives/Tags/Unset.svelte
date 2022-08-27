@@ -8,7 +8,7 @@
 
 	const { unsetTags, activeValues, id }: RootContext = getContext('root');
 	const dataState = derived(activeValues, ($activeValues) =>
-		$activeValues.length ? 'active' : 'inactive',
+		$activeValues.length ? 'active' : 'inactive'
 	);
 
 	const handleClick = () => {
@@ -20,6 +20,7 @@
 	on:click={handleClick}
 	on:click
 	type="button"
+	role="option"
 	aria-controls="{id}-list"
 	data-state={$dataState}
 	class={c}

@@ -2,21 +2,22 @@
 	export let loop = true;
 	export let direction: 'horizontal' | 'vertical' = 'horizontal';
 
+	export let label: string;
+
 	let c = '';
 	export { c as class };
 
-	import { onMount } from 'svelte';
+	import { getContext, onMount } from 'svelte';
+	import type { RootContext } from './types';
 
 	let root: HTMLElement;
 	let triggerElements: HTMLButtonElement[] = [];
 
+	const { id, activeValues }: RootContext = getContext('root');
+
 	onMount(() => {
-		triggerElements = Array.from(
-			root.querySelectorAll(':scope > button[data-state]'),
-		);
-		triggerElements = triggerElements.filter(
-			(triggerElement) => !triggerElement.disabled,
-		);
+		triggerElements = Array.from(root.querySelectorAll(':scope > button[data-state]'));
+		triggerElements = triggerElements.filter((triggerElement) => !triggerElement.disabled);
 	});
 
 	const nextKey = direction === 'horizontal' ? 'ArrowLeft' : 'ArrowUp';
@@ -24,7 +25,7 @@
 
 	const handleKeyDown = (e: KeyboardEvent) => {
 		let activeTriggerIndex = triggerElements.findIndex(
-			(trigger) => trigger === document.activeElement,
+			(trigger) => trigger === document.activeElement
 		);
 		if (activeTriggerIndex != -1) {
 			switch (e.key) {
@@ -40,11 +41,7 @@
 					e.stopPropagation();
 					break;
 				case prevKey:
-					if (
-						!loop &&
-						activeTriggerIndex === triggerElements.length - 1
-					)
-						return;
+					if (!loop && activeTriggerIndex === triggerElements.length - 1) return;
 
 					activeTriggerIndex++;
 					if (activeTriggerIndex >= triggerElements.length) {
@@ -69,9 +66,19 @@
 			}
 		}
 	};
+
+	$: activeDescendant = $activeValues[$activeValues.length - 1]
+		? `${id}-${$activeValues[$activeValues.length - 1]}-tag`
+		: undefined;
 </script>
 
 <div
+	tabindex="0"
+	role="listbox"
+	id="{id}-list"
+	aria-label={label}
+	aria-multiselectable="true"
+	aria-activedescendant={activeDescendant}
 	aria-orientation={direction}
 	data-orientation={direction}
 	class={c}

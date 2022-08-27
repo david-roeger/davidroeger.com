@@ -10,12 +10,8 @@
 	import type { RootContext } from './types';
 
 	const { setTags, activeValues, id }: RootContext = getContext('root');
-	const active = derived(activeValues, ($activeValues) =>
-		$activeValues.includes(value),
-	);
-	const dataState = derived(active, ($active) =>
-		$active ? 'active' : 'inactive',
-	);
+	const active = derived(activeValues, ($activeValues) => $activeValues.includes(value));
+	const dataState = derived(active, ($active) => ($active ? 'active' : 'inactive'));
 
 	const handleClick = () => {
 		if ($setTags) $setTags(value);
@@ -26,8 +22,9 @@
 	on:click={handleClick}
 	on:click
 	type="button"
-	role="switch"
-	aria-checked={$active}
+	role="option"
+	aria-selected={$active}
+	id="{id}-{value}-tag"
 	aria-controls="{id}-list"
 	data-state={$dataState}
 	class={c}

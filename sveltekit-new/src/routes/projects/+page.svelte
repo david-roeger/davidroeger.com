@@ -130,7 +130,10 @@
 />
 
 <Tags.Root defaultValue={defaultTags} on:valueChange={(e) => updateQueries(e.detail.value)}>
-	<Tags.List class="flex flex-wrap p-1 transition-all border-b border-mauve-6">
+	<Tags.List
+		label="Filter Projects"
+		class="flex flex-wrap p-1 transition-all border-b border-mauve-6 ocus:outline-none ring-mauve-6 ring-inset focus:ring-1"
+	>
 		{#if $tags.size}
 			<div in:slideLeft|local out:slideLeft|local={{ easing: reversedEasing }}>
 				<Tags.Unset
