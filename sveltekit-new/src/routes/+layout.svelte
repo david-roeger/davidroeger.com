@@ -225,7 +225,7 @@
 		</BreakpointProvider>
 	</main>
 	<!--footer class="z-20 " /-->
-	{#if showBttButton}
+	{#if showBttButton && false}
 		<div
 			class="sticky bottom-0 left-0 z-30"
 			in:slideUp|local
