@@ -181,7 +181,7 @@
 </script>
 
 <svelte:head>
-	{#each tags as tagObj (tagObj.key)}
+	{#each tags as tagObj (`${tagObj.tag}-${tagObj.key}`)}
 		{@const { tag, slot, key, ...props } = tagObj}
 		{#if slot}
 			<svelte:element this={tag} {...props} data-dr-head={id}>
@@ -194,7 +194,7 @@
 </svelte:head>
 
 {#if additionalMetaTags}
-	{#each additionalMetaTags as tag}
+	{#each additionalMetaTags as tag (`${tag.name}+${tag.content}`)}
 		<p>{JSON.stringify(tag)}</p>
 	{/each}
 {/if}

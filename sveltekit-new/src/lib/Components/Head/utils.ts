@@ -509,12 +509,12 @@ const buildTags = (config: SepProps): Tags[] => {
 	}
 
 	if (config.additionalMetaTags && config.additionalMetaTags.length > 0) {
-		config.additionalMetaTags.forEach((tag) => {
-			const key = tag.keyOverride ?? tag.name ?? tag.property ?? tag.httpEquiv;
+		config.additionalMetaTags.forEach((tag, index) => {
+			const key = `${tag.keyOverride ?? tag.name ?? tag.property ?? tag.httpEquiv}`;
 			if (key) {
 				tagsToRender.push({
 					tag: 'meta',
-					key: `meta:${key}`,
+					key: `meta:${key}-${index}`,
 					...tag
 				});
 			}
@@ -522,10 +522,10 @@ const buildTags = (config: SepProps): Tags[] => {
 	}
 
 	if (config.additionalLinkTags?.length) {
-		config.additionalLinkTags.forEach((tag) => {
+		config.additionalLinkTags.forEach((tag, index) => {
 			tagsToRender.push({
 				tag: 'link',
-				key: `link${tag.keyOverride ?? tag.href}${tag.rel}`,
+				key: `link${tag.keyOverride ?? tag.href}-${tag.rel}-${index}`,
 				...tag
 			});
 		});
