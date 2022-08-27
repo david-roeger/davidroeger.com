@@ -19,13 +19,12 @@
 		as="h3"
 		type="tertiary"
 		containerClass="pt-0 px-0 pb-2 truncate border-b-0 md:pb-0"
+		class="truncate"
 	>
 		<slot />
 	</Headline>
 </div>
-<div
-	class="hidden w-full pb-2 pl-2 text-xs md:flex md:items-center md:space-x-1 text-mauve-11"
->
+<div class="hidden w-full pb-2 pl-2 text-xs md:flex md:items-center md:space-x-1 text-mauve-11">
 	{#if children[1]}
 		<svelte:component this={children[1]} />
 	{/if}
