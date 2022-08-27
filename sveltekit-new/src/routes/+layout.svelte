@@ -1,13 +1,17 @@
 <script lang="ts">
 	import '../app.css';
+
+	import { onMount } from 'svelte';
+	import BezierEasing from 'bezier-easing';
+
 	import { BreakpointProvider } from '$provider/Breakpoint';
 	import { Header } from '$slices/Header';
-	import { BttButton } from '$components/BttButton';
 	import AccessibleIcon from '$components/AccessibleIcon';
 	import North from '$assets/Icons/24/north.svg';
 
 	import { page } from '$app/stores';
 	import DefaultHead from '$components/Head/DefaultHead.svelte';
+	import { mapToRange } from '$utils';
 
 	const getTitle = (path: string) => {
 		const pathArray = path.split('/').filter((item) => item !== '');
@@ -18,6 +22,49 @@
 		});
 		return finalPath;
 	};
+
+	// bttbutton handling
+	let showBttButton = false;
+	const handleScroll = () => {
+		if (
+			(document.body.scrollTop > 120 || document.documentElement.scrollTop > 120) &&
+			document.body.offsetHeight > window.innerHeight
+		) {
+			showBttButton = true;
+			return;
+		}
+		showBttButton = false;
+	};
+
+	onMount(() => {
+		window.addEventListener('scroll', handleScroll);
+		handleScroll();
+	});
+
+	const handleClick = () => {
+		document.body.scrollTop = 0;
+		document.documentElement.scrollTo({
+			top: 0,
+			behavior: 'smooth'
+		});
+	};
+
+	const baseEasing = BezierEasing(0.4, 0, 0.2, 1);
+	const reversedEasing = BezierEasing(0.8, 0, 0.6, 1);
+
+	function slideUp(
+		_: HTMLDivElement,
+		{ start = -42, end = 0, duration = 150, easing = baseEasing }
+	) {
+		return {
+			duration,
+			css: (t: number) => {
+				const eased = easing(t);
+				const mapped = mapToRange(eased, 0, 1, start, end);
+				return `bottom: ${mapped}px;`;
+			}
+		};
+	}
 </script>
 
 <DefaultHead
@@ -170,16 +217,28 @@
 	]}
 />
 
-<div class="font-sans text-mauve-12">
+<div class="relative flex flex-col h-full font-sans text-mauve-12 ">
 	<Header class="z-30" />
-	<main class="z-10 xl:max-w-7xl xl:border-r border-mauve-6">
+	<main class="z-10 flex flex-col xl:max-w-7xl xl:border-r border-mauve-6">
 		<BreakpointProvider>
 			<slot />
 		</BreakpointProvider>
 	</main>
-
-	<BttButton>
-		<AccessibleIcon label="Back to top"><North /></AccessibleIcon>
-	</BttButton>
 	<!--footer class="z-20 " /-->
+	{#if showBttButton}
+		<div
+			class="sticky bottom-0 left-0 z-30"
+			in:slideUp|local
+			out:slideUp|local={{ easing: reversedEasing }}
+		>
+			<button
+				on:click={handleClick}
+				on:click
+				type="button"
+				class={`block p-1 m-2 text-xs bg-white border rounded-full cursor-n-resize touch-manipulation focus:outline-none ring-mauve-12 focus:ring-1`}
+			>
+				<AccessibleIcon label="Back to top"><North /></AccessibleIcon>
+			</button>
+		</div>
+	{/if}
 </div>
