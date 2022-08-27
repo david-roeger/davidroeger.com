@@ -9,6 +9,7 @@ import type {
 import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async () => {
+	console.info('about/music +page.server.ts');
 	const response = await generateAccessToken();
 	// if access token is okay
 	if (response.ok) {
