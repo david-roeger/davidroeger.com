@@ -5,7 +5,7 @@ import { browser } from '$app/env';
 // we don't need any JS on this page, though we'll load
 // it in dev so that we get hot module replacement...
 // we need js in the layout...
-export const hydrate = true;
+export const hydrate = false;
 
 // ...but if the client-side router is already loaded
 // (i.e. we came here from elsewhere in the app), use it
