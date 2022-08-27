@@ -2,10 +2,10 @@ import type { ActionReturnType } from '$lib/types';
 
 export function clickOutside(
 	node: HTMLElement,
-	callback?: (event: MouseEvent) => void,
+	callback?: (event: MouseEvent) => void
 ): ActionReturnType {
 	const handleClick = (event: MouseEvent) => {
-		const { target } = event
+		const { target } = event;
 		if (
 			node &&
 			node !== event.target &&
@@ -23,6 +23,6 @@ export function clickOutside(
 	return {
 		destroy() {
 			document.removeEventListener('click', handleClick, true);
-		},
+		}
 	};
 }

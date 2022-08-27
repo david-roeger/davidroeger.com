@@ -15,5 +15,5 @@ export const defaultSeoProps: DefaultSeoProps = {
 	facebook: writable(undefined),
 	twitter: writable(undefined),
 	additionalMetaTags: writable(undefined),
-	additionalLinkTags: writable(undefined),
+	additionalLinkTags: writable(undefined)
 };

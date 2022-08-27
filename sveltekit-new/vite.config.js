@@ -9,8 +9,8 @@ const config = {
 		'process.env.VITE_BUILD_TIME': JSON.stringify(
 			`${new Date().toJSON().split('T')[0]} // ${
 				new Date().toJSON().split('T')[1].split('Z')[0].split('.')[0]
-			} (UTC)`,
-		),
+			} (UTC)`
+		)
 	},
 	plugins: [
 		sveltekit(),
@@ -20,12 +20,13 @@ const config = {
 				plugins: [
 					{
 						name: 'preset-default',
-						params: { overrides: { removeViewBox: false } },
-					},
-				],
-			},
+						params: { overrides: { removeViewBox: false } }
+					}
+				]
+			}
 		}),
-		imagetools({ force: true }),
-	],};
+		imagetools({ force: true })
+	]
+};
 
 export default config;

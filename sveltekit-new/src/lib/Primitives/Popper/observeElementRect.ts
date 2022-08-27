@@ -9,7 +9,7 @@ function observeElementRect(
 	/** The element whose rect to observe */
 	elementToObserve: Measurable,
 	/** The callback which will be called when the rect changes */
-	callback: CallbackFn,
+	callback: CallbackFn
 ): () => void {
 	const observedData = observedElements.get(elementToObserve);
 
@@ -18,7 +18,7 @@ function observeElementRect(
 		// because this is the first time this element is observed
 		observedElements.set(elementToObserve, {
 			rect: {} as DOMRect,
-			callbacks: [callback],
+			callbacks: [callback]
 		});
 
 		if (observedElements.size === 1) {

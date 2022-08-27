@@ -3,9 +3,7 @@ export interface RootContext {
 	id: string;
 	disabled: boolean;
 	activeValues: Writable<string[]>;
-	setAccordion: Writable<
-		((value: string, active: boolean) => void) | undefined
-	>;
+	setAccordion: Writable<((value: string, active: boolean) => void) | undefined>;
 }
 
 export interface ItemContext {

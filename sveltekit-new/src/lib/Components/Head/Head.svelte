@@ -10,25 +10,25 @@
 		OpenGraph,
 		Twitter,
 		MetaTag,
-		LinkTag,
+		LinkTag
 	} from './types';
 	import { defaultSeoProps } from './store';
 	import buildTags from './utils';
 	import { onMount } from 'svelte';
 
-	export let title: string | undefined = undefined;
+	export let title: string | undefined = undefined;
 	export let noindex: boolean | undefined = undefined;
-	export let nofollow: boolean| undefined = undefined;
-	export let robotsProps: AdditionalRobotsProps| undefined = undefined;
-	export let description: string | undefined = undefined;
-	export let canonical: string | undefined = undefined;
-	export let mobileAlternate: MobileAlternate | undefined= undefined;
+	export let nofollow: boolean | undefined = undefined;
+	export let robotsProps: AdditionalRobotsProps | undefined = undefined;
+	export let description: string | undefined = undefined;
+	export let canonical: string | undefined = undefined;
+	export let mobileAlternate: MobileAlternate | undefined = undefined;
 	export let languageAlternates: LanguageAlternate[] | undefined = undefined;
-	export let openGraph: OpenGraph | undefined= undefined;
-	export let facebook: { appId: string } | undefined= undefined;
+	export let openGraph: OpenGraph | undefined = undefined;
+	export let facebook: { appId: string } | undefined = undefined;
 	export let twitter: Twitter | undefined = undefined;
 	export let additionalMetaTags: MetaTag[] | undefined = undefined;
-	export let additionalLinkTags: LinkTag[] | undefined= undefined;
+	export let additionalLinkTags: LinkTag[] | undefined = undefined;
 
 	id++;
 
@@ -46,28 +46,29 @@
 		facebook: defaultFacebook,
 		twitter: defaultTwitter,
 		additionalMetaTags: defaultAdditionalMetaTags,
-		additionalLinkTags: defaultAdditionalLinkTags,
+		additionalLinkTags: defaultAdditionalLinkTags
 	} = defaultSeoProps;
 
-	function mergeObject<T extends Record<string, unknown> | undefined>(value: T, defaultValue: T): T | undefined  {
+	function mergeObject<T extends Record<string, unknown> | undefined>(
+		value: T,
+		defaultValue: T
+	): T | undefined {
 		if (
-			(value === undefined ||
-			Object.keys(value).length === 0) &&
-			(defaultValue === undefined ||
-			Object.keys(defaultValue).length === 0)
+			(value === undefined || Object.keys(value).length === 0) &&
+			(defaultValue === undefined || Object.keys(defaultValue).length === 0)
 		) {
 			return undefined;
 		}
 
 		const mergedObject = {
 			...defaultValue,
-			...value,
-		}
+			...value
+		};
 
 		return mergedObject as T;
-	};
+	}
 
-	function serialize<T>(array:T[] = []) {
+	function serialize<T>(array: T[] = []) {
 		return array.map((value) => JSON.stringify(value));
 	}
 
@@ -91,20 +92,18 @@
 		});
 
 		return mergedArray;
-	};
+	}
 
 	const mergeAdditionalMetaTags = (
 		values: Readonly<MetaTag[]> = [],
-		defaultValues: Readonly<MetaTag[]> = [],
+		defaultValues: Readonly<MetaTag[]> = []
 	) => {
-		const serializedValues = serialize(
-			values.map((value) => ({ ...value, content: undefined })),
-		);
+		const serializedValues = serialize(values.map((value) => ({ ...value, content: undefined })));
 		const serializedDefaultValues = serialize(
 			defaultValues.map((defaultValue) => ({
 				...defaultValue,
-				content: undefined,
-			})),
+				content: undefined
+			}))
 		);
 
 		const mergedArray = [...defaultValues];
@@ -123,16 +122,14 @@
 
 	const mergeAdditionalLinkTags = (
 		values: Readonly<LinkTag[]> = [],
-		defaultValues: Readonly<LinkTag[]> = [],
+		defaultValues: Readonly<LinkTag[]> = []
 	) => {
-		const serializedValues = serialize(
-			values.map((value) => ({ ...value, href: undefined })),
-		);
+		const serializedValues = serialize(values.map((value) => ({ ...value, href: undefined })));
 		const serializedDefaultValues = serialize(
 			defaultValues.map((defaultValue) => ({
 				...defaultValue,
-				href: undefined,
-			})),
+				href: undefined
+			}))
 		);
 
 		const mergedArray = [...defaultValues];
@@ -158,27 +155,15 @@
 			robotsProps: mergeObject(robotsProps, $defaultRobotsProps),
 			description: description ?? $defaultDescription,
 			canonical: canonical ?? $defaultCanonical,
-			mobileAlternate: mergeObject(
-				mobileAlternate,
-				$defaultMobileAlternate,
-			),
-			languageAlternates: mergeArray(
-				languageAlternates,
-				$defaultLanguageAlternates,
-			),
+			mobileAlternate: mergeObject(mobileAlternate, $defaultMobileAlternate),
+			languageAlternates: mergeArray(languageAlternates, $defaultLanguageAlternates),
 			openGraph: mergeObject(openGraph, $defaultOpenGraph) as OpenGraph,
 			facebook: mergeObject(facebook, $defaultFacebook) as {
 				appId: string;
 			},
 			twitter: mergeObject(twitter, $defaultTwitter) as Twitter,
-			additionalMetaTags: mergeAdditionalMetaTags(
-				additionalMetaTags,
-				$defaultAdditionalMetaTags,
-			),
-			additionalLinkTags: mergeAdditionalLinkTags(
-				additionalLinkTags,
-				$defaultAdditionalLinkTags,
-			),
+			additionalMetaTags: mergeAdditionalMetaTags(additionalMetaTags, $defaultAdditionalMetaTags),
+			additionalLinkTags: mergeAdditionalLinkTags(additionalLinkTags, $defaultAdditionalLinkTags)
 		}) ?? [];
 
 	onMount(() => {

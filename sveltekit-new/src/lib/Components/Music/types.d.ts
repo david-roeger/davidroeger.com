@@ -1,15 +1,15 @@
 export type ErrorBody = {
 	status: number;
 	message: string;
-}
+};
 
 export interface SpotifyResponse {
 	ok: boolean;
 	status: number;
 	body: {
-		error?: ErrorBody
+		error?: ErrorBody;
 		[key: string]: unknown;
-	}
+	};
 }
 
 export interface SpotifyTopTracksResponse extends SpotifyResponse {

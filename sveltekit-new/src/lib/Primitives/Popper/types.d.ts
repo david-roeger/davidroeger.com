@@ -3,7 +3,10 @@ import type { Writable } from 'svelte/store';
 
 import { SIDE_OPTIONS, ALIGN_OPTIONS } from './constants';
 
-export interface Rect { rect: DOMRect; onDestroy: (() => void) | undefined }
+export interface Rect {
+	rect: DOMRect;
+	onDestroy: (() => void) | undefined;
+}
 
 export interface RootContext {
 	id: string;
@@ -14,15 +17,18 @@ export interface RootContext {
 	triggerElement: Writable<HTMLElement | undefined>;
 	contentElement: Writable<HTMLElement | undefined>;
 	contentStyles: Writable<string>;
-	popperOptions: Writable<{
-		side: Side;
-		sideOffset: number;
-		align: Align;
-		alignOffset: number;
-		shouldAvoidCollisions: boolean;
-		collisionBoundariesRect: DOMRect;
-		collisionTolerance: number;
-	} | undefined>;
+	popperOptions: Writable<
+		| {
+				side: Side;
+				sideOffset: number;
+				align: Align;
+				alignOffset: number;
+				shouldAvoidCollisions: boolean;
+				collisionBoundariesRect: DOMRect;
+				collisionTolerance: number;
+		  }
+		| undefined
+	>;
 }
 
 export type Axis = 'x' | 'y';
