@@ -1,5 +1,4 @@
 <script lang="ts">
-      /** @type {import('./$types').LayoutData} */
 	import '../app.css';
 	import { BreakpointProvider } from '$provider/Breakpoint';
 	import { Header } from '$slices/Header';
@@ -15,9 +14,7 @@
 
 		let finalPath = '';
 		pathArray.forEach((item) => {
-			finalPath =
-				finalPath +
-				` | ${item.charAt(0).toUpperCase()}${item.slice(1)}`;
+			finalPath = finalPath + ` | ${item.charAt(0).toUpperCase()}${item.slice(1)}`;
 		});
 		return finalPath;
 	};
@@ -41,127 +38,135 @@
 				width: 1200,
 				height: 1200,
 				alt: 'Antique greece statue',
-				type: 'image/jpeg',
-			},
-		],
+				type: 'image/jpeg'
+			}
+		]
 	}}
 	additionalLinkTags={[
 		// apple touch
 		{
 			rel: 'apple-touch-icon',
 			sizes: '57x57',
-			href: '/meta/apple-touch-icon-57x57.png',
+			href: '/meta/apple-touch-icon-57x57.png'
 		},
 		{
 			rel: 'apple-touch-icon',
 			sizes: '60x60',
-			href: '/meta/apple-touch-icon-60x60.png',
+			href: '/meta/apple-touch-icon-60x60.png'
 		},
 		{
 			rel: 'apple-touch-icon',
 			sizes: '72x72',
-			href: '/meta/apple-touch-icon-72x72.png',
+			href: '/meta/apple-touch-icon-72x72.png'
 		},
 		{
 			rel: 'apple-touch-icon',
 			sizes: '76x76',
-			href: '/meta/apple-touch-icon-76x76.png',
+			href: '/meta/apple-touch-icon-76x76.png'
 		},
 		{
 			rel: 'apple-touch-icon',
 			sizes: '114x114',
-			href: '/meta/apple-touch-icon-114x114.png',
+			href: '/meta/apple-touch-icon-114x114.png'
 		},
 		{
 			rel: 'apple-touch-icon',
 			sizes: '120x120',
-			href: '/meta/apple-touch-icon-120x120.png',
+			href: '/meta/apple-touch-icon-120x120.png'
 		},
 		{
 			rel: 'apple-touch-icon',
 			sizes: '144x144',
-			href: '/meta/apple-touch-icon-144x144.png',
+			href: '/meta/apple-touch-icon-144x144.png'
 		},
 		{
 			rel: 'apple-touch-icon',
 			sizes: '152x152',
-			href: '/meta/apple-touch-icon-152x152.png',
+			href: '/meta/apple-touch-icon-152x152.png'
 		},
 		{
 			rel: 'apple-touch-icon',
 			sizes: '167x167',
-			href: '/meta/apple-touch-icon-167x167.png',
+			href: '/meta/apple-touch-icon-167x167.png'
 		},
 		{
 			rel: 'apple-touch-icon',
 			sizes: '180x180',
-			href: '/meta/apple-touch-icon-180x180.png',
+			href: '/meta/apple-touch-icon-180x180.png'
 		},
 		// favicon
 		{
 			rel: 'icon',
 			type: 'image/svg+xml',
 			sizes: 'any',
-			href: '/meta/favicon-32x32.svg',
+			href: '/meta/favicon-32x32.svg'
 		},
 		{
 			rel: 'icon',
 			type: 'image/png',
 			sizes: '16x16',
-			href: '/meta/favicon-16x16.png',
+			href: '/meta/favicon-16x16.png'
 		},
 		{
 			rel: 'icon',
 			type: 'image/png',
 			sizes: '32x32',
-			href: '/meta/favicon-32x32.png',
+			href: '/meta/favicon-32x32.png'
 		},
 		{
 			rel: 'icon',
 			type: 'image/png',
 			sizes: '96x96',
-			href: '/meta/favicon-96x96.png',
+			href: '/meta/favicon-96x96.png'
 		},
 		{
 			rel: 'icon',
 			type: 'image/png',
 			sizes: '128x128',
-			href: '/meta/favicon-128x128.png',
+			href: '/meta/favicon-128x128.png'
 		},
 		{
 			rel: 'icon',
 			type: 'image/png',
 			sizes: '196x196',
-			href: '/meta/favicon-196x196.png',
+			href: '/meta/favicon-196x196.png'
 		},
 
 		// maskable icon
 		{
 			rel: 'mask-icon',
 			href: '/meta/safari-pinned-tab.svg',
-			color: '#E4E4E2',
+			// purple-7
+			color: '#D3B4ED'
 		},
 
 		// manifest
 		{
 			rel: 'manifest',
-			href: '/manifest.webmanifest',
-		},
+			href: '/manifest.webmanifest'
+		}
 	]}
 	additionalMetaTags={[
 		{
 			name: 'theme-color',
-			content: '#E4E4E2',
+			// mauve-3
+			content: '#F4F2F4',
+			media: '(prefers-color-scheme: light)'
+		},
+		{
+			name: 'theme-color',
+			content: '#232326',
+			media: '(prefers-color-scheme: dark)'
 		},
 		{
 			name: 'msapplication-config',
-			content: '/meta/browserconfig.xml',
+			content: '/meta/browserconfig.xml'
 		},
 		{
 			name: 'keywords',
 			content:
-				'David Roeger, Web Development, UX Design, aesthetics, brutalistic, visual, Stuttgart, Germany, 0711',
-		},
+				'David Roeger, Web Development, UX Design, aesthetics, brutalistic, visual, Stuttgart, Germany, 0711'
+		}
 	]}
 />
 

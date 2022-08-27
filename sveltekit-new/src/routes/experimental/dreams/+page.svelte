@@ -283,7 +283,14 @@
 	additionalMetaTags={[
 		{
 			name: 'theme-color',
-			content: '#EDF6FF'
+			// blue-3
+			content: '#EDF6FF',
+			media: '(prefers-color-scheme: light)'
+		},
+		{
+			name: 'theme-color',
+			content: '#10243E',
+			media: '(prefers-color-scheme: dark)'
 		},
 		{
 			name: 'apple-mobile-web-app-capable',

@@ -16,7 +16,14 @@
 	additionalMetaTags={[
 		{
 			name: 'theme-color',
-			content: '#FFEFEF'
+			// red-3
+			content: '#FFEFEF',
+			media: '(prefers-color-scheme: light)'
+		},
+		{
+			name: 'theme-color',
+			content: '#3C181A',
+			media: '(prefers-color-scheme: dark)'
 		}
 	]}
 	noindex

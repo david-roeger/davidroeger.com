@@ -42,14 +42,14 @@ export type Action = {
 
 export type Person = {
 	name: string;
-}
+};
 export type Answer = {
 	text: string;
 	dateCreated?: string;
 	upvoteCount?: number;
 	url?: string;
 	author?: Person;
-}
+};
 
 export type Question = {
 	name: string;
@@ -60,30 +60,30 @@ export type Question = {
 	author?: Person;
 	upvoteCount?: number;
 	dateCreated?: string;
-}
+};
 
 export type Instruction = {
 	name?: string;
 	text: string;
 	url?: string;
 	image?: string;
-}
+};
 export type Performer = {
 	name: string;
-}
+};
 
 export type Location = {
 	name: string;
 	address: Address;
 	sameAs?: string;
-}
+};
 export type ContactPoint = {
 	contactType: string;
 	telephone: string;
 	areaServed?: string | string[];
 	availableLanguage?: string | string[];
 	contactOption?: string | string[];
-}
+};
 export type CreativeWork = {
 	author: string;
 	about: string;
@@ -93,34 +93,34 @@ export type CreativeWork = {
 	keywords?: string;
 	thumbnailUrl?: string;
 	image?: string;
-}
+};
 
 export type Producer = {
 	name: string;
 	url?: string;
-}
+};
 export type ContactPoint = {
 	contactType: string;
 	telephone: string;
 	areaServed?: string | string[];
 	availableLanguage?: string | string[];
 	contactOption?: string | string[];
-}
+};
 
 export type Question = {
 	questionName: string;
 	acceptedAnswerText: string;
-}
+};
 export type Provider = {
 	type?: 'Organization' | 'Person';
 	name: string;
 	url?: string;
-}
+};
 export type ItemListElements = {
 	item: string;
 	name: string;
 	position: number;
-}
+};
 export type OpenGraphMedia = {
 	url: string;
 	width?: number;
@@ -128,7 +128,7 @@ export type OpenGraphMedia = {
 	alt?: string;
 	type?: string;
 	secureUrl?: string;
-}
+};
 
 export type Address = {
 	streetAddress: string;
@@ -136,7 +136,7 @@ export type Address = {
 	addressRegion?: string;
 	postalCode: string;
 	addressCountry: string;
-}
+};
 
 export type Video = {
 	name: string;
@@ -151,20 +151,20 @@ export type Video = {
 	watchCount?: number;
 	publication?: BroadcastEvent | BroadcastEvent[];
 	regionsAllowed?: string | string[];
-}
+};
 
 export type Clip = {
 	name: string;
 	startOffset: number;
 	url: string;
-}
+};
 
 export type BroadcastEvent = {
 	name?: string;
 	isLiveBroadcast: boolean;
 	startDate: string;
 	endDate: string;
-}
+};
 
 export type Offers = {
 	price: string;
@@ -189,7 +189,7 @@ export type AggregateOffer = {
 export type OpenGraphVideoActors = {
 	profile: string;
 	role?: string;
-}
+};
 
 export type OpenGraph = {
 	url?: string;
@@ -206,21 +206,21 @@ export type OpenGraph = {
 	book?: OpenGraphBook;
 	article?: OpenGraphArticle;
 	video?: OpenGraphVideo;
-}
+};
 
 export type OpenGraphProfile = {
 	firstName?: string;
 	lastName?: string;
 	username?: string;
 	gender?: string;
-}
+};
 
 export type OpenGraphBook = {
 	authors?: string[];
 	isbn?: string;
 	releaseDate?: string;
 	tags?: string[];
-}
+};
 
 export type OpenGraphArticle = {
 	publishedTime?: string;
@@ -230,7 +230,7 @@ export type OpenGraphArticle = {
 	authors?: string[];
 	section?: string;
 	tags?: string[];
-}
+};
 
 export type OpenGraphVideo = {
 	actors?: OpenGraphVideoActors[];
@@ -240,23 +240,23 @@ export type OpenGraphVideo = {
 	releaseDate?: string;
 	tags?: string[];
 	series?: string;
-}
+};
 
 export type Twitter = {
 	handle?: string;
 	site?: string;
 	cardType?: string;
-}
+};
 
 type MobileAlternate = {
 	media: string;
 	href: string;
-}
+};
 
 type LanguageAlternate = {
 	hrefLang: string;
 	href: string;
-}
+};
 
 type LinkTag = {
 	rel: string;
@@ -267,17 +267,18 @@ type LinkTag = {
 	keyOverride?: string;
 	as?: string;
 	crossOrigin?: string;
-}
+};
 
 export type BaseMetaTag = {
 	content: string;
 	keyOverride?: string;
-}
+};
 
 export interface HTML5MetaTag extends BaseMetaTag {
 	name: string;
 	property?: undefined;
 	httpEquiv?: undefined;
+	media?: string;
 }
 
 export interface RDFaMetaTag extends BaseMetaTag {
@@ -392,7 +393,7 @@ export type AdditionalRobotsProps = {
 	unavailableAfter?: string;
 	noimageindex?: boolean;
 	notranslate?: boolean;
-}
+};
 
 export type SepProps = {
 	title?: string;
@@ -409,7 +410,7 @@ export type SepProps = {
 	twitter?: Twitter;
 	additionalMetaTags?: MetaTag[];
 	additionalLinkTags?: LinkTag[];
-}
+};
 
 export type DefaultSeoProps = {
 	title?: Writable<string | undefined>;
@@ -426,10 +427,10 @@ export type DefaultSeoProps = {
 	twitter?: Writable<Twitter | undefined>;
 	additionalMetaTags?: Writable<MetaTag[] | undefined>;
 	additionalLinkTags?: Writable<LinkTag[] | undefined>;
-}
+};
 
 export type Tags = {
 	tag: string;
 	key: string;
 	[key: string]: string | undefined;
-}
+};
