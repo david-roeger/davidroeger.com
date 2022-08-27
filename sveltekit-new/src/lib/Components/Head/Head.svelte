@@ -192,3 +192,9 @@
 		{/if}
 	{/each}
 </svelte:head>
+
+{#if additionalMetaTags}
+	{#each additionalMetaTags as tag}
+		<p>{JSON.stringify(tag)}</p>
+	{/each}
+{/if}
