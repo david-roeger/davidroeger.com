@@ -50,7 +50,7 @@
 	}
 </script>
 
-{#if show}
+{#if show && false}
 	<button
 		in:slideUp|local
 		out:slideUp|local={{ easing: reversedEasing }}
