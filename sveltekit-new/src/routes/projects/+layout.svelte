@@ -4,6 +4,4 @@
 
 <Background center="hsla(146, 38%, 69%, 0.4)" outside="hsla(146, 38%, 69%, 0)" />
 
-<div class="relative">
-	<slot />
-</div>
+<slot />
