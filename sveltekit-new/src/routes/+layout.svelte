@@ -136,8 +136,8 @@
 		{
 			rel: 'mask-icon',
 			href: '/meta/safari-pinned-tab.svg',
-			// purple-7
-			color: '#D3B4ED'
+			// purple-9
+			color: '#8E4EC6'
 		},
 
 		// manifest
