@@ -62,3 +62,5 @@ export const load: PageServerLoad = async () => {
 
 	throw error(500, "Couldn't load music data");
 };
+
+export const prerender = false;

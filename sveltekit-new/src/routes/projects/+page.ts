@@ -24,3 +24,5 @@ export const load: PageLoad = async ({ fetch }) => {
 
 	throw error(500, "Couldn't load projects");
 };
+
+export const prerender = false;
