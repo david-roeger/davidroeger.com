@@ -1,5 +1,5 @@
 <script lang="ts">
-	console.info('experimental/move page.svelte');
+	console.info('experimental/move:  +page.svelte');
 
 	import * as Slider from '$primitives/Slider';
 	import AccessibleIcon from '$components/AccessibleIcon';
@@ -98,7 +98,8 @@
 
 		const resizeObserver = new ResizeObserver(() => {
 			if (canvasContainer) {
-				const { x, y, width, height } = canvasContainer.getBoundingClientRect();
+				const { x, y, width, height } =
+					canvasContainer.getBoundingClientRect();
 				$dimensions = { x, y, width, height };
 				reload();
 			}
@@ -137,7 +138,17 @@
 			const y = e.clientY - $dimensions.y - img.newHeight / 2;
 			const ctx = canvas.getContext('2d');
 			if (ctx) {
-				ctx.drawImage(img.img, 0, 0, img.w, img.h, x, y, img.newWidth, img.newHeight);
+				ctx.drawImage(
+					img.img,
+					0,
+					0,
+					img.w,
+					img.h,
+					x,
+					y,
+					img.newWidth,
+					img.newHeight
+				);
 				if (canvas && document.activeElement !== canvas) {
 					canvas.focus();
 				}
@@ -170,7 +181,12 @@
 	 * Helper function
 	 */
 
-	function scalePreserveAspectRatio(imgW: number, imgH: number, maxW: number, maxH: number) {
+	function scalePreserveAspectRatio(
+		imgW: number,
+		imgH: number,
+		maxW: number,
+		maxH: number
+	) {
 		return Math.min(maxW / imgW, maxH / imgH);
 	}
 
@@ -321,7 +337,9 @@
 				step={1}
 				label="image size"
 			>
-				<Slider.Track class="h-2 bg-white border rounded-full border-mauve-12">
+				<Slider.Track
+					class="h-2 bg-white border rounded-full border-mauve-12"
+				>
 					<Slider.Range class="h-full rounded-full bg-blue-5" />
 				</Slider.Track>
 				<Slider.Thumb

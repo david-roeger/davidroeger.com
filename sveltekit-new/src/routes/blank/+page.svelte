@@ -1,4 +1,6 @@
 <script lang="ts">
+	console.info('blank: +page.svelte');
+
 	import EmojiPicker from '$components/EmojiPicker';
 </script>
 

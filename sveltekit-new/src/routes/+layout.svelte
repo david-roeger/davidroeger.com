@@ -1,4 +1,6 @@
 <script lang="ts">
+	console.info('index: +layout.svelte');
+
 	import '../app.css';
 
 	import { onMount } from 'svelte';
@@ -18,7 +20,9 @@
 
 		let finalPath = '';
 		pathArray.forEach((item) => {
-			finalPath = finalPath + ` | ${item.charAt(0).toUpperCase()}${item.slice(1)}`;
+			finalPath =
+				finalPath +
+				` | ${item.charAt(0).toUpperCase()}${item.slice(1)}`;
 		});
 		return finalPath;
 	};
@@ -27,7 +31,8 @@
 	let showBttButton = false;
 	const handleScroll = () => {
 		if (
-			(document.body.scrollTop > 120 || document.documentElement.scrollTop > 120) &&
+			(document.body.scrollTop > 120 ||
+				document.documentElement.scrollTop > 120) &&
 			document.body.offsetHeight > window.innerHeight
 		) {
 			showBttButton = true;

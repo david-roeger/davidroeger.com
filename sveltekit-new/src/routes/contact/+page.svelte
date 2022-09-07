@@ -1,5 +1,5 @@
 <script lang="ts">
-	console.info('contact Page: script call');
+	console.info('contact: +page.svelte');
 </script>
 
 <p>contact me</p>

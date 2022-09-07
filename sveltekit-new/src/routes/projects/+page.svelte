@@ -1,5 +1,5 @@
 <script lang="ts">
-	console.info('projects Page: script call');
+	console.info('projects: +page.svelte');
 
 	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
@@ -136,13 +136,19 @@
 	]}
 />
 
-<Tags.Root defaultValue={defaultTags} on:valueChange={(e) => updateQueries(e.detail.value)}>
+<Tags.Root
+	defaultValue={defaultTags}
+	on:valueChange={(e) => updateQueries(e.detail.value)}
+>
 	<Tags.List
 		label="Filter Projects"
 		class="flex flex-wrap p-1 transition-all border-b border-mauve-6 ocus:outline-none ring-mauve-6 ring-inset focus:ring-1"
 	>
 		{#if $tags.size}
-			<div in:slideLeft|local out:slideLeft|local={{ easing: reversedEasing }}>
+			<div
+				in:slideLeft|local
+				out:slideLeft|local={{ easing: reversedEasing }}
+			>
 				<Tags.Unset
 					class="p-1 m-1 text-xs border rounded-full touch-manipulation border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1"
 				>
@@ -170,7 +176,9 @@
 	<div class={$tags.size ? 'pb-32' : ''}>
 		{#each filteredProjects as project, index (project.title)}
 			{@const projectMediaData = getProjectMediaData(project.slug)}
-			<section class="mb-8 border-t border-b first:border-t-0 border-mauve-6 md:mb-16 last:mb-0">
+			<section
+				class="mb-8 border-t border-b first:border-t-0 border-mauve-6 md:mb-16 last:mb-0"
+			>
 				<Headline
 					as="h2"
 					type="secondary"
@@ -188,7 +196,9 @@
 				<Gallery.Root
 					class="relative bg-white/[.85]"
 					step={0.6}
-					labelledby="gallery-headline-{encodeURIComponent(project.title)}"
+					labelledby="gallery-headline-{encodeURIComponent(
+						project.title
+					)}"
 				>
 					<Gallery.Previous
 						class="cursor-w-resize bg-white absolute top-0 lg:top-1/2 right-0 lg:left-2 lg:right-auto z-10 transform -translate-y-1/2 -translate-x-[calc(100%+16px)] lg:translate-x-0 block p-1 text-xs  border rounded-full md:p-2 touch-manipulation focus:outline-none ring-mauve-12 focus:ring-1"
@@ -210,7 +220,9 @@
 						{#if project.vertical && projectMediaData && projectMediaData[project.vertical]}
 							<Media
 								media={projectMediaData[project.vertical]}
-								src="./assets/projects/{project.slug}/{projectMediaData[project.vertical].src}"
+								src="./assets/projects/{project.slug}/{projectMediaData[
+									project.vertical
+								].src}"
 								alt=""
 								class="block h-full border-r last:border-r-0 border-mauve-6 max-w-none"
 								loading={index > 1 ? 'lazy' : undefined}
@@ -219,7 +231,9 @@
 						{#if project.horizontal && projectMediaData && projectMediaData[project.horizontal]}
 							<Media
 								media={projectMediaData[project.horizontal]}
-								src="./assets/projects/{project.slug}/{projectMediaData[project.horizontal].src}"
+								src="./assets/projects/{project.slug}/{projectMediaData[
+									project.horizontal
+								].src}"
 								alt=""
 								class="block h-full border-r last:border-r-0 border-mauve-6 max-w-none"
 								loading={index > 1 ? 'lazy' : undefined}
@@ -230,7 +244,9 @@
 								{#if media && projectMediaData && projectMediaData[media]}
 									<Media
 										media={projectMediaData[media]}
-										src="./assets/projects/{project.slug}/{projectMediaData[media].src}"
+										src="./assets/projects/{project.slug}/{projectMediaData[
+											media
+										].src}"
 										class="block h-full border-r last:border-r-0 border-mauve-6 max-w-none"
 										alt=""
 										loading={index > 1 ? 'lazy' : undefined}
@@ -247,7 +263,9 @@
 						href="projects/{project.slug}"
 						title="Read more about the project {project.slug}"
 					>
-						Read More <AccessibleIcon label={`about the project ${project.slug}`}>
+						Read More <AccessibleIcon
+							label={`about the project ${project.slug}`}
+						>
 							<East16 />
 						</AccessibleIcon>
 					</a>
@@ -258,7 +276,9 @@
 </Tags.Root>
 
 {#if !$tags.size && experimental.length}
-	<Headline as="h2" containerClass="py-8 md:py-16" id="experimental">Experi&shy;mental</Headline>
+	<Headline as="h2" containerClass="py-8 md:py-16" id="experimental">
+		Experi&shy;mental
+	</Headline>
 
 	<section class="mb-32">
 		{#each experimental as experiment}
@@ -282,7 +302,9 @@
 						/>
 						<span
 							class={`block p-2 group-hover:underline group-focus:underline decoration-from-font ${
-								experiment.thumbnail ? 'border-l border-mauve-6' : ''
+								experiment.thumbnail
+									? 'border-l border-mauve-6'
+									: ''
 							}`}
 						>
 							{computed[0].toUpperCase() + computed.slice(1)}

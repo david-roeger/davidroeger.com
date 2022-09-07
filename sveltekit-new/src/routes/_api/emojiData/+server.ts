@@ -1,9 +1,15 @@
+console.info('_api/emojiData: +server.ts');
+
 import type { EmojiData } from '$components/EmojiPicker/types';
 import { error, json, type RequestHandler } from '@sveltejs/kit';
 
 export const GET: RequestHandler = async () => {
+	console.info('_api/emojiData: +server.ts // GET');
+
 	try {
-		const response = await fetch('https://cdn.jsdelivr.net/npm/@emoji-mart/data');
+		const response = await fetch(
+			'https://cdn.jsdelivr.net/npm/@emoji-mart/data'
+		);
 		if (response.ok) {
 			const emojiData = (await response.json()) as EmojiData;
 			return json(emojiData);

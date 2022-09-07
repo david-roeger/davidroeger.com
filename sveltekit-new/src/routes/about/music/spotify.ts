@@ -8,11 +8,13 @@ import type { ErrorBody, SpotifyResponse } from '$components/Music/types';
  * Utils
  */
 
+// TODO: this seems very wrong
 const createErrorBody = (status: number, error_description: string) => {
 	const body: ErrorBody = { status: status, message: error_description };
 	return { error: body };
 };
 
+// TODO: this seems very wrong
 const createSpotifyResponse = (
 	status: number,
 	ok: boolean,
@@ -40,9 +42,9 @@ export const generateAccessToken = async (): Promise<SpotifyResponse> => {
 	const response = await fetch('https://accounts.spotify.com/api/token', {
 		method: 'POST',
 		headers: {
-			Authorization: `Basic ${Buffer.from(SPOTIFY_CLIENT_ID + ':' + SPOTIFY_CLIENT_SECRET).toString(
-				'base64'
-			)}`,
+			Authorization: `Basic ${Buffer.from(
+				SPOTIFY_CLIENT_ID + ':' + SPOTIFY_CLIENT_SECRET
+			).toString('base64')}`,
 			'Content-Type': 'application/x-www-form-urlencoded'
 		},
 		body: new URLSearchParams({
@@ -72,7 +74,10 @@ export const generateAccessToken = async (): Promise<SpotifyResponse> => {
 	});
 };
 
-const baseRequest = async (accessToken: string, params: string): Promise<Response> => {
+const baseRequest = async (
+	accessToken: string,
+	params: string
+): Promise<Response> => {
 	const res = await fetch(`https://api.spotify.com/v1/me${params}`, {
 		headers: {
 			Authorization: `Bearer ${accessToken}`,
@@ -83,9 +88,16 @@ const baseRequest = async (accessToken: string, params: string): Promise<Respons
 	return res;
 };
 
-const getTop = async (type: string, range: string): Promise<SpotifyResponse> => {
+const getTop = async (
+	type: string,
+	range: string
+): Promise<SpotifyResponse> => {
 	if (!accessToken) {
-		return createSpotifyResponse(400, false, createErrorBody(400, 'No Access Token present'));
+		return createSpotifyResponse(
+			400,
+			false,
+			createErrorBody(400, 'No Access Token present')
+		);
 	}
 
 	const response = await baseRequest(
@@ -116,13 +128,19 @@ export const getTopTracks = async (range: string): Promise<SpotifyResponse> => {
 	return await getTop('tracks', range);
 };
 
-export const getTopArtists = async (range: string): Promise<SpotifyResponse> => {
+export const getTopArtists = async (
+	range: string
+): Promise<SpotifyResponse> => {
 	return await getTop('artists', range);
 };
 
 const getCurrentTrack = async (): Promise<SpotifyResponse> => {
 	if (!accessToken) {
-		return createSpotifyResponse(400, false, createErrorBody(400, 'No Access Token present'));
+		return createSpotifyResponse(
+			400,
+			false,
+			createErrorBody(400, 'No Access Token present')
+		);
 	}
 
 	const response = await baseRequest(
@@ -131,7 +149,11 @@ const getCurrentTrack = async (): Promise<SpotifyResponse> => {
 	);
 
 	if (response.status === 204) {
-		return createSpotifyResponse(204, true, createErrorBody(204, 'Not Available'));
+		return createSpotifyResponse(
+			204,
+			true,
+			createErrorBody(204, 'Not Available')
+		);
 	}
 
 	const body = await response.json();
@@ -139,7 +161,11 @@ const getCurrentTrack = async (): Promise<SpotifyResponse> => {
 		const { item } = body;
 		if (item) {
 			if (body.currently_playing_type !== 'track') {
-				return createSpotifyResponse(204, true, createErrorBody(204, 'Not Available'));
+				return createSpotifyResponse(
+					204,
+					true,
+					createErrorBody(204, 'Not Available')
+				);
 			}
 
 			return createSpotifyResponse(200, true, { item: item });
@@ -159,10 +185,17 @@ const getCurrentTrack = async (): Promise<SpotifyResponse> => {
 
 const getRecentTrack = async (): Promise<SpotifyResponse> => {
 	if (!accessToken) {
-		return createSpotifyResponse(400, false, createErrorBody(400, 'No Access Token present'));
+		return createSpotifyResponse(
+			400,
+			false,
+			createErrorBody(400, 'No Access Token present')
+		);
 	}
 
-	const response = await baseRequest(accessToken, '/player/recently-played?limit=1');
+	const response = await baseRequest(
+		accessToken,
+		'/player/recently-played?limit=1'
+	);
 
 	const body = await response.json();
 	if (response.ok) {

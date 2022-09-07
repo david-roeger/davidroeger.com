@@ -1,4 +1,6 @@
 <script lang="ts">
+	console.info('experimental: +layout.svelte');
+
 	import { Background } from '$components/Background';
 	import Head from '$components/Head/Head.svelte';
 </script>
@@ -19,6 +21,9 @@
 	]}
 />
 
-<Background center="hsla(206, 100%, 50.0%, 0.4)" outside="hsla(206, 100%, 50.0%, 0)" />
+<Background
+	center="hsla(206, 100%, 50.0%, 0.4)"
+	outside="hsla(206, 100%, 50.0%, 0)"
+/>
 
 <slot />

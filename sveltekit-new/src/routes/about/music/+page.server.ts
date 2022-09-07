@@ -1,4 +1,11 @@
-import { generateAccessToken, getTopTracks, getTopArtists, getLastTrack } from './spotify';
+console.info('about/music: +page.server.ts');
+
+import {
+	generateAccessToken,
+	getTopTracks,
+	getTopArtists,
+	getLastTrack
+} from './spotify';
 import { error } from '@sveltejs/kit';
 import type {
 	SpotifyTopTracksResponse,
@@ -9,7 +16,8 @@ import type {
 import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async () => {
-	console.info('about/music +page.server.ts');
+	console.info('about/music: +page.server.ts // load');
+
 	const response = await generateAccessToken();
 	// if access token is okay
 	if (response.ok) {
@@ -32,12 +40,17 @@ export const load: PageServerLoad = async () => {
 		]).then((responses) => {
 			return {
 				lastTrackResponse: responses[0] as SpotifyLastTrackResponse,
-				topTracksShortResponse: responses[1] as SpotifyTopTracksResponse,
-				topTracksMediumResponse: responses[2] as SpotifyTopTracksResponse,
+				topTracksShortResponse:
+					responses[1] as SpotifyTopTracksResponse,
+				topTracksMediumResponse:
+					responses[2] as SpotifyTopTracksResponse,
 				topTrackLongResponse: responses[3] as SpotifyTopTracksResponse,
-				topArtistsShortResponse: responses[4] as SpotifyTopArtistsResponse,
-				topArtistsMediumResponse: responses[5] as SpotifyTopArtistsResponse,
-				topArtistsLongResponse: responses[6] as SpotifyTopArtistsResponse
+				topArtistsShortResponse:
+					responses[4] as SpotifyTopArtistsResponse,
+				topArtistsMediumResponse:
+					responses[5] as SpotifyTopArtistsResponse,
+				topArtistsLongResponse:
+					responses[6] as SpotifyTopArtistsResponse
 			};
 		});
 		return response;

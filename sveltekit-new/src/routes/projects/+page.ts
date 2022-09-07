@@ -1,10 +1,12 @@
+console.info('projects: +page.ts');
+
 import type { ProjectMetaData } from '$lib/types';
 import { error } from '@sveltejs/kit';
 
 import type { PageLoad } from './$types';
 
 export const load: PageLoad = async ({ fetch }) => {
-	console.info('projects Page: script module call');
+	console.info('projects: +page.ts // load');
 
 	const projectResponse = await fetch('./_api/projects');
 	if (projectResponse.ok) {

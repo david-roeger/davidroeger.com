@@ -1,13 +1,5 @@
-<script context="module" lang="ts">
-	console.info('about Page: script module call');
-	import { browser } from '$app/env';
-
-	export const router = browser;
-	export const prerender = true;
-</script>
-
 <script lang="ts">
-	console.info('about Page: script call');
+	console.info('about: +page.svelte');
 
 	import { Headline } from '$components/Headline';
 

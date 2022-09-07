@@ -1,10 +1,13 @@
 <script lang="ts">
+	console.info('projects/[slug]: +page.svelte');
+
 	import { getContext } from 'svelte';
 
 	import type { PageData } from './$types';
 
 	export let data: PageData;
-	console.info(`projects/slug (${data.slug}) Page: script call`);
+
+	console.info(`projects/[slug]: +page.svelte // ${data.slug}`);
 
 	import AccessibleIcon from '$components/AccessibleIcon/AccessibleIcon.svelte';
 	import { Media } from '$components/Media';
@@ -23,8 +26,12 @@
 
 	const projectMediaData = projectsMediaData[data.slug];
 
-	const verticalMedia = data.vertical ? projectMediaData[data.vertical] : undefined;
-	const horizontalMedia = data.horizontal ? projectMediaData[data.horizontal] : undefined;
+	const verticalMedia = data.vertical
+		? projectMediaData[data.vertical]
+		: undefined;
+	const horizontalMedia = data.horizontal
+		? projectMediaData[data.horizontal]
+		: undefined;
 
 	const mediaArray: MediaType[] = [];
 
@@ -80,7 +87,9 @@
 
 <article>
 	{#if data.tags.length}
-		<div class="flex items-center p-1 text-xs border-b text-mauve-11 border-mauve-6">
+		<div
+			class="flex items-center p-1 text-xs border-b text-mauve-11 border-mauve-6"
+		>
 			<AccessibleIcon label="Tags"><TagIcon /></AccessibleIcon>
 			{#each data.tags as tag (tag)}
 				<a
@@ -110,10 +119,14 @@
 		{/if}
 		{#if (data.team && data.team.length > 0) || data.place}
 			<div class="border-b border-mauve-6">
-				<div class="p-1 md:w-3/4 md:border-r flex-grow-1 border-mauve-6 bg-white/[.85]">
+				<div
+					class="p-1 md:w-3/4 md:border-r flex-grow-1 border-mauve-6 bg-white/[.85]"
+				>
 					{#if data.team && data.team.length > 0}
 						<p class="m-1 text-xs text-mauve-11">
-							{data.team.join(', ')}{!data.place && data.date ? ` (${data.date})` : ''}
+							{data.team.join(', ')}{!data.place && data.date
+								? ` (${data.date})`
+								: ''}
 						</p>
 					{/if}
 					{#if data.place}
@@ -126,7 +139,9 @@
 		{/if}
 		{#if data.github || data.project}
 			<div class="border-b border-mauve-6">
-				<div class="p-1 md:w-3/4 md:border-r flex-grow-1 border-mauve-6 bg-white/[.85]">
+				<div
+					class="p-1 md:w-3/4 md:border-r flex-grow-1 border-mauve-6 bg-white/[.85]"
+				>
 					{#if data.project}
 						<p class="m-1 text-xs text-mauve-11">
 							<a

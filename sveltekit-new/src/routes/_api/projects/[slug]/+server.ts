@@ -1,9 +1,17 @@
+console.info('_api/projects/[slug]: +server.ts');
+
 import { slugFromPath } from '$lib/Utils';
 import { error, json, type RequestHandler } from '@sveltejs/kit';
 
 export const GET: RequestHandler = async ({ params }) => {
-	const modules = import.meta.glob(`../../../projects/content/*.{md,svx,svelte.md}`);
+	console.info('_api/projects/[slug]: +server.ts // GET');
+
+	const modules = import.meta.glob(
+		`../../../projects/content/*.{md,svx,svelte.md}`
+	);
 	const { slug } = params;
+
+	console.info(`_api/projects/[slug]: +server.ts // GET (${slug})`);
 
 	for (const [path, resolver] of Object.entries(modules)) {
 		const computedSlug = slugFromPath(path);

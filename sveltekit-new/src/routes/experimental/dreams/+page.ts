@@ -1,10 +1,11 @@
+console.info('experimental/dreams: +page.ts');
+
 import { getDreams } from '$lib/Utils/Auth/request';
 import { error } from '@sveltejs/kit';
 import type { PageLoad } from './$types';
-console.info('experimental/dreams page.ts');
 
 export const load: PageLoad = async ({ fetch }) => {
-	console.info('experimental/dreams Page: load call');
+	console.info('experimental/dreams: +page.ts //  load');
 	const { dreams = [], error: err, status } = await getDreams();
 	if (err) {
 		throw error(status ?? 500, err.message);
@@ -36,5 +37,3 @@ export const load: PageLoad = async ({ fetch }) => {
 
 	throw error(404, 'No Emojis found');
 };
-
-export const prerender = false;

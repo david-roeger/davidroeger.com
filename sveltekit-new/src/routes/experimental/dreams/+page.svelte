@@ -1,4 +1,6 @@
 <script lang="ts">
+	console.info('experimental/dreams: +page.svelte');
+
 	import { onMount } from 'svelte';
 	import type { Dream } from '$lib/types';
 
@@ -23,7 +25,11 @@
 	import AccessibleIcon from '$components/AccessibleIcon';
 	import EditIcon from '$assets/Icons/24/edit.svg?component';
 	import CloseIcon from '$assets/Icons/24/close.svg?component';
-	import { insertDream, updateDream, deleteDream } from '$lib/Utils/Auth/request';
+	import {
+		insertDream,
+		updateDream,
+		deleteDream
+	} from '$lib/Utils/Auth/request';
 
 	console.info('experimental/dreams Page: script call');
 
@@ -36,8 +42,12 @@
 		$sessionDreams = data.dreams;
 	});
 
-	$: dreams = ($sessionDreams.length > 0 ? $sessionDreams : data.dreams ?? []).sort((a, b) => {
-		return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
+	$: dreams = (
+		$sessionDreams.length > 0 ? $sessionDreams : data.dreams ?? []
+	).sort((a, b) => {
+		return (
+			new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+		);
 	});
 
 	const formatDate = (date: string) => {
@@ -257,7 +267,9 @@
 			if (error) throw error;
 
 			const oldDreams = $sessionDreams ?? [];
-			const computedDreams = oldDreams.filter((oldDream: Dream) => oldDream.id !== deletedDream.id);
+			const computedDreams = oldDreams.filter(
+				(oldDream: Dream) => oldDream.id !== deletedDream.id
+			);
 
 			$sessionDreams = [...computedDreams];
 
@@ -339,7 +351,10 @@
 		{/if}
 		{#if $user}
 			<li class="w-auto p-2 pl-0 mr-auto list-none">
-				<NavLink href="/experimental/dreams/add" class="block bg-white hover:bg-blue-5">
+				<NavLink
+					href="/experimental/dreams/add"
+					class="block bg-white hover:bg-blue-5"
+				>
 					Add
 				</NavLink>
 			</li>
@@ -366,7 +381,13 @@
 							description="description"
 						>
 							<Form handleSubmit={handleLoginSubmit}>
-								<input type="email" name="email" required disabled={loading} placeholder="E-Mail" />
+								<input
+									type="email"
+									name="email"
+									required
+									disabled={loading}
+									placeholder="E-Mail"
+								/>
 								<input
 									type="password"
 									name="password"
@@ -408,13 +429,23 @@
 			id={dream.id.toString()}
 		>
 			<div class="flex bg-white">
-				<span class="w-10 p-2 text-center border-b border-mauve-6 group">
-					<span class="block transition-transform group-hover:animate-cool-wiggle">
-						{!!dream.emoji ? dream.emoji : data?.emojiMap?.[dream.id] ?? ''}
+				<span
+					class="w-10 p-2 text-center border-b border-mauve-6 group"
+				>
+					<span
+						class="block transition-transform group-hover:animate-cool-wiggle"
+					>
+						{!!dream.emoji
+							? dream.emoji
+							: data?.emojiMap?.[dream.id] ?? ''}
 					</span>
 				</span>
 
-				<Headline as="h2" type="quaternary" containerClass="grow border-l flex">
+				<Headline
+					as="h2"
+					type="quaternary"
+					containerClass="grow border-l flex"
+				>
 					{#if $user}
 						<span>
 							{dream.id} //
@@ -438,9 +469,14 @@
 						description="description"
 					>
 						<AccessibleIcon label="edit" slot="trigger">
-							<EditIcon class="block w-auto h-full group-hover:animate-spin" />
+							<EditIcon
+								class="block w-auto h-full group-hover:animate-spin"
+							/>
 						</AccessibleIcon>
-						<Form handleSubmit={(e) => handleUpdateDreamSubmit(e, dream)}>
+						<Form
+							handleSubmit={(e) =>
+								handleUpdateDreamSubmit(e, dream)}
+						>
 							<textarea
 								name="text"
 								class="rounded-none resize-none disab"
@@ -451,7 +487,9 @@
 
 							<EmojiPicker
 								name="emoji"
-								defaultValue={dream.emoji ? dream.emoji : data?.emojiMap?.[dream.id]}
+								defaultValue={dream.emoji
+									? dream.emoji
+									: data?.emojiMap?.[dream.id]}
 							/>
 
 							<Button
@@ -484,7 +522,10 @@
 								<CloseIcon />
 							</AccessibleIcon>
 						</span>
-						<Form handleSubmit={(e) => handleDeleteDreamSubmit(e, dream)}>
+						<Form
+							handleSubmit={(e) =>
+								handleDeleteDreamSubmit(e, dream)}
+						>
 							<Close
 								class="block px-4 py-2 transition-colors bg-white border border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 hover:bg-green-5"
 							>

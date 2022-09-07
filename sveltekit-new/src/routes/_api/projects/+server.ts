@@ -1,8 +1,14 @@
+console.info('_api/projects: +server.ts');
+
 import { slugFromPath } from '$lib/Utils';
 import { error, json, type RequestHandler } from '@sveltejs/kit';
 
 export const GET: RequestHandler = async ({ url }) => {
-	const modules = import.meta.glob('../../projects/content/*.{md,svx,svelte.md}');
+	console.info('_api/projects: +server.ts // GET');
+
+	const modules = import.meta.glob(
+		'../../projects/content/*.{md,svx,svelte.md}'
+	);
 	const projectPromises = [];
 	const limit = Number(url.searchParams.get('limit') ?? Infinity);
 

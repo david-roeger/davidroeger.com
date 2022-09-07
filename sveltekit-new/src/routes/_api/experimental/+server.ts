@@ -1,6 +1,10 @@
+console.info('_api/experimental: +server.ts');
+
 import { error, json, type RequestHandler } from '@sveltejs/kit';
 
 export const GET: RequestHandler = async ({ url }) => {
+	console.info('_api/experimental: +server.ts // GET');
+
 	const nested = import.meta.glob('../../experimental/*/+page.svelte');
 	const limit = Number(url.searchParams.get('limit') ?? Infinity);
 
@@ -11,7 +15,8 @@ export const GET: RequestHandler = async ({ url }) => {
 	const projects = [];
 
 	for (const [path] of Object.entries(nested)) {
-		const slug = path.match(/\.\.\/\.\.\/experimental\/(.*?)\//i)?.[1] ?? undefined;
+		const slug =
+			path.match(/\.\.\/\.\.\/experimental\/(.*?)\//i)?.[1] ?? undefined;
 		if (!slug || slug === 'template') {
 			continue;
 		}

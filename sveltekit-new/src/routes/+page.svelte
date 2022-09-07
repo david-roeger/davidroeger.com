@@ -1,5 +1,5 @@
 <script lang="ts">
-	console.info('index Page: script call');
+	console.info('index: +page.svelte');
 
 	import * as Tabs from '$primitives/Tabs';
 	import * as Dialog from '$primitives/Dialog';
@@ -17,7 +17,7 @@
 		{ value: '6' },
 		{ value: '7' },
 		{ value: '8' },
-		{ value: '9' },
+		{ value: '9' }
 	];
 	const d = content[0].value;
 	let acc = d;

@@ -1,8 +1,11 @@
-import { getRandomEmojis } from '$lib/Utils';
+console.info('_api/emojis: +server.ts');
 
+import { getRandomEmojis } from '$lib/Utils';
 import { error, json, type RequestHandler } from '@sveltejs/kit';
 
 export const GET: RequestHandler = async ({ url }) => {
+	console.info('_api/emojis: +server.ts // GET');
+
 	const limit = Number(url.searchParams.get('limit') ?? 10);
 
 	if (Number.isNaN(limit)) {

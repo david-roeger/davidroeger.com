@@ -1,4 +1,6 @@
 <script lang="ts">
+	console.info('error: +error.svelte');
+
 	import { page } from '$app/stores';
 
 	import Headline from '$components/Headline/Headline.svelte';
@@ -30,7 +32,10 @@
 	nofollow
 />
 
-<Background center="hsla(359, 74%, 82%, 0.4)" outside="hsla(359, 74%, 82%, 0)" />
+<Background
+	center="hsla(359, 74%, 82%, 0.4)"
+	outside="hsla(359, 74%, 82%, 0)"
+/>
 
 <section class="relative">
 	<p class="p-2 text-sm border-b text-mauve-11 border-mauve-6">
@@ -43,7 +48,8 @@
 	</h2>
 
 	<p class="p-2 bg-white border-b border-mauve-6">
-		I don't know how you ended up here but you probably wanted do one of the following:
+		I don't know how you ended up here but you probably wanted do one of the
+		following:
 	</p>
 	<div class="p-1 mb-32 border-b border-mauve-6 bg-white/[0.85]">
 		<ol class="flex flex-col">
@@ -55,7 +61,9 @@
 					activeClass="!bg-green-5"
 				>
 					<span>
-						<span class="p-1 px-[6px] mr-1 bg-white rounded-full"> 🥽 </span>
+						<span class="p-1 px-[6px] mr-1 bg-white rounded-full">
+							🥽
+						</span>
 						Look at some stuff I worked on
 					</span>
 					<span aria-hidden="true">
@@ -71,7 +79,9 @@
 					activeClass="!bg-purple-5"
 				>
 					<span>
-						<span class="p-1 px-[6px] mr-1 bg-white rounded-full"> 🌈 </span>
+						<span class="p-1 px-[6px] mr-1 bg-white rounded-full">
+							🌈
+						</span>
 						Learn something about me
 					</span>
 					<span aria-hidden="true">
@@ -87,7 +97,9 @@
 					activeClass="!bg-orange-5"
 				>
 					<span>
-						<span class="p-1 px-[6px] mr-1 bg-white rounded-full"> 🌞 </span>
+						<span class="p-1 px-[6px] mr-1 bg-white rounded-full">
+							🌞
+						</span>
 						Just say hi
 					</span>
 					<span aria-hidden="true">
