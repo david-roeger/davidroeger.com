@@ -1,18 +1,15 @@
-import { slugFromPath } from '$lib/Utils';
 import type { GetReturnType } from '$lib/types';
-import type { Url } from 'url';
+import { slugFromPath } from '$lib/Utils';
 
 /** @type {import('@sveltejs/kit').RequestHandler} */
-
 export async function get({ url }: { url: URL }): GetReturnType {
-	const modules = import.meta.glob('./*.{md,svx,svelte.md}');
-
+	const modules = import.meta.glob('./content/*.{md,svx,svelte.md}');
 	const projectPromises = [];
 	const limit = Number(url.searchParams.get('limit') ?? Infinity);
 
 	if (Number.isNaN(limit)) {
 		return {
-			status: 400
+			status: 400,
 		};
 	}
 	//slugFromPath(path)
@@ -21,7 +18,7 @@ export async function get({ url }: { url: URL }): GetReturnType {
 
 		const promise = resolver().then((post) => ({
 			slug,
-			...post.metadata
+			...post.metadata,
 		}));
 
 		projectPromises.push(promise);
@@ -34,6 +31,6 @@ export async function get({ url }: { url: URL }): GetReturnType {
 
 	return {
 		status: 200,
-		body: publishedProjects.slice(0, limit)
+		body: publishedProjects.slice(0, limit),
 	};
 }

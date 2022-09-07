@@ -1,28 +1,38 @@
 //import { slugFromPath } from '$lib/util';
+import type { GetReturnType } from '$lib/types';
+import { slugFromPath } from '$lib/Utils';
 
-/**
- * @type {import('@sveltejs/kit').RequestHandler}
- */
-export async function get({ params }) {
-	const modules = import.meta.glob(`./*.{md,svx,svelte.md}`);
-	let match;
+/** @type {import('@sveltejs/kit').RequestHandler} */
+export async function get({
+	params,
+}: {
+	params: { slug: string };
+}): GetReturnType {
+	const modules = import.meta.glob(`./content/*.{md,svx,svelte.md}`);
+	const { slug } = params;
+
 	for (const [path, resolver] of Object.entries(modules)) {
-		if (path === params.slug) {
-			match = [path, resolver];
-			break;
+		const computedSlug = slugFromPath(path);
+
+		if (slug === computedSlug) {
+			const project = await resolver();
+			const { html } = project.default.render();
+			const { published, order, ...metadata } = project.metadata;
+
+			if (published) {
+				return {
+					status: 200,
+					body: { ...metadata, html, slug },
+				};
+			} else {
+				return {
+					status: 404,
+				};
+			}
 		}
 	}
 
-	if (!match) {
-		return {
-			status: 404
-		};
-	}
-
-	const project = await match[1]();
-
 	return {
-		status: 200,
-		body: project.metadata
+		status: 404,
 	};
 }

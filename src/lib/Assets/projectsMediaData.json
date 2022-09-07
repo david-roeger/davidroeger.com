@@ -1,0 +1,28 @@
+{
+	"obskurra": {
+		"void": {
+			"hash": "L26*Bh^$00EM-nWBe.%101E3%goy",
+			"src": "void.mp4",
+			"width": 2294,
+			"height": 1855
+		},
+		"boys": {
+			"hash": "U7HLPL^+00_3R4j?ITV@00Rj00D$WAR*~q%M",
+			"src": "boys.png",
+			"width": 1044,
+			"height": 1855
+		},
+		"typeset": {
+			"hash": "U9C~SLxuIoxZ~VIpRjj[XSRkRjWBxuoLf6ay",
+			"src": "typeset.png",
+			"width": 1125,
+			"height": 2000
+		},
+		"lady": {
+			"hash": "U5DSm]~V01OtXT-oRjEO0001%2%1D%RjkDRP",
+			"src": "lady.png",
+			"width": 1000,
+			"height": 1000
+		}
+	}
+}

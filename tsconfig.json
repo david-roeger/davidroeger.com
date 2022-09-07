@@ -1,4 +1,5 @@
 {
+	"extends": "./.svelte-kit/tsconfig.json",
 	"compilerOptions": {
 		"moduleResolution": "node",
 		"module": "es2020",
@@ -30,10 +31,14 @@
 			"$primitives/*": ["src/lib/Primitives/*"],
 			"$components/*": ["src/lib/Components/*"],
 			"$slices/*": ["src/lib/Slices/*"],
-			"$utils": ["src/lib/Utils"],
-			"$utils/*": ["src/lib/Utils/*"],
+			"$provider/*": ["src/lib/Provider/*"],
 			"$assets/*": ["src/lib/Assets/*"]
 		}
 	},
-	"include": ["src/**/*.d.ts", "src/**/*.js", "src/**/*.ts", "src/**/*.svelte"]
+	"include": [
+		"src/**/*.d.ts",
+		"src/**/*.js",
+		"src/**/*.ts",
+		"src/**/*.svelte"
+	]
 }

@@ -1,5 +1,22 @@
-<div
-	class="fixed top-0 bottom-0 w-full h-full xl:container -z-10"
-	style="background: radial-gradient(50% 50% at 50% 50%, hsl(273, 61.0%, 81.7%, 0.4) 0%, hsl(273, 61.0%, 81.7%, 0) 100%);"
+<script lang="ts">
+	import { Background } from '$components/Background';
+	import Head from '$components/Head/Head.svelte';
+</script>
+
+<Head
+	additionalMetaTags={[
+		{
+			name: 'theme-color',
+			content: '#F9F1FE',
+		},
+	]}
 />
-<slot />
+
+<Background
+	center="hsla(273, 61%, 82%, 0.4)"
+	outside="hsla(273, 61%, 82%, 0)"
+/>
+
+<div>
+	<slot />
+</div>

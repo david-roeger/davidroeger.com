@@ -6,4 +6,5 @@ export interface RootContext {
 	trap: Writable<FocusTrap | undefined>;
 	setOpen: Writable<() => void | undefined>;
 	setClose: Writable<() => void | undefined>;
+	computedId: number;
 }

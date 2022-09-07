@@ -1,5 +1,5 @@
-import { hasParentOfType } from '$utils';
 import type { ActionReturnType } from '$lib/types';
+import { hasParentOfType } from '$lib/Utils';
 /**
  * Usage: <div use:buttonType> or <div use:buttonType={string}>
  *
@@ -7,7 +7,10 @@ import type { ActionReturnType } from '$lib/types';
  * @param { string } type explicit button type
  */
 
-export const buttonType = (button: HTMLButtonElement, type = ''): ActionReturnType => {
+export const buttonType = (
+	button: HTMLButtonElement,
+	type = '',
+): ActionReturnType => {
 	const update = (button: HTMLButtonElement) => {
 		if (type) {
 			button.type = type;
@@ -20,6 +23,6 @@ export const buttonType = (button: HTMLButtonElement, type = ''): ActionReturnTy
 	update(button);
 
 	return {
-		update
+		update,
 	};
 };

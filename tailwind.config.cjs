@@ -19,7 +19,7 @@ module.exports = {
 				9: 'hsl(252 4.0% 57.3%)',
 				10: 'hsl(253 3.5% 53.5%)',
 				11: 'hsl(252 4.0% 44.8%)',
-				12: 'hsl(260 25.0% 11.0%)'
+				12: 'hsl(260 25.0% 11.0%)',
 			},
 			blue: {
 				1: 'hsl(206 100% 99.2%)',
@@ -33,7 +33,7 @@ module.exports = {
 				9: 'hsl(206 100% 50.0%)',
 				10: 'hsl(208 100% 47.3%)',
 				11: 'hsl(211 100% 43.2%)',
-				12: 'hsl(211 100% 15.0%)'
+				12: 'hsl(211 100% 15.0%)',
 			},
 			cyan: {
 				1: 'hsl(185 60.0% 98.7%)',
@@ -47,7 +47,7 @@ module.exports = {
 				9: 'hsl(190 95.0% 39.0%)',
 				10: 'hsl(191 91.2% 36.8%)',
 				11: 'hsl(192 85.0% 31.0%)',
-				12: 'hsl(192 88.0% 12.5%)'
+				12: 'hsl(192 88.0% 12.5%)',
 			},
 			crimson: {
 				1: 'hsl(332 100% 99.4%)',
@@ -61,7 +61,7 @@ module.exports = {
 				9: 'hsl(336 80.0% 57.8%)',
 				10: 'hsl(336 73.7% 53.5%)',
 				11: 'hsl(336 75.0% 47.2%)',
-				12: 'hsl(340 65.0% 14.5%)'
+				12: 'hsl(340 65.0% 14.5%)',
 			},
 			grass: {
 				1: 'hsl(116 50.0% 98.9%)',
@@ -75,7 +75,7 @@ module.exports = {
 				9: 'hsl(131 41.0% 46.5%)',
 				10: 'hsl(132 43.1% 42.2%)',
 				11: 'hsl(133 50.0% 32.5%)',
-				12: 'hsl(130 30.0% 14.9%)'
+				12: 'hsl(130 30.0% 14.9%)',
 			},
 			green: {
 				1: 'hsl(136 50.0% 98.9%)',
@@ -89,7 +89,7 @@ module.exports = {
 				9: 'hsl(151 55.0% 41.5%)',
 				10: 'hsl(152 57.5% 37.6%)',
 				11: 'hsl(153 67.0% 28.5%)',
-				12: 'hsl(155 40.0% 14.0%)'
+				12: 'hsl(155 40.0% 14.0%)',
 			},
 			orange: {
 				1: 'hsl(24 70.0% 99.0%)',
@@ -103,7 +103,7 @@ module.exports = {
 				9: 'hsl(24 94.0% 50.0%)',
 				10: 'hsl(24 100% 46.5%)',
 				11: 'hsl(24 100% 37.0%)',
-				12: 'hsl(15 60.0% 17.0%)'
+				12: 'hsl(15 60.0% 17.0%)',
 			},
 			plum: {
 				1: 'hsl(292 90.0% 99.4%)',
@@ -117,7 +117,7 @@ module.exports = {
 				9: 'hsl(292 45.0% 51.0%)',
 				10: 'hsl(292 50.2% 46.9%)',
 				11: 'hsl(292 60.0% 42.5%)',
-				12: 'hsl(291 66.0% 14.0%)'
+				12: 'hsl(291 66.0% 14.0%)',
 			},
 			purple: {
 				1: 'hsl(280 65.0% 99.4%)',
@@ -131,81 +131,105 @@ module.exports = {
 				9: 'hsl(272 51.0% 54.0%)',
 				10: 'hsl(272 46.8% 50.3%)',
 				11: 'hsl(272 50.0% 45.8%)',
-				12: 'hsl(272 66.0% 16.0%)'
-			}
+				12: 'hsl(272 66.0% 16.0%)',
+			},
+			red: {
+				1: 'hsl(359, 100%, 99.4%)',
+				2: 'hsl(359, 100%, 98.6%)',
+				3: 'hsl(360, 100%, 96.8%)',
+				4: 'hsl(360, 97.9%, 94.8%)',
+				5: 'hsl(360, 90.2%, 91.9%)',
+				6: 'hsl(360, 81.7%, 87.8%)',
+				7: 'hsl(359, 74.2%, 81.7%)',
+				8: 'hsl(359, 69.5%, 74.3%)',
+				9: 'hsl(358, 75.0%, 59.0%)',
+				10: 'hsl(358, 69.4%, 55.2%)',
+				11: 'hsl(358, 65.0%, 48.7%)',
+				12: 'hsl(354, 50.0%, 14.6%)',
+			},
 		},
 		extend: {
 			width: {
-				'fit-content': 'fit-content'
-			},
-			dropShadow: {
-				mauve: '0 10px 8px rgba(hsl(272 99.2% 11.3% / 0.946), 0.1))'
+				'fit-content': 'fit-content',
 			},
 			fontFamily: {
-				'neue-haas': ['neue-haas-grotesk-display', 'ui-sans-serif', 'system-ui', 'sans-serif'],
-				cstmx: ['CSTMX', 'ui-sans-serif', 'system-ui', 'sans-serif']
+				sans: ['Inter var', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+			},
+			screens: {
+				600: '600px',
 			},
 			fontSize: {
 				'10xl': '10rem',
-				'12xl': '12rem'
+				'12xl': '12rem',
 			},
 			keyframes: {
 				wave: {
 					'0%, 100%': {
 						transform: 'scale(1, .4)',
-						'animation-timing-function': 'cubic-bezier(0.8, 0, 1, 1)'
+						'animation-timing-function':
+							'cubic-bezier(0.8, 0, 1, 1)',
 					},
 					'50%': {
 						transform: 'scale(1, 1)',
-						'animation-timing-function': 'cubic-bezier(0, 0, 0.2, 1);'
-					}
+						'animation-timing-function':
+							'cubic-bezier(0, 0, 0.2, 1);',
+					},
 				},
 				loading: {
 					'0%': {
-						transform: 'rotate(0deg)'
+						transform: 'rotate(0deg)',
 					},
 					'75%': {
-						transform: 'rotate(360deg)'
+						transform: 'rotate(360deg)',
 					},
 					'100%': {
-						transform: 'rotate(360deg)'
-					}
-				}
+						transform: 'rotate(360deg)',
+					},
+				},
+				wiggle: {
+					'10%, 90%': { transform: 'translate(-1px)' },
+					'20%,80%': { transform: 'translate(2px,-4px)' },
+					'30%,50%,70%': { transform: 'translate(-4px,-4px)' },
+					'40%,60%': { transform: 'translate(4px,-4px)' },
+				},
 			},
 			animation: {
 				'wave-1': 'wave 1.2s -200ms linear infinite',
 				'wave-2': 'wave 1.8s -800ms linear infinite',
 				'wave-3': 'wave 2.0s -500ms linear infinite',
 				'wave-4': 'wave 1.4s -2s linear infinite',
-				loading: 'loading 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;'
-			}
-		}
+				loading: 'loading 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;',
+				'cool-wiggle':
+					'wiggle 0.82s cubic-bezier(.36,.07,.19,.97) both',
+			},
+		},
 	},
 	variants: {
-		extend: {}
+		extend: {},
 	},
 	plugins: [
+		require('@tailwindcss/aspect-ratio'),
 		plugin(function ({ addUtilities, theme }) {
 			const colors = theme('colors', {});
 			const iconColorUtilities = Object.keys(colors).map((key) => {
 				if (typeof colors[key] == 'string') {
 					return {
 						[`.icon-${key}`]: {
-							color: colors[key]
-						}
+							color: colors[key],
+						},
 					};
 				} else {
 					const nested = Object.keys(colors[key]).map((innerKey) => {
 						return {
 							[`.icon-${key}-${innerKey}`]: {
-								color: colors[key][innerKey]
-							}
+								color: colors[key][innerKey],
+							},
 						};
 					});
 					return nested;
 				}
 			});
 			addUtilities(iconColorUtilities);
-		})
-	]
+		}),
+	],
 };

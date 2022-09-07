@@ -8,18 +8,24 @@
 	import type { RootContext } from './types';
 
 	const { activeValue, id }: RootContext = getContext('root');
-	const active = derived(activeValue, ($activeValue) => $activeValue === value);
-	const dataState = derived(active, ($active) => ($active ? 'active' : 'inactive'));
+	const active = derived(
+		activeValue,
+		($activeValue) => $activeValue === value,
+	);
+	const dataState = derived(active, ($active) =>
+		$active ? 'active' : 'inactive',
+	);
 </script>
 
 <div
 	class={c}
-	id={`${id}-content-${value}`}
-	aria-labelledby={`${id}-trigger-${value}`}
+	id="{id}-content-{value}"
+	aria-labelledby="{id}-trigger-{value}"
 	role="tabpanel"
 	data-state={$dataState}
 	tabindex="0"
 	hidden={!$active}
+	aria-hidden={!$active}
 >
 	<slot />
 </div>

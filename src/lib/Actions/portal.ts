@@ -10,7 +10,7 @@ import type { ActionReturnType } from '$lib/types';
 // eslint-disable-next-line @typescript-eslint/no-inferrable-types
 export const portal = (
 	node: HTMLElement,
-	target: HTMLElement | string = '#portal'
+	target: HTMLElement | string = '#portal',
 ): ActionReturnType => {
 	let targetEl: HTMLElement;
 	async function update(newTarget: HTMLElement | string) {
@@ -29,7 +29,9 @@ export const portal = (
 				targetEl = portal;
 			}
 			if (targetEl === null) {
-				throw new Error(`No element found matching css selector: "${target}"`);
+				throw new Error(
+					`No element found matching css selector: "${target}"`,
+				);
 			}
 		} else if (target instanceof HTMLElement) {
 			targetEl = newTarget;
@@ -37,7 +39,7 @@ export const portal = (
 			throw new TypeError(
 				`Unknown portal target type: ${
 					target === null ? 'null' : typeof target
-				}. Allowed types: string (CSS selector) or HTMLElement.`
+				}. Allowed types: string (CSS selector) or HTMLElement.`,
 			);
 		}
 		targetEl.appendChild(node);
@@ -51,7 +53,7 @@ export const portal = (
 
 	return {
 		update,
-		destroy
+		destroy,
 	};
 };
 

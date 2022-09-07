@@ -1,21 +1,23 @@
-import { getAccessToken, getTopTracks, getTopArtists, getLastTrack } from './_spotify';
+import {
+	generateAccessToken,
+	getTopTracks,
+	getTopArtists,
+	getLastTrack,
+} from './_spotify';
 import type { RequestHandler } from '@sveltejs/kit';
 import type {
 	SpotifyTopTracksResponse,
 	SpotifyTopArtistsResponse,
-	SpotifyLastTrackResponse
-} from './types';
+	SpotifyLastTrackResponse,
+} from '$components/Music/types';
 
-// GET /todos.json
+// GET /about/music.json
 export const get: RequestHandler = async () => {
-	// request.locals.userid comes from src/hooks.js
-	const response = await getAccessToken();
+	// request access token
+	const response = await generateAccessToken();
+	// if access token is
 	if (response.ok) {
-		// user hasn't created a todo list.
-		// start with an empty array
-		/*
-		fetch for all items
-		*/
+		// fetch all items
 		const lastTrack = getLastTrack();
 		const topTracksShort = getTopTracks('short_term');
 		const topTracksMedium = getTopTracks('medium_term');
@@ -30,16 +32,21 @@ export const get: RequestHandler = async () => {
 			topTrackLong,
 			topArtistsShort,
 			topArtistsMedium,
-			topArtistsLong
+			topArtistsLong,
 		]).then((responses) => {
 			const body = {
 				lastTrackResponse: responses[0] as SpotifyLastTrackResponse,
-				topTracksShortResponse: responses[1] as SpotifyTopTracksResponse,
-				topTracksMediumResponse: responses[2] as SpotifyTopTracksResponse,
+				topTracksShortResponse:
+					responses[1] as SpotifyTopTracksResponse,
+				topTracksMediumResponse:
+					responses[2] as SpotifyTopTracksResponse,
 				topTrackLongResponse: responses[3] as SpotifyTopTracksResponse,
-				topArtistsShortResponse: responses[4] as SpotifyTopArtistsResponse,
-				topArtistsMediumResponse: responses[5] as SpotifyTopArtistsResponse,
-				topArtistsLongResponse: responses[6] as SpotifyTopArtistsResponse
+				topArtistsShortResponse:
+					responses[4] as SpotifyTopArtistsResponse,
+				topArtistsMediumResponse:
+					responses[5] as SpotifyTopArtistsResponse,
+				topArtistsLongResponse:
+					responses[6] as SpotifyTopArtistsResponse,
 			};
 			return { status: 200, body: body };
 		});

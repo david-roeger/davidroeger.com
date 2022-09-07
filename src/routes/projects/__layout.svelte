@@ -1,10 +1,12 @@
-<section>
-	<slot />
-</section>
+<script lang="ts">
+	import { Background } from '$components/Background';
+</script>
 
-<style>
-	section :global(h1) {
-		@apply text-6xl;
-		@apply font-bold;
-	}
-</style>
+<Background
+	center="hsla(146, 38%, 69%, 0.4)"
+	outside="hsla(146, 38%, 69%, 0)"
+/>
+
+<div class="relative">
+	<slot />
+</div>

@@ -3,6 +3,7 @@ import type { Writable } from 'svelte/store';
 export interface RootContext {
 	id: string;
 	direction: 'horizontal' | 'vertical';
+	labelledby: string;
 	setGallery: Writable<(value: number) => void | undefined>;
 	container: writable<HTMLDivElement | undefined>;
 	step: number;

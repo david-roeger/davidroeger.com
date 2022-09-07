@@ -18,9 +18,11 @@
 	const computedId = `drds-tags-${id.toString()}`;
 	const rootContext: RootContext = {
 		id: computedId,
-		activeValues: writable(Array.isArray(defaultValue) ? defaultValue : [defaultValue]),
+		activeValues: writable(
+			Array.isArray(defaultValue) ? defaultValue : [defaultValue],
+		),
 		setTags: writable(undefined),
-		unsetTags: writable(undefined)
+		unsetTags: writable(undefined),
 	};
 	setContext('root', rootContext);
 	const { activeValues, setTags, unsetTags } = rootContext;
@@ -30,24 +32,28 @@
 			$activeValues = [...$activeValues, value];
 			return;
 		}
-		$activeValues = $activeValues.filter((activeValue) => activeValue !== value);
+		$activeValues = $activeValues.filter(
+			(activeValue) => activeValue !== value,
+		);
 	};
 
 	$unsetTags = () => {
 		$activeValues = [];
 	};
 
-	const dispatch = createEventDispatcher<{ valueChange: { value: string[] } }>();
+	const dispatch = createEventDispatcher<{
+		valueChange: { value: string[] };
+	}>();
 	$: dispatch('valueChange', {
-		value: $activeValues
+		value: $activeValues,
 	});
 </script>
 
 <div
 	aria-multiselectable="true"
 	data-orientation={direction}
-	id={`${computedId}-list`}
-	class={`${c}`}
+	id="{computedId}-list"
+	class={c}
 >
 	<slot />
 </div>

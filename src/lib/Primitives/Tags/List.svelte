@@ -11,8 +11,12 @@
 	let triggerElements: HTMLButtonElement[] = [];
 
 	onMount(() => {
-		triggerElements = Array.from(root.querySelectorAll(':scope > button[data-state]'));
-		triggerElements = triggerElements.filter((triggerElement) => !triggerElement.disabled);
+		triggerElements = Array.from(
+			root.querySelectorAll(':scope > button[data-state]'),
+		);
+		triggerElements = triggerElements.filter(
+			(triggerElement) => !triggerElement.disabled,
+		);
 	});
 
 	const nextKey = direction === 'horizontal' ? 'ArrowLeft' : 'ArrowUp';
@@ -20,7 +24,7 @@
 
 	const handleKeyDown = (e: KeyboardEvent) => {
 		let activeTriggerIndex = triggerElements.findIndex(
-			(trigger) => trigger === document.activeElement
+			(trigger) => trigger === document.activeElement,
 		);
 		if (activeTriggerIndex != -1) {
 			switch (e.key) {
@@ -36,7 +40,11 @@
 					e.stopPropagation();
 					break;
 				case prevKey:
-					if (!loop && activeTriggerIndex === triggerElements.length - 1) return;
+					if (
+						!loop &&
+						activeTriggerIndex === triggerElements.length - 1
+					)
+						return;
 
 					activeTriggerIndex++;
 					if (activeTriggerIndex >= triggerElements.length) {
@@ -66,7 +74,7 @@
 <div
 	aria-orientation={direction}
 	data-orientation={direction}
-	class={`${c}`}
+	class={c}
 	bind:this={root}
 	on:keydown={handleKeyDown}
 >
