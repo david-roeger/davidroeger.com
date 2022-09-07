@@ -21,6 +21,7 @@
 	import pmd from '$assets/projectsMediaData.json';
 	import Head from '$components/Head/Head.svelte';
 	import type { Media as MediaType, ProjectsMediaData } from '$lib/types';
+	import type { BreakpointContext } from '$lib/Provider/Breakpoint/types';
 
 	const projectsMediaData: ProjectsMediaData = { ...pmd };
 
@@ -65,7 +66,7 @@
 		return array;
 	};
 
-	const { MD, LG } = getContext('breakpoints');
+	const { MD, LG }: BreakpointContext = getContext('breakpoints');
 	$: nestedMediaArray = getNestedMedia($MD, $LG);
 </script>
 
