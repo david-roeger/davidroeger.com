@@ -1,9 +1,8 @@
-node_modules
 .DS_Store
-dist
-dist-ssr
-*.local
-tsconfig.tsbuildinfo
-blurhash.map.json
-metadata.map.json
+node_modules
+/build
 /.svelte-kit
+/package
+.env
+.env.*
+!.env.example
