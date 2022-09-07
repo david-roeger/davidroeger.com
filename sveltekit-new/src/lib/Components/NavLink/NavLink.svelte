@@ -1,10 +1,10 @@
 <script lang="ts">
 	export let href: string;
 	export let type: 'primary' | 'icon' | 'button' = 'primary';
-	export let activePath: string | undefined = undefined;
+	export let activePath: string | undefined = undefined;
 	export let activeRegEx: RegExp | undefined = undefined;
 	export let activeClass = '';
-	export let role: string | undefined = undefined;
+	export let role: string | undefined = undefined;
 
 	let customClass = '';
 	export { customClass as class };
@@ -45,7 +45,7 @@
 
 <a
 	{role}
-	sveltekit:prefetch
+	data-sveltekit-prefetch
 	{href}
 	class="border border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 transition-colors {variantClass} {customClass} {getActiveClass()}"
 >
