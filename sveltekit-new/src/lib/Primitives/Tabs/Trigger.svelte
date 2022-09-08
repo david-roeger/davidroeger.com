@@ -12,10 +12,10 @@
 	const { setTabs, activeValue, id }: RootContext = getContext('root');
 	const active = derived(
 		activeValue,
-		($activeValue) => $activeValue === value,
+		($activeValue) => $activeValue === value
 	);
 	const dataState = derived(active, ($active) =>
-		$active ? 'active' : 'inactive',
+		$active ? 'active' : 'inactive'
 	);
 
 	const handleClick = () => {

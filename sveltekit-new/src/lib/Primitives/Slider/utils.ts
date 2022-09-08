@@ -1,4 +1,8 @@
-export const convertValueToPercentage = (value: number, min: number, max: number): number => {
+export const convertValueToPercentage = (
+	value: number,
+	min: number,
+	max: number
+): number => {
 	const maxSteps = max - min;
 	const percentPerStep = 100 / maxSteps;
 	return percentPerStep * (value - min);
@@ -7,7 +11,10 @@ export const convertValueToPercentage = (value: number, min: number, max: number
 /**
  * Returns a label for each thumb when there are two or more thumbs
  */
-export const getLabel = (index: number, totalValues: number): string | undefined => {
+export const getLabel = (
+	index: number,
+	totalValues: number
+): string | undefined => {
 	if (totalValues > 2) {
 		return `Value ${index + 1} of ${totalValues}`;
 	} else if (totalValues === 2) {
@@ -21,7 +28,11 @@ export const getLabel = (index: number, totalValues: number): string | undefined
  * Offsets the thumb centre point while sliding to ensure it remains
  * within the bounds of the slider when reaching the edges
  */
-export const getThumbInBoundsOffset = (width: number, left: number, direction: number): number => {
+export const getThumbInBoundsOffset = (
+	width: number,
+	left: number,
+	direction: number
+): number => {
 	const halfWidth = width / 2;
 	const halfPercent = 50;
 	const offset = linearScale([0, halfPercent], [0, halfWidth]);

@@ -95,7 +95,10 @@ function getPlacementData({
 	);
 
 	// check for any collisions in new placement
-	const popperCollisions = getCollisions(popperRect, collisionBoundariesRectWithTolerance);
+	const popperCollisions = getCollisions(
+		popperRect,
+		collisionBoundariesRectWithTolerance
+	);
 
 	// do all the same calculations for the opposite side
 	// this is because we need to check for potential collisions if we were to swap side
@@ -181,7 +184,11 @@ function getAllPlacementPoints(
 	return map;
 }
 
-function getPopperSlotsForAxis(triggerRect: DOMRect, popperSize: Size, axis: Axis) {
+function getPopperSlotsForAxis(
+	triggerRect: DOMRect,
+	popperSize: Size,
+	axis: Axis
+) {
 	const startSide = axis === 'x' ? 'left' : 'top';
 	const triggerStart = triggerRect[startSide];
 
@@ -213,7 +220,9 @@ function getSideAccountingForCollisions(
 	const oppositeSide = getOppositeSide(side);
 	// in order to prevent premature jumps
 	// we only swap side if there's enough space to fit on the opposite side
-	return collisions[side] && !oppositeSideCollisions[oppositeSide] ? oppositeSide : side;
+	return collisions[side] && !oppositeSideCollisions[oppositeSide]
+		? oppositeSide
+		: side;
 }
 
 /**
@@ -238,13 +247,19 @@ function getAlignAccountingForCollisions(
 	const istriggerBigger = triggerSize[dimension] > popperSize[dimension];
 
 	if (align === 'start' || align === 'center') {
-		if ((collisions[startBound] && istriggerBigger) || (collisions[endBound] && !istriggerBigger)) {
+		if (
+			(collisions[startBound] && istriggerBigger) ||
+			(collisions[endBound] && !istriggerBigger)
+		) {
 			return 'end';
 		}
 	}
 
 	if (align === 'end' || align === 'center') {
-		if ((collisions[endBound] && istriggerBigger) || (collisions[startBound] && !istriggerBigger)) {
+		if (
+			(collisions[endBound] && istriggerBigger) ||
+			(collisions[startBound] && !istriggerBigger)
+		) {
 			return 'start';
 		}
 	}

@@ -21,7 +21,7 @@
 		activationMode: activationMode,
 		direction: direction,
 		activeValue: writable(defaultValue),
-		setTabs: writable(undefined),
+		setTabs: writable(undefined)
 	};
 	setContext('root', rootContext);
 	const { activeValue, setTabs } = rootContext;
@@ -36,7 +36,7 @@
 		valueChange: { value: string };
 	}>();
 	$: dispatch('valueChange', {
-		value: $activeValue,
+		value: $activeValue
 	});
 </script>
 

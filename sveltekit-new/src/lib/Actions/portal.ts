@@ -29,7 +29,9 @@ export const portal = (
 				targetEl = portal;
 			}
 			if (targetEl === null) {
-				throw new Error(`No element found matching css selector: "${target}"`);
+				throw new Error(
+					`No element found matching css selector: "${target}"`
+				);
 			}
 		} else if (target instanceof HTMLElement) {
 			targetEl = newTarget;

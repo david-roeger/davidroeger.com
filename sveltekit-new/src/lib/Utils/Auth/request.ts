@@ -49,7 +49,9 @@ export const getDreams = async (): Promise<{
 			data: dreams,
 			error,
 			status
-		} = await supabase.from('dreams').select(`id, text, emoji, created_at, updated_at`);
+		} = await supabase
+			.from('dreams')
+			.select(`id, text, emoji, created_at, updated_at`);
 
 		if (error && status !== 406) throw error;
 
@@ -104,7 +106,12 @@ export const updateDream = async ({
 			data: dream,
 			error,
 			status
-		} = await supabase.from('dreams').update(updateOptions).eq('id', id).select().single();
+		} = await supabase
+			.from('dreams')
+			.update(updateOptions)
+			.eq('id', id)
+			.select()
+			.single();
 
 		if (error && status !== 406) throw error;
 
@@ -128,7 +135,12 @@ export const deleteDream = async ({
 			data: dream,
 			error,
 			status
-		} = await supabase.from('dreams').delete().eq('id', id).select().single();
+		} = await supabase
+			.from('dreams')
+			.delete()
+			.eq('id', id)
+			.select()
+			.single();
 
 		if (error && status !== 406) throw error;
 

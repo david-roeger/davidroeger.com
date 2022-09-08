@@ -79,7 +79,10 @@ const buildTags = (config: SepProps): Tags[] => {
 	if (config.title) {
 		updatedTitle = config.title;
 		if (defaults.templateTitle) {
-			updatedTitle = defaults.templateTitle.replace(/%s/g, () => updatedTitle);
+			updatedTitle = defaults.templateTitle.replace(
+				/%s/g,
+				() => updatedTitle
+			);
 		}
 	}
 
@@ -123,7 +126,9 @@ const buildTags = (config: SepProps): Tags[] => {
 			tag: 'meta',
 			key: 'robots',
 			name: 'robots',
-			content: `${noindex ? 'noindex' : 'index'},${nofollow ? 'nofollow' : 'follow'}${robotsParams}`
+			content: `${noindex ? 'noindex' : 'index'},${
+				nofollow ? 'nofollow' : 'follow'
+			}${robotsParams}`
 		});
 	} else {
 		tagsToRender.push({
@@ -282,7 +287,10 @@ const buildTags = (config: SepProps): Tags[] => {
 					});
 				}
 			} else if (type === 'book' && config.openGraph.book) {
-				if (config.openGraph.book.authors && config.openGraph.book.authors.length) {
+				if (
+					config.openGraph.book.authors &&
+					config.openGraph.book.authors.length
+				) {
 					config.openGraph.book.authors.forEach((author, index) => {
 						tagsToRender.push({
 							tag: 'meta',
@@ -311,7 +319,10 @@ const buildTags = (config: SepProps): Tags[] => {
 					});
 				}
 
-				if (config.openGraph.book.tags && config.openGraph.book.tags.length) {
+				if (
+					config.openGraph.book.tags &&
+					config.openGraph.book.tags.length
+				) {
 					config.openGraph.book.tags.forEach((tag, index) => {
 						tagsToRender.push({
 							tag: 'meta',
@@ -349,15 +360,20 @@ const buildTags = (config: SepProps): Tags[] => {
 					});
 				}
 
-				if (config.openGraph.article.authors && config.openGraph.article.authors.length) {
-					config.openGraph.article.authors.forEach((author, index) => {
-						tagsToRender.push({
-							tag: 'meta',
-							key: `article:author:0${index}`,
-							property: 'article:author',
-							content: author
-						});
-					});
+				if (
+					config.openGraph.article.authors &&
+					config.openGraph.article.authors.length
+				) {
+					config.openGraph.article.authors.forEach(
+						(author, index) => {
+							tagsToRender.push({
+								tag: 'meta',
+								key: `article:author:0${index}`,
+								property: 'article:author',
+								content: author
+							});
+						}
+					);
 				}
 
 				if (config.openGraph.article.section) {
@@ -369,7 +385,10 @@ const buildTags = (config: SepProps): Tags[] => {
 					});
 				}
 
-				if (config.openGraph.article.tags && config.openGraph.article.tags.length) {
+				if (
+					config.openGraph.article.tags &&
+					config.openGraph.article.tags.length
+				) {
 					config.openGraph.article.tags.forEach((tag, index) => {
 						tagsToRender.push({
 							tag: 'meta',
@@ -386,7 +405,10 @@ const buildTags = (config: SepProps): Tags[] => {
 					type === 'video.other') &&
 				config.openGraph.video
 			) {
-				if (config.openGraph.video.actors && config.openGraph.video.actors.length) {
+				if (
+					config.openGraph.video.actors &&
+					config.openGraph.video.actors.length
+				) {
 					config.openGraph.video.actors.forEach((actor, index) => {
 						if (actor.profile) {
 							tagsToRender.push({
@@ -408,18 +430,26 @@ const buildTags = (config: SepProps): Tags[] => {
 					});
 				}
 
-				if (config.openGraph.video.directors && config.openGraph.video.directors.length) {
-					config.openGraph.video.directors.forEach((director, index) => {
-						tagsToRender.push({
-							tag: 'meta',
-							key: `video:director:0${index}`,
-							property: 'video:director',
-							content: director
-						});
-					});
+				if (
+					config.openGraph.video.directors &&
+					config.openGraph.video.directors.length
+				) {
+					config.openGraph.video.directors.forEach(
+						(director, index) => {
+							tagsToRender.push({
+								tag: 'meta',
+								key: `video:director:0${index}`,
+								property: 'video:director',
+								content: director
+							});
+						}
+					);
 				}
 
-				if (config.openGraph.video.writers && config.openGraph.video.writers.length) {
+				if (
+					config.openGraph.video.writers &&
+					config.openGraph.video.writers.length
+				) {
 					config.openGraph.video.writers.forEach((writer, index) => {
 						tagsToRender.push({
 							tag: 'meta',
@@ -448,7 +478,10 @@ const buildTags = (config: SepProps): Tags[] => {
 					});
 				}
 
-				if (config.openGraph.video.tags && config.openGraph.video.tags.length) {
+				if (
+					config.openGraph.video.tags &&
+					config.openGraph.video.tags.length
+				) {
 					config.openGraph.video.tags.forEach((tag, index) => {
 						tagsToRender.push({
 							tag: 'meta',
@@ -471,13 +504,17 @@ const buildTags = (config: SepProps): Tags[] => {
 		}
 
 		if (config.openGraph.images && config.openGraph.images.length) {
-			tagsToRender.push(...buildOpenGraphMediaTags('image', config.openGraph.images));
+			tagsToRender.push(
+				...buildOpenGraphMediaTags('image', config.openGraph.images)
+			);
 		}
 
 		// videos
 
 		if (config.openGraph.videos && config.openGraph.videos.length) {
-			tagsToRender.push(...buildOpenGraphMediaTags('video', config.openGraph.videos));
+			tagsToRender.push(
+				...buildOpenGraphMediaTags('video', config.openGraph.videos)
+			);
 		}
 
 		if (config.openGraph.locale) {
@@ -510,7 +547,9 @@ const buildTags = (config: SepProps): Tags[] => {
 
 	if (config.additionalMetaTags && config.additionalMetaTags.length > 0) {
 		config.additionalMetaTags.forEach((tag, index) => {
-			const key = `${tag.keyOverride ?? tag.name ?? tag.property ?? tag.httpEquiv}`;
+			const key = `${
+				tag.keyOverride ?? tag.name ?? tag.property ?? tag.httpEquiv
+			}`;
 			if (key) {
 				tagsToRender.push({
 					tag: 'meta',

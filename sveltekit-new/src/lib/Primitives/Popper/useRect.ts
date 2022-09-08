@@ -14,7 +14,9 @@ function useRect(measurable: Measurable | null): Writable<Rect> {
 
 	let onDestroy: () => void;
 	if (measurable) {
-		onDestroy = observeElementRect(measurable, (r) => rect.set({ rect: r, onDestroy }));
+		onDestroy = observeElementRect(measurable, (r) =>
+			rect.set({ rect: r, onDestroy })
+		);
 		rect.set({ rect: measurable.getBoundingClientRect(), onDestroy });
 
 		/*return () => {

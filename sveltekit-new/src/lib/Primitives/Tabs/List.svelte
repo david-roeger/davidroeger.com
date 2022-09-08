@@ -6,17 +6,19 @@
 	export { c as class };
 
 	import { getContext, onMount } from 'svelte';
-	const { direction, activationMode } = getContext('root');
+	import type { RootContext } from './types';
+
+	const { direction, activationMode }: RootContext = getContext('root');
 
 	let root: HTMLElement;
 	let triggerElements: HTMLButtonElement[] = [];
 
 	onMount(() => {
 		triggerElements = Array.from(
-			root.querySelectorAll(':scope > button[data-state]'),
+			root.querySelectorAll(':scope > button[data-state]')
 		);
 		triggerElements = triggerElements.filter(
-			(triggerElement) => !triggerElement.disabled,
+			(triggerElement) => !triggerElement.disabled
 		);
 	});
 
@@ -25,7 +27,7 @@
 
 	const handleKeyDown = (e: KeyboardEvent) => {
 		let activeTriggerIndex = triggerElements.findIndex(
-			(trigger) => trigger === document.activeElement,
+			(trigger) => trigger === document.activeElement
 		);
 		if (activeTriggerIndex != -1) {
 			switch (e.key) {
