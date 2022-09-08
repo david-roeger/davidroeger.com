@@ -2,4 +2,6 @@
 	console.info('contact: +page.svelte');
 </script>
 
-<p>contact me</p>
+<section class="mb-32">
+	<p>contact me</p>
+</section>

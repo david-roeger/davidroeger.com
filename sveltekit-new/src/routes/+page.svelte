@@ -119,5 +119,4 @@
 	<div class="bg-blue-5 h-[500px]" />
 
 	<div />
-	<p>Last updated at: {process.env.VITE_BUILD_TIME}</p>
 </section>

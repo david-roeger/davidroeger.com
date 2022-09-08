@@ -8,6 +8,8 @@
 
 	import { BreakpointProvider } from '$provider/Breakpoint';
 	import { Header } from '$slices/Header';
+	import { Footer } from '$slices/Footer';
+
 	import AccessibleIcon from '$components/AccessibleIcon';
 	import North from '$assets/Icons/24/north.svg';
 
@@ -222,15 +224,17 @@
 	]}
 />
 
-<div class="relative flex flex-col h-full font-sans text-mauve-12">
+<div class="relative flex flex-col min-h-full font-sans text-mauve-12">
 	<Header class="z-30" />
-	<main class="z-10 flex flex-col xl:max-w-7xl xl:border-r border-mauve-6">
+	<main
+		class="z-10 flex flex-col xl:max-w-7xl xl:border-r border-mauve-6 mb-auto"
+	>
 		<BreakpointProvider>
 			<slot />
 		</BreakpointProvider>
 	</main>
-	<!--footer class="z-20 " /-->
-	{#if showBttButton && false}
+	<Footer class="z-20" />
+	{#if showBttButton}
 		<div
 			class="sticky bottom-0 left-0 z-30"
 			in:slideUp|local

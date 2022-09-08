@@ -42,11 +42,7 @@
 	Frontend Developer, UI/UX Designer
 </Headline>
 
-<section
-	class="mb-8 border-b first:border-t-0 border-mauve-6 md:mb-16 last:mb-0"
->
-	<h1>About this app</h1>
-
+<section class="mb-32">
 	<p>
 		This is a <a href="https://kit.svelte.dev">SvelteKit</a>
 		app. You can make your own by typing the following into your command line
