@@ -76,7 +76,7 @@ const buildTags = (config: SepProps): Tags[] => {
 	}
 
 	let updatedTitle = '';
-	if (config.title) {
+	if (config.title !== undefined) {
 		updatedTitle = config.title;
 		if (defaults.templateTitle) {
 			updatedTitle = defaults.templateTitle.replace(
