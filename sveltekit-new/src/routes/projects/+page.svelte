@@ -186,7 +186,7 @@
 					id="gallery-headline-{encodeURIComponent(project.title)}"
 				>
 					<a
-						sveltekit:prefetch
+						data-sveltekit-prefetch
 						class="focus:outline-none growing-underline"
 						href="projects/{project.slug}"
 					>
@@ -258,7 +258,7 @@
 				</Gallery.Root>
 				<div class="bg-white md:flex md:flex-wrap md:justify-between">
 					<a
-						sveltekit:prefetch
+						data-sveltekit-prefetch
 						class="inline-flex items-center gap-2 px-4 p-1 m-2 text-xs transition-[gap,padding] border border-mauve-12 bg-white md:justify-between hover:gap-4 hover:pr-2 focus:gap-4 focus:pr-2 focus:outline-none ring-mauve-12 focus:ring-1"
 						href="projects/{project.slug}"
 						title="Read more about the project {project.slug}"
@@ -286,7 +286,7 @@
 			<!-- content here -->
 			<Headline as="h3" type="secondary" containerClass="!p-0 bg-white">
 				<a
-					sveltekit:prefetch
+					data-sveltekit-prefetch
 					class="group flex justify-between items-center pr-4 transition-[padding] bg-white md:justify-between hover:pr-2 focus:pr-2 focus:outline-none"
 					href="experimental/{experiment.slug}"
 					title="Read more about the project {experiment.slug}"

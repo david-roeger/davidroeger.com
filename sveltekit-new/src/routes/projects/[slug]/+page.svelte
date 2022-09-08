@@ -94,7 +94,7 @@
 			<AccessibleIcon label="Tags"><TagIcon /></AccessibleIcon>
 			{#each data.tags as tag (tag)}
 				<a
-					sveltekit:prefetch
+					data-sveltekit-prefetch
 					href={`../projects?tags=${tag}`}
 					class="m-1 hover:underline focus:underline decoration-from-font focus:outline-none"
 				>

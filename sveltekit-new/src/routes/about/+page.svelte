@@ -64,7 +64,7 @@
 	</p>
 
 	<p>
-		The <a sveltekit:prefetch href="/about/music">Music</a>
+		The <a data-sveltekit-prefetch href="/about/music">Music</a>
 		page illustrates SvelteKit's data loading and form handling. Try using it
 		with JavaScript disabled!
 	</p>
