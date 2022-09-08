@@ -13,6 +13,7 @@ const config = {
 
 	kit: {
 		adapter: adapter(),
+		csp: { mode: 'auto' },
 		alias: {
 			$lib: 'src/lib',
 			$actions: 'src/lib/Actions',
