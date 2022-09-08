@@ -82,32 +82,34 @@
 		</span>
 	</p>
 
-	<Tabs.List
-		ariaLabel="My Favorite Artists and Tracks on Spotify"
-		class="flex p-2 space-x-2 border-t border-mauve-6"
-	>
-		<Tabs.Trigger
-			value="tracks"
-			class="flex-grow border border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 px-4 py-2 rounded-l-full {$selected ===
-			'tracks'
-				? 'bg-purple-5'
-				: 'bg-white'}"
+	<div class="flex p-2 space-x-2 border-t border-mauve-6">
+		<Tabs.List
+			ariaLabel="My Favorite Artists and Tracks on Spotify"
+			class="w-full flex space-x-2 border-t border-mauve-6"
 		>
-			<Headline as="h2" unstyled id="top_tracks" type="secondary">
-				Tracks
-			</Headline>
-		</Tabs.Trigger>
-		<Tabs.Trigger
-			value="artists"
-			class="flex-grow border border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 px-4 py-2 rounded-r-full {$selected ===
-			'artists'
-				? 'bg-purple-5'
-				: 'bg-white'}"
-		>
-			<Headline as="h2" unstyled type="secondary" id="top_artists">
-				Artists
-			</Headline>
-		</Tabs.Trigger>
+			<Tabs.Trigger
+				value="tracks"
+				class="flex-grow border border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 px-4 py-2 rounded-l-full {$selected ===
+				'tracks'
+					? 'bg-purple-5'
+					: 'bg-white'}"
+			>
+				<Headline as="h2" unstyled id="top_tracks" type="secondary">
+					Tracks
+				</Headline>
+			</Tabs.Trigger>
+			<Tabs.Trigger
+				value="artists"
+				class="flex-grow border border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 px-4 py-2 rounded-r-full {$selected ===
+				'artists'
+					? 'bg-purple-5'
+					: 'bg-white'}"
+			>
+				<Headline as="h2" unstyled type="secondary" id="top_artists">
+					Artists
+				</Headline>
+			</Tabs.Trigger>
+		</Tabs.List>
 		<Popper.Root defaultOpen={false}>
 			<Popper.Trigger
 				class="p-2 border border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1"
@@ -175,7 +177,7 @@
 				</Popper.Close>
 			</Popper.Content>
 		</Popper.Root>
-	</Tabs.List>
+	</div>
 	<Tabs.Content
 		value="tracks"
 		class="border-t border-b bg-white/[.85] border-mauve-6 focus:outline-none ring-mauve-6 focus:ring-1"
@@ -198,7 +200,7 @@
 	</Tabs.Content>
 </Tabs.Root>
 
-<div class="pt-8 pb-32 text-center md:pt-16">
+<div class="pt-8 mb-32 text-center md:pt-16">
 	<p>Made with:</p>
 	<p>
 		<Link type="secondary" href="https://spotify.com">Spotify</Link>
