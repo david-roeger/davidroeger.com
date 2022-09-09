@@ -4,7 +4,7 @@ import { DEV_LOGIN } from '$env/static/private';
 
 export const handle: Handle = async ({ resolve, event }) => {
 	const url = new URL(event.request.url);
-
+	console.log(url);
 	if (url.href.includes('dev')) {
 		const auth = event.request.headers.get('Authorization');
 		if (auth !== `Basic ${Buffer.from(DEV_LOGIN).toString('base64')}`) {
