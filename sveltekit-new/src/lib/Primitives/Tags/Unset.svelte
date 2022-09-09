@@ -21,6 +21,7 @@
 	on:click
 	type="button"
 	role="option"
+	aria-selected="false"
 	aria-controls="{id}-list"
 	data-state={$dataState}
 	class={c}
