@@ -15,7 +15,13 @@ const config = {
 		adapter: adapter(),
 		csp: {
 			mode: 'auto',
-			directives: { 'default-src': ['self'], 'img-src': ['*'] }
+			directives: {
+				'default-src': ['self'],
+				// needs unsafe-inline for svelte transitions
+				// https://github.com/sveltejs/kit/issues/5215
+				'style-src': ['self', 'unsafe-inline'],
+				'img-src': ['*']
+			}
 		},
 		alias: {
 			$lib: 'src/lib',
