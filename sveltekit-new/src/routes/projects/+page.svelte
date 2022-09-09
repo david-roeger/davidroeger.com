@@ -24,6 +24,7 @@
 	import pmd from '$assets/projectsMediaData.json';
 	import Head from '$components/Head/Head.svelte';
 	import type { PageData } from './$types';
+	import { browser, prerendering } from '$app/env';
 
 	const projectsMediaData: ProjectsMediaData = { ...pmd };
 
@@ -43,19 +44,17 @@
 		});
 	});
 
-	let mounted = false;
 	let defaultTags: string[] = [];
 
-	const encoded = $page.url.searchParams.get('tags');
+	const encoded = prerendering ? null : $page.url.searchParams.get('tags');
 	const decoded = decodeURIComponent(encoded ?? '');
-	let filter = false;
+
 	if (decoded && decoded !== 'null') {
 		const candidates = decoded.split(',');
 		const final: Set<string> = new Set();
 
 		candidates.forEach((candidate) => {
 			if (!availableTags.has(candidate)) {
-				filter = true;
 				return;
 			}
 			final.add(candidate);
@@ -65,37 +64,33 @@
 		defaultTags = [...final];
 	}
 
-	onMount(() => {
-		if (filter) {
-			replaceStateWithQuery({
-				tags: [...$tags].join(',')
-			});
-		}
-		updateProjects();
-		mounted = true;
-	});
-
 	const updateQueries = (queries: string[]) => {
 		$tags = new Set([...queries]);
 	};
 
-	$: if (mounted) {
-		replaceStateWithQuery({
-			tags: [...$tags].join(',')
-		});
-		updateProjects();
-	}
-
-	const updateProjects = () => {
-		if ($tags.size) {
+	const updateProjects = (tags: Set<string>) => {
+		if (tags.size) {
 			filteredProjects = projects.filter((project) => {
-				return project.tags.some((tag) => $tags.has(tag));
+				return project.tags.some((tag) => tags.has(tag));
 			});
+			if (browser) {
+				replaceStateWithQuery({
+					tags: [...tags].join(',')
+				});
+			}
 			return;
 		}
+
+		if (browser) {
+			replaceStateWithQuery({
+				tags: ''
+			});
+		}
+
 		filteredProjects = projects;
 	};
-	updateProjects();
+
+	$: updateProjects($tags);
 
 	const baseEasing = BezierEasing(0.4, 0, 0.2, 1);
 	const reversedEasing = BezierEasing(0.8, 0, 0.6, 1);
