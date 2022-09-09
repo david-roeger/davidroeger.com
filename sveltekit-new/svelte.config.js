@@ -16,11 +16,12 @@ const config = {
 		csp: {
 			mode: 'auto',
 			directives: {
-				'default-src': ['self'],
+				'default-src': ['self', '*.davidroeger.com'],
 				// needs unsafe-inline for svelte transitions
 				// https://github.com/sveltejs/kit/issues/5215
-				'style-src': ['self', 'unsafe-inline'],
-				'img-src': ['*']
+				'style-src': ['self', '*.davidroeger.com', 'unsafe-inline'],
+				'img-src': ['*'],
+				'frame-ancestors': ['self', '*.davidroeger.com']
 			}
 		},
 		alias: {
