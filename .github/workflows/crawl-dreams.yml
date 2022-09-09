@@ -11,6 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: fetch dreams
-        uses: JamesIves/fetch-api-data-action@v2
+        uses: wei/curl@master
         with:
-          endpoint: https://www.davidroeger.com/experimental/dream
+          args: https://www.davidroeger.com/experimental/dreams
+
