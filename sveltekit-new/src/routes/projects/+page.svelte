@@ -24,7 +24,7 @@
 	import pmd from '$assets/projectsMediaData.json';
 	import Head from '$components/Head/Head.svelte';
 	import type { PageData } from './$types';
-	import { browser, prerendering } from '$app/env';
+	import { browser, prerendering } from '$app/environment';
 
 	const projectsMediaData: ProjectsMediaData = { ...pmd };
 

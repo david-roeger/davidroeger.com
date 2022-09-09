@@ -1,11 +1,8 @@
 <script lang="ts">
-	import { browser, prerendering } from '$app/env';
+	import { browser, prerendering } from '$app/environment';
 
 	let c = '';
 	export { c as class };
-
-	console.log(browser);
-	console.log('pre', prerendering);
 </script>
 
 <footer class={`border-t xl:max-w-7xl border-mauve-6 p-2 ${c}`}>

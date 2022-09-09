@@ -23,17 +23,6 @@ const config = {
 			'$provider/*': 'src/lib/Provider/*',
 			'$slices/*': 'src/lib/Slices/*',
 			$utils: 'src/lib/Utils'
-		},
-
-		// Override http methods in the Todo forms
-		methodOverride: {
-			allowed: ['PATCH', 'DELETE']
-		},
-
-		prerender: {
-			enabled: true,
-			default: true,
-			crawl: true
 		}
 	}
 };
