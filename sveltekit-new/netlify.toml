@@ -18,6 +18,8 @@
   for = "/*"
   [headers.values]
     X-Frame-Options = "SAMEORIGIN"
+    X-Content-Type-Options = "nosniff"
+
 
     # The Basic-Auth header may not be available on all plans.
     Basic-Auth = "someuser:somepassword anotheruser:anotherpassword"
