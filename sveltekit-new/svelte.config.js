@@ -13,7 +13,10 @@ const config = {
 
 	kit: {
 		adapter: adapter(),
-		csp: { mode: 'auto', directives: { 'script-src': ['self'] } },
+		csp: {
+			mode: 'auto',
+			directives: { 'default-src': ['self'], 'img-src': ['*'] }
+		},
 		alias: {
 			$lib: 'src/lib',
 			$actions: 'src/lib/Actions',
