@@ -1,6 +1,8 @@
-const SPOTIFY_CLIENT_ID = import.meta.env.VITE_SPOTIFY_CLIENT_ID;
-const SPOTIFY_CLIENT_SECRET = import.meta.env.VITE_SPOTIFY_CLIENT_SECRET;
-const SPOTIFY_REFRESH_TOKEN = import.meta.env.VITE_SPOTIFY_REFRESH_TOKEN;
+import {
+	SPOTIFY_CLIENT_ID,
+	SPOTIFY_CLIENT_SECRET,
+	SPOTIFY_REFRESH_TOKEN
+} from '$env/static/private';
 
 import type { ErrorBody, SpotifyResponse } from '$components/Music/types';
 
