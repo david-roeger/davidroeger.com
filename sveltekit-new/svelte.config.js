@@ -16,7 +16,7 @@ const config = {
 		csp: {
 			mode: 'auto',
 			directives: {
-				'default-src': ['self', '*.davidroeger.com'],
+				'default-src': ['self', '*.davidroeger.com', '*.supabase.co'],
 				// needs unsafe-inline for svelte transitions
 				// https://github.com/sveltejs/kit/issues/5215
 				'style-src': ['self', '*.davidroeger.com', 'unsafe-inline'],
