@@ -1,30 +1,14 @@
 <script lang="ts">
-	import type { MetaType } from "./types";
+	import type { Picture } from './types';
 
 	/**
-	 * the output of a vite-imagetools import, using the `meta` query for output
-	 * format
+	 * the output of a vite-imagetools import, using the `picture` query for output
 	 */
-	export let meta: MetaType|  MetaType[];
-	// if there is only one, vite-imagetools won't wrap the object in an array
-	const metaArray = meta instanceof Array ? meta : [meta];
 
-	// all images by format
-	let sources = new Map<string, MetaType[]>();
-	metaArray.map((m) => sources.set(m.format, []));
-	metaArray.map((m) => sources.get(m.format)?.push(m));
+	export let picture: Picture;
 
-	// fallback image: first resolution of last format
-	const lastFormatKey = [...sources.keys()].pop() ?? '';
-	const lasFormatSources = sources.get(lastFormatKey);
-	const image = lasFormatSources?.[0];
-
-	export let sizes = `${image?.width}px`;
 	export let alt: string;
-	export let loading: string | undefined = undefined;
-
-	export let width: number | undefined = undefined;
-	export let height: number | undefined = undefined;
+	export let loading: string | undefined = undefined;
 
 	let c = '';
 	export { c as class };
@@ -32,12 +16,17 @@
 </script>
 
 <picture class={c}>
-	{#each [...sources.entries()] as [format, meta]}
-		<source
-			{sizes}
-			type="image/{format}"
-			srcset={meta.map((m) => `${m.src} ${m.width}w`).join(', ')}
-		/>
+	{#each Object.keys(picture.sources) as format}
+		{@const srcset = picture.sources[format]
+			.map((s) => `${s.src} ${s.w}w`)
+			.join(', ')}
+		<source type="image/{format}" {srcset} />
 	{/each}
-	<img {width} {height} src={image?.src} {alt} {loading} class={imgClass} />
+	<img
+		width={picture.fallback.w}
+		height={picture.fallback.h}
+		{alt}
+		{loading}
+		class={imgClass}
+	/>
 </picture>

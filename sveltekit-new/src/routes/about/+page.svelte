@@ -3,10 +3,8 @@
 
 	import { Headline } from '$components/Headline';
 
-	import me from '$assets/me/serious.png?w=752;496&format=webp;png&meta';
-	import smile from '$assets/me/smile.png?w=752;496;&format=webp;png&meta';
-
-	const sizes = '(min-width: 768px) 752px, 496px';
+	import serious from '$assets/me/serious.png?w=124;248;372;188;376;564&format=webp;png&picture';
+	import smile from '$assets/me/smile.png?w=124;248;372;188;376;564&format=webp;png&picture';
 
 	import { Image } from '$primitives/Image';
 </script>
@@ -19,23 +17,11 @@
 		class="flex overflow-hidden max-w-[249px] sm:max-w-[250px] md:max-w-[378px]"
 	>
 		<Image
-			width={248}
-			height={248}
-			meta={me}
-			{sizes}
+			picture={serious}
 			alt="me"
-			imgClass=""
 			class="border-r sm:border-l border-mauve-6"
 		/>
-		<Image
-			width={248}
-			height={248}
-			meta={smile}
-			{sizes}
-			alt="happy me"
-			imgClass=""
-			class=""
-		/>
+		<Image picture={smile} alt="me smiling" />
 	</div>
 </div>
 <Headline as="h2" type="secondary" containerClass="bg-white/[0.85]">
