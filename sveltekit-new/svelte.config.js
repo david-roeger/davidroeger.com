@@ -20,8 +20,7 @@ const config = {
 				// needs unsafe-inline for svelte transitions
 				// https://github.com/sveltejs/kit/issues/5215
 				'style-src': ['self', '*.davidroeger.com', 'unsafe-inline'],
-				'img-src': ['*'],
-				'frame-ancestors': ['self', '*.davidroeger.com']
+				'img-src': ['*']
 			}
 		},
 		alias: {

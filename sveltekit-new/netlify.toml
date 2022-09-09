@@ -9,7 +9,15 @@
   node_bundler = "esbuild"
 
 [[plugins]]
-package = "@netlify/plugin-lighthouse"
+  package = "@netlify/plugin-lighthouse"
 
   [plugins.inputs]
     output_path = "reports/lighthouse.html"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+
+    # The Basic-Auth header may not be available on all plans.
+    Basic-Auth = "someuser:somepassword anotheruser:anotherpassword"
