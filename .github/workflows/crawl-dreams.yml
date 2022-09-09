@@ -13,7 +13,7 @@ jobs:
   request:
     runs-on: ubuntu-latest
     steps:
-      - name: FETCG dreams
+      - name: fetch dreams
         uses: JamesIves/fetch-api-data-action@v2
         with:
           endpoint: https://www.davidroeger.com/experimental/dream
