@@ -7,6 +7,7 @@
 	import Logo from '$components/Logo/Logo.svelte';
 	import AccessibleIcon from '$components/AccessibleIcon/AccessibleIcon.svelte';
 	import Head from '$components/Head/Head.svelte';
+	import Headline from '$lib/Components/Headline/Headline.svelte';
 
 	let content = [
 		{ value: '1' },
@@ -26,7 +27,8 @@
 <Head />
 
 <section>
-	Learn more about me -> or look at some stuff I´ve built downArow
+	<Headline containerClass="py-8 md:py-16">Welcome</Headline>
+
 	<Dialog.Root
 		defaultOpen={false}
 		on:openChange={(e) => console.log(e.detail.open)}
