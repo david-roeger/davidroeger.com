@@ -19,7 +19,7 @@
 	import {
 		convertValueToPercentage,
 		getLabel,
-		getThumbInBoundsOffset,
+		getThumbInBoundsOffset
 	} from './utils';
 
 	thumbId++;
@@ -38,7 +38,7 @@
 		direction,
 		setSlider,
 		focusThumb,
-		name,
+		name
 	}: RootContext = getContext('root');
 
 	const computedId = `${id}-thumb-${thumbId}`;
@@ -73,7 +73,7 @@
 			if (index === -1) {
 				$activeValues = [
 					...$activeValues,
-					{ id: computedId, value: value, element: thumb },
+					{ id: computedId, value: value, element: thumb }
 				];
 				index = $activeValues.findIndex((v) => v.id === computedId);
 			}
@@ -105,7 +105,7 @@
 							$setSlider({
 								value: value + stepInDirection,
 								id: computedId,
-								element: thumb,
+								element: thumb
 							});
 					}
 					e.preventDefault();
@@ -119,7 +119,7 @@
 							$setSlider({
 								value: value - stepInDirection,
 								id: computedId,
-								element: thumb,
+								element: thumb
 							});
 					}
 					e.preventDefault();
@@ -130,7 +130,7 @@
 						$setSlider({
 							value: min,
 							id: computedId,
-							element: thumb,
+							element: thumb
 						});
 					e.preventDefault();
 					e.stopPropagation();
@@ -140,7 +140,7 @@
 						$setSlider({
 							value: max,
 							id: computedId,
-							element: thumb,
+							element: thumb
 						});
 					e.preventDefault();
 					e.stopPropagation();

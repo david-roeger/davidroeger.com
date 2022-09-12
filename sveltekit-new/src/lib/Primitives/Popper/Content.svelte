@@ -23,7 +23,7 @@
 		setClose,
 		contentElement,
 		popperOptions,
-		contentStyles,
+		contentStyles
 	}: RootContext = getContext('root');
 
 	const dataState = derived(open, ($open) => ($open ? 'open' : 'closed'));
@@ -37,7 +37,7 @@
 			$trap = createFocusTrap(content, {
 				allowOutsideClick: true,
 				escapeDeactivates: false,
-				fallbackFocus: content,
+				fallbackFocus: content
 			});
 			$trap.activate();
 		}
@@ -63,9 +63,9 @@
 				width: window.innerWidth,
 				height: window.innerHeight,
 				x: 0,
-				y: 0,
+				y: 0
 			}),
-			collisionTolerance,
+			collisionTolerance
 		};
 
 		$popperOptions = options;

@@ -4,7 +4,7 @@
 	export let asTag: 'h1' | 'h2' | 'h3' | 'h4' = 'h1';
 	export { asTag as as };
 
-	export let id: string | undefined = undefined;
+	export let id: string | undefined = undefined;
 	export let unstyled = false;
 	let c = '';
 	export let containerClass = '';

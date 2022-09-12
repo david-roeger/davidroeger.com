@@ -6,13 +6,13 @@
 	import Score from '$assets/Icons/24/score.svg';
 	import type {
 		SpotifyTopArtistsResponse,
-		Image,
+		Image
 	} from '$components/Music/types';
 
 	export let topArtistsResponse: SpotifyTopArtistsResponse;
 	let c = '';
 	export { c as class };
-	export let labelledby: string | undefined = undefined;
+	export let labelledby: string | undefined = undefined;
 
 	const valid = (() => {
 		if (topArtistsResponse.ok) return true;
@@ -63,7 +63,7 @@
 						<Music.Detail
 							subline={[
 								artist.genres.join(', '),
-								`${artist.popularity} / 100`,
+								`${artist.popularity} / 100`
 							]}
 						>
 							<AccessibleIcon label="Genres:" slot="preline">

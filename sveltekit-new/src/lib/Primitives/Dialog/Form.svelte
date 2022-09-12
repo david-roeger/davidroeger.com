@@ -1,11 +1,13 @@
 <script lang="ts">
 	let c = '';
 	export { c as class };
-	let defaultSubmit: ((
-		e: SubmitEvent & {
-			currentTarget: EventTarget & HTMLFormElement;
-		},
-	) => Promise<boolean>) | undefined = undefined;
+	let defaultSubmit:
+		| ((
+				e: SubmitEvent & {
+					currentTarget: EventTarget & HTMLFormElement;
+				}
+		  ) => Promise<boolean>)
+		| undefined = undefined;
 	export { defaultSubmit as handleSubmit };
 
 	import { getContext } from 'svelte';
@@ -17,7 +19,7 @@
 	const handleSubmit = async (
 		e: SubmitEvent & {
 			currentTarget: EventTarget & HTMLFormElement;
-		},
+		}
 	) => {
 		if (defaultSubmit) {
 			const success = await defaultSubmit(e);

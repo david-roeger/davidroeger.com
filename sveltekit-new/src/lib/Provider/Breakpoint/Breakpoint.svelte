@@ -11,7 +11,7 @@
 		MD: writable(false),
 		LG: writable(false),
 		XL: writable(false),
-		'2XL': writable(false),
+		'2XL': writable(false)
 	};
 
 	setContext('breakpoints', breakpointContext);

@@ -21,7 +21,7 @@
 		open: writable(defaultOpen),
 		setOpen: writable(undefined),
 		setClose: writable(undefined),
-		computedId: id,
+		computedId: id
 	};
 	setContext('root', rootContext);
 	const { open, trap, setOpen, setClose, computedId } = rootContext;
@@ -39,8 +39,8 @@
 
 		$activeDialogs = [
 			...$activeDialogs.filter(
-				(activeDialog) => activeDialog !== computedId,
-			),
+				(activeDialog) => activeDialog !== computedId
+			)
 		];
 
 		if ($activeDialogs.length === 0) {
@@ -51,7 +51,7 @@
 
 	const dispatch = createEventDispatcher<{ openChange: { open: boolean } }>();
 	$: dispatch('openChange', {
-		open: $open,
+		open: $open
 	});
 
 	onDestroy(() => {

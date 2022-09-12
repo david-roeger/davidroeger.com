@@ -6,17 +6,17 @@
 		OpenGraph,
 		Twitter,
 		MetaTag,
-		LinkTag,
+		LinkTag
 	} from './types';
 	import { defaultSeoProps } from './store';
 
-	export let title: string | undefined = undefined;
-	export let titleTemplate: string | undefined = undefined;
+	export let title: string | undefined = undefined;
+	export let titleTemplate: string | undefined = undefined;
 	export let noindex = false;
 	export let nofollow = false;
 	export let robotsProps: AdditionalRobotsProps | undefined = undefined;
-	export let description: string | undefined = undefined;
-	export let canonical: string | undefined = undefined;
+	export let description: string | undefined = undefined;
+	export let canonical: string | undefined = undefined;
 	export let mobileAlternate: MobileAlternate | undefined = undefined;
 	export let languageAlternates: LanguageAlternate[] | undefined = undefined;
 	export let openGraph: OpenGraph | undefined = undefined;
@@ -39,7 +39,7 @@
 		facebook: defaultFacebook,
 		twitter: defaultTwitter,
 		additionalMetaTags: defaultAdditionalMetaTags,
-		additionalLinkTags: defaultAdditionalLinkTags,
+		additionalLinkTags: defaultAdditionalLinkTags
 	} = defaultSeoProps;
 
 	$defaultTitle = title;

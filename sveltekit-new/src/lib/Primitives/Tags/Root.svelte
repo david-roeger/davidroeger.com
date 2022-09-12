@@ -18,7 +18,9 @@
 	const computedId = `drds-tags-${id.toString()}`;
 	const rootContext: RootContext = {
 		id: computedId,
-		activeValues: writable(Array.isArray(defaultValue) ? defaultValue : [defaultValue]),
+		activeValues: writable(
+			Array.isArray(defaultValue) ? defaultValue : [defaultValue]
+		),
 		setTags: writable(undefined),
 		unsetTags: writable(undefined)
 	};
@@ -30,7 +32,9 @@
 			$activeValues = [...$activeValues, value];
 			return;
 		}
-		$activeValues = $activeValues.filter((activeValue) => activeValue !== value);
+		$activeValues = $activeValues.filter(
+			(activeValue) => activeValue !== value
+		);
 	};
 
 	$unsetTags = () => {

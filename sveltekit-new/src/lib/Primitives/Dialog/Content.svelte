@@ -22,7 +22,7 @@
 			$trap = createFocusTrap(content, {
 				allowOutsideClick: true,
 				escapeDeactivates: false,
-				fallbackFocus: content,
+				fallbackFocus: content
 			});
 			$trap.activate();
 		}

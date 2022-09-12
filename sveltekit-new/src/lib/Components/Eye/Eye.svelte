@@ -15,7 +15,7 @@
 	const options: IntersectionObserverInit = {
 		root: null,
 		rootMargin: '0px',
-		threshold: thresholds,
+		threshold: thresholds
 	};
 
 	const noise2D = makeNoise2D(Date.now()); // Using current date as seed
@@ -41,7 +41,7 @@
 			const element =
 				entries.length === 4 ? entries[0] : entries[entries.length - 1];
 			const progress = parseInt(
-				element.target.getAttribute('data-progress') ?? '',
+				element.target.getAttribute('data-progress') ?? ''
 			);
 
 			const { intersectionRatio } = element;
@@ -56,15 +56,15 @@
 								-1,
 								1,
 								-23,
-								23,
+								23
 							),
 							y: mapToRange(
 								noise2D(intersectionRatio * 1.0, 1000),
 								-1,
 								1,
 								-8,
-								8,
-							),
+								8
+							)
 						};
 					}
 					break;
@@ -77,15 +77,15 @@
 								-1,
 								1,
 								-23,
-								23,
+								23
 							),
 							y: mapToRange(
 								noise2D((intersectionRatio + 1) * 1.0, 1000),
 								-1,
 								1,
 								-8,
-								8,
-							),
+								8
+							)
 						};
 					}
 					break;
@@ -103,15 +103,15 @@
 								-1,
 								1,
 								-23,
-								23,
+								23
 							),
 							y: mapToRange(
 								noise2D((intersectionRatio + 2) * 1.0, 1000),
 								-1,
 								1,
 								-8,
-								8,
-							),
+								8
+							)
 						};
 					}
 					break;
@@ -124,15 +124,15 @@
 								-1,
 								1,
 								-24,
-								24,
+								24
 							),
 							y: mapToRange(
 								noise2D((intersectionRatio + 3) * 1.0, 1000),
 								-1,
 								1,
 								-8,
-								8,
-							),
+								8
+							)
 						};
 					} else {
 						eye = 0;

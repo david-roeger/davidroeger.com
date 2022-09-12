@@ -3,7 +3,7 @@
 
 	export let variant: 'primary' | 'icon' | 'rounded' = 'primary';
 	export let type: 'button' | 'submit' | 'reset' = 'button';
-	export let role: string | undefined = undefined;
+	export let role: string | undefined = undefined;
 	export let disabled: boolean | undefined = undefined;
 
 	let customClass = '';

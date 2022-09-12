@@ -4,7 +4,7 @@
 	import { hasParentOfType } from '$lib/Utils';
 
 	export let value: string;
-	export let id: string | undefined = undefined;
+	export let id: string | undefined = undefined;
 	export let disabled = false;
 
 	let c = '';
@@ -18,10 +18,10 @@
 		getContext('root');
 	const active = derived(
 		activeValue,
-		($activeValue) => $activeValue === value,
+		($activeValue) => $activeValue === value
 	);
 	const dataState = derived(active, ($active) =>
-		$active ? 'active' : 'inactive',
+		$active ? 'active' : 'inactive'
 	);
 
 	const handleClick = () => {
@@ -37,7 +37,7 @@
 	});
 
 	setContext('item', {
-		active: active,
+		active: active
 	});
 </script>
 

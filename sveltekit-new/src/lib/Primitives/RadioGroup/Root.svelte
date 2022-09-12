@@ -34,7 +34,7 @@
 		orientation: orient,
 		required: req,
 		activeValue: writable(defaultValue),
-		setRadio: writable(undefined),
+		setRadio: writable(undefined)
 	};
 	setContext('root', rootContext);
 
@@ -50,7 +50,7 @@
 		valueChange: { value: string };
 	}>();
 	$: dispatch('valueChange', {
-		value: $activeValue,
+		value: $activeValue
 	});
 
 	let root: HTMLElement;
@@ -58,10 +58,10 @@
 
 	onMount(() => {
 		triggerElements = Array.from(
-			root.querySelectorAll(':scope button[data-state]'),
+			root.querySelectorAll(':scope button[data-state]')
 		);
 		triggerElements = triggerElements.filter(
-			(triggerElement) => !triggerElement.disabled,
+			(triggerElement) => !triggerElement.disabled
 		);
 	});
 
@@ -70,7 +70,7 @@
 
 	const handleKeyDown = (e: KeyboardEvent) => {
 		let activeTriggerIndex = triggerElements.findIndex(
-			(trigger) => trigger === document.activeElement,
+			(trigger) => trigger === document.activeElement
 		);
 		if (activeTriggerIndex != -1) {
 			switch (e.key) {

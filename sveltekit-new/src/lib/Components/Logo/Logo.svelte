@@ -14,7 +14,7 @@
 
 	let angle = spring(0, {
 		stiffness: 0.1,
-		damping: 0.25,
+		damping: 0.25
 	});
 
 	const handleClick = ({ clientX }: MouseEvent) => {
@@ -39,7 +39,7 @@
 		const limited = limit(
 			window.innerWidth,
 			0,
-			container ? 1280 : window.innerWidth,
+			container ? 1280 : window.innerWidth
 		);
 		const computed = mapToRange(value, 0, limited, 45, -45);
 		$angle = computed;

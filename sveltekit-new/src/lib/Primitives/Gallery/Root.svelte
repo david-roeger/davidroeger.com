@@ -8,7 +8,7 @@
 	export let direction: 'horizontal' | 'vertical' = 'horizontal';
 	export let defaultStart = true;
 	export let defaultEnd = true;
-	export let labelledby: string | undefined = undefined;
+	export let labelledby: string | undefined = undefined;
 
 	let c = '';
 	export { c as class };
@@ -28,7 +28,7 @@
 		step: step,
 		computedStep: writable(undefined),
 		start: writable(defaultStart),
-		end: writable(defaultEnd),
+		end: writable(defaultEnd)
 	};
 
 	setContext('root', rootContext);
@@ -39,21 +39,21 @@
 			$container.scrollBy({
 				top: 0,
 				left: offset,
-				behavior: 'smooth',
+				behavior: 'smooth'
 			});
 		}
 	};
 
 	const dispatchEnd = createEventDispatcher<{ end: { end: boolean } }>();
 	$: dispatchEnd('end', {
-		end: $end,
+		end: $end
 	});
 
 	const dispatchStart = createEventDispatcher<{
 		start: { start: boolean };
 	}>();
 	$: dispatchStart('start', {
-		start: $start,
+		start: $start
 	});
 </script>
 

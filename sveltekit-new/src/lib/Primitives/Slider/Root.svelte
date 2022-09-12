@@ -9,8 +9,8 @@
 	export let minStepsBetweenThumbs = 0;
 
 	export let disabled = false;
-	export let name: string | undefined = undefined;
-	export let label: string | undefined = undefined;
+	export let name: string | undefined = undefined;
+	export let label: string | undefined = undefined;
 	export let orientation: 'horizontal' | 'vertical' = 'horizontal';
 	export let dir: 'ltr' | 'rtl' = 'ltr';
 
@@ -26,7 +26,7 @@
 		getDecimalCount,
 		hasMinStepsBetweenValues,
 		linearScale,
-		roundValue,
+		roundValue
 	} from './utils';
 
 	id++;
@@ -59,7 +59,7 @@
 		end: end,
 		direction: dir === 'ltr' || orientation === 'vertical' ? 1 : -1,
 		size: size,
-		name: `${name}[]`,
+		name: `${name}[]`
 	};
 
 	setContext('root', rootContext);
@@ -74,7 +74,7 @@
 			$activeValues.push({
 				value: value.value,
 				id: value.id,
-				element: value.element,
+				element: value.element
 			});
 			$activeValues = [...$activeValues];
 			return;
@@ -83,7 +83,7 @@
 		const decimalCount = getDecimalCount(step);
 		const snapToStep = roundValue(
 			Math.round((value.value - min) / step) * step + min,
-			decimalCount,
+			decimalCount
 		);
 		const nextValue = limit(snapToStep, min, max);
 
@@ -96,7 +96,7 @@
 			$activeValues[index] = {
 				value: nextValue,
 				id: value.id,
-				element: value.element,
+				element: value.element
 			};
 			$activeValues = [...$activeValues];
 		}
@@ -105,7 +105,7 @@
 	$: {
 		const returnValue = $activeValues.map((value) => value.value);
 		dispatch('valueChange', {
-			values: returnValue,
+			values: returnValue
 		});
 	}
 
@@ -119,14 +119,14 @@
 
 		return value(
 			pointerPosition -
-				(orientation === 'horizontal' ? rect.left : rect.top),
+				(orientation === 'horizontal' ? rect.left : rect.top)
 		);
 	};
 
 	const getClosestValueIndex = (nextValue: number): number => {
 		if ($activeValues.length === 1) return 0;
 		const distances = $activeValues.map((value) =>
-			Math.abs(value.value - nextValue),
+			Math.abs(value.value - nextValue)
 		);
 		const closestDistance = Math.min(...distances);
 		return distances.indexOf(closestDistance);
@@ -138,7 +138,7 @@
 			eventTarget.setPointerCapture(e.pointerId);
 
 			const value = getValueFromPointer(
-				orientation === 'horizontal' ? e.clientX : e.clientY,
+				orientation === 'horizontal' ? e.clientX : e.clientY
 			);
 			const closestIndex = getClosestValueIndex(value);
 			const active = $activeValues[closestIndex];
@@ -147,7 +147,7 @@
 				$setSlider({
 					value: value,
 					id: active.id,
-					element: active.element,
+					element: active.element
 				});
 				e.preventDefault();
 			}
@@ -158,13 +158,13 @@
 		const target = e.target as HTMLElement;
 		if (target.hasPointerCapture(e.pointerId) && !disabled) {
 			const value = getValueFromPointer(
-				orientation === 'horizontal' ? e.clientX : e.clientY,
+				orientation === 'horizontal' ? e.clientX : e.clientY
 			);
 			if ($focusThumb && $setSlider) {
 				$setSlider({
 					value,
 					id: $focusThumb.id,
-					element: $focusThumb.element,
+					element: $focusThumb.element
 				});
 				e.preventDefault();
 			}

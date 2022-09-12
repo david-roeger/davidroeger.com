@@ -11,7 +11,7 @@
 	const { setGallery, computedStep, start, id }: RootContext =
 		getContext('root');
 	const dataState = derived(start, ($start) =>
-		$start ? 'inactive' : 'active',
+		$start ? 'inactive' : 'active'
 	);
 
 	const handleClick = () => {

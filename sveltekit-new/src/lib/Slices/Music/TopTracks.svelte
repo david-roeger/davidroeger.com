@@ -4,7 +4,10 @@
 	import AccessibleIcon from '$components/AccessibleIcon';
 	import Album from '$assets/Icons/24/album.svg';
 	import Artist from '$assets/Icons/24/artist.svg';
-	import type { SpotifyTopTracksResponse, Image } from '$components/Music/types';
+	import type {
+		SpotifyTopTracksResponse,
+		Image
+	} from '$components/Music/types';
 
 	export let topTracksResponse: SpotifyTopTracksResponse;
 
@@ -27,7 +30,10 @@
 
 		for (let i = 1; i < images.length; i++) {
 			const image = images[i];
-			if (image.height > 92 && image.height - targetSize < currentSize - targetSize) {
+			if (
+				image.height > 92 &&
+				image.height - targetSize < currentSize - targetSize
+			) {
 				targetIndex = i;
 			}
 		}
@@ -43,7 +49,10 @@
 				<Music.Row class="flex">
 					{#if track.album.images.length}
 						<Music.Atom>
-							<Link href={track.external_urls.spotify} type="ghost">
+							<Link
+								href={track.external_urls.spotify}
+								type="ghost"
+							>
 								<Music.Image
 									url={getImageUrl(track.album.images)}
 									alt="{track.album.name} Album Cover"
@@ -53,7 +62,12 @@
 					{/if}
 					<Music.Atom class="flex-1 min-w-0 border-l border-mauve-6">
 						<Music.Detail
-							subline={[track.artists.map((artist) => artist.name).join(', '), track.album.name]}
+							subline={[
+								track.artists
+									.map((artist) => artist.name)
+									.join(', '),
+								track.album.name
+							]}
 						>
 							<AccessibleIcon label="Artist:" slot="preline">
 								<Artist />
@@ -73,7 +87,9 @@
 		<Music.Root {labelledby}>
 			<Music.Row class="flex">
 				<Music.Atom>
-					<div class="h-[68px] md:h-[92px] w-[68px] md:w-[92px] bg-purple-3" />
+					<div
+						class="h-[68px] md:h-[92px] w-[68px] md:w-[92px] bg-purple-3"
+					/>
 				</Music.Atom>
 				<Music.Atom class="flex-1 min-w-0 border-l border-mauve-6">
 					<Music.Detail subline={['', '']}>

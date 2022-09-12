@@ -12,7 +12,7 @@
 		max,
 		start,
 		end,
-		activeValues,
+		activeValues
 	}: RootContext = getContext('root');
 
 	let computedStart = '';
@@ -20,7 +20,7 @@
 
 	$: {
 		const percentages = $activeValues.map((value) =>
-			convertValueToPercentage(value.value, min, max),
+			convertValueToPercentage(value.value, min, max)
 		);
 		const offsetStart =
 			$activeValues.length > 1 ? Math.min(...percentages) : 0;

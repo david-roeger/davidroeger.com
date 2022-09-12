@@ -16,8 +16,12 @@
 	const { id, activeValues }: RootContext = getContext('root');
 
 	onMount(() => {
-		triggerElements = Array.from(root.querySelectorAll(':scope > button[data-state]'));
-		triggerElements = triggerElements.filter((triggerElement) => !triggerElement.disabled);
+		triggerElements = Array.from(
+			root.querySelectorAll(':scope > button[data-state]')
+		);
+		triggerElements = triggerElements.filter(
+			(triggerElement) => !triggerElement.disabled
+		);
 	});
 
 	const nextKey = direction === 'horizontal' ? 'ArrowLeft' : 'ArrowUp';
@@ -41,7 +45,11 @@
 					e.stopPropagation();
 					break;
 				case prevKey:
-					if (!loop && activeTriggerIndex === triggerElements.length - 1) return;
+					if (
+						!loop &&
+						activeTriggerIndex === triggerElements.length - 1
+					)
+						return;
 
 					activeTriggerIndex++;
 					if (activeTriggerIndex >= triggerElements.length) {

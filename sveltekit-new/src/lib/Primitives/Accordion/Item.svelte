@@ -22,10 +22,10 @@ value*
 	const { activeValues, id, ...root }: RootContext = getContext('root');
 
 	const active = derived(activeValues, ($activeValues: string[]) =>
-		$activeValues.includes(value),
+		$activeValues.includes(value)
 	);
 	const dataState = derived(active, ($active) =>
-		$active ? 'open' : 'closed',
+		$active ? 'open' : 'closed'
 	);
 
 	const itemContext: ItemContext = {
@@ -33,7 +33,7 @@ value*
 		value: value,
 		active: active,
 		disabled: root.disabled || disabled,
-		dataState: dataState,
+		dataState: dataState
 	};
 	setContext('item', itemContext);
 </script>

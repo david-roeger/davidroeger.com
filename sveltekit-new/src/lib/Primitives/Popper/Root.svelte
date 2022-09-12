@@ -29,7 +29,7 @@
 		popperOptions: writable(undefined),
 		triggerElement: writable(undefined),
 		contentElement: writable(undefined),
-		contentStyles: writable(''),
+		contentStyles: writable('')
 	};
 
 	setContext('root', rootContext);
@@ -41,7 +41,7 @@
 		popperOptions,
 		triggerElement,
 		contentElement,
-		contentStyles,
+		contentStyles
 	} = rootContext;
 
 	export const closePopper = setClose;
@@ -51,13 +51,16 @@
 	};
 
 	let triggerRect: Writable<Rect | undefined>;
-	let contentSize: Writable<{
-		size: {
-			width: number;
-			height: number;
-		};
-		onDestroy: () => void;
-	} | undefined>;
+	let contentSize: Writable<
+		| {
+				size: {
+					width: number;
+					height: number;
+				};
+				onDestroy: () => void;
+		  }
+		| undefined
+	>;
 
 	$: {
 		if ($triggerElement && !$triggerRect) {
@@ -85,9 +88,9 @@
 					width: window.innerWidth,
 					height: window.innerHeight,
 					x: 0,
-					y: 0,
+					y: 0
 				}),
-				collisionTolerance: $popperOptions.collisionTolerance,
+				collisionTolerance: $popperOptions.collisionTolerance
 			});
 
 			let string = '';
@@ -129,7 +132,7 @@
 
 	const dispatch = createEventDispatcher<{ openChange: { open: boolean } }>();
 	$: dispatch('openChange', {
-		open: $open,
+		open: $open
 	});
 </script>
 

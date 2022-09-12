@@ -21,9 +21,9 @@
 		id: `drds-accordion-${id.toString()}`,
 		disabled: disabled,
 		activeValues: writable(
-			Array.isArray(defaultValue) ? defaultValue : [defaultValue],
+			Array.isArray(defaultValue) ? defaultValue : [defaultValue]
 		),
-		setAccordion: writable(undefined),
+		setAccordion: writable(undefined)
 	};
 	setContext('root', rootContext);
 	const { activeValues, setAccordion } = rootContext;
@@ -45,7 +45,7 @@
 		if (active) {
 			if (length > 1) {
 				$activeValues = $activeValues.filter(
-					(activeValue) => activeValue !== value,
+					(activeValue) => activeValue !== value
 				);
 				return;
 			}
@@ -62,7 +62,7 @@
 				? $activeValues.join('')
 				: $activeValues;
 		dispatch('valueChange', {
-			value: returnValue,
+			value: returnValue
 		});
 	}
 
@@ -70,16 +70,16 @@
 	let triggerElements: HTMLButtonElement[] = [];
 	onMount(() => {
 		triggerElements = Array.from(
-			root.querySelectorAll(':scope > * > * > button[data-state]'),
+			root.querySelectorAll(':scope > * > * > button[data-state]')
 		);
 		triggerElements = triggerElements.filter(
-			(triggerElement) => !triggerElement.disabled,
+			(triggerElement) => !triggerElement.disabled
 		);
 	});
 
 	const handleKeyDown = (e: KeyboardEvent) => {
 		let activeTriggerIndex = triggerElements.findIndex(
-			(trigger) => trigger === document.activeElement,
+			(trigger) => trigger === document.activeElement
 		);
 		if (activeTriggerIndex != -1) {
 			switch (e.key) {

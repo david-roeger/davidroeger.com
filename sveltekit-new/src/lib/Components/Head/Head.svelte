@@ -55,7 +55,8 @@
 	): T | undefined {
 		if (
 			(value === undefined || Object.keys(value).length === 0) &&
-			(defaultValue === undefined || Object.keys(defaultValue).length === 0)
+			(defaultValue === undefined ||
+				Object.keys(defaultValue).length === 0)
 		) {
 			return undefined;
 		}
@@ -72,7 +73,10 @@
 		return array.map((value) => JSON.stringify(value));
 	}
 
-	function mergeArray<T>(values: T[] = [], defaultValues: T[] = []): T[] | undefined {
+	function mergeArray<T>(
+		values: T[] = [],
+		defaultValues: T[] = []
+	): T[] | undefined {
 		if (values.length === 0 && defaultValues.length === 0) {
 			return undefined;
 		}
@@ -98,7 +102,9 @@
 		values: Readonly<MetaTag[]> = [],
 		defaultValues: Readonly<MetaTag[]> = []
 	) => {
-		const serializedValues = serialize(values.map((value) => ({ ...value, content: undefined })));
+		const serializedValues = serialize(
+			values.map((value) => ({ ...value, content: undefined }))
+		);
 		const serializedDefaultValues = serialize(
 			defaultValues.map((defaultValue) => ({
 				...defaultValue,
@@ -124,7 +130,9 @@
 		values: Readonly<LinkTag[]> = [],
 		defaultValues: Readonly<LinkTag[]> = []
 	) => {
-		const serializedValues = serialize(values.map((value) => ({ ...value, href: undefined })));
+		const serializedValues = serialize(
+			values.map((value) => ({ ...value, href: undefined }))
+		);
 		const serializedDefaultValues = serialize(
 			defaultValues.map((defaultValue) => ({
 				...defaultValue,
@@ -155,15 +163,27 @@
 			robotsProps: mergeObject(robotsProps, $defaultRobotsProps),
 			description: description ?? $defaultDescription,
 			canonical: canonical ?? $defaultCanonical,
-			mobileAlternate: mergeObject(mobileAlternate, $defaultMobileAlternate),
-			languageAlternates: mergeArray(languageAlternates, $defaultLanguageAlternates),
+			mobileAlternate: mergeObject(
+				mobileAlternate,
+				$defaultMobileAlternate
+			),
+			languageAlternates: mergeArray(
+				languageAlternates,
+				$defaultLanguageAlternates
+			),
 			openGraph: mergeObject(openGraph, $defaultOpenGraph) as OpenGraph,
 			facebook: mergeObject(facebook, $defaultFacebook) as {
 				appId: string;
 			},
 			twitter: mergeObject(twitter, $defaultTwitter) as Twitter,
-			additionalMetaTags: mergeAdditionalMetaTags(additionalMetaTags, $defaultAdditionalMetaTags),
-			additionalLinkTags: mergeAdditionalLinkTags(additionalLinkTags, $defaultAdditionalLinkTags)
+			additionalMetaTags: mergeAdditionalMetaTags(
+				additionalMetaTags,
+				$defaultAdditionalMetaTags
+			),
+			additionalLinkTags: mergeAdditionalLinkTags(
+				additionalLinkTags,
+				$defaultAdditionalLinkTags
+			)
 		}) ?? [];
 
 	onMount(() => {

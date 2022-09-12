@@ -92,10 +92,14 @@
 	const handleKeyDown = (e: KeyboardEvent) => {
 		if ($emojiData) {
 			if (!categoryElements.length) {
-				categoryElements = Array.from(container.querySelectorAll(':scope div[data-state]'));
+				categoryElements = Array.from(
+					container.querySelectorAll(':scope div[data-state]')
+				);
 				categoryElements.forEach((categoryElement, index) => {
 					emojiElements[index] = Array.from(
-						categoryElement.querySelectorAll(':scope button[data-state]')
+						categoryElement.querySelectorAll(
+							':scope button[data-state]'
+						)
 					);
 				});
 			}
@@ -109,8 +113,12 @@
 
 			const activeEmoji = document.activeElement as HTMLButtonElement;
 
-			const categoryIndex = activeCategory ? parseInt(activeCategory.dataset.state ?? '') : 0;
-			const emojiIndex = activeEmoji ? parseInt(activeEmoji.dataset.state ?? '') : 0;
+			const categoryIndex = activeCategory
+				? parseInt(activeCategory.dataset.state ?? '')
+				: 0;
+			const emojiIndex = activeEmoji
+				? parseInt(activeEmoji.dataset.state ?? '')
+				: 0;
 
 			switch (e.key) {
 				case leftKey:
@@ -122,10 +130,13 @@
 							const newCategoryIndex = categoryIndex - 1;
 							if (newCategoryIndex === -1) {
 								emojiElements[categoryElements.length - 1][
-									emojiElements[categoryElements.length - 1].length - 1
+									emojiElements[categoryElements.length - 1]
+										.length - 1
 								].focus();
 							} else {
-								emojiElements[newCategoryIndex][emojiElements[newCategoryIndex].length - 1].focus();
+								emojiElements[newCategoryIndex][
+									emojiElements[newCategoryIndex].length - 1
+								].focus();
 							}
 						} else {
 							emojiElements[categoryIndex][newEmojiIndex].focus();
@@ -140,7 +151,10 @@
 						emojiElements[0][0].focus();
 					} else {
 						const newEmojiIndex = emojiIndex + 1;
-						if (newEmojiIndex === emojiElements[categoryIndex].length) {
+						if (
+							newEmojiIndex ===
+							emojiElements[categoryIndex].length
+						) {
 							const newCategoryIndex = categoryIndex + 1;
 							if (newCategoryIndex === categoryElements.length) {
 								emojiElements[0][0].focus();
@@ -168,19 +182,35 @@
 							if (newCategoryIndex < 0) {
 								const pos = emojiIndex & emojisPerRow;
 								const empojisInLastRow =
-									(emojiElements[categoryElements.length - 1].length - 1) % emojisPerRow;
-								const diff = Math.max(0, empojisInLastRow - pos);
+									(emojiElements[categoryElements.length - 1]
+										.length -
+										1) %
+									emojisPerRow;
+								const diff = Math.max(
+									0,
+									empojisInLastRow - pos
+								);
 								emojiElements[categoryElements.length - 1][
-									emojiElements[categoryElements.length - 1].length - 1 - diff
+									emojiElements[categoryElements.length - 1]
+										.length -
+										1 -
+										diff
 								].focus();
 							} else {
 								const pos = emojiIndex & emojisPerRow;
 								const empojisInLastRow =
-									(emojiElements[newCategoryIndex].length - 1) % emojisPerRow;
-								const diff = Math.max(0, empojisInLastRow - pos);
+									(emojiElements[newCategoryIndex].length -
+										1) %
+									emojisPerRow;
+								const diff = Math.max(
+									0,
+									empojisInLastRow - pos
+								);
 								// move to the row of the previous category
 								emojiElements[newCategoryIndex][
-									emojiElements[newCategoryIndex].length - 1 - diff
+									emojiElements[newCategoryIndex].length -
+										1 -
+										diff
 								].focus();
 							}
 						} else {
@@ -198,19 +228,30 @@
 						const newEmojiIndex = emojiIndex + emojisPerRow; // move one emoji up
 						// wrap around category if necessary
 						// but if we're at the top of the category, move to the bottom or the row if present of the previous category
-						if (newEmojiIndex >= emojiElements[categoryIndex].length) {
+						if (
+							newEmojiIndex >= emojiElements[categoryIndex].length
+						) {
 							// this could mean that we are in the pre last row of the category
 							const pos = emojiIndex % emojisPerRow;
-							const empojisInLastRow = (emojiElements[categoryIndex].length - 1) % emojisPerRow;
+							const empojisInLastRow =
+								(emojiElements[categoryIndex].length - 1) %
+								emojisPerRow;
 							if (pos > empojisInLastRow) {
-								emojiElements[categoryIndex][emojiElements[categoryIndex].length - 1].focus();
+								emojiElements[categoryIndex][
+									emojiElements[categoryIndex].length - 1
+								].focus();
 							} else {
 								const newCategoryIndex = categoryIndex + 1;
-								if (newCategoryIndex > categoryElements.length - 1) {
+								if (
+									newCategoryIndex >
+									categoryElements.length - 1
+								) {
 									emojiElements[0][pos].focus();
 								} else {
 									// move to the row of the previous category
-									emojiElements[newCategoryIndex][pos].focus();
+									emojiElements[newCategoryIndex][
+										pos
+									].focus();
 								}
 							}
 						} else {
@@ -262,7 +303,9 @@
 			class="p-2 border border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1"
 		>
 			<span>
-				<VisuallyHidden.Root>Choose emoji. Current Emoji:</VisuallyHidden.Root>
+				<VisuallyHidden.Root>
+					Choose emoji. Current Emoji:
+				</VisuallyHidden.Root>
 				{$activeValue ?? 'Choose Emoji'}
 			</span>
 		</Popper.Trigger>
@@ -272,8 +315,13 @@
 			align="start"
 			on:keydown={handleKeyDown}
 		>
-			<div bind:this={container} class="relative w-full max-w-[282px] max-h-[360px] overflow-auto">
-				<Headline as="h2" type="tertiary" class="border-b-0 ">Choose an emoji:</Headline>
+			<div
+				bind:this={container}
+				class="relative w-full max-w-[282px] max-h-[360px] overflow-auto"
+			>
+				<Headline as="h2" type="tertiary" class="border-b-0 ">
+					Choose an emoji:
+				</Headline>
 				{#await getEmojiData()}
 					<p>...waiting</p>
 				{:then data}
@@ -285,16 +333,21 @@
 								containerClass="sticky top-0 bg-white/[.85]"
 								class="border-b-0"
 							>
-								{category.id.charAt(0).toUpperCase() + category.id.slice(1)}
+								{category.id.charAt(0).toUpperCase() +
+									category.id.slice(1)}
 							</Headline>
 							<div class="w-full flex flex-wrap p-2 -m-0.5">
 								{#each category.emojis as emoji, emojiIndex (emoji)}
 									<Button
 										on:click={() => {
-											setEmoji(data.emojis[emoji].skins[0].native);
+											setEmoji(
+												data.emojis[emoji].skins[0]
+													.native
+											);
 										}}
 										data-state={emojiIndex}
-										data-emoji={data.emojis[emoji].skins[0].native}
+										data-emoji={data.emojis[emoji].skins[0]
+											.native}
 										class="m-0.5 w-[34px] flex justify-center !p-1 rounded-full"
 									>
 										{data.emojis[emoji].skins[0].native}

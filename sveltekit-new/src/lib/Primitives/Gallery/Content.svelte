@@ -11,7 +11,7 @@
 		computedStep,
 		start,
 		end,
-		labelledby,
+		labelledby
 	}: RootContext = getContext('root');
 
 	let content: HTMLDivElement;
@@ -38,7 +38,7 @@
 	const createObserver = (
 		element: HTMLElement,
 		store: Writable<boolean>,
-		condition: (entry: IntersectionObserverEntry) => boolean = () => false,
+		condition: (entry: IntersectionObserverEntry) => boolean = () => false
 	) => {
 		let observer = new IntersectionObserver(
 			(entries) => {
@@ -59,8 +59,8 @@
 			{
 				root: $container,
 				rootMargin: '0px',
-				threshold: 0.98,
-			},
+				threshold: 0.98
+			}
 		);
 		observer.observe(element);
 	};
