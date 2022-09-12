@@ -2369,9 +2369,7 @@
 			"id": "face_in_clouds",
 			"name": "Face in Clouds",
 			"keywords": ["shower", "steam", "dream"],
-			"skins": [
-				{ "unified": "1f636-200d-1f32b-fe0f", "native": "😶‍🌫️" }
-			],
+			"skins": [{ "unified": "1f636-200d-1f32b-fe0f", "native": "😶‍🌫️" }],
 			"version": 13.1
 		},
 		"smirk": {
