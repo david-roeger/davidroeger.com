@@ -24,6 +24,7 @@
 	aria-controls="{id}-content"
 	class={c}
 	disabled={disabled ? true : undefined}
+	{...$$restProps}
 >
 	<slot />
 </button>

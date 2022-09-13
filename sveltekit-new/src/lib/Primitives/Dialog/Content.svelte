@@ -2,10 +2,12 @@
 	let c = '';
 	export { c as class };
 
+	import { createFocusTrap, type Options } from 'focus-trap';
+
+	export let focusTrapOptions: Options = {};
+
 	import { getContext, tick } from 'svelte';
 	import { derived } from 'svelte/store';
-
-	import { createFocusTrap } from 'focus-trap';
 
 	import type { RootContext } from './types';
 
@@ -22,7 +24,8 @@
 			$trap = createFocusTrap(content, {
 				allowOutsideClick: true,
 				escapeDeactivates: false,
-				fallbackFocus: content
+				fallbackFocus: content,
+				...focusTrapOptions
 			});
 			$trap.activate();
 		}
@@ -49,6 +52,7 @@
 		aria-describedby="{id}-description"
 		class={c}
 		bind:this={content}
+		on:keydown
 		on:keydown={handleKeyDown}
 	>
 		<slot />

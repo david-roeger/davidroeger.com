@@ -21,10 +21,11 @@
 			autoplay
 			loop
 			playsInline
-			controls={false}
+			controls={undefined}
 			{alt}
 			class={c}
 			src={src || media.src}
+			{...$$restProps}
 		/>
 	{:else}
 		<img
@@ -35,6 +36,7 @@
 			{alt}
 			class={c}
 			src={src || media.src}
+			{...$$restProps}
 		/>
 	{/if}
 {/if}

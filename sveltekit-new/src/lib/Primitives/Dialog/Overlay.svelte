@@ -18,6 +18,7 @@
 		style="pointer-events: auto;"
 		on:click|self
 		on:click|self={handleClick}
+		{...$$restProps}
 	>
 		<slot />
 	</div>

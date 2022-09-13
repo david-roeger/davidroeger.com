@@ -25,6 +25,8 @@
 	};
 	setContext('root', rootContext);
 	const { open, trap, setOpen, setClose, computedId } = rootContext;
+	export { setClose };
+
 	$setOpen = () => {
 		$activeDialogs = [...$activeDialogs, computedId];
 		document.body.classList.add('dialog-open');

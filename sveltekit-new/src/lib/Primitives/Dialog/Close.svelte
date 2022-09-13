@@ -17,6 +17,7 @@
 	}}
 	class={c}
 	use:buttonType={t}
+	{...$$restProps}
 >
 	<slot />
 </button>

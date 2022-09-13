@@ -4,6 +4,7 @@
 
 	export let disabled = false;
 
+	import AccessibleIcon from '$lib/Components/AccessibleIcon';
 	import { getContext, onMount } from 'svelte';
 	import { derived } from 'svelte/store';
 	import type { RootContext } from './types';
@@ -20,6 +21,11 @@
 	};
 
 	let trigger: HTMLButtonElement;
+
+	export function getReference() {
+		return trigger;
+	}
+
 	onMount(() => {
 		$triggerElement = trigger;
 	});
@@ -36,6 +42,7 @@
 	class={c}
 	type="button"
 	{disabled}
+	{...$$restProps}
 >
 	<slot />
 </button>
