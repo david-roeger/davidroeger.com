@@ -1,0 +1,72 @@
+import { error, json, type RequestHandler } from '@sveltejs/kit';
+import nodemailer from 'nodemailer';
+
+import { MAIL_USERNAME, MAIL_PASSWORD } from '$env/static/private';
+import type Mail from 'nodemailer/lib/mailer';
+import type SMTPTransport from 'nodemailer/lib/smtp-transport';
+
+const transporter = nodemailer.createTransport({
+	host: 'smtp.strato.de',
+	port: 465,
+	secure: true,
+	auth: {
+		type: 'login',
+		user: MAIL_USERNAME,
+		pass: MAIL_PASSWORD
+	}
+});
+
+const createBlock = (key: string, value: unknown) => {
+	console.log(typeof value);
+	return `<p><b>${key}:</b></p><p>${
+		value?.toString ? value.toString() : JSON.stringify(value)
+	}</p><hr/>`;
+};
+
+const sendMailWrapper = async (mailOptions: Mail.Options) =>
+	new Promise<SMTPTransport.SentMessageInfo>((resolve, reject) => {
+		transporter.sendMail(mailOptions, (error, info) => {
+			if (error) {
+				reject(error);
+			} else {
+				resolve(info);
+			}
+		});
+	});
+
+export const POST: RequestHandler = async ({ url, request }) => {
+	const a: { [key: string]: unknown } = await request.json();
+	const { subject: subjectUnknown, url: urlUnknown, ...unkownRest } = a;
+	const subjectString: string | undefined =
+		typeof subjectUnknown === 'string' ? subjectUnknown : undefined;
+	const urlString: string | undefined =
+		typeof urlUnknown === 'string' ? urlUnknown : undefined;
+
+	const blocks = [];
+	if (urlString) {
+		createBlock('Request Url', urlString);
+	}
+
+	for (const key in unkownRest) {
+		if (Object.prototype.hasOwnProperty.call(unkownRest, key)) {
+			const unknown = unkownRest[key];
+			blocks.push(createBlock(key, unknown));
+		}
+	}
+
+	blocks.push(createBlock('Server Url', url));
+
+	try {
+		const response = await sendMailWrapper({
+			from: 'server@davidroeger.com',
+			to: 'hi@davidroeger.com',
+			subject: `${
+				subjectString ?? '[automated mail without subject]'
+			} (${new Date().toLocaleString()})`,
+			html: blocks.join('')
+		});
+		return json({ id: response.messageId });
+	} catch (e) {
+		throw error(500);
+	}
+};
