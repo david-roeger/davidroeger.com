@@ -21,12 +21,10 @@ const transporter = nodemailer.createTransport({
 	}
 });
 
-const createBlock = (key: string, value: unknown) => {
-	console.log(typeof value);
-	return `<p><b>${key}:</b></p><p>${
+const createBlock = (key: string, value: unknown) =>
+	`<p><b>${key}:</b></p><p>${
 		value?.toString ? value.toString() : JSON.stringify(value)
 	}</p><hr/>`;
-};
 
 const sendMailWrapper = async (mailOptions: Mail.Options) =>
 	new Promise<SMTPTransport.SentMessageInfo>((resolve, reject) => {
