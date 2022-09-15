@@ -39,6 +39,8 @@ export const actions: Actions = {
 				body: JSON.stringify(values)
 			});
 
+			console.log('Mail Fetch', response.status);
+
 			if (response.status <= 299) {
 				const { id } = (await response.json()) as { id: string };
 				return {
