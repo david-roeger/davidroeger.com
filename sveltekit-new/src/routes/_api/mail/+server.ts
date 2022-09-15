@@ -1,7 +1,7 @@
 console.info('_api/mail: +server.ts');
 
 import { error, json, type RequestHandler } from '@sveltejs/kit';
-import nodemailer from 'nodemailer';
+import nodemailer, { type Transporter } from 'nodemailer';
 
 import {
 	MAIL_USERNAME,
@@ -12,23 +12,15 @@ import {
 import type Mail from 'nodemailer/lib/mailer';
 import type SMTPTransport from 'nodemailer/lib/smtp-transport';
 
-const transporter = nodemailer.createTransport({
-	host: 'smtp.strato.de',
-	port: 465,
-	secure: true,
-	auth: {
-		type: 'login',
-		user: MAIL_USERNAME,
-		pass: MAIL_PASSWORD
-	}
-});
-
 const createBlock = (key: string, value: unknown) =>
 	`<p><b>${key}:</b></p><p>${
 		value?.toString ? value.toString() : JSON.stringify(value)
 	}</p><hr/>`;
 
-const sendMailWrapper = async (mailOptions: Mail.Options) =>
+const sendMailWrapper = async (
+	transporter: Transporter<SMTPTransport.SentMessageInfo>,
+	mailOptions: Mail.Options
+) =>
 	new Promise<SMTPTransport.SentMessageInfo>((resolve, reject) => {
 		transporter.sendMail(mailOptions, (error, info) => {
 			if (error) {
@@ -57,8 +49,19 @@ export const POST: RequestHandler = async ({ url, request }) => {
 
 	blocks.push(createBlock('Server Url', url));
 
+	const transporter = nodemailer.createTransport({
+		host: 'smtp.strato.de',
+		port: 465,
+		secure: true,
+		auth: {
+			type: 'login',
+			user: MAIL_USERNAME,
+			pass: MAIL_PASSWORD
+		}
+	});
+
 	try {
-		const response = await sendMailWrapper({
+		const response = await sendMailWrapper(transporter, {
 			from: MAIL_FROM,
 			to: MAIL_TO,
 			subject: `${
