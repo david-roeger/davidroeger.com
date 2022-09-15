@@ -8,14 +8,16 @@ export const actions: Actions = {
 		const data = await request.formData();
 
 		const url = data.get('url');
-		const email = data.get('email');
 		const name = data.get('name');
+		const email = data.get('email');
+		const tel = data.get('tel');
 		const message = data.get('message');
 
 		const values: { [key: string]: FormDataEntryValue | null } = {
 			url,
-			email,
 			name,
+			email,
+			tel,
 			message
 		};
 

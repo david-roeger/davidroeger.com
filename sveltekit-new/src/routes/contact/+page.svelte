@@ -12,16 +12,18 @@
 	// https://github.com/sveltejs/kit/issues/6823
 	export let form: ActionData;
 
-	const email = (form?.values?.email ?? '') as string;
 	const name = (form?.values?.name ?? '') as string;
+	const email = (form?.values?.email ?? '') as string;
+	const tel = (form?.values?.tel ?? '') as string;
 	const message = (form?.values?.message ?? '') as string;
 
 	const getValValidationClass = (
 		value: string | undefined,
 		state: string | undefined,
-		successClass: string
+		successClass: string,
+		required: boolean = false
 	) => {
-		if (!state || state === 'success') return '';
+		if (!state || state === 'success' || (!value && !required)) return '';
 		if (value) return successClass;
 		return 'to-red-5';
 	};
@@ -34,19 +36,41 @@
 
 	<form method="POST" class="flex flex-col max-w-xs space-y-4 m-4">
 		<input type="hidden" name="url" value={$page.url.toString()} />
+		<div class="flex flex-col items-start group">
+			<label
+				for="name"
+				class="border-mauve-12 border border-b-0 text-xs group-focus-within:bg-mauve-12 group-focus-within:text-mauve-1 ring-mauve-12 group-focus-within:ring-1 px-4"
+			>
+				Name*
+			</label>
+			<input
+				id="name"
+				class="py-2 px-4 border-mauve-12 rounded-none border w-full group-focus-within:outline-none ring-mauve-12 group-focus-within:ring-1 bg-gradient-to-r from-transparent {getValValidationClass(
+					name,
+					form?.state,
+					'valid:to-green-5',
+					true
+				)}"
+				name="name"
+				autocomplete="name"
+				type="text"
+				value={name}
+			/>
+		</div>
 		<div class="flex flex-col items-start">
 			<label
 				for="email"
-				class="border-mauve-12 border border-b-0 text-xs group-focus-within:bg-mauve-12 group-focus-within:text-mauve-1 ring-mauve-12 group-focus-within:ring-1 px-4"
+				class="border-mauve-12 rounded-none border border-b-0 text-xs group-focus-within:bg-mauve-12 group-focus-within:text-mauve-1 ring-mauve-12 group-focus-within:ring-1 px-4"
 			>
-				Mail
+				Mail*
 			</label>
 			<input
 				id="email"
-				class="py-2 px-4 border-mauve-12 border w-full group-focus-within:outline-none ring-mauve-12 group-focus-within:ring-1 bg-gradient-to-r from-transparent {getValValidationClass(
+				class="py-2 px-4 border-mauve-12 rounded-none border w-full group-focus-within:outline-none ring-mauve-12 group-focus-within:ring-1 bg-gradient-to-r from-transparent {getValValidationClass(
 					email,
 					form?.state,
-					'valid:to-green-5'
+					'valid:to-green-5',
+					true
 				)}"
 				name="email"
 				type="email"
@@ -60,18 +84,19 @@
 				for="name"
 				class="border-mauve-12 border border-b-0 text-xs group-focus-within:bg-mauve-12 group-focus-within:text-mauve-1 ring-mauve-12 group-focus-within:ring-1 px-4"
 			>
-				Name
+				Phone
 			</label>
 			<input
-				id="name"
-				class="py-2 px-4 border-mauve-12 border w-full group-focus-within:outline-none ring-mauve-12 group-focus-within:ring-1 bg-gradient-to-r from-transparent {getValValidationClass(
-					name,
+				id="tel"
+				class="py-2 px-4 border-mauve-12 rounded-none border w-full group-focus-within:outline-none ring-mauve-12 group-focus-within:ring-1 bg-gradient-to-r from-transparent {getValValidationClass(
+					tel,
 					form?.state,
 					'valid:to-green-5'
 				)}"
-				name="name"
-				type="text"
-				value={name}
+				name="tel"
+				autocomplete="tel"
+				type="tel"
+				value={tel}
 			/>
 		</div>
 
@@ -80,16 +105,17 @@
 				for="message"
 				class="border-mauve-12 border border-b-0 text-xs group-focus-within:bg-mauve-12 group-focus-within:text-mauve-1 ring-mauve-12 group-focus-within:ring-1 px-4"
 			>
-				Message
+				Message*
 			</label>
 			<textarea
 				rows="5"
 				name="message"
 				id="message"
-				class="py-2 px-4 border-mauve-12 border w-full group-focus-within:outline-none ring-mauve-12 group-focus-within:ring-1 bg-gradient-to-r from-transparent {getValValidationClass(
+				class="py-2 px-4 border-mauve-12 rounded-none resize-none border w-full group-focus-within:outline-none ring-mauve-12 group-focus-within:ring-1 bg-gradient-to-r from-transparent {getValValidationClass(
 					message,
 					form?.state,
-					'valid:to-green-5'
+					'valid:to-green-5',
+					true
 				)}"
 				value={message}
 			/>
