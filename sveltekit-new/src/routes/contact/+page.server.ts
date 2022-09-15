@@ -4,7 +4,9 @@ import { invalid } from '@sveltejs/kit';
 import type { Actions } from './$types';
 
 export const actions: Actions = {
-	default: async ({ request }) => {
+	default: async ({ request, url: pageUrl }) => {
+		console.info('contact: +page.server.ts // Action // default');
+
 		const data = await request.formData();
 
 		const url = data.get('url');
@@ -30,19 +32,24 @@ export const actions: Actions = {
 			});
 		}
 
-		const response = await fetch('http://127.0.0.1:5173/_api/mail', {
-			method: 'POST',
-			body: JSON.stringify(values)
-		});
+		console.log(pageUrl);
+		try {
+			const response = await fetch(`${pageUrl.origin}/_api/mail`, {
+				method: 'POST',
+				body: JSON.stringify(values)
+			});
 
-		if (response.status <= 299) {
-			const { id } = (await response.json()) as { id: string };
-			return {
-				state: 'success',
-				values: undefined,
-				missing: undefined,
-				id
-			};
+			if (response.status <= 299) {
+				const { id } = (await response.json()) as { id: string };
+				return {
+					state: 'success',
+					values: undefined,
+					missing: undefined,
+					id
+				};
+			}
+		} catch (error) {
+			console.error(error);
 		}
 
 		return invalid(500, {
