@@ -1,3 +1,5 @@
+console.info('_api/mail: +server.ts');
+
 import { error, json, type RequestHandler } from '@sveltejs/kit';
 import nodemailer from 'nodemailer';
 
@@ -38,8 +40,10 @@ const sendMailWrapper = async (mailOptions: Mail.Options) =>
 	});
 
 export const POST: RequestHandler = async ({ url, request }) => {
-	const a: { [key: string]: unknown } = await request.json();
-	const { subject: subjectUnknown, url: urlUnknown, ...unkownRest } = a;
+	console.info('_api/mail: +server.ts // POST');
+
+	const body: { [key: string]: unknown } = await request.json();
+	const { subject: subjectUnknown, url: urlUnknown, ...unkownRest } = body;
 	const subjectString: string | undefined =
 		typeof subjectUnknown === 'string' ? subjectUnknown : undefined;
 	const urlString: string | undefined =
