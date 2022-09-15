@@ -32,14 +32,11 @@ export const actions: Actions = {
 			});
 		}
 
-		console.log(pageUrl);
 		try {
 			const response = await fetch(`${pageUrl.origin}/_api/mail`, {
 				method: 'POST',
 				body: JSON.stringify(values)
 			});
-
-			console.log('Mail Fetch', response.status);
 
 			if (response.status <= 299) {
 				const { id } = (await response.json()) as { id: string };
