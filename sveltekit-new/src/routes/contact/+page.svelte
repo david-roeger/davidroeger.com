@@ -73,6 +73,7 @@
 					true
 				)}"
 				name="email"
+				autocomplete="email"
 				type="email"
 				value={email}
 			/>
