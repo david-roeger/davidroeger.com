@@ -43,16 +43,10 @@ export const POST: RequestHandler = async ({ url, request }) => {
 	console.info('_api/mail: +server.ts // POST');
 
 	const body: { [key: string]: unknown } = await request.json();
-	const { subject: subjectUnknown, url: urlUnknown, ...unkownRest } = body;
+	const { subject: subjectUnknown, ...unkownRest } = body;
 	const subjectString: string | undefined =
 		typeof subjectUnknown === 'string' ? subjectUnknown : undefined;
-	const urlString: string | undefined =
-		typeof urlUnknown === 'string' ? urlUnknown : undefined;
-
 	const blocks = [];
-	if (urlString) {
-		createBlock('Request Url', urlString);
-	}
 
 	for (const key in unkownRest) {
 		if (Object.prototype.hasOwnProperty.call(unkownRest, key)) {
