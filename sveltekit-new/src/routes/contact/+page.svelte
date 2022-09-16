@@ -12,10 +12,10 @@
 	// https://github.com/sveltejs/kit/issues/6823
 	export let form: ActionData;
 
-	const name = (form?.values?.name ?? '') as string;
-	const email = (form?.values?.email ?? '') as string;
-	const tel = (form?.values?.tel ?? '') as string;
-	const message = (form?.values?.message ?? '') as string;
+	$: name = (form?.values?.name ?? '') as string;
+	$: email = (form?.values?.email ?? '') as string;
+	$: tel = (form?.values?.tel ?? '') as string;
+	$: message = (form?.values?.message ?? '') as string;
 
 	const getValValidationClass = (
 		value: string | undefined,
@@ -34,12 +34,41 @@
 	{#if form?.state}<p class="error">{form.state}</p>{/if}
 	{#if form?.id}<p class="error">{form.id}</p>{/if}
 
-	<form method="POST" class="flex flex-col max-w-xs space-y-4 m-4">
+	<p>Test</p>
+	<p>Test</p>
+	<p>Test</p>
+	<p>Test</p>
+	<p>Test</p>
+	<p>Test</p>
+	<p>Test</p>
+	<p>Test</p>
+	<p>Test</p>
+	<p>Test</p>
+	<p>Test</p>
+	<p>Test</p>
+	<p>Test</p>
+	<p>Test</p>
+	<p>Test</p>
+	<p>Test</p>
+	<p>Test</p>
+	<p>Test</p>
+	<p>Test</p>
+	<p>Test</p>
+	<p>Test</p>
+	<p>Test</p>
+	<p>Test</p>
+	<p>Test</p>
+
+	<form
+		method="POST"
+		use:enhance
+		class="flex flex-col max-w-xs space-y-4 m-4"
+	>
 		<input type="hidden" name="url" value={$page.url.toString()} />
 		<div class="flex flex-col items-start group">
 			<label
 				for="name"
-				class="border-mauve-12 border border-b-0 text-xs group-focus-within:bg-mauve-12 group-focus-within:text-mauve-1 ring-mauve-12 group-focus-within:ring-1 px-4"
+				class="border-mauve-12 rounded-none border border-b-0 text-xs group-focus-within:bg-mauve-12 group-focus-within:text-mauve-1 ring-mauve-12 group-focus-within:ring-1 px-4 py-1"
 			>
 				Name*
 			</label>
@@ -56,13 +85,16 @@
 				type="text"
 				value={name}
 			/>
+			{#if form?.missing?.name}
+				<p class="text-xs">Name is required</p>
+			{/if}
 		</div>
-		<div class="flex flex-col items-start">
+		<div class="flex flex-col items-start group">
 			<label
 				for="email"
-				class="border-mauve-12 rounded-none border border-b-0 text-xs group-focus-within:bg-mauve-12 group-focus-within:text-mauve-1 ring-mauve-12 group-focus-within:ring-1 px-4"
+				class="border-mauve-12 rounded-none border border-b-0 text-xs group-focus-within:bg-mauve-12 group-focus-within:text-mauve-1 ring-mauve-12 group-focus-within:ring-1 px-4 py-1"
 			>
-				Mail*
+				E-Mail*
 			</label>
 			<input
 				id="email"
@@ -77,13 +109,15 @@
 				type="email"
 				value={email}
 			/>
-			<p class="" />
+			{#if form?.missing?.email}
+				<p class="text-xs">E-Mail is required</p>
+			{/if}
 		</div>
 
 		<div class="flex flex-col items-start group">
 			<label
 				for="name"
-				class="border-mauve-12 border border-b-0 text-xs group-focus-within:bg-mauve-12 group-focus-within:text-mauve-1 ring-mauve-12 group-focus-within:ring-1 px-4"
+				class="border-mauve-12 rounded-none border border-b-0 text-xs group-focus-within:bg-mauve-12 group-focus-within:text-mauve-1 ring-mauve-12 group-focus-within:ring-1 px-4 py-1"
 			>
 				Phone
 			</label>
@@ -104,7 +138,7 @@
 		<div class="flex flex-col items-start group">
 			<label
 				for="message"
-				class="border-mauve-12 border border-b-0 text-xs group-focus-within:bg-mauve-12 group-focus-within:text-mauve-1 ring-mauve-12 group-focus-within:ring-1 px-4"
+				class="border-mauve-12 rounded-none border border-b-0 text-xs group-focus-within:bg-mauve-12 group-focus-within:text-mauve-1 ring-mauve-12 group-focus-within:ring-1 px-4 py-1"
 			>
 				Message*
 			</label>
@@ -120,6 +154,9 @@
 				)}"
 				value={message}
 			/>
+			{#if form?.missing?.message}
+				<p class="text-xs">Message is required</p>
+			{/if}
 		</div>
 
 		<Button type="submit" variant="rounded" class="bg-orange-5">
