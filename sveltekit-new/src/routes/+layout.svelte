@@ -251,3 +251,4 @@
 		</div>
 	{/if}
 </div>
+<section id="portal" style="position: absolute; z-index: 9999" />

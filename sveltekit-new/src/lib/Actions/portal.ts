@@ -7,7 +7,6 @@ import type { ActionReturnType } from '$lib/types';
  * @param { HTMLElement | string } target Portal Container (DOM Element or CSS Selector)
  */
 
-// eslint-disable-next-line @typescript-eslint/no-inferrable-types
 export const portal = (
 	node: HTMLElement,
 	target: HTMLElement | string = '#portal'
@@ -21,11 +20,14 @@ export const portal = (
 				targetEl = document.querySelector(newTarget);
 			}
 			if (targetEl === null && newTarget === '#portal') {
-				const portal = document.createElement('section');
-				portal.style.position = 'absolute';
-				portal.style.zIndex = '99999';
-				portal.id = 'portal';
-				document.body.appendChild(portal);
+				let portal = document.getElementById('#portal');
+				if (!portal) {
+					portal = document.createElement('section');
+					portal.style.position = 'absolute';
+					portal.style.zIndex = '99999';
+					portal.id = 'portal';
+					document.body.appendChild(portal);
+				}
 				targetEl = portal;
 			}
 			if (targetEl === null) {
