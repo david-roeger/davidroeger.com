@@ -28,6 +28,7 @@
 
 	import { get, type Writable } from 'svelte/store';
 	import Close16 from '$assets/Icons/16/close.svg';
+	import { debounce } from '$lib/Utils';
 
 	const projectsMediaData: ProjectsMediaData = { ...pmd };
 
@@ -81,38 +82,44 @@
 
 	interface ActiveMedia {
 		media: MediaType | undefined;
-		left: number;
-		top: number;
 		width: number;
 		height: number;
+		x: number;
+		y: number;
+		scale: number;
 	}
 
 	let overlay = false;
 
 	let activeMedia: ActiveMedia = {
 		media: undefined,
-		left: 0,
-		top: 0,
 		width: 0,
-		height: 0
+		height: 0,
+		x: 0,
+		y: 0,
+		scale: 1
 	};
 
+	const instant = { duration: 0 };
+	const transition = { duration: 300 };
 	let scale = tweened(1, {
 		easing: cubicInOut,
-		duration: 300
+		...transition
 	});
+
 	let offsetX = tweened(0, {
 		easing: cubicInOut,
-		duration: 300
+		...transition
 	});
+
 	let offsetY = tweened(0, {
 		easing: cubicInOut,
-		duration: 300
+		...transition
 	});
 
 	let opacity = tweened(0, {
 		easing: cubicInOut,
-		duration: 300
+		...transition
 	});
 
 	const getTargetScale = (
@@ -121,10 +128,10 @@
 		windowWidth: number,
 		windowHeight: number
 	) => {
-		const widthScale = windowWidth / mediaWidth;
-		const heightScale = windowHeight / mediaHeight;
-
-		return Math.min(widthScale, heightScale);
+		const widthScale = mediaWidth / windowWidth;
+		const heightScale = mediaHeight / windowHeight;
+		console.log(widthScale, heightScale);
+		return Math.max(widthScale, heightScale);
 	};
 
 	const dialogs: {
@@ -142,10 +149,6 @@
 		const { x, y, width, height } = button.getBoundingClientRect();
 
 		activeMedia.media = media;
-		activeMedia.left = x;
-		activeMedia.top = y;
-		activeMedia.width = width;
-		activeMedia.height = height;
 
 		overlay = !overlay;
 
@@ -156,34 +159,56 @@
 			innerHeight
 		);
 
-		// center element
-		console.log(innerWidth, width, x, y);
+		const invertedScale = 1 / targetScale;
+		const targetWidth = width * invertedScale;
+		const targetHeight = height * invertedScale;
 
-		console.log(0 - x + innerWidth / 2 - width / 2);
-		console.log(0 - y + innerHeight / 2 - height / 2);
+		activeMedia.width = targetWidth;
+		activeMedia.height = targetHeight;
+		activeMedia.x = x;
+		activeMedia.y = y;
+		activeMedia.scale = targetScale;
+
+		// center element
 		requestAnimationFrame(() => {
-			scale.set(targetScale);
-			offsetX.set(0 - x + innerWidth / 2 - width / 2);
-			offsetY.set(0 - y + innerHeight / 2 - height / 2);
+			scale.set(targetScale, instant);
+			scale.set(1, transition);
+
+			offsetX.set(x, instant);
+			offsetX.set((innerWidth - targetWidth) / 2, transition);
+			offsetY.set(y, instant);
+			offsetY.set((innerHeight - targetHeight) / 2, transition);
 			opacity.set(1);
 		});
 	};
 
 	async function handleDialogClose(media: MediaType) {
+		const button = section.querySelector('button[data-state="open"]');
+		if (!button) return;
+
+		const { x, y, width, height } = button.getBoundingClientRect();
+		const targetScale = getTargetScale(
+			width,
+			height,
+			innerWidth,
+			innerHeight
+		);
+
 		requestAnimationFrame(async () => {
 			await Promise.all([
-				scale.set(1),
-				offsetX.set(0),
-				offsetY.set(0),
+				scale.set(targetScale, transition),
+				offsetX.set(x, transition),
+				offsetY.set(y, transition),
 				opacity.set(0)
 			]);
 
 			activeMedia = {
 				media: undefined,
-				left: 0,
-				top: 0,
 				width: 0,
-				height: 0
+				height: 0,
+				x: 0,
+				y: 0,
+				scale: 1
 			};
 			overlay = false;
 
@@ -193,14 +218,34 @@
 			}
 		});
 	}
+
+	const handleResize = () => {
+		if (activeMedia) {
+			const targetScale = getTargetScale(
+				activeMedia.width,
+				activeMedia.height,
+				innerWidth,
+				innerHeight
+			);
+
+			const invertedScale = 1 / targetScale;
+			const targetWidth = activeMedia.width * invertedScale;
+			const targetHeight = activeMedia.height * invertedScale;
+
+			activeMedia.width = targetWidth;
+			activeMedia.height = targetHeight;
+
+			offsetX.set((innerWidth - targetWidth) / 2, instant);
+			offsetY.set((innerHeight - targetHeight) / 2, instant);
+		}
+	};
 </script>
 
 <svelte:window
 	bind:innerWidth
 	bind:innerHeight
-	on:scroll={(e) => e.preventDefault()}
+	on:resize={debounce(() => handleResize(), 50)}
 />
-
 <Head
 	additionalMetaTags={[
 		{
@@ -319,6 +364,7 @@
 					<div class="flex flex-col flex-1 ">
 						{#each nestedMedia as medium (medium.src)}
 							<Dialog.Root
+								class="m-1 flex"
 								bind:setClose={dialogs[medium.src]}
 								defaultOpen={false}
 								on:openChange={async (e) => {
@@ -330,15 +376,12 @@
 									}
 								}}
 							>
-								<Dialog.Trigger
-									class="p-1"
-									title="Open Overlay"
-								>
+								<Dialog.Trigger title="Open Overlay">
 									<Media
-										key={medium.src}
 										media={medium}
 										src="../assets/projects/{data.slug}/{medium.src}"
 										alt=""
+										class="block"
 									/>
 								</Dialog.Trigger>
 								<Dialog.Portal>
@@ -360,18 +403,24 @@
 												await handleDialogClose(medium);
 											}
 										}}
-										class="fixed top-0 bg-mauve-1"
+										class="fixed inset-0 pointer-events-none"
 									>
 										{#if activeMedia.media}
-											<Media
-												key={medium.src}
-												media={activeMedia.media}
-												src="../assets/projects/{data.slug}/{activeMedia
-													.media.src}"
-												alt=""
-												class=" border-mauve-6 p-1 fixed"
-												style="left: {activeMedia.left}px; top: {activeMedia.top}px; width: {activeMedia.width}px; height: {activeMedia.height}px; transform: translate({$offsetX}px, {$offsetY}px) scale({$scale}) ;"
-											/>
+											<div
+												style:width="{activeMedia.width}px"
+												style:height="{activeMedia.height}px"
+												style:transform="translate({$offsetX}px,
+												{$offsetY}px) scale({$scale})"
+												class="origin-top-left"
+											>
+												<Media
+													media={activeMedia.media}
+													src="../assets/projects/{data.slug}/{activeMedia
+														.media.src}"
+													alt=""
+													class="border-mauve-6 w-full h-full block"
+												/>
+											</div>
 										{/if}
 										<Dialog.Close
 											on:click={async (e) => {
