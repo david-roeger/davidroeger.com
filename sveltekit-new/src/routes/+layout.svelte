@@ -16,6 +16,7 @@
 	import { page } from '$app/stores';
 	import DefaultHead from '$components/Head/DefaultHead.svelte';
 	import { mapToRange } from '$utils';
+	import Link from '$lib/Components/Link/Link.svelte';
 
 	const getTitle = (path: string) => {
 		const pathArray = path.split('/').filter((item) => item !== '');
@@ -72,6 +73,12 @@
 			}
 		};
 	}
+
+	const handleSkipLink = (e: MouseEvent) => {
+		e.preventDefault();
+		const main = document.getElementById('main');
+		main?.focus();
+	};
 </script>
 
 <DefaultHead
@@ -225,8 +232,15 @@
 />
 
 <div class="relative flex flex-col min-h-full font-sans text-mauve-12">
+	<a
+		href="#content"
+		class="absolute -top-12 left-2 px-4 py-2 focus:top-2 z-50 bg-white border focus:outline-none ring-mauve-12 focus:ring-1"
+	>
+		Skip to content
+	</a>
 	<Header class="z-30" />
 	<main
+		id="content"
 		class="z-10 flex flex-col xl:max-w-7xl xl:border-r border-mauve-6 mb-auto"
 	>
 		<BreakpointProvider>
@@ -244,7 +258,7 @@
 				on:click={handleClick}
 				on:click
 				type="button"
-				class={`block p-1 m-2 text-xs bg-white border rounded-full cursor-n-resize touch-manipulation focus:outline-none ring-mauve-12 focus:ring-1`}
+				class="block p-1 m-2 text-xs bg-white border rounded-full cursor-n-resize touch-manipulation focus:outline-none ring-mauve-12 focus:ring-1"
 			>
 				<AccessibleIcon label="Back to top"><North /></AccessibleIcon>
 			</button>
