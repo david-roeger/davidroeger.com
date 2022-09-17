@@ -27,7 +27,7 @@ export const actions: Actions = {
 			return invalid(400, {
 				state: 'invalid',
 				values,
-				missing: { email: !email, name: !name, message: !message },
+				missing: { name: !name, email: !email, message: !message },
 				id: undefined
 			});
 		}
