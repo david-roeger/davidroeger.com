@@ -53,11 +53,9 @@
 			}
 		});
 	}
-
 	if (verticalMedia) {
 		mediaArray.push(verticalMedia);
 	}
-
 	if (horizontalMedia) {
 		mediaArray.push(horizontalMedia);
 	}
@@ -78,7 +76,6 @@
 
 	const { MD }: BreakpointContext = getContext('breakpoints');
 	$: nestedMediaArray = createNestedMediaArray($MD);
-	$: console.log(nestedMediaArray);
 
 	interface ActiveMedia {
 		media: MediaType | undefined;
@@ -130,7 +127,6 @@
 	) => {
 		const widthScale = mediaWidth / windowWidth;
 		const heightScale = mediaHeight / windowHeight;
-		console.log(widthScale, heightScale);
 		return Math.max(widthScale, heightScale);
 	};
 
@@ -140,8 +136,6 @@
 
 	let section: HTMLElement;
 	const handleDialogOpen = async (media: MediaType) => {
-		console.log(media);
-
 		await tick();
 		const button = section.querySelector('button[data-state="open"]');
 		if (!button) return;
@@ -376,7 +370,10 @@
 									}
 								}}
 							>
-								<Dialog.Trigger title="Open Overlay">
+								<Dialog.Trigger
+									title="Open Overlay"
+									class="focus:outline-none ring-mauve-6 focus:ring-2"
+								>
 									<Media
 										media={medium}
 										src="../assets/projects/{data.slug}/{medium.src}"
@@ -395,7 +392,7 @@
 									/>
 									<Dialog.Content
 										focusTrapOptions={{
-											returnFocusOnDeactivate: false
+											preventScroll: true
 										}}
 										on:keydown={async (e) => {
 											if (e.key === 'Escape') {
