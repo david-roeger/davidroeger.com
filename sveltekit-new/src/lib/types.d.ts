@@ -15,8 +15,8 @@ export type GetReturnType = Promise<{
 
 export interface Media {
 	src: string;
-	width?: number;
-	height?: number;
+	width: number;
+	height: number;
 	hash?: string;
 }
 
