@@ -73,7 +73,7 @@
 </script>
 
 <div
-	style={`pointer-events: auto; position: absolute; visibility: ${
+	style={`position: absolute; visibility: ${
 		$open ? 'visible' : 'hidden'
 	}; opacity: ${$open ? 1 : 0}; ${$contentStyles}`}
 	data-state={$dataState}

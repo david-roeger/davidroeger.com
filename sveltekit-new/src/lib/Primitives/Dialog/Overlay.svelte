@@ -13,13 +13,7 @@
 </script>
 
 {#if $open}
-	<div
-		class={c}
-		style="pointer-events: auto;"
-		on:click|self
-		on:click|self={handleClick}
-		{...$$restProps}
-	>
+	<div class={c} on:click|self on:click|self={handleClick} {...$$restProps}>
 		<slot />
 	</div>
 {/if}

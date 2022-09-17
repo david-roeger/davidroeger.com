@@ -46,7 +46,6 @@
 		role="dialog"
 		aria-modal="true"
 		tabindex="-1"
-		style="pointer-events: auto;"
 		id="{id}-content"
 		aria-labelledby="{id}-title"
 		aria-describedby="{id}-description"
