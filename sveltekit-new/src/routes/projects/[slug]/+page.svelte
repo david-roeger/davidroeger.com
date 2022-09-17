@@ -424,7 +424,7 @@
 												e.stopImmediatePropagation();
 												await handleDialogClose(medium);
 											}}
-											class="fixed bg-white/80 rounded-full top-0 right-0 m-1 p-1 border border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1"
+											class="fixed bg-white/80 rounded-full top-0 right-0 m-2 p-1 border border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1"
 											style="opacity: {$opacity};"
 										>
 											<AccessibleIcon
