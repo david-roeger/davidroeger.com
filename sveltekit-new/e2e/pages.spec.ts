@@ -13,5 +13,5 @@ test('project page has expected h1', async ({ page }) => {
 
 test('project detail page has expected h1', async ({ page }) => {
 	await page.goto('/projects/obskurra');
-	expect(await page.textContent('h1')).toBe('Obskurra Type');
+	expect(await page.textContent('h1')).toBe('Obskurra Typeface');
 });
