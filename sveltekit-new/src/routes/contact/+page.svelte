@@ -47,10 +47,22 @@
 
 	const focusInvalid = (missing: ActionData['missing']) => {
 		if (missing) {
+			const activeElement = document.activeElement;
+			const name = activeElement?.getAttribute('name');
+
+			if (name && missing[name as keyof typeof missing] === true) {
+				return;
+			}
+
 			for (const [key, value] of Object.entries(missing)) {
 				if (value) {
 					const element = document.getElementsByName(key)[0];
-					element?.focus();
+					if (element) {
+						setTimeout(() => {
+							element.focus();
+							element.click();
+						});
+					}
 					return;
 				}
 			}
@@ -96,6 +108,9 @@
 				if (result.type === 'success') {
 					form.reset();
 				}
+				const element = document.getElementsByName('name')[0];
+				element.focus();
+
 				if (result.type === 'invalid') {
 					focusInvalid(result.data?.missing);
 				}
