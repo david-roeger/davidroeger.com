@@ -37,7 +37,7 @@
 			errorClass?: string;
 			defaultClass?: string;
 		},
-		required: boolean = false
+		required = false
 	) => {
 		if (!state || state === 'success' || (!value && !required))
 			return classes.defaultClass ?? '';

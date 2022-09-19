@@ -1,7 +1,6 @@
 <script lang="ts">
 	console.info('projects: +page.svelte');
 
-	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
 	import { mapToRange, replaceStateWithQuery } from '$lib/Utils';
 
@@ -12,10 +11,10 @@
 	import type { ProjectMetaData, ProjectsMediaData } from '$lib/types';
 	import Headline from '$components/Headline/Headline.svelte';
 	import { Media } from '$components/Media';
-	import East from '$assets/Icons/24/east.svg';
-	import West from '$assets/Icons/24/west.svg';
-	import Close16 from '$assets/Icons/16/close.svg';
-	import East16 from '$assets/Icons/16/east.svg';
+	import East from '$assets/Icons/24/east.svg?component';
+	import West from '$assets/Icons/24/west.svg?component';
+	import Close16 from '$assets/Icons/16/close.svg?component';
+	import East16 from '$assets/Icons/16/east.svg?component';
 
 	import AccessibleIcon from '$components/AccessibleIcon';
 
@@ -141,7 +140,7 @@
 	>
 		{#if $tags.size}
 			<div
-				in:slideLeft|local
+				in:slideLeft|local={{}}
 				out:slideLeft|local={{ easing: reversedEasing }}
 			>
 				<Tags.Unset

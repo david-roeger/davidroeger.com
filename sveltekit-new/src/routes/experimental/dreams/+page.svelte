@@ -435,7 +435,7 @@
 					<span
 						class="block transition-transform group-hover:animate-cool-wiggle"
 					>
-						{!!dream.emoji
+						{dream.emoji
 							? dream.emoji
 							: data?.emojiMap?.[dream.id] ?? ''}
 					</span>

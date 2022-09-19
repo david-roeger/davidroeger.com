@@ -13,8 +13,8 @@
 	import * as Popper from '$primitives/Popper';
 	import AccessibleIcon from '$components/AccessibleIcon';
 	import * as RadioGroup from '$primitives/RadioGroup';
-	import Filter from '$assets/Icons/24/filter.svg';
-	import Close from '$assets/Icons/24/close.svg';
+	import Filter from '$assets/Icons/24/filter.svg?component';
+	import Close from '$assets/Icons/24/close.svg?component';
 
 	const defaultSelected = 'tracks';
 	const selected = writable(defaultSelected);

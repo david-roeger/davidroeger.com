@@ -1,9 +1,9 @@
 <script lang="ts">
 	import * as Dialog from '$primitives/Dialog';
 
-	export let trigger: string = '';
+	export let trigger = '';
 	export let triggerClass: string;
-	export let triggerRounded: boolean = false;
+	export let triggerRounded = false;
 	const roundedClass = triggerRounded ? 'rounded-full' : '';
 	export let disabled = false;
 	const disabledClass =

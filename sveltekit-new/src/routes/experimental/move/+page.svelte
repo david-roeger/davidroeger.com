@@ -4,10 +4,10 @@
 	import * as Slider from '$primitives/Slider';
 	import AccessibleIcon from '$components/AccessibleIcon';
 
-	import Close from '$assets/Icons/24/close.svg';
-	import West from '$assets/Icons/24/west.svg';
-	import East from '$assets/Icons/24/east.svg';
-	import South from '$assets/Icons/24/south.svg';
+	import Close from '$assets/Icons/24/close.svg?component';
+	import West from '$assets/Icons/24/west.svg?component';
+	import East from '$assets/Icons/24/east.svg?component';
+	import South from '$assets/Icons/24/south.svg?component';
 	import * as Accordion from '$primitives/Accordion';
 
 	import { onMount } from 'svelte';

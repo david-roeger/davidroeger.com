@@ -11,12 +11,11 @@
 	import { Footer } from '$slices/Footer';
 
 	import AccessibleIcon from '$components/AccessibleIcon';
-	import North from '$assets/Icons/24/north.svg';
+	import North from '$assets/Icons/24/north.svg?component';
 
 	import { page } from '$app/stores';
 	import DefaultHead from '$components/Head/DefaultHead.svelte';
 	import { mapToRange } from '$utils';
-	import Link from '$lib/Components/Link/Link.svelte';
 
 	const getTitle = (path: string) => {
 		const pathArray = path.split('/').filter((item) => item !== '');
@@ -73,12 +72,6 @@
 			}
 		};
 	}
-
-	const handleSkipLink = (e: MouseEvent) => {
-		e.preventDefault();
-		const main = document.getElementById('main');
-		main?.focus();
-	};
 </script>
 
 <DefaultHead
@@ -251,7 +244,7 @@
 	{#if showBttButton}
 		<div
 			class="sticky bottom-0 left-0 z-30"
-			in:slideUp|local
+			in:slideUp|local={{}}
 			out:slideUp|local={{ easing: reversedEasing }}
 		>
 			<button

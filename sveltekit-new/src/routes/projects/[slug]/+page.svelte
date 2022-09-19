@@ -14,9 +14,9 @@
 	import AccessibleIcon from '$components/AccessibleIcon/AccessibleIcon.svelte';
 	import { Media } from '$components/Media';
 
-	import TagIcon from '$assets/Icons/24/tag.svg';
-	import LinkIcon from '$assets/Icons/24/link.svg';
-	import GithubIcon from '$assets/Icons/24/github.svg';
+	import TagIcon from '$assets/Icons/24/tag.svg?component';
+	import LinkIcon from '$assets/Icons/24/link.svg?component';
+	import GithubIcon from '$assets/Icons/24/github.svg?component';
 
 	import Headline from '$components/Headline/Headline.svelte';
 
@@ -27,7 +27,7 @@
 	import { spring, tweened } from 'svelte/motion';
 
 	import { get, type Writable } from 'svelte/store';
-	import Close16 from '$assets/Icons/16/close.svg';
+	import Close16 from '$assets/Icons/16/close.svg?component';
 	import { debounce } from '$lib/Utils';
 
 	const projectsMediaData: ProjectsMediaData = { ...pmd };
