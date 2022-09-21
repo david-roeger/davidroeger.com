@@ -37,7 +37,7 @@ export const actions: Actions = {
 				body: JSON.stringify(values)
 			});
 
-			if (response.status <= 299) {
+			if (response.ok) {
 				const { id } = (await response.json()) as { id: string };
 				return {
 					state: 'success',
