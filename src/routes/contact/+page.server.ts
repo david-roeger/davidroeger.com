@@ -27,8 +27,7 @@ export const actions: Actions = {
 			return invalid(400, {
 				state: 'invalid',
 				values,
-				missing: { name: !name, email: !email, message: !message },
-				id: undefined
+				missing: { name: !name, email: !email, message: !message }
 			});
 		}
 
@@ -42,8 +41,6 @@ export const actions: Actions = {
 				const { id } = (await response.json()) as { id: string };
 				return {
 					state: 'success',
-					values: undefined,
-					missing: undefined,
 					id
 				};
 			}
@@ -52,10 +49,8 @@ export const actions: Actions = {
 		}
 
 		return invalid(500, {
-			state: 'server error',
-			values,
-			missing: undefined,
-			id: undefined
+			state: 'error',
+			values
 		});
 	}
 };

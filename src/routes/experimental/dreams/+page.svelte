@@ -470,7 +470,7 @@
 					>
 						<AccessibleIcon label="edit" slot="trigger">
 							<EditIcon
-								class="block w-auto h-full group-hover:animate-spin"
+								class="block w-auto h-full group-hover:animate-spin icon-mauve-11"
 							/>
 						</AccessibleIcon>
 						<Form
@@ -515,7 +515,7 @@
 						description="Dies kann nicht rückgängig gemacht werden. Bist du sicher?"
 					>
 						<span
-							class="w-auto h-full transition-transform group-hover:animate-spin group-focus:animate-spin"
+							class="w-auto h-full transition-transform group-hover:animate-spin group-focus:animate-spin icon-mauve-11"
 							slot="trigger"
 						>
 							<AccessibleIcon label="edit">
