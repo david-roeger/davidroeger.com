@@ -14,12 +14,6 @@
 	export { c as class };
 	export let labelledby: string | undefined = undefined;
 
-	const valid = (() => {
-		if (topArtistsResponse.ok) return true;
-		if (!topArtistsResponse.ok) return false;
-		return undefined;
-	})();
-
 	const getImageUrl = (images: Image[]): string => {
 		if (images.length === 0) return '';
 
@@ -42,9 +36,9 @@
 </script>
 
 <section class={c}>
-	{#if valid === true && 'items' in topArtistsResponse.body}
+	{#if topArtistsResponse.ok && topArtistsResponse.data.items.length}
 		<Music.Root {labelledby}>
-			{#each topArtistsResponse.body.items as artist (artist.id)}
+			{#each topArtistsResponse.data.items as artist (artist.id)}
 				<Music.Row class="flex">
 					{#if artist.images.length}
 						<Music.Atom>
@@ -80,7 +74,7 @@
 				</Music.Row>
 			{/each}
 		</Music.Root>
-	{:else if valid === false && 'error' in topArtistsResponse.body}
+	{:else if !topArtistsResponse.ok && topArtistsResponse.message}
 		<Music.Root {labelledby}>
 			<Music.Row class="flex">
 				<Music.Atom>
@@ -90,16 +84,8 @@
 				</Music.Atom>
 				<Music.Atom class="flex-1 min-w-0 border-l border-mauve-6">
 					<Music.Detail subline={['', '']}>
-						{#if typeof topArtistsResponse.body.error === 'string'}
-							<p>Error:</p>
-							<p>{topArtistsResponse.body.error}</p>
-						{:else if typeof topArtistsResponse === 'object'}
-							<p class="text-xs">Error:</p>
-							<p class="text">
-								{topArtistsResponse.body.error.status}
-								{topArtistsResponse.body.error.message}
-							</p>
-						{/if}
+						<p>Error:</p>
+						<p>{topArtistsResponse.message}</p>
 					</Music.Detail>
 				</Music.Atom>
 			</Music.Row>

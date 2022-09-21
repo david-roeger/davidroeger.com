@@ -10,10 +10,33 @@ import { error } from '@sveltejs/kit';
 import type {
 	SpotifyTopTracksResponse,
 	SpotifyTopArtistsResponse,
-	SpotifyLastTrackResponse
+	SpotifyLastTrackResponse,
+	TopTrack,
+	LastTrack
 } from '$components/Music/types';
 
 import type { PageServerLoad } from './$types';
+
+type SpotifyResponse =
+	| SpotifyTopTracksResponse
+	| SpotifyTopArtistsResponse
+	| SpotifyLastTrackResponse;
+
+const createResponse = async (
+	response: Response,
+	errorMessage: string
+): Promise<SpotifyResponse> => {
+	if (response.ok) {
+		return {
+			ok: true,
+			data: await response.json()
+		};
+	}
+	return {
+		ok: false,
+		message: errorMessage
+	};
+};
 
 export const load: PageServerLoad = async () => {
 	console.info('about/music: +page.server.ts // load');
@@ -37,27 +60,54 @@ export const load: PageServerLoad = async () => {
 			topArtistsShort,
 			topArtistsMedium,
 			topArtistsLong
-		]).then((responses) => {
+		]).then(async (responses) => {
+			const lastTrackResponse = (await createResponse(
+				responses[0],
+				'Error fetching last track'
+			)) as SpotifyLastTrackResponse;
+
+			const topTracksShortResponse = (await createResponse(
+				responses[1],
+				'Error fetching top tracks short'
+			)) as SpotifyTopTracksResponse;
+
+			const topTracksMediumResponse = (await createResponse(
+				responses[2],
+				'Error fetching top tracks medium'
+			)) as SpotifyTopTracksResponse;
+
+			const topTrackLongResponse = (await createResponse(
+				responses[3],
+				'EError fetching top tracks long'
+			)) as SpotifyTopTracksResponse;
+
+			const topArtistsShortResponse = (await createResponse(
+				responses[4],
+				'Error fetching top artists short'
+			)) as SpotifyTopArtistsResponse;
+
+			const topArtistsMediumResponse = (await createResponse(
+				responses[5],
+				'Error fetching top artists medium'
+			)) as SpotifyTopArtistsResponse;
+
+			const topArtistsLongResponse = (await createResponse(
+				responses[6],
+				'Error fetching top artists long'
+			)) as SpotifyTopArtistsResponse;
+
 			return {
-				lastTrackResponse: responses[0] as SpotifyLastTrackResponse,
-				topTracksShortResponse:
-					responses[1] as SpotifyTopTracksResponse,
-				topTracksMediumResponse:
-					responses[2] as SpotifyTopTracksResponse,
-				topTrackLongResponse: responses[3] as SpotifyTopTracksResponse,
-				topArtistsShortResponse:
-					responses[4] as SpotifyTopArtistsResponse,
-				topArtistsMediumResponse:
-					responses[5] as SpotifyTopArtistsResponse,
-				topArtistsLongResponse:
-					responses[6] as SpotifyTopArtistsResponse
+				lastTrackResponse,
+				topTracksShortResponse,
+				topTracksMediumResponse,
+				topTrackLongResponse,
+				topArtistsShortResponse,
+				topArtistsMediumResponse,
+				topArtistsLongResponse
 			};
 		});
-		return response;
-	}
 
-	if (response.body.error) {
-		throw error(response.body.error.status, response.body.error.message);
+		return response;
 	}
 
 	throw error(500, "Couldn't load music data");

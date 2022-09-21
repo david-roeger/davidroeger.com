@@ -1,28 +1,24 @@
-export type ErrorBody = {
-	status: number;
+export type ErrorResponse = {
+	ok: false;
 	message: string;
 };
 
-export interface SpotifyResponse {
-	ok: boolean;
-	status: number;
-	body: {
-		error?: ErrorBody;
-		[key: string]: unknown;
-	};
+export interface SuccessResponse<T extends interface> {
+	ok: true;
+	data: T;
 }
 
-export interface SpotifyTopTracksResponse extends SpotifyResponse {
-	body: { items: TopTrack[] } | { error: ErrorBody };
-}
+export type SpotifyTopTracksResponse =
+	| SuccessResponse<{ items: TopTrack[] }>
+	| ErrorResponse;
 
-export interface SpotifyTopArtistsResponse extends SpotifyResponse {
-	body: { items: TopArtist[] } | { error: ErrorBody };
-}
+export type SpotifyTopArtistsResponse =
+	| SuccessResponse<{ items: TopArtist[] }>
+	| ErrorResponse;
 
-export interface SpotifyLastTrackResponse extends SpotifyResponse {
-	body: { item: LastTrack } | { error: ErrorBody };
-}
+export type SpotifyLastTrackResponse =
+	| SuccessResponse<{ item: LastTrack }>
+	| ErrorResponse;
 
 /**
  * Spotify Types
