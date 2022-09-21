@@ -1,17 +1,16 @@
 name: Keep supabase happy
 
 on:
-  workflow_dispatch:
- # Triggers the workflow every day
-  schedule:
-    - cron:  '0 20 * * *'
+    workflow_dispatch:
+    # Triggers the workflow every day
+    schedule:
+        - cron: '0 20 * * *'
 
 jobs:
-  request:
-    runs-on: ubuntu-latest
-    steps:
-      - name: fetch dreams
-        uses: wei/curl@master
-        with:
-          args: https://www.davidroeger.com/experimental/dreams
-
+    request:
+        runs-on: ubuntu-latest
+        steps:
+            - name: fetch dreams
+              uses: wei/curl@master
+              with:
+                  args: https://www.davidroeger.com/experimental/dreams
