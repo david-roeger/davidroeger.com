@@ -147,14 +147,14 @@
 						))}
 				>
 					{#each timeRanges as range}
-						<div class="flex mb-2 space-x-2 last:mb-0">
+						<div class="flex mb-2 space-x-2 last:mb-0 group">
 							<RadioGroup.Item
 								value={range.value}
 								id={range.value}
-								class="w-6 h-6 p-1 bg-white border rounded-full b border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1"
+								class="relative w-6 h-6 p-1 bg-white border rounded-full b border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 before:absolute before:inset-0 before:block before:m-1 before:rounded-full group-hover:before:bg-mauve-5 before:transition-colors"
 							>
 								<RadioGroup.Indicator
-									class="block w-full h-full p-1 rounded-full bg-plum-5"
+									class="block absolute inset-0 m-1 rounded-full bg-plum-5"
 								/>
 							</RadioGroup.Item>
 							<label
