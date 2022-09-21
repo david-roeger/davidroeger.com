@@ -20,7 +20,7 @@
 		"@tailwindcss/aspect-ratio": "^0.4.0",
 		"@types/nodemailer": "^6.4.6",
 		"@typescript-eslint/eslint-plugin": "^5.27.0",
-		"@typescript-eslint/parser": "^5.27.0",
+		"@typescript-eslint/parser": "^5.38.0",
 		"autoprefixer": "^10.4.8",
 		"csstype": "^3.1.0",
 		"eslint": "^8.16.0",
