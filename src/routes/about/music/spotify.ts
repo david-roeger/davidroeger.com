@@ -102,7 +102,7 @@ const getCurrentTrack = async (): Promise<Response> => {
 	);
 
 	if (response.status === 204) {
-		return json({}, { status: 204 });
+		return new Response(undefined, { status: 204 });
 	}
 
 	const body = await response.json();
@@ -110,7 +110,7 @@ const getCurrentTrack = async (): Promise<Response> => {
 		const { item } = body;
 		if (item) {
 			if (body.currently_playing_type !== 'track') {
-				return json({}, { status: 204 });
+				return new Response(undefined, { status: 204 });
 			}
 
 			return json({ item }, { status: 200 });
@@ -148,7 +148,6 @@ const getRecentTrack = async (): Promise<Response> => {
 
 export const getLastTrack = async (): Promise<Response> => {
 	const current = await getCurrentTrack();
-
 	if (current.status === 200) return current;
 	return await getRecentTrack();
 };
