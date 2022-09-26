@@ -24,7 +24,7 @@
 	import Head from '$components/Head/Head.svelte';
 	import type { Media as MediaType, ProjectsMediaData } from '$lib/types';
 	import type { BreakpointContext } from '$lib/Provider/Breakpoint/types';
-	import { spring, tweened } from 'svelte/motion';
+	import { tweened } from 'svelte/motion';
 
 	import { get, type Writable } from 'svelte/store';
 	import Close16 from '$assets/Icons/16/close.svg?component';

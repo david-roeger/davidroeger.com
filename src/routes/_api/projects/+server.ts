@@ -5,6 +5,10 @@ import { error, json } from '@sveltejs/kit';
 
 import type { RequestHandler } from './$types';
 
+type Project = {
+	metadata: { published: boolean; order: number };
+};
+
 export const GET: RequestHandler = async ({ url }) => {
 	console.info('_api/projects: +server.ts // GET');
 
@@ -18,7 +22,9 @@ export const GET: RequestHandler = async ({ url }) => {
 		throw error(400, 'limit is not valid');
 	}
 
-	for (const [path, resolver] of Object.entries(modules)) {
+	for (const [path, resolver] of Object.entries(
+		modules as Record<string, () => Promise<Project>>
+	)) {
 		const slug = slugFromPath(path);
 		const promise = resolver().then((project) => ({
 			slug,

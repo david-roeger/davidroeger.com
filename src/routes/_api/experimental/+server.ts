@@ -18,7 +18,7 @@ export const GET: RequestHandler = async ({ url }) => {
 	for (const [path] of Object.entries(nested)) {
 		const slug =
 			path.match(/\.\.\/\.\.\/experimental\/(.*?)\//i)?.[1] ?? undefined;
-		if (!slug || slug === 'template') {
+		if (!slug) {
 			continue;
 		}
 

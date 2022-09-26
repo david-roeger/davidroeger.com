@@ -9,7 +9,7 @@
 	import { Background } from '$components/Background';
 	import Head from '$components/Head/Head.svelte';
 
-	$: error = $page.error.message;
+	$: error = $page.error?.message ?? '';
 	$: status = $page.status;
 </script>
 

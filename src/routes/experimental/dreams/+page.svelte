@@ -65,7 +65,8 @@
 				if (error) throw error;
 			}
 		} catch (error) {
-			alert(error.message);
+			// TODO: fix error handling
+			alert(error);
 		} finally {
 			loading = false;
 		}
@@ -101,7 +102,8 @@
 			if (!userData) throw new Error('User is not defined');
 			return true;
 		} catch (error) {
-			alert(error.error_description || error.message);
+			// TODO: fix error handling
+			alert(error);
 			return false;
 		} finally {
 			loading = false;
@@ -159,7 +161,8 @@
 
 			return true;
 		} catch (error) {
-			alert(error.error_description || error.message);
+			// TODO: fix error handling
+			alert(error);
 			return false;
 		} finally {
 			loading = false;
@@ -228,7 +231,8 @@
 			goto(`#${updatedDream.id}`, { noscroll: true });
 			return true;
 		} catch (error) {
-			alert(error.error_description || error.message);
+			// TODO: fix error handling
+			alert(error);
 			return false;
 		} finally {
 			loading = false;
@@ -276,7 +280,8 @@
 			goto('', { noscroll: true });
 			return true;
 		} catch (error) {
-			alert(error.error_description || error.message);
+			// TODO: fix error handling
+			alert(error);
 			return false;
 		} finally {
 			loading = false;

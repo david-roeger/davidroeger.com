@@ -1,7 +1,7 @@
 <script lang="ts">
 	console.info('contact: +page.svelte');
 
-	import { applyAction, enhance } from '$app/forms';
+	import { applyAction } from '$app/forms';
 	import { page } from '$app/stores';
 	import Button from '$lib/Components/Button/Button.svelte';
 	import type { ActionData } from './$types';
