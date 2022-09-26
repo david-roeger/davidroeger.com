@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { browser, prerendering } from '$app/environment';
+	import { prerendering } from '$app/environment';
 
 	let c = '';
 	export { c as class };

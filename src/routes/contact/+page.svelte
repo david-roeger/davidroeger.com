@@ -76,7 +76,7 @@
 		}
 	};
 
-	async function handleSubmit(event: SubmitEvent) {
+	async function handleSubmit() {
 		if (formEl) {
 			const activeElement = document.activeElement as HTMLElement | null;
 

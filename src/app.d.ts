@@ -30,3 +30,9 @@ declare module '*.png' {
 	const content: string;
 	export default content;
 }
+
+// Make Typescript happy
+// https://github.com/JonasKruckenberg/imagetools/issues/160
+declare module '*&imagetools' {
+	export default import('$lib/Primitives/Image/imageTools').Picture;
+}

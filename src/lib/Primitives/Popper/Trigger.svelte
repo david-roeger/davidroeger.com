@@ -4,7 +4,6 @@
 
 	export let disabled = false;
 
-	import AccessibleIcon from '$lib/Components/AccessibleIcon';
 	import { getContext, onMount } from 'svelte';
 	import { derived } from 'svelte/store';
 	import type { RootContext } from './types';

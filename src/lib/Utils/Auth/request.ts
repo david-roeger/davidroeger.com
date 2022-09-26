@@ -1,5 +1,5 @@
 import type { Dream } from '$lib/types';
-import type { User } from '@supabase/supabase-js';
+import type { PostgrestError, User } from '@supabase/supabase-js';
 import { supabase } from './supabaseClient';
 
 export const getSupabaseProfile = async ({
@@ -34,14 +34,13 @@ export const getSupabaseProfile = async ({
 
 		return undefined;
 	} catch (error) {
-		alert(error.error_description || error.message);
 		return undefined;
 	}
 };
 
 export const getDreams = async (): Promise<{
 	dreams?: Dream[];
-	error?: Error;
+	error?: PostgrestError;
 	status?: number;
 }> => {
 	try {
@@ -57,7 +56,7 @@ export const getDreams = async (): Promise<{
 
 		return { dreams: dreams as Dream[] };
 	} catch (error) {
-		return { error, status: 500 };
+		return { error: error as PostgrestError, status: 500 };
 	}
 };
 
@@ -67,7 +66,7 @@ export const insertDream = async (newDream: {
 	emoji: string;
 }): Promise<{
 	dream?: Dream;
-	error?: Error;
+	error?: PostgrestError;
 	status?: number;
 }> => {
 	try {
@@ -80,7 +79,7 @@ export const insertDream = async (newDream: {
 
 		return { dream: dream as Dream };
 	} catch (error) {
-		return { error, status: 500 };
+		return { error: error as PostgrestError, status: 500 };
 	}
 };
 
@@ -94,7 +93,7 @@ export const updateDream = async ({
 	id: number;
 }): Promise<{
 	dream?: Dream;
-	error?: Error;
+	error?: PostgrestError;
 	status?: number;
 }> => {
 	try {
@@ -117,7 +116,7 @@ export const updateDream = async ({
 
 		return { dream: dream as Dream };
 	} catch (error) {
-		return { error, status: 500 };
+		return { error: error as PostgrestError, status: 500 };
 	}
 };
 
@@ -127,7 +126,7 @@ export const deleteDream = async ({
 	id: number;
 }): Promise<{
 	dream?: Dream;
-	error?: Error;
+	error?: PostgrestError;
 	status?: number;
 }> => {
 	try {
@@ -146,6 +145,6 @@ export const deleteDream = async ({
 
 		return { dream: dream as Dream };
 	} catch (error) {
-		return { error, status: 500 };
+		return { error: error as PostgrestError, status: 500 };
 	}
 };
