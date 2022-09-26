@@ -14,22 +14,11 @@
 	export let form: ActionData;
 	let formEl: HTMLFormElement;
 
-	$: name =
-		form && 'values' in form && typeof form.values?.name === 'string'
-			? form.values.name
-			: '';
-	$: email =
-		form && 'values' in form && typeof form.values?.email === 'string'
-			? form.values.email
-			: '';
-	$: tel =
-		form && 'values' in form && typeof form.values?.tel === 'string'
-			? form.values.tel
-			: '';
+	$: name = typeof form?.values?.name === 'string' ? form.values.name : '';
+	$: email = typeof form?.values?.email === 'string' ? form.values.email : '';
+	$: tel = typeof form?.values?.tel === 'string' ? form.values.tel : '';
 	$: message =
-		form && 'values' in form && typeof form.values?.message === 'string'
-			? form.values.message
-			: '';
+		typeof form?.values?.message === 'string' ? form.values.message : '';
 
 	const getValValidationClass = (
 		value: string | undefined,
@@ -137,7 +126,7 @@
 />
 
 <section class="mb-32">
-	{#if form && 'id' in form}
+	{#if form?.id}
 		<p>{form.id}</p>
 	{/if}
 
@@ -175,7 +164,7 @@
 					type="text"
 					value={name}
 				/>
-				{#if form && 'missing' in form && form.missing?.name}
+				{#if form?.missing?.name}
 					<p class="text-xs">Name is required</p>
 				{/if}
 			</div>
@@ -208,7 +197,7 @@
 					type="email"
 					value={email}
 				/>
-				{#if form && 'missing' in form && form.missing?.email}
+				{#if form?.missing?.email}
 					<p class="text-xs">E-Mail is required</p>
 				{/if}
 			</div>
@@ -270,7 +259,7 @@
 					)}"
 					value={message}
 				/>
-				{#if form && 'missing' in form && form.missing?.message}
+				{#if form?.missing?.message}
 					<p class="text-xs">Message is required</p>
 				{/if}
 			</div>

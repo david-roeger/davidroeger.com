@@ -1,10 +1,35 @@
 console.info('contact: +page.server.ts');
 
-import { invalid } from '@sveltejs/kit';
+import { invalid, type ValidationError } from '@sveltejs/kit';
 import type { Actions } from './$types';
 
+// TODO: this needs to be manually typed for now
+// At least I think so
+// https://github.com/sveltejs/kit/issues/7004
 export const actions: Actions = {
-	default: async ({ request, url: pageUrl }) => {
+	default: async ({
+		request,
+		url: pageUrl
+	}): Promise<
+		| undefined
+		| ValidationError<{
+				state: 'invalid';
+				values: { [key: string]: FormDataEntryValue | null };
+				missing: {
+					name: boolean;
+					email: boolean;
+					message: boolean;
+				};
+		  }>
+		| {
+				state: 'success';
+				id: string;
+		  }
+		| ValidationError<{
+				state: 'error';
+				values: { [key: string]: FormDataEntryValue | null };
+		  }>
+	> => {
 		console.info('contact: +page.server.ts // Action // default');
 
 		const data = await request.formData();
