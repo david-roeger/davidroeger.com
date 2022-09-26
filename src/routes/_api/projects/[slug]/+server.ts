@@ -1,7 +1,9 @@
 console.info('_api/projects/[slug]: +server.ts');
 
 import { slugFromPath } from '$lib/Utils';
-import { error, json, type RequestHandler } from '@sveltejs/kit';
+import { error, json } from '@sveltejs/kit';
+
+import type { RequestHandler } from './$types';
 
 export const GET: RequestHandler = async ({ params }) => {
 	console.info('_api/projects/[slug]: +server.ts // GET');

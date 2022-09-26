@@ -1,6 +1,9 @@
 console.info('_api/mail: +server.ts');
 
-import { error, json, type RequestHandler } from '@sveltejs/kit';
+import { error, json } from '@sveltejs/kit';
+
+import type { RequestHandler } from './$types';
+
 import nodemailer, { type Transporter } from 'nodemailer';
 
 import {
