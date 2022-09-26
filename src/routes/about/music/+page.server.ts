@@ -10,9 +10,7 @@ import { error } from '@sveltejs/kit';
 import type {
 	SpotifyTopTracksResponse,
 	SpotifyTopArtistsResponse,
-	SpotifyLastTrackResponse,
-	TopTrack,
-	LastTrack
+	SpotifyLastTrackResponse
 } from '$components/Music/types';
 
 import type { PageServerLoad } from './$types';
