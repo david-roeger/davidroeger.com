@@ -3,8 +3,8 @@
 
 	import { Headline } from '$components/Headline';
 
-	import serious from '$assets/me/serious.png?w=124;248;372;188;376;564&format=webp;png&picture&imagetools';
-	import smile from '$assets/me/smile.png?w=124;248;372;188;376;564&format=webp;png&picture&imagetools';
+	import serious from '$assets/me/serious.png?w=124;248;372;188;376;564&format=webp;png&picture&imageTools';
+	import smile from '$assets/me/smile.png?w=124;248;372;188;376;564&format=webp;png&picture&imageTools';
 
 	import { Image } from '$primitives/Image';
 </script>

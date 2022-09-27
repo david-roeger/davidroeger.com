@@ -33,6 +33,6 @@ declare module '*.png' {
 
 // Make Typescript happy
 // https://github.com/JonasKruckenberg/imagetools/issues/160
-declare module '*&imagetools' {
+declare module '*&imageTools' {
 	export default import('$lib/Primitives/Image/imageTools').Picture;
 }
