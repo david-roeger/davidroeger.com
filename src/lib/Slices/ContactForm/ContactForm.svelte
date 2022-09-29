@@ -30,19 +30,18 @@
 		typeof form?.values?.message === 'string' ? form.values.message : '';
 
 	const getValValidationClass = (
-		value: string | undefined,
-		state: string | undefined,
+		key: 'name' | 'email' | 'message',
+		form: ContactFormActionData,
 		classes: {
 			successClass?: string;
 			errorClass?: string;
 			defaultClass?: string;
-		},
-		required = false
+		}
 	) => {
-		if (!state || state === 'success' || (!value && !required))
+		if (!form || form.state !== 'invalid')
 			return classes.defaultClass ?? '';
-		if (value) return classes.successClass ?? '';
-		return classes.errorClass ?? '';
+		if (form.missing[key]) return classes.errorClass ?? '';
+		return classes.successClass ?? '';
 	};
 
 	const focusInvalid = async (
@@ -75,6 +74,8 @@
 			const activeElement = document.activeElement as HTMLElement | null;
 
 			formState = 'submitting';
+			// TODO: add delay handling
+
 			const data = new FormData(formEl);
 
 			const response = await fetch(formEl.action, {
@@ -138,6 +139,7 @@
 
 <form
 	action="/contact"
+	novalidate
 	bind:this={formEl}
 	on:submit|preventDefault={handleSubmit}
 	class="grid custom-grid border-mauve-6 {borderTop
@@ -198,14 +200,13 @@
 					<label
 						for="name"
 						class="border-mauve-12 rounded-none border border-b-0 text-xs ring-mauve-12 group-focus-within:ring-1 px-4 py-1 {getValValidationClass(
-							name,
-							form?.state,
+							'name',
+							form,
 							{
 								successClass: 'group-focus-within:bg-green-5',
 								errorClass: 'group-focus-within:bg-red-5',
 								defaultClass: labelDefaultClass
-							},
-							true
+							}
 						)}"
 					>
 						Name*
@@ -213,22 +214,22 @@
 					<input
 						id="name"
 						class="py-2 px-4 border-mauve-12 rounded-none border w-full group-focus-within:outline-none ring-mauve-12 group-focus-within:ring-1 bg-gradient-to-r from-transparent {getValValidationClass(
-							name,
-							form?.state,
+							'name',
+							form,
 							{
 								successClass: 'to-green-5',
 								errorClass: 'to-red-5'
-							},
-							true
+							}
 						)}"
 						name="name"
 						autocomplete="name"
+						enterkeyhint="send"
 						type="text"
 						value={name}
 					/>
 					<p class="text-xs h-4">
 						{#if form?.missing?.name}
-							Name is required
+							{form.missing.name}
 						{/if}
 					</p>
 				</div>
@@ -239,14 +240,13 @@
 					<label
 						for="email"
 						class="border-mauve-12 rounded-none border border-b-0 text-xs ring-mauve-12 group-focus-within:ring-1 px-4 py-1 {getValValidationClass(
-							email,
-							form?.state,
+							'email',
+							form,
 							{
 								successClass: 'group-focus-within:bg-green-5',
 								errorClass: 'group-focus-within:bg-red-5',
 								defaultClass: labelDefaultClass
-							},
-							true
+							}
 						)}"
 					>
 						E-Mail*
@@ -254,23 +254,23 @@
 					<input
 						id="email"
 						class="py-2 px-4 border-mauve-12 rounded-none border w-full group-focus-within:outline-none ring-mauve-12 group-focus-within:ring-1 bg-gradient-to-r from-transparent {getValValidationClass(
-							email,
-							form?.state,
+							'email',
+							form,
 							{
 								successClass: 'to-green-5',
 								errorClass: 'to-red-5'
-							},
-							true
+							}
 						)}"
 						name="email"
 						autocomplete="email"
+						enterkeyhint="send"
 						type="email"
 						value={email}
 					/>
 
 					<p class="text-xs h-4">
 						{#if form?.missing?.email}
-							E-Mail is required
+							{form.missing.email}
 						{/if}
 					</p>
 				</div>
@@ -281,14 +281,13 @@
 					<label
 						for="message"
 						class="border-mauve-12 rounded-none border border-b-0 text-xs ring-mauve-12 group-focus-within:ring-1 px-4 py-1 {getValValidationClass(
-							message,
-							form?.state,
+							'message',
+							form,
 							{
 								successClass: 'group-focus-within:bg-green-5',
 								errorClass: 'group-focus-within:bg-red-5',
 								defaultClass: labelDefaultClass
-							},
-							true
+							}
 						)}"
 					>
 						Message*
@@ -298,20 +297,19 @@
 						name="message"
 						id="message"
 						class="py-2 px-4 h-full border-mauve-12 rounded-none resize-none border w-full group-focus-within:outline-none ring-mauve-12 group-focus-within:ring-1 bg-gradient-to-r from-transparent {getValValidationClass(
-							message,
-							form?.state,
+							'message',
+							form,
 							{
 								successClass: 'to-green-5',
 								errorClass: 'to-red-5'
-							},
-							true
+							}
 						)}"
 						value={message}
 					/>
 
 					<p class="text-xs h-4">
 						{#if form?.missing?.message}
-							Message is required
+							{form.missing.message}
 						{/if}
 					</p>
 				</div>
@@ -359,20 +357,18 @@
 		<div class="border-mauve-6 border-b sm:hidden">
 			<div class="h-12 sm:h-0" />
 		</div>
-		<div class="grow border-mauve-6 border-b">
-			<div class="sm:h-0" />
-		</div>
+		<div class="grow border-mauve-6 border-b" />
 		<div class="border-mauve-6 border-b sm:hidden">
 			<div class="h-[377px] sm:h-0" />
 		</div>
-		<div><div class="h-[58px]" /></div>
+		<div class="h-[58px]" />
 	</div>
 </form>
 
 <style global>
 	.custom-grid {
 		--spacing-2: theme(spacing.2);
-		grid-template-columns: var(--spacing-2) minmax(0, 322px) minmax(
+		grid-template-columns: var(--spacing-2) auto minmax(
 				var(--spacing-2),
 				1fr
 			);

@@ -1,5 +1,7 @@
 console.info('contact: +page.server.ts');
 
+import { z } from 'zod';
+
 import { invalid, type ValidationError } from '@sveltejs/kit';
 import type { Actions, ActionData } from './$types';
 
@@ -18,9 +20,9 @@ export const actions: Actions = {
 				state: 'invalid';
 				values: { [key: string]: FormDataEntryValue | null };
 				missing: {
-					name: boolean;
-					email: boolean;
-					message: boolean;
+					name?: string;
+					email?: string;
+					message?: string;
 				};
 		  }>
 		| {
@@ -48,11 +50,39 @@ export const actions: Actions = {
 			message
 		};
 
-		if (!message || !name || !email) {
+		const missing: {
+			name?: string;
+			email?: string;
+			message?: string;
+		} = {};
+
+		const nameMissing = z
+			.string()
+			.min(1, { message: 'Name is required' })
+			.safeParse(name);
+		if (!nameMissing.success)
+			missing.name = nameMissing.error.errors[0].message;
+
+		const emailMissing = z
+			.string()
+			.min(1, { message: 'E-Mail is required' })
+			.email({ message: 'Invalid E-Mail' })
+			.safeParse(email);
+		if (!emailMissing.success)
+			missing.email = emailMissing.error.errors[0].message;
+
+		const messageMissing = z
+			.string()
+			.min(1, { message: 'Message is required' })
+			.safeParse(message);
+		if (!messageMissing.success)
+			missing.message = messageMissing.error.errors[0].message;
+
+		if (Object.keys(missing).length > 0) {
 			return invalid(400, {
 				state: 'invalid',
 				values,
-				missing: { name: !name, email: !email, message: !message }
+				missing
 			});
 		}
 
