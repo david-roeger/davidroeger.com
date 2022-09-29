@@ -37,14 +37,12 @@ export const actions: Actions = {
 		const url = data.get('url');
 		const name = data.get('name');
 		const email = data.get('email');
-		const tel = data.get('tel');
 		const message = data.get('message');
 
 		const values: { [key: string]: FormDataEntryValue | null } = {
 			url,
 			name,
 			email,
-			tel,
 			message
 		};
 
