@@ -7,14 +7,14 @@ import type { RequestHandler } from './$types';
 import nodemailer, { type Transporter } from 'nodemailer';
 
 import {
-	MAIL_SERVER,
+	MAIL_NO_REPLY,
 	MAIL_ME,
 	MAIL_PASSWORD,
-	MAIL_SECRET
+	MAIL_SERVER
 } from '$env/static/private';
 import type Mail from 'nodemailer/lib/mailer';
 import type SMTPTransport from 'nodemailer/lib/smtp-transport';
-import { authorize, createHtmlBlock } from '../utils';
+import { authorize } from '../utils';
 
 const sendMailWrapper = async (
 	transporter: Transporter<SMTPTransport.SentMessageInfo>,
@@ -32,23 +32,42 @@ const sendMailWrapper = async (
 
 export const POST: RequestHandler = async ({ url, request }) => {
 	console.info('_api/mail/me: +server.ts // POST');
-	// get secret from url params
+
 	authorize(url);
 
 	const body: { [key: string]: unknown } = await request.json();
-	const { subject: subjectUnknown, ...unkownRest } = body;
-	const subjectString: string | undefined =
-		typeof subjectUnknown === 'string' ? subjectUnknown : undefined;
-	const blocks = [];
+	const { name, email, message } = body;
 
-	for (const key in unkownRest) {
-		if (Object.prototype.hasOwnProperty.call(unkownRest, key)) {
-			const unknown = unkownRest[key];
-			blocks.push(createHtmlBlock(key, unknown));
-		}
+	if (
+		!name ||
+		typeof name !== 'string' ||
+		!email ||
+		typeof email !== 'string' ||
+		!message ||
+		typeof message !== 'string'
+	) {
+		throw error(400);
 	}
 
-	blocks.push(createHtmlBlock('Server Url', url));
+	const html = `
+		<h1>Hi ${name},</h1>
+		<p>Thanks for your message.</p>
+		<p>I will get back to you as soon as possible.</p>
+		<br />
+		<p>Best regards,</p>
+		<p><b>David</b></p>
+		<p><em>${MAIL_ME}</em></p>
+	`;
+	const summaryBlock = message
+		? `
+			<br />
+			<br />
+			<hr />
+			<p>
+				<b>Summary:</b>
+			</p>
+			<p>${message}</p>`
+		: '';
 
 	const transporter = nodemailer.createTransport({
 		host: 'smtp.strato.de',
@@ -63,14 +82,10 @@ export const POST: RequestHandler = async ({ url, request }) => {
 
 	try {
 		const response = await sendMailWrapper(transporter, {
-			from: MAIL_SERVER,
-			to: MAIL_ME,
-			subject: `${
-				subjectString
-					? `${subjectString} [automated mail]`
-					: 'no subject [automated mail]'
-			} (${new Date().toLocaleString()})`,
-			html: blocks.join('')
+			from: MAIL_NO_REPLY,
+			to: email,
+			subject: `Summary from davidroeger.com [automated mail]`,
+			html: html.concat(summaryBlock)
 		});
 		return json({ id: response.messageId });
 	} catch (e) {

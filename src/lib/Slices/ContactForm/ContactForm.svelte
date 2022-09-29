@@ -105,23 +105,11 @@
 		}
 	}
 
-	const loadingEmojis = [
-		'🌞',
-		'🌼',
-		'🌚',
-		'⭐️',
-		'🍥',
-		'🍪',
-		'🏵',
-		'💿',
-		'🧿',
-		'🪩',
-		'🔆'
-	];
+	// prettier-ignore
+	const loadingEmojis = ['🌞','🌼','🌚','⭐️','🍥','🍪','🏵','💿','🧿','🪩','🔆'];
 
 	const getLoadingEmojis = () => {
 		const emojis: string[] = [];
-		// get three random unique emojis from array
 		for (let i = 0; i < 3; i++) {
 			const randomIndex = Math.floor(
 				Math.random() * loadingEmojis.length
@@ -137,6 +125,9 @@
 	};
 </script>
 
+<p class="px-4 py-2 border-mauve-6 border-b">
+	{form?.message ?? '//'}
+</p>
 <form
 	action="/contact"
 	novalidate

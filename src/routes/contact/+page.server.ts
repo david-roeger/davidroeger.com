@@ -4,6 +4,7 @@ import { z } from 'zod';
 
 import { invalid, type ValidationError } from '@sveltejs/kit';
 import type { Actions, ActionData } from './$types';
+import { MAIL_SECRET } from '$env/static/private';
 
 export type ContactFormActionData = ActionData;
 
@@ -27,10 +28,12 @@ export const actions: Actions = {
 		  }>
 		| {
 				state: 'success';
-				id: string;
+				message: string;
+				values?: { [key: string]: FormDataEntryValue | null };
 		  }
 		| ValidationError<{
 				state: 'error';
+				message: string;
 				values: { [key: string]: FormDataEntryValue | null };
 		  }>
 	> => {
@@ -87,16 +90,34 @@ export const actions: Actions = {
 		}
 
 		try {
-			const response = await fetch(`${pageUrl.origin}/_api/mail/me`, {
-				method: 'POST',
-				body: JSON.stringify(values)
-			});
+			const meResponse = await fetch(
+				`${pageUrl.origin}/_api/mail/me?secret=${MAIL_SECRET}`,
+				{
+					method: 'POST',
+					body: JSON.stringify(values)
+				}
+			);
 
-			if (response.ok) {
-				const { id } = (await response.json()) as { id: string };
+			const summaryResponse = await fetch(
+				`${pageUrl.origin}/_api/mail/summary?secret=${MAIL_SECRET}`,
+				{
+					method: 'POST',
+					body: JSON.stringify({ name, email, message })
+				}
+			);
+
+			if (meResponse.ok) {
+				if (summaryResponse.ok) {
+					return {
+						state: 'success',
+						message: `Thanks for your message! (An auto-reply has been sent to ${email})`
+					};
+				}
+
 				return {
 					state: 'success',
-					id
+					message: `Thanks for your message! (An auto-reply has been sent to ${email}, but could not be delivered. Please check if the entered E-Mail address is correct.)`,
+					values
 				};
 			}
 		} catch (error) {
@@ -105,6 +126,7 @@ export const actions: Actions = {
 
 		return invalid(500, {
 			state: 'error',
+			message: `An error occurred while sending your message. Please try again later.`,
 			values
 		});
 	}
