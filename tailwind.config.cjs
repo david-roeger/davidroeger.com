@@ -198,7 +198,12 @@ module.exports = {
 				'wave-2': 'wave 1.8s -800ms linear infinite',
 				'wave-3': 'wave 2.0s -500ms linear infinite',
 				'wave-4': 'wave 1.4s -2s linear infinite',
-				loading: 'loading 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;',
+				'loading-1':
+					'loading 1.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;',
+				'loading-2':
+					'loading 1.8s 300ms cubic-bezier(0.4, 0, 0.2, 1) infinite;',
+				'loading-3':
+					'loading 1.8s 600ms cubic-bezier(0.4, 0, 0.2, 1) infinite;',
 				'cool-wiggle': 'wiggle 0.82s cubic-bezier(.36,.07,.19,.97) both'
 			}
 		}
