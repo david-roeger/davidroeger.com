@@ -1,4 +1,4 @@
-console.info('_api/mail: +server.ts');
+console.info('_api/mail/me: +server.ts');
 
 import { error, json } from '@sveltejs/kit';
 
@@ -35,7 +35,7 @@ const sendMailWrapper = async (
 	});
 
 export const POST: RequestHandler = async ({ url, request }) => {
-	console.info('_api/mail: +server.ts // POST');
+	console.info('_api/mail/me: +server.ts // POST');
 
 	const body: { [key: string]: unknown } = await request.json();
 	const { subject: subjectUnknown, ...unkownRest } = body;

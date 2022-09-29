@@ -87,7 +87,7 @@ export const actions: Actions = {
 		}
 
 		try {
-			const response = await fetch(`${pageUrl.origin}/_api/mail`, {
+			const response = await fetch(`${pageUrl.origin}/_api/mail/me`, {
 				method: 'POST',
 				body: JSON.stringify(values)
 			});
