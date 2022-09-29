@@ -97,6 +97,7 @@
 				// we need to manully override the form state
 				// because otherwise the fielgroup will still
 				// be disabled when we try to focus the input
+				// await tick won't work here
 				formState = 'invalid';
 				await focusInvalid(result.data?.missing);
 			}
@@ -255,6 +256,7 @@
 						name="email"
 						autocomplete="email"
 						enterkeyhint="send"
+						placeholder="email@example.com"
 						type="email"
 						value={email}
 					/>
@@ -287,6 +289,7 @@
 						rows="5"
 						name="message"
 						id="message"
+						placeholder="Hi..."
 						class="py-2 px-4 h-full border-mauve-12 rounded-none resize-none border w-full group-focus-within:outline-none ring-mauve-12 group-focus-within:ring-1 bg-gradient-to-r from-transparent {getValValidationClass(
 							'message',
 							form,
