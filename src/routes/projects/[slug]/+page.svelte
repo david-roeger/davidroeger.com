@@ -23,7 +23,7 @@
 	import pmd from '$assets/projectsMediaData.json';
 	import Head from '$components/Head/Head.svelte';
 	import type { Media as MediaType, ProjectsMediaData } from '$lib/types';
-	import type { BreakpointContext } from '$lib/Provider/Breakpoint/types';
+	import type { BreakpointContext } from '$provider/BreakpointProvider/types';
 	import { tweened } from 'svelte/motion';
 
 	import { get, type Writable } from 'svelte/store';
