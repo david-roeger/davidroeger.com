@@ -348,26 +348,19 @@
 						name="submit"
 						type="submit"
 						variant="rounded"
-						class="bg-orange-5 flex flex-1 max-w-xs sm:max-w-none lg:max-w-xs {formState !==
-						'submitting'
-							? 'group'
-							: ''}"
+						class="bg-orange-5 flex flex-1 max-w-xs sm:max-w-none lg:max-w-xs"
 						disabled={formState === 'submitting'}
 					>
 						<span
 							class="grow grid grid-cols-[minmax(0,_1fr)_auto_minmax(0,_1fr)] place-items-start "
 						>
 							{#if formState === 'submitting'}
-								<span
-									class="-ml-2 px-1 bg-white rounded-full group-hover:animate-cool-wiggle"
-								>
+								<span class="-ml-2 px-1 bg-white rounded-full">
 									🕸
 								</span>
 								<span class="col-start-2">Submitting...</span>
 							{:else}
-								<span
-									class="-ml-2 px-1 bg-white rounded-full group-hover:animate-cool-wiggle"
-								>
+								<span class="-ml-2 px-1 bg-white rounded-full">
 									💌
 								</span>
 								<span>Send</span>
