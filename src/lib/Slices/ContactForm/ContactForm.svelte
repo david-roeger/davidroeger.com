@@ -6,7 +6,7 @@
 	import type { ActionResult } from '@sveltejs/kit';
 	import { invalidateAll } from '$app/navigation';
 	import { tick } from 'svelte';
-	import type { ContactActionData } from '$routes/contact/+page.server';
+	import type { ContactFormActionData } from '$routes/contact/+page.server';
 
 	export let highlightClass = 'bg-orange-5';
 
