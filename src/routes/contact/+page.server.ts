@@ -1,7 +1,9 @@
 console.info('contact: +page.server.ts');
 
 import { invalid, type ValidationError } from '@sveltejs/kit';
-import type { Actions } from './$types';
+import type { Actions, ActionData } from './$types';
+
+export type ContactFormActionData = ActionData;
 
 // TODO: this needs to be manually typed for now
 // At least I think so
