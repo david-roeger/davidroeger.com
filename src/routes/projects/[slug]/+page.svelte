@@ -29,6 +29,7 @@
 	import { get, type Writable } from 'svelte/store';
 	import Close16 from '$assets/Icons/16/close.svg?component';
 	import { debounce } from '$lib/Utils';
+	import ContactForm from '$lib/Slices/ContactForm/ContactForm.svelte';
 
 	const projectsMediaData: ProjectsMediaData = { ...pmd };
 
@@ -256,7 +257,7 @@
 	]}
 />
 
-<article>
+<article class="mb-32">
 	{#if data.tags.length}
 		<div
 			class="flex items-center p-1 text-xs border-b text-mauve-11 border-mauve-6"
@@ -273,7 +274,7 @@
 			{/each}
 		</div>
 	{/if}
-	<section class="mb-32 border-b border-mauve-6" bind:this={section}>
+	<section bind:this={section} class="mb-32 border-b border-mauve-6">
 		{#if data.title}
 			<Headline containerClass="py-8 md:py-16">
 				{data.title}
@@ -442,6 +443,13 @@
 			</div>
 		{/if}
 	</section>
+	<ContactForm
+		highlightClass="bg-green-5"
+		labelDefaultClass="group-focus-within:bg-green-5"
+		borderTop={true}
+	>
+		<span slot="headline">Bla Bla Bla</span>
+	</ContactForm>
 </article>
 
 <style global>
