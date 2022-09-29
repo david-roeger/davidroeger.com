@@ -6,12 +6,7 @@ import type { RequestHandler } from './$types';
 
 import nodemailer, { type Transporter } from 'nodemailer';
 
-import {
-	MAIL_SERVER,
-	MAIL_ME,
-	MAIL_PASSWORD,
-	MAIL_SECRET
-} from '$env/static/private';
+import { MAIL_SERVER, MAIL_ME, MAIL_PASSWORD } from '$env/static/private';
 import type Mail from 'nodemailer/lib/mailer';
 import type SMTPTransport from 'nodemailer/lib/smtp-transport';
 import { authorize, createHtmlBlock } from '../utils';
