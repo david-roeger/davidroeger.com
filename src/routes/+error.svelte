@@ -75,7 +75,7 @@
 				<NavLink
 					role="menuitem"
 					href="/about"
-					class="pl-2 bg-white hover:bg-purple-5 flex items-center justify-between gap-2  transition-[gap,padding] hover:gap-4 hover:pr-2 focus:gap-4 focus:pr-2"
+					class="pl-2 bg-white hover:bg-purple-5 flex items-center justify-between gap-2 !transition-[gap,padding,color,background-color] hover:gap-4 hover:pr-2 focus:gap-4 focus:pr-2"
 					activeClass="!bg-purple-5"
 				>
 					<span>
@@ -93,7 +93,7 @@
 				<NavLink
 					role="menuitem"
 					href="/contact"
-					class="pl-2 bg-white hover:bg-orange-5 flex items-center justify-between gap-2  transition-[gap,padding] hover:gap-4 hover:pr-2 focus:gap-4 focus:pr-2"
+					class="pl-2 bg-white hover:bg-orange-5 flex items-center justify-between gap-2 !transition-[gap,padding,color,background-color] hover:gap-4 hover:pr-2 focus:gap-4 focus:pr-2"
 					activeClass="!bg-orange-5"
 				>
 					<span>
