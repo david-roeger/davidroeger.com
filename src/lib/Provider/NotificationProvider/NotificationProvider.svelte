@@ -7,7 +7,10 @@
 	import Filter from '$assets/Icons/24/filter.svg?component';
 	import AccessibleIcon from '$lib/Components/AccessibleIcon';
 	import CloseIcon from '$assets/Icons/24/close.svg?component';
-	import { fly, scale, slide, type SlideParams } from 'svelte/transition';
+	import { fly, slide, type SlideParams } from 'svelte/transition';
+	import { beforeNavigate } from '$app/navigation';
+	import Background from '$lib/Components/Background/Background.svelte';
+	import { colorClasses, type ColorClassesKey } from './constants';
 
 	export let stack: boolean = false;
 	export let duration: number = 5000;
@@ -87,10 +90,9 @@
 	};
 
 	const removeAllNotifications = () => {
-		notifications = [];
-		durations = {};
-		hovered = {};
-		focused = {};
+		notifications.forEach((notification) => {
+			removeNotification(notification.id);
+		});
 	};
 
 	const notificationContext: NotificationContext = {
@@ -183,21 +185,49 @@
 	// TODO: add start, end and close Icon handling
 	// TODO: Add keyboard shortcuts
 
-	const getBackgroundColorClass = (
+	const getGradientColorClass = (
 		type: Notification['type'],
-		customClass?: string
+		variant: ColorClassesKey = 'default'
 	) => {
+		console.log(type);
 		switch (type) {
 			case 'success':
-				return 'to-green-5';
+				return colorClasses.green.gradient;
 			case 'error':
-				return 'to-red-5';
+				return colorClasses.red.gradient;
 			case 'warning':
-				return 'to-yellow-5';
+				return colorClasses.orange.gradient;
 			case 'info':
-				return 'to-blue-5';
+				return colorClasses.blue.gradient;
 			case 'custom':
-				return customClass ?? 'to-mauve-5';
+				return (
+					colorClasses[variant]?.gradient ??
+					colorClasses.default.gradient
+				);
+			default:
+				return '';
+		}
+	};
+
+	const getBackgroundColorClass = (
+		type: Notification['type'],
+		variant: keyof typeof colorClasses = 'default'
+	) => {
+		console.log(type);
+		switch (type) {
+			case 'success':
+				return colorClasses.green.background;
+			case 'error':
+				return colorClasses.red.background;
+			case 'warning':
+				return colorClasses.orange.background;
+			case 'info':
+				return colorClasses.blue.background;
+			case 'custom':
+				return (
+					colorClasses[variant]?.background ??
+					colorClasses.default.background
+				);
 			default:
 				return '';
 		}
@@ -205,16 +235,19 @@
 
 	const getPriorityColorClass = (
 		type: Notification['type'],
-		customClass?: string
+		variant: keyof typeof colorClasses = 'default'
 	) => {
 		switch (type) {
 			case 'success':
 			case 'error':
 			case 'warning':
 			case 'info':
-				return 'bg-mauve-12';
+				return colorClasses.default.priority;
 			case 'custom':
-				return customClass ?? 'bg-mauve-12';
+				return (
+					colorClasses[variant].priority ??
+					colorClasses.default.priority
+				);
 			default:
 				return '';
 		}
@@ -247,6 +280,10 @@
 			delay: 400
 		});
 	};
+
+	beforeNavigate(() => {
+		removeAllNotifications();
+	});
 </script>
 
 <div
@@ -255,7 +292,6 @@
 	aria-live="polite"
 	aria-label="Notifications (F8)"
 	style="z-index: 99999; position: fixed; inset: 0; pointer-events: none;"
-	class=" shadow-lg"
 >
 	{#if notifications.length}
 		<ul
@@ -296,12 +332,12 @@
 					e.currentTarget.style.zIndex =
 						state === 'removing' ? '20' : '10';
 				}}
-				tabindex="0"
+				tabindex={index === notifications.length - 1 ? 0 : undefined}
 				class="{stack
 					? 'col-start-1 row-start-1'
-					: ''} relative bg-gradient-to-r from-white flex items-center border-b border-mauve-12 ring-inset focus:outline-none ring-mauve-12 focus:ring-1 {getBackgroundColorClass(
+					: ''} relative bg-gradient-to-r from-white flex items-center border-b border-mauve-12 ring-inset focus:outline-none ring-mauve-12 focus:ring-1 {getGradientColorClass(
 					notification.type,
-					notification.backgroundClass
+					'variant' in notification ? notification.variant : 'default'
 				)}"
 				on:mouseenter={() => {
 					if (notification.progress && durations[notification.id]) {
@@ -320,7 +356,8 @@
 					if (
 						notification.progress &&
 						durations[notification.id] &&
-						!focused[notification.id]
+						!focused[notification.id] &&
+						index === notifications.length - 1
 					) {
 						durations[notification.id].resume();
 					}
@@ -330,13 +367,14 @@
 					if (
 						notification.progress &&
 						durations[notification.id] &&
-						!hovered[notification.id]
+						!hovered[notification.id] &&
+						index === notifications.length - 1
 					) {
 						durations[notification.id].resume();
 					}
 				}}
 				on:click={() => {
-					if (notification.closeOnClick) {
+					if (notification.closeOnClick && notification.id) {
 						removeNotification(notification.id);
 					}
 				}}
@@ -350,13 +388,17 @@
 								<span
 									class="col-start-1 row-start-1 animate-ping inline-flex h-full w-full rounded-full opacity-50 {getPriorityColorClass(
 										notification.type,
-										notification.priorityClass
+										'variant' in notification
+											? notification.variant
+											: 'default'
 									)}"
 								/>
 								<span
-									class="col-start-1 row-start-1 inline-flex rounded-full h-full w-full {getPriorityColorClass(
+									class="col-start-1 row-start-1 inline-flex rounded-full h-2 w-2 {getPriorityColorClass(
 										notification.type,
-										notification.priorityClass
+										'variant' in notification
+											? notification.variant
+											: 'default'
 									)}
 				"
 								/>
@@ -401,15 +443,26 @@
 						</button>
 					{/if}
 				</div>
-				{#if notification.progress}
-					<div class="flex absolute top-0 left-0 right-0 !m-0">
+				<div
+					class="grid grid-cols-1 grid-rows-1 absolute top-0 left-0 right-0 !m-0"
+				>
+					<div
+						class="w-full h-0.5 row-start-1 col-start-1 {getBackgroundColorClass(
+							notification.type,
+							'variant' in notification
+								? notification.variant
+								: 'default'
+						)}"
+					/>
+					{#if notification.progress}
 						<Progress
+							class="col-start-1 row-start-1 w-full h-0.5"
 							min={0}
 							max={notification.duration ?? duration}
 							value={durations[notification.id]}
 						/>
-					</div>
-				{/if}
+					{/if}
+				</div>
 			</li>
 		{/each}
 	</ol>

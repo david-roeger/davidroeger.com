@@ -5,10 +5,13 @@
 	export let min: number;
 	export let max: number;
 	export let value: Tweened<number>;
+
+	let c = '';
+	export { c as class };
 </script>
 
 <Progress.Root
-	class="w-full h-0.5"
+	class={c}
 	{min}
 	{max}
 	value={$value}

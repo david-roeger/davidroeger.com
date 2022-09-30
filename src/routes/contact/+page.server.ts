@@ -28,13 +28,21 @@ export const actions: Actions = {
 		  }>
 		| {
 				state: 'success';
-				message: string;
+				notification: {
+					type: 'success' | 'info' | 'warning';
+					html: string;
+				};
 				values?: { [key: string]: FormDataEntryValue | null };
 		  }
 		| ValidationError<{
 				state: 'error';
-				message: string;
-				values: { [key: string]: FormDataEntryValue | null };
+				notification: {
+					type: 'info' | 'warning' | 'error';
+					html: string;
+				};
+				values: {
+					[key: string]: FormDataEntryValue | null;
+				};
 		  }>
 	> => {
 		console.info('contact: +page.server.ts // Action // default');
@@ -110,13 +118,19 @@ export const actions: Actions = {
 				if (summaryResponse.ok) {
 					return {
 						state: 'success',
-						message: `Thanks for your message! (An auto-reply has been sent to ${email})`
+						notification: {
+							type: 'success',
+							html: `<h3>Thanks for your message ${name}!</h3><p class="text-xs">An auto-reply has been sent to <b><em>${email}</em></b></p>`
+						}
 					};
 				}
 
 				return {
 					state: 'success',
-					message: `Thanks for your message! (An auto-reply has been sent to ${email}, but could not be delivered. Please check if the entered E-Mail address is correct.)`,
+					notification: {
+						type: 'warning',
+						html: `<h3>Thanks for your message ${name}!</h3><p class="text-xs">An auto-reply has been sent to <b><em>${email}</em></b>, but could not be delivered. Please check if the entered E-Mail address is correct</p>`
+					},
 					values
 				};
 			}
@@ -124,9 +138,22 @@ export const actions: Actions = {
 			console.error(error);
 		}
 
-		return invalid(500, {
+		// invalid infers type as string but we need it ti be <'info' | 'warning' | 'error'>
+		return invalid<{
+			state: 'error';
+			notification: {
+				type: 'info' | 'warning' | 'error';
+				html: string;
+			};
+			values: {
+				[key: string]: FormDataEntryValue | null;
+			};
+		}>(500, {
 			state: 'error',
-			message: `An error occurred while sending your message. Please try again later.`,
+			notification: {
+				type: 'error',
+				html: '<h3>An unkown error occurred while sending your message. Please try again later</h3>'
+			},
 			values
 		});
 	}

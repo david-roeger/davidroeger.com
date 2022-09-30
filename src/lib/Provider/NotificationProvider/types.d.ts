@@ -11,14 +11,13 @@ type NotificationType =
 	  }
 	| {
 			type: 'custom';
-			/**
-			 * @info must be prefixed with `to-`
-			 */
-			backgroundClass: string;
-			/**
-			 * @info must be prefixed with `bg-`
-			 */
-			priorityClass?: string;
+			variant?:
+				| 'default'
+				| 'green'
+				| 'red'
+				| 'orange'
+				| 'blue'
+				| 'purple';
 	  };
 
 type Content =

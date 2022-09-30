@@ -226,7 +226,7 @@
 	]}
 />
 
-<NotificationProvider>
+<NotificationProvider stack>
 	<div class="relative flex flex-col min-h-full font-sans text-mauve-12">
 		<a
 			href="#content"

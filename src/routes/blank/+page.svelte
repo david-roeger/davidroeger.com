@@ -23,7 +23,7 @@
 		notificationContext.addNotification({
 			id: Date.now().toString(),
 			type: 'custom',
-			backgroundClass: 'to-purple-5',
+			variant: 'purple',
 			headline: `${index}: Hello World)`,
 			closeOnClick: true,
 			startIcon: true
@@ -38,8 +38,7 @@
 			priority: true,
 			closeOnClick: true,
 			type: 'custom',
-			backgroundClass: 'to-purple-5',
-			priorityClass: 'bg-purple-9'
+			variant: 'blue'
 		});
 		index++;
 	};
