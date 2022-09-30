@@ -43,22 +43,22 @@
 		}
 
 		if (stack) {
-			if (notification.priority) {
-				const index = findLastIndex(notifications, (n) => !!n.priority);
+			if (!notification.priority) {
+				const index = notifications.findIndex((n) => !!n.priority);
 				if (index !== -1) {
 					notifications = [
-						...notifications.slice(0, index + 1),
+						...notifications.slice(0, index),
 						notification,
-						...notifications.slice(index + 1)
+						...notifications.slice(index)
 					];
-				} else {
-					notifications = [notification, ...notifications];
+					return;
 				}
-				return;
 			}
 			notifications = [...notifications, notification];
 			return;
 		}
+
+		// not stack handling
 		if (notification.priority) {
 			notifications = [notification, ...notifications];
 			return;
@@ -115,18 +115,18 @@
 	};
 
 	const syncNotifications = (notifications: Notification[]) => {
+		console.log('run sync');
 		if (!stack || notifications.length === 0) {
 			lastNotifications = notifications;
 			return;
 		}
 
 		const addedNotificationIndex = notifications.findIndex(
-			(ln) => !lastNotifications.includes(ln)
+			(fn) => !lastNotifications.includes(fn)
 		);
-
 		if (addedNotificationIndex !== -1) {
-			if (addedNotificationIndex === 0) {
-				const n = notifications[0];
+			if (addedNotificationIndex === notifications.length - 1) {
+				const n = notifications[addedNotificationIndex];
 				if (n.progress) {
 					if (!durations[n.id]) {
 						durations = {
@@ -135,8 +135,17 @@
 						};
 					}
 				}
-				if (notifications[1] && durations[notifications[1].id]) {
-					durations[notifications[1].id].pause();
+				// pause prev tween
+				console.log('pause prev tween');
+				console.log(notifications, addedNotificationIndex);
+				if (
+					addedNotificationIndex > 0 &&
+					notifications[addedNotificationIndex - 1] &&
+					durations[notifications[addedNotificationIndex - 1].id]
+				) {
+					durations[
+						notifications[addedNotificationIndex - 1].id
+					].pause();
 				}
 			}
 			lastNotifications = notifications;
@@ -144,11 +153,15 @@
 		}
 
 		const deleteNotificationsIndex = lastNotifications.findIndex(
-			(ln) => !notifications.includes(ln)
+			(fn) => !notifications.includes(fn)
 		);
 		if (deleteNotificationsIndex !== -1) {
-			if (deleteNotificationsIndex === 0) {
-				const n = notifications[0];
+			if (
+				deleteNotificationsIndex === lastNotifications.length - 1 &&
+				deleteNotificationsIndex > 0 &&
+				notifications[deleteNotificationsIndex - 1]
+			) {
+				const n = notifications[deleteNotificationsIndex - 1];
 				if (!durations[n.id] && n.progress) {
 					durations = {
 						...durations,
@@ -158,11 +171,12 @@
 					durations[n.id].resume();
 				}
 			}
+			lastNotifications = notifications;
 		}
 	};
 
 	$: syncNotifications(notifications);
-
+	$: console.log(durations);
 	setContext('notification', notificationContext);
 
 	// TODO: add styling for head and subline
@@ -266,146 +280,137 @@
 		</ul>
 	{/if}
 	<ol
-		class="max-h-full overflow-y-auto pointer-events-auto grid grid-rows-1 {stack
+		class="max-h-full overflow-y-auto pointer-events-auto grid grid-rows-1 items-start {stack
 			? 'grid-cols-1'
 			: ''} bg-white"
 	>
 		{#each notifications as notification, index (notification.id)}
-			{#if (stack && index === 0) || !stack}
-				<li
-					out:animate={{ direction: 'out' }}
-					in:animate={{ direction: 'in' }}
-					on:introstart={(e) => {
-						e.currentTarget.style.zIndex =
-							state === 'adding' ? '20' : '10';
-					}}
-					on:outrostart={(e) => {
-						e.currentTarget.style.zIndex =
-							state === 'removing' ? '20' : '10';
-					}}
-					tabindex="0"
-					class="{stack
-						? 'col-start-1 row-start-1'
-						: ''} relative bg-gradient-to-r from-white flex items-center border-b border-mauve-12 ring-inset focus:outline-none ring-mauve-12 focus:ring-1 {getBackgroundColorClass(
-						notification.type,
-						notification.backgroundClass
-					)}"
-					on:mouseenter={() => {
-						if (
-							notification.progress &&
-							durations[notification.id]
-						) {
-							hovered[notification.id] = true;
-							durations[notification.id].pause();
-						}
-					}}
-					on:focusin={() => {
-						if (
-							notification.progress &&
-							durations[notification.id]
-						) {
-							focused[notification.id] = true;
-							durations[notification.id].pause();
-						}
-					}}
-					on:mouseleave={() => {
-						hovered[notification.id] = false;
-						if (
-							notification.progress &&
-							durations[notification.id] &&
-							!focused[notification.id]
-						) {
-							durations[notification.id].resume();
-						}
-					}}
-					on:focusout={() => {
-						focused[notification.id] = false;
-						if (
-							notification.progress &&
-							durations[notification.id] &&
-							!hovered[notification.id]
-						) {
-							durations[notification.id].resume();
-						}
-					}}
-					on:click={() => {
-						if (notification.closeOnClick) {
-							removeNotification(notification.id);
-						}
-					}}
-				>
-					<div class="w-full  p-2 flex space-x-2 items-center">
-						{#if notification.priority}
-							<div class="h-full p-2">
-								<span
-									class="!m-0 h-3 w-3 grid grid-cols-1 grid-rows-1 place-items-center"
-								>
-									<span
-										class="col-start-1 row-start-1 animate-ping inline-flex h-full w-full rounded-full opacity-50 {getPriorityColorClass(
-											notification.type,
-											notification.priorityClass
-										)}"
-									/>
-									<span
-										class="col-start-1 row-start-1 inline-flex rounded-full h-full w-full {getPriorityColorClass(
-											notification.type,
-											notification.priorityClass
-										)}
-				"
-									/>
-								</span>
-							</div>
-						{/if}
-						{#if notification.startIcon}
-							<div>
-								<!-- head -->
-								<Filter />
-							</div>
-						{/if}
-						<div class="flex-1 flex flex-col">
-							{#if notification.html}
-								{@html notification.html}
-							{:else}
-								<h3 class="text">
-									{notification.headline}
-								</h3>
-								{#if notification.subline}
-									<p class="text-xs">
-										{notification.subline}
-									</p>
-								{/if}
-							{/if}
-						</div>
-						{#if notification.endIcon}
-							<div>
-								<!-- head -->
-								<Filter />
-							</div>
-						{/if}
-						{#if notification.closeIcon}
-							<button
-								on:click={() =>
-									removeNotification(notification.id)}
-								class="focus:outline-none ring-mauve-12 focus:ring-1
-							rounded-full flex items-center"
+			<li
+				out:animate={{ direction: 'out' }}
+				in:animate={{ direction: 'in' }}
+				on:introstart={(e) => {
+					e.currentTarget.style.zIndex =
+						state === 'adding' ? '20' : '10';
+				}}
+				on:outrostart={(e) => {
+					e.currentTarget.style.zIndex =
+						state === 'removing' ? '20' : '10';
+				}}
+				tabindex="0"
+				class="{stack
+					? 'col-start-1 row-start-1'
+					: ''} relative bg-gradient-to-r from-white flex items-center border-b border-mauve-12 ring-inset focus:outline-none ring-mauve-12 focus:ring-1 {getBackgroundColorClass(
+					notification.type,
+					notification.backgroundClass
+				)}"
+				on:mouseenter={() => {
+					if (notification.progress && durations[notification.id]) {
+						hovered[notification.id] = true;
+						durations[notification.id].pause();
+					}
+				}}
+				on:focusin={() => {
+					if (notification.progress && durations[notification.id]) {
+						focused[notification.id] = true;
+						durations[notification.id].pause();
+					}
+				}}
+				on:mouseleave={() => {
+					hovered[notification.id] = false;
+					if (
+						notification.progress &&
+						durations[notification.id] &&
+						!focused[notification.id]
+					) {
+						durations[notification.id].resume();
+					}
+				}}
+				on:focusout={() => {
+					focused[notification.id] = false;
+					if (
+						notification.progress &&
+						durations[notification.id] &&
+						!hovered[notification.id]
+					) {
+						durations[notification.id].resume();
+					}
+				}}
+				on:click={() => {
+					if (notification.closeOnClick) {
+						removeNotification(notification.id);
+					}
+				}}
+			>
+				<div class="w-full  p-2 flex space-x-2 items-center">
+					{#if notification.priority}
+						<div class="h-full p-2">
+							<span
+								class="!m-0 h-3 w-3 grid grid-cols-1 grid-rows-1 place-items-center"
 							>
-								<AccessibleIcon label="Remove notification">
-									<CloseIcon />
-								</AccessibleIcon>
-							</button>
-						{/if}
-					</div>
-					{#if notification.progress}
-						<div class="flex absolute top-0 left-0 right-0 !m-0">
-							<Progress
-								min={0}
-								max={notification.duration ?? duration}
-								value={durations[notification.id]}
-							/>
+								<span
+									class="col-start-1 row-start-1 animate-ping inline-flex h-full w-full rounded-full opacity-50 {getPriorityColorClass(
+										notification.type,
+										notification.priorityClass
+									)}"
+								/>
+								<span
+									class="col-start-1 row-start-1 inline-flex rounded-full h-full w-full {getPriorityColorClass(
+										notification.type,
+										notification.priorityClass
+									)}
+				"
+								/>
+							</span>
 						</div>
 					{/if}
-				</li>
-			{/if}
+					{#if notification.startIcon}
+						<div>
+							<!-- head -->
+							<Filter />
+						</div>
+					{/if}
+					<div class="flex-1 flex flex-col">
+						{#if notification.html}
+							{@html notification.html}
+						{:else}
+							<h3 class="text">
+								{notification.headline}
+							</h3>
+							{#if notification.subline}
+								<p class="text-xs">
+									{notification.subline}
+								</p>
+							{/if}
+						{/if}
+					</div>
+					{#if notification.endIcon}
+						<div>
+							<!-- head -->
+							<Filter />
+						</div>
+					{/if}
+					{#if notification.closeIcon}
+						<button
+							on:click={() => removeNotification(notification.id)}
+							class="focus:outline-none ring-mauve-12 focus:ring-1
+							rounded-full flex items-center"
+						>
+							<AccessibleIcon label="Remove notification">
+								<CloseIcon />
+							</AccessibleIcon>
+						</button>
+					{/if}
+				</div>
+				{#if notification.progress}
+					<div class="flex absolute top-0 left-0 right-0 !m-0">
+						<Progress
+							min={0}
+							max={notification.duration ?? duration}
+							value={durations[notification.id]}
+						/>
+					</div>
+				{/if}
+			</li>
 		{/each}
 	</ol>
 </div>
