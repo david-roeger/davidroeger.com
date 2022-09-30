@@ -25,6 +25,8 @@
 	let notifications: Notification[] = [];
 	let lastNotifications: Notification[] = [];
 	let durations: { [key: string]: Tweened<number> } = {};
+	let hovered: { [key: string]: boolean } = {};
+	let focused: { [key: string]: boolean } = {};
 
 	const addNotification = (notification: Notification) => {
 		if (!stack && notification.progress) {
@@ -76,10 +78,15 @@
 			(notification) => notification.id !== id
 		);
 		delete durations[id];
+		delete hovered[id];
+		delete focused[id];
 	};
 
 	const removeAllNotifications = () => {
 		notifications = [];
+		durations = {};
+		hovered = {};
+		focused = {};
 	};
 
 	const notificationContext: NotificationContext = {
@@ -156,7 +163,6 @@
 
 	// TODO: add styling for head and subline
 	// TODO: add start, end and close Icon handling
-	// TODO: Fix focus + mouse out issue
 	// TODO: Add keyboard shortcuts
 
 	const getColorClass = (
@@ -195,7 +201,9 @@
 			{#if (stack && index === 0) || !stack}
 				<li
 					tabindex="0"
-					class="relative w-full bg-gradient-to-r from-white p-2 border border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 flex space-x-2 items-center {getColorClass(
+					class="relative w-full bg-gradient-to-r from-white p-2 {notification.priority
+						? 'border-2'
+						: 'border'} border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 flex space-x-2 items-center {getColorClass(
 						notification.type,
 						notification.background
 					)}"
@@ -204,6 +212,7 @@
 							notification.progress &&
 							durations[notification.id]
 						) {
+							hovered[notification.id] = true;
 							durations[notification.id].pause();
 						}
 					}}
@@ -212,21 +221,26 @@
 							notification.progress &&
 							durations[notification.id]
 						) {
+							focused[notification.id] = true;
 							durations[notification.id].pause();
 						}
 					}}
 					on:mouseleave={() => {
+						hovered[notification.id] = false;
 						if (
 							notification.progress &&
-							durations[notification.id]
+							durations[notification.id] &&
+							!focused[notification.id]
 						) {
 							durations[notification.id].resume();
 						}
 					}}
 					on:focusout={() => {
+						focused[notification.id] = false;
 						if (
 							notification.progress &&
-							durations[notification.id]
+							durations[notification.id] &&
+							!hovered[notification.id]
 						) {
 							durations[notification.id].resume();
 						}
