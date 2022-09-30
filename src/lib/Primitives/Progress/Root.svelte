@@ -18,7 +18,6 @@
 	import { limit } from '$lib/Utils';
 	import { writable } from 'svelte/store';
 
-	$: console.log(value);
 	const valuePercentage = (value: number, min: number, max: number) => {
 		return (
 			((limit(value, min, max) - min - min) /
