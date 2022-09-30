@@ -1,6 +1,6 @@
 import { tweened as nativeTweened } from 'svelte/motion';
 import type { Tweened as NativeTweened } from 'svelte/motion';
-import { get } from 'svelte/store';
+import { get, writable, type Writable } from 'svelte/store';
 import {} from 'svelte/easing';
 
 interface Options<T> {
@@ -12,6 +12,7 @@ interface Options<T> {
 
 export interface Tweened<T> extends NativeTweened<T> {
 	pause: () => Promise<void>;
+	paused: Writable<boolean>;
 	resume: () => Promise<void>;
 	replay: () => Promise<void>;
 	reset: () => Promise<void>;
@@ -26,16 +27,21 @@ export const tweened = (
 	let lastSet = initial;
 	const initialSet = nativeStore.set;
 
+	const paused = writable(false);
 	const pause = () => {
+		paused.set(true);
 		const value = get(nativeStore);
 		return initialSet(value, { duration: 0 });
 	};
 
 	const reset = () => {
+		paused.set(true);
 		return initialSet(initial, { duration: 0 });
 	};
 
 	const resume = () => {
+		paused.set(false);
+
 		const value = get(nativeStore);
 		const percentageCompleted = (value - initial) / (lastSet - initial);
 		const remaining =
@@ -45,6 +51,7 @@ export const tweened = (
 	};
 
 	const replay = async () => {
+		paused.set(false);
 		await reset();
 		return initialSet(lastSet, options);
 	};
@@ -56,10 +63,11 @@ export const tweened = (
 
 	return {
 		...nativeStore,
+		set,
 		pause,
+		paused,
 		reset,
 		resume,
-		replay,
-		set
+		replay
 	};
 };
