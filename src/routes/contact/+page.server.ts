@@ -29,7 +29,7 @@ export const actions: Actions = {
 		| {
 				state: 'success';
 				notification: {
-					type: 'success' | 'info' | 'warning';
+					type: 'green' | 'orange' | 'blue';
 					html: string;
 				};
 				values?: { [key: string]: FormDataEntryValue | null };
@@ -37,7 +37,7 @@ export const actions: Actions = {
 		| ValidationError<{
 				state: 'error';
 				notification: {
-					type: 'info' | 'warning' | 'error';
+					type: 'orange' | 'blue' | 'red';
 					html: string;
 				};
 				values: {
@@ -119,7 +119,7 @@ export const actions: Actions = {
 					return {
 						state: 'success',
 						notification: {
-							type: 'success',
+							type: 'green',
 							html: `<h3>Thanks for your message ${name}!</h3><p class="text-xs">An auto-reply has been sent to <b><em>${email}</em></b></p>`
 						}
 					};
@@ -128,7 +128,7 @@ export const actions: Actions = {
 				return {
 					state: 'success',
 					notification: {
-						type: 'warning',
+						type: 'orange',
 						html: `<h3>Thanks for your message ${name}!</h3><p class="text-xs">An auto-reply has been sent to <b><em>${email}</em></b>, but could not be delivered. Please check if the entered E-Mail address is correct</p>`
 					},
 					values
@@ -142,7 +142,7 @@ export const actions: Actions = {
 		return invalid<{
 			state: 'error';
 			notification: {
-				type: 'info' | 'warning' | 'error';
+				type: 'red';
 				html: string;
 			};
 			values: {
@@ -151,7 +151,7 @@ export const actions: Actions = {
 		}>(500, {
 			state: 'error',
 			notification: {
-				type: 'error',
+				type: 'red',
 				html: '<h3>An unkown error occurred while sending your message. Please try again later</h3>'
 			},
 			values

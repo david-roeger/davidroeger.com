@@ -185,74 +185,6 @@
 	// TODO: add start, end and close Icon handling
 	// TODO: Add keyboard shortcuts
 
-	const getGradientColorClass = (
-		type: Notification['type'],
-		variant: ColorClassesKey = 'default'
-	) => {
-		console.log(type);
-		switch (type) {
-			case 'success':
-				return colorClasses.green.gradient;
-			case 'error':
-				return colorClasses.red.gradient;
-			case 'warning':
-				return colorClasses.orange.gradient;
-			case 'info':
-				return colorClasses.blue.gradient;
-			case 'custom':
-				return (
-					colorClasses[variant]?.gradient ??
-					colorClasses.default.gradient
-				);
-			default:
-				return '';
-		}
-	};
-
-	const getBackgroundColorClass = (
-		type: Notification['type'],
-		variant: keyof typeof colorClasses = 'default'
-	) => {
-		console.log(type);
-		switch (type) {
-			case 'success':
-				return colorClasses.green.background;
-			case 'error':
-				return colorClasses.red.background;
-			case 'warning':
-				return colorClasses.orange.background;
-			case 'info':
-				return colorClasses.blue.background;
-			case 'custom':
-				return (
-					colorClasses[variant]?.background ??
-					colorClasses.default.background
-				);
-			default:
-				return '';
-		}
-	};
-
-	const getPriorityColorClass = (
-		type: Notification['type'],
-		variant: keyof typeof colorClasses = 'default'
-	) => {
-		switch (type) {
-			case 'success':
-			case 'error':
-			case 'warning':
-			case 'info':
-				return colorClasses.default.priority;
-			case 'custom':
-				return (
-					colorClasses[variant].priority ??
-					colorClasses.default.priority
-				);
-			default:
-				return '';
-		}
-	};
-
 	interface AnmationArgs extends SlideParams {
 		direction: 'in' | 'out';
 	}
@@ -335,10 +267,9 @@
 				tabindex={index === notifications.length - 1 ? 0 : undefined}
 				class="{stack
 					? 'col-start-1 row-start-1'
-					: ''} relative bg-gradient-to-r from-white flex items-center border-b border-mauve-12 ring-inset focus:outline-none ring-mauve-12 focus:ring-1 {getGradientColorClass(
-					notification.type,
-					'variant' in notification ? notification.variant : 'default'
-				)}"
+					: ''} relative bg-gradient-to-r focus:bg-none from-white flex items-center border-b border-mauve-12 focus:outline-none {colorClasses[
+					notification.variant
+				].focus} {colorClasses[notification.variant].gradient}"
 				on:mouseenter={() => {
 					if (notification.progress && durations[notification.id]) {
 						hovered[notification.id] = true;
@@ -386,21 +317,14 @@
 								class="!m-0 h-3 w-3 grid grid-cols-1 grid-rows-1 place-items-center"
 							>
 								<span
-									class="col-start-1 row-start-1 animate-ping inline-flex h-full w-full rounded-full opacity-50 {getPriorityColorClass(
-										notification.type,
-										'variant' in notification
-											? notification.variant
-											: 'default'
-									)}"
+									class="col-start-1 row-start-1 animate-ping inline-flex h-full w-full rounded-full opacity-50 {colorClasses[
+										notification.variant
+									].priority}"
 								/>
 								<span
-									class="col-start-1 row-start-1 inline-flex rounded-full h-2 w-2 {getPriorityColorClass(
-										notification.type,
-										'variant' in notification
-											? notification.variant
-											: 'default'
-									)}
-				"
+									class="col-start-1 row-start-1 inline-flex rounded-full h-2 w-2 {colorClasses[
+										notification.variant
+									].priority}"
 								/>
 							</span>
 						</div>
@@ -447,12 +371,9 @@
 					class="grid grid-cols-1 grid-rows-1 absolute top-0 left-0 right-0 !m-0"
 				>
 					<div
-						class="w-full h-0.5 row-start-1 col-start-1 {getBackgroundColorClass(
-							notification.type,
-							'variant' in notification
-								? notification.variant
-								: 'default'
-						)}"
+						class="w-full h-0.5 row-start-1 col-start-1 {colorClasses[
+							notification.variant
+						].background}"
 					/>
 					{#if notification.progress}
 						<Progress

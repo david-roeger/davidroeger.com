@@ -1,24 +1,13 @@
+import type { ColorClassesKey } from './constants';
+
 type Base = {
 	id: string;
 	priority?: boolean;
 };
 
-type NotificationType =
-	| {
-			type: 'success' | 'error' | 'info' | 'warning';
-			backgroundClass?: never;
-			priorityClass?: never;
-	  }
-	| {
-			type: 'custom';
-			variant?:
-				| 'default'
-				| 'green'
-				| 'red'
-				| 'orange'
-				| 'blue'
-				| 'purple';
-	  };
+type NotificationType = {
+	variant: ColorClassesKey;
+};
 
 type Content =
 	| { html: string; headline?: never; subline?: never }

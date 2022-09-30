@@ -134,7 +134,7 @@
 
 	const setNotification = (
 		notification?: {
-			type: 'success' | 'error' | 'info' | 'warning';
+			type: 'green' | 'red' | 'orange' | 'blue';
 			html: string;
 		},
 		state?: 'success' | 'error' | 'invalid'
@@ -143,11 +143,10 @@
 		if (notification) {
 			notificationContext.addNotification({
 				id: 'contactFormMessage',
-				type: notification.type,
-				priority: notification.type === 'error' ? true : false,
+				variant: notification.type,
+				priority: notification.type === 'red' ? true : false,
 				html: notification.html,
-				closeIcon: true,
-				progress: true
+				closeIcon: true
 			});
 		}
 	};

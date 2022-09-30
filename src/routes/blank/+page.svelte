@@ -12,7 +12,7 @@
 	const add = () => {
 		notificationContext.addNotification({
 			id: Date.now().toString(),
-			type: 'success',
+			variant: 'default',
 			headline: `${index}: Hello World)`,
 			closeOnClick: true
 		});
@@ -22,7 +22,6 @@
 	const addCustomStyling = () => {
 		notificationContext.addNotification({
 			id: Date.now().toString(),
-			type: 'custom',
 			variant: 'purple',
 			headline: `${index}: Hello World)`,
 			closeOnClick: true,
@@ -37,8 +36,7 @@
 			headline: `${index}: Hello World (Prio)`,
 			priority: true,
 			closeOnClick: true,
-			type: 'custom',
-			variant: 'blue'
+			variant: 'orange'
 		});
 		index++;
 	};
@@ -46,7 +44,7 @@
 	const addProgress = () => {
 		notificationContext.addNotification({
 			id: Date.now().toString(),
-			type: 'success',
+			variant: 'green',
 			headline: `${index}: Hello World (Progress)`,
 			progress: true
 		});
@@ -55,7 +53,7 @@
 	const addProgressPrio = () => {
 		notificationContext.addNotification({
 			id: Date.now().toString(),
-			type: 'success',
+			variant: 'green',
 			headline: `${index}: Hello World (Progress + Prio)`,
 			subline: 'bla bla bla',
 			progress: true,
