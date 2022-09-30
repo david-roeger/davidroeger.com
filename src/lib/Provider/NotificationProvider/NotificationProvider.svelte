@@ -223,170 +223,171 @@
 	tabindex="-1"
 	aria-live="polite"
 	aria-label="Notifications (F8)"
-	style="z-index: 99999; position: fixed; inset: 0; pointer-events: none;"
+	style="z-index: 99999; position: sticky; top: 0; pointer-events: none;"
 >
-	{#if notifications.length}
-		<ul
-			in:slide={{ duration: 400 }}
-			out:slide={{ duration: 400 }}
-			class="flex space-x-2 items-center bg-white p-1 border-b border-mauve-12"
-			aria-hidden
+	<div class="w-full absolute top-0">
+		{#if notifications.length}
+			<ul
+				in:slide={{ duration: 400 }}
+				out:slide={{ duration: 400 }}
+				class="flex space-x-2 items-center bg-white p-2 border-b border-mauve-6"
+				aria-hidden
+			>
+				{#each notifications as notification (notification.id)}
+					<li transition:fly={{ y: -4 }}>
+						<span
+							class="h-1 w-1 grid grid-cols-1 grid-rows-1 place-items-center"
+						>
+							<span
+								class="col-start-1 row-start-1 inline-flex rounded-full h-full w-full bg-mauve-12 {notification.priority
+									? 'opacity-100'
+									: 'opacity-50'}"
+							/>
+						</span>
+					</li>
+				{/each}
+			</ul>
+		{/if}
+		<ol
+			class="max-h-full overflow-y-auto pointer-events-auto grid grid-rows-1 items-start {stack
+				? 'grid-cols-1'
+				: ''} bg-white"
 		>
 			{#each notifications as notification, index (notification.id)}
-				<li transition:fly={{ y: -12 }}>
-					<span
-						class="h-1 w-1 grid grid-cols-1 grid-rows-1 place-items-center"
-					>
-						<span
-							class="col-start-1 row-start-1 inline-flex rounded-full h-full w-full bg-mauve-12 {notification.priority
-								? 'opacity-100'
-								: 'opacity-50'}"
-						/>
-					</span>
-				</li>
-			{/each}
-		</ul>
-	{/if}
-	<ol
-		class="max-h-full overflow-y-auto pointer-events-auto grid grid-rows-1 items-start {stack
-			? 'grid-cols-1'
-			: ''} bg-white"
-	>
-		{#each notifications as notification, index (notification.id)}
-			<li
-				out:animate={{ direction: 'out' }}
-				in:animate={{ direction: 'in' }}
-				on:introstart={(e) => {
-					e.currentTarget.style.zIndex =
-						state === 'adding' ? '20' : '10';
-				}}
-				on:outrostart={(e) => {
-					e.currentTarget.style.zIndex =
-						state === 'removing' ? '20' : '10';
-				}}
-				tabindex={index === notifications.length - 1 ? 0 : undefined}
-				class="{stack
-					? 'col-start-1 row-start-1'
-					: ''} relative bg-gradient-to-r focus:bg-none from-white flex items-center border-b border-mauve-12 focus:outline-none {colorClasses[
-					notification.variant
-				].focus} {colorClasses[notification.variant].gradient}"
-				on:mouseenter={() => {
-					if (notification.progress && durations[notification.id]) {
-						hovered[notification.id] = true;
-						durations[notification.id].pause();
-					}
-				}}
-				on:focusin={() => {
-					if (notification.progress && durations[notification.id]) {
-						focused[notification.id] = true;
-						durations[notification.id].pause();
-					}
-				}}
-				on:mouseleave={() => {
-					hovered[notification.id] = false;
-					if (
-						notification.progress &&
-						durations[notification.id] &&
-						!focused[notification.id] &&
-						index === notifications.length - 1
-					) {
-						durations[notification.id].resume();
-					}
-				}}
-				on:focusout={() => {
-					focused[notification.id] = false;
-					if (
-						notification.progress &&
-						durations[notification.id] &&
-						!hovered[notification.id] &&
-						index === notifications.length - 1
-					) {
-						durations[notification.id].resume();
-					}
-				}}
-				on:click={() => {
-					if (notification.closeOnClick && notification.id) {
-						removeNotification(notification.id);
-					}
-				}}
-			>
-				<div class="w-full  p-2 flex space-x-2 items-center">
-					{#if notification.priority}
-						<div class="h-full p-2">
-							<span
-								class="!m-0 h-3 w-3 grid grid-cols-1 grid-rows-1 place-items-center"
-							>
+				<li
+					out:animate={{ direction: 'out' }}
+					in:animate={{ direction: 'in' }}
+					on:introstart={(e) => {
+						e.currentTarget.style.zIndex =
+							state === 'adding' ? '20' : '10';
+					}}
+					on:outrostart={(e) => {
+						e.currentTarget.style.zIndex =
+							state === 'removing' ? '20' : '10';
+					}}
+					tabindex={index === notifications.length - 1
+						? 0
+						: undefined}
+					class="{stack
+						? 'col-start-1 row-start-1'
+						: ''} relative bg-gradient-to-r focus:bg-none from-white flex items-center border-b border-mauve-6 focus:outline-none {colorClasses[
+						notification.variant
+					].focus} {colorClasses[notification.variant].gradient}"
+					on:mouseenter={() => {
+						if (
+							notification.progress &&
+							durations[notification.id]
+						) {
+							hovered[notification.id] = true;
+							durations[notification.id].pause();
+						}
+					}}
+					on:focusin={() => {
+						if (
+							notification.progress &&
+							durations[notification.id]
+						) {
+							focused[notification.id] = true;
+							durations[notification.id].pause();
+						}
+					}}
+					on:mouseleave={() => {
+						hovered[notification.id] = false;
+						if (
+							notification.progress &&
+							durations[notification.id] &&
+							!focused[notification.id] &&
+							index === notifications.length - 1
+						) {
+							durations[notification.id].resume();
+						}
+					}}
+					on:focusout={() => {
+						focused[notification.id] = false;
+						if (
+							notification.progress &&
+							durations[notification.id] &&
+							!hovered[notification.id] &&
+							index === notifications.length - 1
+						) {
+							durations[notification.id].resume();
+						}
+					}}
+					on:click={() => {
+						if (notification.closeOnClick && notification.id) {
+							removeNotification(notification.id);
+						}
+					}}
+				>
+					<div class="w-full  p-2 flex space-x-2 items-center">
+						{#if notification.priority}
+							<div class="h-full p-2">
 								<span
-									class="col-start-1 row-start-1 animate-ping inline-flex h-full w-full rounded-full opacity-50 {colorClasses[
-										notification.variant
-									].priority}"
-								/>
-								<span
-									class="col-start-1 row-start-1 inline-flex rounded-full h-2 w-2 {colorClasses[
-										notification.variant
-									].priority}"
-								/>
-							</span>
-						</div>
-					{/if}
-					{#if notification.startIcon}
-						<div>
-							<!-- head -->
-							<Filter />
-						</div>
-					{/if}
-					<div class="flex-1 flex flex-col">
-						{#if notification.html}
-							{@html notification.html}
-						{:else}
-							<h3 class="text">
-								{notification.headline}
-							</h3>
-							{#if notification.subline}
-								<p class="text-xs">
-									{notification.subline}
-								</p>
+									class="!m-0 h-3 w-3 grid grid-cols-1 grid-rows-1 place-items-center"
+								>
+									<span
+										class="col-start-1 row-start-1 animate-ping inline-flex h-full w-full rounded-full opacity-50 {colorClasses[
+											notification.variant
+										].priority}"
+									/>
+									<span
+										class="col-start-1 row-start-1 inline-flex rounded-full h-2 w-2 {colorClasses[
+											notification.variant
+										].priority}"
+									/>
+								</span>
+							</div>
+						{/if}
+						{#if notification.startIcon}
+							<div>
+								<!-- head -->
+								<Filter />
+							</div>
+						{/if}
+						<div class="flex-1 flex flex-col">
+							{#if notification.html}
+								{@html notification.html}
+							{:else}
+								<h3 class="text">
+									{notification.headline}
+								</h3>
+								{#if notification.subline}
+									<p class="text-xs">
+										{notification.subline}
+									</p>
+								{/if}
 							{/if}
+						</div>
+						{#if notification.endIcon}
+							<div>
+								<!-- head -->
+								<Filter />
+							</div>
+						{/if}
+						{#if notification.closeIcon}
+							<button
+								on:click={() =>
+									removeNotification(notification.id)}
+								class="focus:outline-none ring-mauve-12 focus:ring-1
+							rounded-full flex items-center"
+							>
+								<AccessibleIcon label="Remove notification">
+									<CloseIcon />
+								</AccessibleIcon>
+							</button>
 						{/if}
 					</div>
-					{#if notification.endIcon}
-						<div>
-							<!-- head -->
-							<Filter />
-						</div>
-					{/if}
-					{#if notification.closeIcon}
-						<button
-							on:click={() => removeNotification(notification.id)}
-							class="focus:outline-none ring-mauve-12 focus:ring-1
-							rounded-full flex items-center"
-						>
-							<AccessibleIcon label="Remove notification">
-								<CloseIcon />
-							</AccessibleIcon>
-						</button>
-					{/if}
-				</div>
-				<div
-					class="grid grid-cols-1 grid-rows-1 absolute top-0 left-0 right-0 !m-0"
-				>
-					<div
-						class="w-full h-0.5 row-start-1 col-start-1 {colorClasses[
-							notification.variant
-						].background}"
-					/>
 					{#if notification.progress}
 						<Progress
-							class="col-start-1 row-start-1 w-full h-0.5"
+							class="col-start-1 row-start-1 w-full h-0.5  absolute top-0 left-0 right-0 !m-0"
 							min={0}
 							max={notification.duration ?? duration}
 							value={durations[notification.id]}
 						/>
 					{/if}
-				</div>
-			</li>
-		{/each}
-	</ol>
+				</li>
+			{/each}
+		</ol>
+	</div>
 </div>
-
 <slot />

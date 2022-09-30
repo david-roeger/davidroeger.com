@@ -226,42 +226,42 @@
 	]}
 />
 
-<NotificationProvider stack>
-	<div class="relative flex flex-col min-h-full font-sans text-mauve-12">
-		<a
-			href="#content"
-			class="absolute -top-12 left-2 px-4 py-2 focus:top-2 z-50 bg-white border focus:outline-none ring-mauve-12 focus:ring-1"
-		>
-			Skip to content
-		</a>
-		<Header class="z-30" />
-		<main
-			id="content"
-			class="z-10 flex flex-col xl:max-w-7xl xl:border-r border-mauve-6 mb-auto"
-		>
+<div class="relative flex flex-col min-h-full font-sans text-mauve-12">
+	<a
+		href="#content"
+		class="absolute -top-12 left-2 px-4 py-2 focus:top-2 z-50 bg-white border focus:outline-none ring-mauve-12 focus:ring-1"
+	>
+		Skip to content
+	</a>
+	<Header class="z-30" />
+	<main
+		id="content"
+		class="z-10 flex flex-col xl:max-w-7xl xl:border-r border-mauve-6 mb-auto relative"
+	>
+		<NotificationProvider stack>
 			<BreakpointProvider>
 				<slot />
 			</BreakpointProvider>
-		</main>
-		<Footer class="z-20" />
-		{#if showBttButton}
-			<div
-				class="sticky bottom-0 left-0 z-30"
-				in:slideUp|local={{}}
-				out:slideUp|local={{ easing: reversedEasing }}
+		</NotificationProvider>
+	</main>
+	<Footer class="z-20" />
+	{#if showBttButton}
+		<div
+			class="sticky bottom-0 left-0 z-30"
+			in:slideUp|local={{}}
+			out:slideUp|local={{ easing: reversedEasing }}
+		>
+			<button
+				on:click={handleClick}
+				on:click
+				type="button"
+				class="block p-1 m-2 text-xs bg-white border rounded-full cursor-n-resize touch-manipulation focus:outline-none ring-mauve-12 focus:ring-1"
 			>
-				<button
-					on:click={handleClick}
-					on:click
-					type="button"
-					class="block p-1 m-2 text-xs bg-white border rounded-full cursor-n-resize touch-manipulation focus:outline-none ring-mauve-12 focus:ring-1"
-				>
-					<AccessibleIcon label="Back to top">
-						<North />
-					</AccessibleIcon>
-				</button>
-			</div>
-		{/if}
-	</div>
-	<section id="portal" style="position: absolute; z-index: 9999" />
-</NotificationProvider>
+				<AccessibleIcon label="Back to top">
+					<North />
+				</AccessibleIcon>
+			</button>
+		</div>
+	{/if}
+</div>
+<section id="portal" style="position: absolute; z-index: 9999" />
