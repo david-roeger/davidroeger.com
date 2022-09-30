@@ -5,15 +5,18 @@
 
 	import type { ActionResult } from '@sveltejs/kit';
 	import { invalidateAll } from '$app/navigation';
-	import { tick } from 'svelte';
+	import { getContext, tick } from 'svelte';
 	import type { ContactFormActionData } from '$routes/contact/+page.server';
+	import type { NotificationContext } from '$lib/Provider/NotificationProvider/types';
+	import { colorClasses } from './constants';
 
-	export let highlightClass = 'bg-orange-5';
-
-	/**
-	 * @info This should be prefixed with `group-focus-within:`
-	 */
-	export let labelDefaultClass = 'group-focus-within:bg-orange-5';
+	export let variant:
+		| 'default'
+		| 'green'
+		| 'red'
+		| 'orange'
+		| 'blue'
+		| 'purple' = 'default';
 
 	export let borderTop = false;
 	export let borderBottom = true;
@@ -74,6 +77,8 @@
 			const activeElement = document.activeElement as HTMLElement | null;
 
 			formState = 'submitting';
+			notificationContext.removeNotification('contactFormMessage');
+
 			// TODO: add delay handling
 
 			const data = new FormData(formEl);
@@ -124,11 +129,32 @@
 		}
 		return emojis;
 	};
+
+	const notificationContext: NotificationContext = getContext('notification');
+
+	const setNotification = (
+		notification?: {
+			type: 'success' | 'error' | 'info' | 'warning';
+			html: string;
+		},
+		state?: 'success' | 'error' | 'invalid'
+	) => {
+		console.log('setNotification', notification, state);
+		if (notification) {
+			notificationContext.addNotification({
+				id: 'contactFormMessage',
+				type: notification.type,
+				priority: notification.type === 'error' ? true : false,
+				html: notification.html,
+				closeIcon: true,
+				progress: true
+			});
+		}
+	};
+
+	$: setNotification(form?.notification);
 </script>
 
-<p class="px-4 py-2 border-mauve-6 border-b">
-	{form?.message ?? '//'}
-</p>
 <form
 	action="/contact"
 	novalidate
@@ -195,9 +221,9 @@
 							'name',
 							form,
 							{
-								successClass: 'group-focus-within:bg-green-5',
-								errorClass: 'group-focus-within:bg-red-5',
-								defaultClass: labelDefaultClass
+								successClass: colorClasses.green.highlight,
+								errorClass: colorClasses.red.highlight,
+								defaultClass: colorClasses[variant].highlight
 							}
 						)}"
 					>
@@ -235,9 +261,9 @@
 							'email',
 							form,
 							{
-								successClass: 'group-focus-within:bg-green-5',
-								errorClass: 'group-focus-within:bg-red-5',
-								defaultClass: labelDefaultClass
+								successClass: colorClasses.green.highlight,
+								errorClass: colorClasses.red.highlight,
+								defaultClass: colorClasses[variant].highlight
 							}
 						)}"
 					>
@@ -277,9 +303,9 @@
 							'message',
 							form,
 							{
-								successClass: 'group-focus-within:bg-green-5',
-								errorClass: 'group-focus-within:bg-red-5',
-								defaultClass: labelDefaultClass
+								successClass: colorClasses.green.highlight,
+								errorClass: colorClasses.red.highlight,
+								defaultClass: colorClasses[variant].highlight
 							}
 						)}"
 					>
@@ -313,7 +339,9 @@
 					name="submit"
 					type="submit"
 					variant="rounded"
-					class="flex flex-1 max-w-xs sm:max-w-none lg:max-w-xs {highlightClass}"
+					class="flex flex-1 max-w-xs sm:max-w-none lg:max-w-xs {colorClasses[
+						variant
+					].background}"
 					disabled={formState === 'submitting'}
 				>
 					<span

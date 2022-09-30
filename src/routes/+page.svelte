@@ -10,10 +10,7 @@
 
 <section class="mb-32">
 	<Headline containerClass="py-8 md:py-16">Welcome</Headline>
-	<ContactForm
-		highlightClass="bg-purple-5"
-		labelDefaultClass="group-focus-within:bg-purple-5"
-	>
+	<ContactForm variant="blue">
 		<span slot="headline">Hallo</span>
 	</ContactForm>
 </section>

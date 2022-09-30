@@ -443,11 +443,7 @@
 			</div>
 		{/if}
 	</section>
-	<ContactForm
-		highlightClass="bg-green-5"
-		labelDefaultClass="group-focus-within:bg-green-5"
-		borderTop={true}
-	>
+	<ContactForm variant="green" borderTop={true}>
 		<span slot="headline">Bla Bla Bla</span>
 	</ContactForm>
 </article>

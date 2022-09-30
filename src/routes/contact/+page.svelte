@@ -7,5 +7,5 @@
 
 <section class="mb-32">
 	<Headline containerClass="py-8 md:py-16">Welcome</Headline>
-	<ContactForm />
+	<ContactForm variant="orange" />
 </section>
