@@ -7,6 +7,7 @@
 	import Filter from '$assets/Icons/24/filter.svg?component';
 	import AccessibleIcon from '$lib/Components/AccessibleIcon';
 	import CloseIcon from '$assets/Icons/24/close.svg?component';
+	import { fly, scale, slide, type SlideParams } from 'svelte/transition';
 
 	export let stack: boolean = false;
 	export let duration: number = 5000;
@@ -28,7 +29,9 @@
 	let hovered: { [key: string]: boolean } = {};
 	let focused: { [key: string]: boolean } = {};
 
+	let state: 'idle' | 'adding' | 'removing' = 'idle';
 	const addNotification = (notification: Notification) => {
+		state = 'adding';
 		if (!stack && notification.progress) {
 			durations = {
 				...durations,
@@ -74,6 +77,7 @@
 	};
 
 	const removeNotification = (id: string) => {
+		state = 'removing';
 		notifications = notifications.filter(
 			(notification) => notification.id !== id
 		);
@@ -201,6 +205,34 @@
 				return '';
 		}
 	};
+
+	interface AnmationArgs extends SlideParams {
+		direction: 'in' | 'out';
+	}
+	const animate = (
+		node: HTMLElement,
+		{ direction, ...params }: AnmationArgs
+	) => {
+		if (direction === 'in') {
+			if (state === 'adding') {
+				return slide(node, params);
+			}
+			return slide(node, {
+				...params,
+				duration: 0
+			});
+		}
+		// direction === 'out'
+		if (state === 'removing') {
+			return slide(node, params);
+		}
+
+		return slide(node, {
+			...params,
+			duration: 0,
+			delay: 400
+		});
+	};
 </script>
 
 <div
@@ -213,11 +245,13 @@
 >
 	{#if notifications.length}
 		<ul
+			in:slide={{ duration: 400 }}
+			out:slide={{ duration: 400 }}
 			class="flex space-x-2 items-center bg-white p-1 border-b border-mauve-12"
 			aria-hidden
 		>
 			{#each notifications as notification, index (notification.id)}
-				<li>
+				<li transition:fly={{ y: -12 }}>
 					<span
 						class="h-1 w-1 grid grid-cols-1 grid-rows-1 place-items-center"
 					>
@@ -231,12 +265,28 @@
 			{/each}
 		</ul>
 	{/if}
-	<ol class="max-h-full overflow-y-auto pointer-events-auto flex flex-col">
+	<ol
+		class="max-h-full overflow-y-auto pointer-events-auto grid grid-rows-1 {stack
+			? 'grid-cols-1'
+			: ''} bg-white"
+	>
 		{#each notifications as notification, index (notification.id)}
 			{#if (stack && index === 0) || !stack}
 				<li
+					out:animate={{ direction: 'out' }}
+					in:animate={{ direction: 'in' }}
+					on:introstart={(e) => {
+						e.currentTarget.style.zIndex =
+							state === 'adding' ? '20' : '10';
+					}}
+					on:outrostart={(e) => {
+						e.currentTarget.style.zIndex =
+							state === 'removing' ? '20' : '10';
+					}}
 					tabindex="0"
-					class="relative bg-gradient-to-r from-white flex items-center border-b border-mauve-12 ring-inset focus:outline-none ring-mauve-12 focus:ring-1 {getBackgroundColorClass(
+					class="{stack
+						? 'col-start-1 row-start-1'
+						: ''} relative bg-gradient-to-r from-white flex items-center border-b border-mauve-12 ring-inset focus:outline-none ring-mauve-12 focus:ring-1 {getBackgroundColorClass(
 						notification.type,
 						notification.backgroundClass
 					)}"
