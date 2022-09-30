@@ -6,14 +6,19 @@ type Base = {
 type NotificationType =
 	| {
 			type: 'success' | 'error' | 'info' | 'warning';
-			background?: never;
+			backgroundClass?: never;
+			priorityClass?: never;
 	  }
 	| {
 			type: 'custom';
 			/**
 			 * @info must be prefixed with `to-`
 			 */
-			background: string;
+			backgroundClass: string;
+			/**
+			 * @info must be prefixed with `bg-`
+			 */
+			priorityClass?: string;
 	  };
 
 type Content =

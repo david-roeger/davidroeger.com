@@ -23,7 +23,7 @@
 		notificationContext.addNotification({
 			id: Date.now().toString(),
 			type: 'custom',
-			background: 'to-purple-5',
+			backgroundClass: 'to-purple-5',
 			headline: `${index}: Hello World)`,
 			closeOnClick: true,
 			startIcon: true
@@ -34,10 +34,12 @@
 	const addPrio = () => {
 		notificationContext.addNotification({
 			id: Date.now().toString(),
-			type: 'error',
 			headline: `${index}: Hello World (Prio)`,
 			priority: true,
-			closeOnClick: true
+			closeOnClick: true,
+			type: 'custom',
+			backgroundClass: 'to-purple-5',
+			priorityClass: 'bg-purple-9'
 		});
 		index++;
 	};

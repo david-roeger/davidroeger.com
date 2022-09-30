@@ -165,7 +165,7 @@
 	// TODO: add start, end and close Icon handling
 	// TODO: Add keyboard shortcuts
 
-	const getColorClass = (
+	const getBackgroundColorClass = (
 		type: Notification['type'],
 		customClass?: string
 	) => {
@@ -179,7 +179,24 @@
 			case 'info':
 				return 'to-blue-5';
 			case 'custom':
-				return customClass;
+				return customClass ?? 'to-mauve-5';
+			default:
+				return '';
+		}
+	};
+
+	const getPriorityColorClass = (
+		type: Notification['type'],
+		customClass?: string
+	) => {
+		switch (type) {
+			case 'success':
+			case 'error':
+			case 'warning':
+			case 'info':
+				return 'bg-mauve-12';
+			case 'custom':
+				return customClass ?? 'bg-mauve-12';
 			default:
 				return '';
 		}
@@ -192,20 +209,36 @@
 	aria-live="polite"
 	aria-label="Notifications (F8)"
 	style="z-index: 99999; position: fixed; inset: 0; pointer-events: none;"
-	class="xl:max-w-[1288px]"
+	class=" shadow-lg"
 >
-	<ol
-		class="max-h-full overflow-y-auto pointer-events-auto flex flex-col p-2 space-y-2"
-	>
+	{#if notifications.length}
+		<ul
+			class="flex space-x-2 items-center bg-white p-1 border-b border-mauve-12"
+			aria-hidden
+		>
+			{#each notifications as notification, index (notification.id)}
+				<li>
+					<span
+						class="h-1 w-1 grid grid-cols-1 grid-rows-1 place-items-center"
+					>
+						<span
+							class="col-start-1 row-start-1 inline-flex rounded-full h-full w-full bg-mauve-12 {notification.priority
+								? 'opacity-100'
+								: 'opacity-50'}"
+						/>
+					</span>
+				</li>
+			{/each}
+		</ul>
+	{/if}
+	<ol class="max-h-full overflow-y-auto pointer-events-auto flex flex-col">
 		{#each notifications as notification, index (notification.id)}
 			{#if (stack && index === 0) || !stack}
 				<li
 					tabindex="0"
-					class="relative w-full bg-gradient-to-r from-white p-2 {notification.priority
-						? 'border-2'
-						: 'border'} border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 flex space-x-2 items-center {getColorClass(
+					class="relative bg-gradient-to-r from-white flex items-center border-b border-mauve-12 ring-inset focus:outline-none ring-mauve-12 focus:ring-1 {getBackgroundColorClass(
 						notification.type,
-						notification.background
+						notification.backgroundClass
 					)}"
 					on:mouseenter={() => {
 						if (
@@ -251,44 +284,67 @@
 						}
 					}}
 				>
-					{#if notification.startIcon}
-						<div>
-							<!-- head -->
-							<Filter />
-						</div>
-					{/if}
-					<div class="flex-1 flex flex-col space-y-2">
-						{#if notification.html}
-							{@html notification.html}
-						{:else}
-							<h3 class="text">
-								{notification.headline}
-								{durations[notification.id]}
-							</h3>
-							{#if notification.subline}
-								<p class="text-sm">
-									{notification.subline}
-								</p>
+					<div class="w-full  p-2 flex space-x-2 items-center">
+						{#if notification.priority}
+							<div class="h-full p-2">
+								<span
+									class="!m-0 h-3 w-3 grid grid-cols-1 grid-rows-1 place-items-center"
+								>
+									<span
+										class="col-start-1 row-start-1 animate-ping inline-flex h-full w-full rounded-full opacity-50 {getPriorityColorClass(
+											notification.type,
+											notification.priorityClass
+										)}"
+									/>
+									<span
+										class="col-start-1 row-start-1 inline-flex rounded-full h-full w-full {getPriorityColorClass(
+											notification.type,
+											notification.priorityClass
+										)}
+				"
+									/>
+								</span>
+							</div>
+						{/if}
+						{#if notification.startIcon}
+							<div>
+								<!-- head -->
+								<Filter />
+							</div>
+						{/if}
+						<div class="flex-1 flex flex-col">
+							{#if notification.html}
+								{@html notification.html}
+							{:else}
+								<h3 class="text">
+									{notification.headline}
+								</h3>
+								{#if notification.subline}
+									<p class="text-xs">
+										{notification.subline}
+									</p>
+								{/if}
 							{/if}
+						</div>
+						{#if notification.endIcon}
+							<div>
+								<!-- head -->
+								<Filter />
+							</div>
+						{/if}
+						{#if notification.closeIcon}
+							<button
+								on:click={() =>
+									removeNotification(notification.id)}
+								class="focus:outline-none ring-mauve-12 focus:ring-1
+							rounded-full flex items-center"
+							>
+								<AccessibleIcon label="Remove notification">
+									<CloseIcon />
+								</AccessibleIcon>
+							</button>
 						{/if}
 					</div>
-					{#if notification.endIcon}
-						<div>
-							<!-- head -->
-							<Filter />
-						</div>
-					{/if}
-					{#if notification.closeIcon}
-						<button
-							on:click={() => removeNotification(notification.id)}
-							class="focus:outline-none ring-mauve-12 focus:ring-1
-							rounded-full mb-auto"
-						>
-							<AccessibleIcon label="Remove notification">
-								<CloseIcon />
-							</AccessibleIcon>
-						</button>
-					{/if}
 					{#if notification.progress}
 						<div class="flex absolute top-0 left-0 right-0 !m-0">
 							<Progress
