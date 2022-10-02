@@ -238,7 +238,7 @@
 		id="content"
 		class="z-10 flex flex-col xl:max-w-7xl xl:border-r border-mauve-6 mb-auto relative"
 	>
-		<NotificationProvider stack>
+		<NotificationProvider>
 			<BreakpointProvider>
 				<slot />
 			</BreakpointProvider>

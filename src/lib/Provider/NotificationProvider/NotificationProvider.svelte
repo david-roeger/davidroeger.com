@@ -230,7 +230,7 @@
 			<ul
 				in:slide={{ duration: 400 }}
 				out:slide={{ duration: 400 }}
-				class="flex space-x-2 items-center bg-white p-2 border-b border-mauve-6"
+				class="flex space-x-2 items-center bg-white p-2 border-b border-mauve-12"
 				aria-hidden
 			>
 				{#each notifications as notification (notification.id)}
@@ -249,7 +249,7 @@
 			</ul>
 		{/if}
 		<ol
-			class="max-h-full overflow-y-auto pointer-events-auto grid grid-rows-1 items-start {stack
+			class="max-h-full pointer-events-auto grid grid-rows-1 items-start overflow-visible {stack
 				? 'grid-cols-1'
 				: ''} bg-white"
 		>
@@ -257,20 +257,13 @@
 				<li
 					out:animate={{ direction: 'out' }}
 					in:animate={{ direction: 'in' }}
-					on:introstart={(e) => {
-						e.currentTarget.style.zIndex =
-							state === 'adding' ? '20' : '10';
-					}}
-					on:outrostart={(e) => {
-						e.currentTarget.style.zIndex =
-							state === 'removing' ? '20' : '10';
-					}}
-					tabindex={index === notifications.length - 1
+					style:z-index={index}
+					tabindex={!stack || index === notifications.length - 1
 						? 0
 						: undefined}
 					class="{stack
 						? 'col-start-1 row-start-1'
-						: ''} relative bg-gradient-to-r focus:bg-none from-white flex items-center border-b border-mauve-6 focus:outline-none {colorClasses[
+						: ''} relative bg-gradient-to-r focus:bg-none from-white flex items-center border-b border-mauve-12 focus:outline-none {colorClasses[
 						notification.variant
 					].focus} {colorClasses[notification.variant].gradient}"
 					on:mouseenter={() => {
@@ -297,7 +290,7 @@
 							notification.progress &&
 							durations[notification.id] &&
 							!focused[notification.id] &&
-							index === notifications.length - 1
+							(!stack || index === notifications.length - 1)
 						) {
 							durations[notification.id].resume();
 						}
@@ -308,7 +301,7 @@
 							notification.progress &&
 							durations[notification.id] &&
 							!hovered[notification.id] &&
-							index === notifications.length - 1
+							(!stack || index === notifications.length - 1)
 						) {
 							durations[notification.id].resume();
 						}
