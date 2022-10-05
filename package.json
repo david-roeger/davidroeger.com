@@ -43,7 +43,6 @@
 		"@supabase/supabase-js": "^2.0.0-rc.6",
 		"bezier-easing": "^2.1.0",
 		"focus-trap": "^7.0.0",
-		"ioredis": "^5.2.3",
 		"nodemailer": "^6.7.8",
 		"open-simplex-noise": "^2.5.0",
 		"zod": "^3.19.1"
