@@ -10,6 +10,9 @@ const config = {
 			`${new Date().toJSON().split('T')[0]} // ${
 				new Date().toJSON().split('T')[1].split('Z')[0].split('.')[0]
 			} (UTC)`
+		),
+		'process.env.VITE_APP_VERSION': JSON.stringify(
+			process.env.npm_package_version
 		)
 	},
 	plugins: [

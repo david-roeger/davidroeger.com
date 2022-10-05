@@ -9,5 +9,6 @@
 	<div>
 		<p>Prerendering: {prerendering}</p>
 		<p>Last updated at: {process.env.VITE_BUILD_TIME}</p>
+		<p>Version: {process.env.VITE_APP_VERSION}</p>
 	</div>
 </footer>
