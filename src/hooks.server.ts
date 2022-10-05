@@ -18,6 +18,9 @@ const CACHABLE_ROUTES_CONFIG = [
 
 export const handle: Handle = async ({ event, resolve }) => {
 	console.info('hooks: hooks.server.ts // handle');
+	console.log('redis', !!redis);
+	console.log('dev', dev);
+	console.log('prerendering', prerendering);
 
 	const { url } = event;
 
@@ -28,6 +31,8 @@ export const handle: Handle = async ({ event, resolve }) => {
 	const ROUTE_CONFIG = CACHABLE_ROUTES_CONFIG.find(
 		(route) => route.path === url.pathname
 	);
+
+	console.log('ROUTE_CONFIG', ROUTE_CONFIG);
 
 	if (!ROUTE_CONFIG) {
 		return resolve(event);
@@ -50,45 +55,38 @@ export const handle: Handle = async ({ event, resolve }) => {
 	// we make ... it will return an empty object if
 	// the page wasn't cached or a populated object
 	// containing body and headers
-	try {
-		let cached = await redis.hgetall(key);
-		console.info(
-			`hooks: CACHE // ${key} : ${cached.body ? 'HIT' : 'MISS'}`
-		);
-		if (!cached.body) {
-			// if it wasn't cached, we render the pages
-			const response = await resolve(event);
+	let cached = await redis.hgetall(key);
+	console.info(`hooks: CACHE // ${key} : ${cached.body ? 'HIT' : 'MISS'}`);
+	if (!cached.body) {
+		// if it wasn't cached, we render the pages
+		const response = await resolve(event);
 
-			// then convert it into a cachable object
-			cached = Object.fromEntries(response.headers.entries());
-			cached.body = await response.text();
+		// then convert it into a cachable object
+		cached = Object.fromEntries(response.headers.entries());
+		cached.body = await response.text();
 
-			if (response.status === 200) {
-				// and write it to the Redis cache ...
-				// NOTE: although this returns a promise
-				// we don't await it, so we don't delay
-				// returning the response to the client
-				// (the cache write is "fire and forget")
-				redis.hset(key, cached).then(() => {
-					console.info(`hooks: NEW KEY // ${key}}`); // ... and set an expiry if one was
-					// specified in the config
-					if (ROUTE_CONFIG.expires) {
-						console.info(
-							`hooks: KEY EXPIRES // ${key}} // ${ROUTE_CONFIG.expires}`
-						);
-						redis.expire(key, ROUTE_CONFIG.expires);
-					}
-				});
-			}
+		if (response.status === 200) {
+			// and write it to the Redis cache ...
+			// NOTE: although this returns a promise
+			// we don't await it, so we don't delay
+			// returning the response to the client
+			// (the cache write is "fire and forget")
+			redis.hset(key, cached).then(() => {
+				console.info(`hooks: NEW KEY // ${key}}`); // ... and set an expiry if one was
+				// specified in the config
+				if (ROUTE_CONFIG.expires) {
+					console.info(
+						`hooks: KEY EXPIRES // ${key}} // ${ROUTE_CONFIG.expires}`
+					);
+					redis.expire(key, ROUTE_CONFIG.expires);
+				}
+			});
 		}
-
-		// we end up here with the same object whether
-		// it came from the cache or was rendered fresh
-		// and we just return it as the response
-		const { body, ...headers } = cached;
-		return new Response(body, { headers: new Headers(headers) });
-	} catch (error) {
-		console.error('Failed to connect to Redis', error);
-		return resolve(event);
 	}
+
+	// we end up here with the same object whether
+	// it came from the cache or was rendered fresh
+	// and we just return it as the response
+	const { body, ...headers } = cached;
+	return new Response(body, { headers: new Headers(headers) });
 };
