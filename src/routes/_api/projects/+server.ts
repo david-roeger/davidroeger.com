@@ -9,8 +9,8 @@ type Project = {
 	metadata: { published: boolean; order: number };
 };
 
-export const GET: RequestHandler = async ({ url }) => {
-	console.info('_api/projects: +server.ts // GET');
+export const handler = async ({ url }: { url: URL }) => {
+	console.info('_api/projects: +server.ts // GET // handler');
 
 	const modules = import.meta.glob(
 		'../../projects/content/*.{md,svx,svelte.md}'
@@ -40,4 +40,9 @@ export const GET: RequestHandler = async ({ url }) => {
 	publishedProjects.sort((a, b) => a.order - b.order);
 
 	return json(publishedProjects.slice(0, limit));
+};
+
+export const GET: RequestHandler = async ({ url }) => {
+	console.info('_api/projects: +server.ts // GET');
+	return handler({ url });
 };

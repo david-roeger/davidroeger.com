@@ -1,5 +1,5 @@
 <script lang="ts">
-	console.info('projects: +layout.svelte');
+	console.info('projects/(ssr): +layout.svelte');
 	import { Background } from '$components/Background';
 </script>
 

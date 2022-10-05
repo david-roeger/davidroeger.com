@@ -226,7 +226,10 @@
 	]}
 />
 
-<div class="relative flex flex-col min-h-full font-sans text-mauve-12">
+<div
+	class="relative flex flex-col min-h-full font-sans text-mauve-12"
+	data-sveltekit-prefetch
+>
 	<a
 		href="#content"
 		class="absolute -top-12 left-2 px-4 py-2 focus:top-2 z-50 bg-white border focus:outline-none ring-mauve-12 focus:ring-1"

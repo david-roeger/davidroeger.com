@@ -1,5 +1,5 @@
 <script lang="ts">
-	console.info('projects/[slug]: +page.svelte');
+	console.info('projects/(ssg)/[slug]: +page.svelte');
 
 	import { getContext, tick } from 'svelte';
 	import * as Dialog from '$primitives/Dialog';
@@ -7,8 +7,8 @@
 	import type { PageData } from './$types';
 
 	export let data: PageData;
-
-	console.info(`projects/[slug]: +page.svelte // ${data.slug}`);
+	console.log(data);
+	console.info(`projects/(ssg)/[slug]: +page.svelte // ${data.slug}`);
 	import { cubicInOut } from 'svelte/easing';
 
 	import AccessibleIcon from '$components/AccessibleIcon/AccessibleIcon.svelte';
@@ -265,7 +265,6 @@
 			<AccessibleIcon label="Tags"><TagIcon /></AccessibleIcon>
 			{#each data.tags as tag (tag)}
 				<a
-					data-sveltekit-prefetch
 					href={`../projects?tags=${tag}`}
 					class="m-1 hover:underline focus:underline decoration-from-font focus:outline-none"
 				>
