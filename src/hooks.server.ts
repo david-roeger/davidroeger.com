@@ -53,7 +53,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 	try {
 		let cached = await redis.hgetall(key);
 		console.info(
-			`hooks: cache // ${key} : ${cached.body ? 'HIT' : 'MISS'}`
+			`hooks: CACHE // ${key} : ${cached.body ? 'HIT' : 'MISS'}`
 		);
 		if (!cached.body) {
 			// if it wasn't cached, we render the pages
@@ -70,11 +70,11 @@ export const handle: Handle = async ({ event, resolve }) => {
 				// returning the response to the client
 				// (the cache write is "fire and forget")
 				redis.hset(key, cached).then(() => {
-					console.info(`hooks: added Key // ${key}}`); // ... and set an expiry if one was
+					console.info(`hooks: NEW KEY // ${key}}`); // ... and set an expiry if one was
 					// specified in the config
 					if (ROUTE_CONFIG.expires) {
 						console.info(
-							`hooks: added expires // ${key}} // ${ROUTE_CONFIG.expires}`
+							`hooks: KEY EXPIRES // ${key}} // ${ROUTE_CONFIG.expires}`
 						);
 						redis.expire(key, ROUTE_CONFIG.expires);
 					}
