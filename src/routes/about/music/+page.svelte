@@ -85,7 +85,7 @@
 	<div class="flex p-2 space-x-2 border-t border-mauve-6">
 		<Tabs.List
 			ariaLabel="My Favorite Artists and Tracks on Spotify"
-			class="w-full flex space-x-2 border-t border-mauve-6"
+			class="w-full flex space-x-2"
 		>
 			<Tabs.Trigger
 				value="tracks"
