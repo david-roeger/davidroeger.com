@@ -139,7 +139,6 @@
 		},
 		state?: 'success' | 'error' | 'invalid'
 	) => {
-		console.log('setNotification', notification, state);
 		if (notification) {
 			notificationContext.addNotification({
 				id: 'contactFormMessage',
