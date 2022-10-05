@@ -117,7 +117,6 @@
 	};
 
 	const syncNotifications = (notifications: Notification[]) => {
-		console.log('run sync');
 		if (!stack || notifications.length === 0) {
 			lastNotifications = notifications;
 			return;
@@ -138,8 +137,6 @@
 					}
 				}
 				// pause prev tween
-				console.log('pause prev tween');
-				console.log(notifications, addedNotificationIndex);
 				if (
 					addedNotificationIndex > 0 &&
 					notifications[addedNotificationIndex - 1] &&
@@ -178,7 +175,6 @@
 	};
 
 	$: syncNotifications(notifications);
-	$: console.log(durations);
 	setContext('notification', notificationContext);
 
 	// TODO: add styling for head and subline
