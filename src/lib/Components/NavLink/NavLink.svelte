@@ -45,7 +45,6 @@
 
 <a
 	{role}
-	data-sveltekit-prefetch
 	{href}
 	class="border border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 transition-colors {variantClass} {customClass} {getActiveClass()}"
 >
