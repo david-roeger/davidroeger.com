@@ -9,7 +9,6 @@
 	import CloseIcon from '$assets/Icons/24/close.svg?component';
 	import { fly, slide, type SlideParams } from 'svelte/transition';
 	import { beforeNavigate } from '$app/navigation';
-	import Background from '$lib/Components/Background/Background.svelte';
 	import { colorClasses, type ColorClassesKey } from './constants';
 
 	export let stack: boolean = false;
@@ -226,7 +225,7 @@
 			<ul
 				in:slide={{ duration: 400 }}
 				out:slide={{ duration: 400 }}
-				class="flex space-x-2 items-center bg-white p-2 border-b border-mauve-12"
+				class="flex space-x-2 items-center bg-white p-2 border-b border-mauve-12 overflow-x-hidden"
 				aria-hidden
 			>
 				{#each notifications as notification (notification.id)}
@@ -253,15 +252,16 @@
 				<li
 					out:animate={{ direction: 'out' }}
 					in:animate={{ direction: 'in' }}
-					style:z-index={index}
 					tabindex={!stack || index === notifications.length - 1
 						? 0
 						: undefined}
 					class="{stack
 						? 'col-start-1 row-start-1'
-						: ''} relative bg-gradient-to-r focus:bg-none from-white flex items-center border-b border-mauve-12 focus:outline-none {colorClasses[
-						notification.variant
-					].focus} {colorClasses[notification.variant].gradient}"
+						: ''} svelteEase transition-colors relative bg-white before:bg-gradient-to-r  before:from-transparent before:absolute before:inset-0 touch-manipulation flex items-center border-b border-mauve-12 focus:outline-none {notification.closeOnClick &&
+					(!stack || index === notifications.length - 1)
+						? 'cursor-pointer'
+						: 'cursor-auto'} {colorClasses[notification.variant]
+						.focus} {colorClasses[notification.variant].gradient}"
 					on:mouseenter={() => {
 						if (
 							notification.progress &&
@@ -303,12 +303,27 @@
 						}
 					}}
 					on:click={() => {
-						if (notification.closeOnClick && notification.id) {
+						if (
+							notification.closeOnClick &&
+							(!stack || index === notifications.length - 1)
+						) {
 							removeNotification(notification.id);
 						}
 					}}
+					style:transform={stack
+						? `rotateX(${Math.max(
+								16 * -(notifications.length - 1 - index),
+								-180
+						  )}deg) translateZ(24px) rotateX(${Math.min(
+								16 * (notifications.length - 1 - index),
+								180
+						  )}deg)`
+						: undefined}
+					style:z-index={index}
 				>
-					<div class="w-full  p-2 flex space-x-2 items-center">
+					<div
+						class="w-full  p-2 flex space-x-2 items-center relative"
+					>
 						{#if notification.priority}
 							<div class="h-full p-2">
 								<span
@@ -333,7 +348,7 @@
 								<Filter />
 							</div>
 						{/if}
-						<div class="flex-1 flex flex-col">
+						<div class="flex-1 flex flex-col items-start">
 							{#if notification.html}
 								{@html notification.html}
 							{:else}
@@ -380,3 +395,15 @@
 	</div>
 </div>
 <slot />
+
+<style>
+	ol {
+		transform-style: preserve-3d;
+	}
+	.svelteEase {
+		transition-property: transform, background-color;
+		transition-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1),
+			cubic-bezier(0.4, 0, 0.2, 1);
+		transition-duration: 400ms, 150ms;
+	}
+</style>
