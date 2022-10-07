@@ -1,6 +1,6 @@
 console.info('_api/projects/[slug]: +server.ts');
 
-import { slugFromPath } from '$lib/Utils';
+import type { PorjectFrontMatter } from '$lib/types';
 import { error, json } from '@sveltejs/kit';
 
 import type { RequestEvent, RequestHandler } from './$types';
@@ -9,7 +9,7 @@ export type RouteParams = RequestEvent['params'];
 
 type ProjectEntry = {
 	default: { render: () => { html: string } };
-	metadata: { published: boolean };
+	metadata: PorjectFrontMatter;
 };
 
 export const handler = async ({ params }: { params: RouteParams }) => {
@@ -18,32 +18,30 @@ export const handler = async ({ params }: { params: RouteParams }) => {
 	const modules = import.meta.glob(
 		`../../../projects/content/*.{md,svx,svelte.md}`
 	);
-	const { slug } = params;
+	const { slug: urlSlug } = params;
 
 	console.info(
-		`_api/projects/[slug]: +server.ts // GET // handler (${slug})`
+		`_api/projects/[slug]: +server.ts // GET // handler (${urlSlug})`
 	);
 
-	for (const [path, resolver] of Object.entries(
+	for (const [, resolver] of Object.entries(
 		modules as Record<string, () => Promise<ProjectEntry>>
 	)) {
-		const computedSlug = slugFromPath(path);
-
-		if (slug === computedSlug) {
-			const project = await resolver();
-
+		const project = await resolver();
+		const { slug: projectSlug } = project.metadata;
+		if (urlSlug && projectSlug && urlSlug === projectSlug) {
 			const { html } = project.default.render();
 			const { published, ...metadata } = project.metadata;
 
 			if (published) {
-				return json({ ...metadata, published, html, slug });
+				return json({ ...metadata, published, html });
 			}
 
-			throw error(404, `Project ${slug} not found`);
+			throw error(404, `Project ${urlSlug} not found`);
 		}
 	}
 
-	throw error(404, `Project ${slug} not found`);
+	throw error(404, `Project ${urlSlug} not found`);
 };
 
 export const GET: RequestHandler = async ({ params }) => {

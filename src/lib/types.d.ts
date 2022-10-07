@@ -28,23 +28,28 @@ export interface ProjectsMediaData {
 	[key: string]: ProjectMediaData;
 }
 
-export interface ProjectMetaData {
+export interface PorjectFrontMatter {
+	published: boolean;
+	slug: string;
 	order: number;
 	title: string;
-	meta: string;
+	meta?: string;
+	description: string;
+	date: string;
+	tags: string[];
 	team?: string[];
 	place?: string;
-	date: string;
 	github?: string;
-	project?: string;
-	tags: string[];
+	link?: string;
 	vertical: string;
 	horizontal: string;
 	media: string[];
-	published: boolean;
 
+	lastmod: string;
+	keywords: string[];
+}
+export interface ProjectMetaData extends PorjectFrontMatter {
 	// this gets added by the server
-	slug: string;
 	html: string;
 }
 

@@ -7,7 +7,6 @@
 	import type { PageData } from './$types';
 
 	export let data: PageData;
-	console.log(data);
 	console.info(`projects/(ssg)/[slug]: +page.svelte // ${data.slug}`);
 	import { cubicInOut } from 'svelte/easing';
 
@@ -308,16 +307,16 @@
 				</div>
 			</div>
 		{/if}
-		{#if data.github || data.project}
+		{#if data.github || data.link}
 			<div class="border-b border-mauve-6">
 				<div
 					class="p-1 md:w-3/4 md:border-r flex-grow-1 border-mauve-6 bg-white/[.85]"
 				>
-					{#if data.project}
+					{#if data.link}
 						<p class="m-1 text-xs text-mauve-11">
 							<a
 								class="flex items-center space-x-1 hover:underline focus:underline decoration-from-font focus:outline-none"
-								href={data.project}
+								href={data.link}
 								rel="noopener noreferrer"
 								target="_blank"
 							>

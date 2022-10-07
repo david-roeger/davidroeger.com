@@ -1,12 +1,12 @@
 console.info('_api/projects: +server.ts');
 
-import { slugFromPath } from '$lib/Utils';
+import type { PorjectFrontMatter } from '$lib/types';
 import { error, json } from '@sveltejs/kit';
 
 import type { RequestHandler } from './$types';
 
 type Project = {
-	metadata: { published: boolean; order: number };
+	metadata: PorjectFrontMatter;
 };
 
 export const handler = async ({ url }: { url: URL }) => {
@@ -15,6 +15,7 @@ export const handler = async ({ url }: { url: URL }) => {
 	const modules = import.meta.glob(
 		'../../projects/content/*.{md,svx,svelte.md}'
 	);
+	console.log(modules);
 	const projectPromises = [];
 	const limit = Number(url.searchParams.get('limit') ?? Infinity);
 
@@ -22,14 +23,13 @@ export const handler = async ({ url }: { url: URL }) => {
 		throw error(400, 'limit is not valid');
 	}
 
-	for (const [path, resolver] of Object.entries(
+	for (const [, resolver] of Object.entries(
 		modules as Record<string, () => Promise<Project>>
 	)) {
-		const slug = slugFromPath(path);
-		const promise = resolver().then((project) => ({
-			slug,
-			...project.metadata
-		}));
+		const promise = resolver().then((project) => {
+			console.log(project.metadata);
+			return project.metadata;
+		});
 
 		projectPromises.push(promise);
 	}
