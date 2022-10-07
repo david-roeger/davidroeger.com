@@ -15,7 +15,6 @@ export const handler = async ({ url }: { url: URL }) => {
 	const modules = import.meta.glob(
 		'../../projects/content/*.{md,svx,svelte.md}'
 	);
-	console.log(modules);
 	const projectPromises = [];
 	const limit = Number(url.searchParams.get('limit') ?? Infinity);
 
@@ -27,7 +26,6 @@ export const handler = async ({ url }: { url: URL }) => {
 		modules as Record<string, () => Promise<Project>>
 	)) {
 		const promise = resolver().then((project) => {
-			console.log(project.metadata);
 			return project.metadata;
 		});
 
