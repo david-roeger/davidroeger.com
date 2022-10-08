@@ -9,6 +9,7 @@
 	import type { ContactFormActionData } from '$routes/contact/+page.server';
 	import type { NotificationContext } from '$lib/Provider/NotificationProvider/types';
 	import { colorClasses } from './constants';
+	import { writable } from 'svelte/store';
 
 	export let variant:
 		| 'default'
@@ -24,13 +25,29 @@
 	let c = '';
 	export { c as class };
 
-	$: form = $page.form as ContactFormActionData;
+	let form = writable<ContactFormActionData | undefined>(undefined);
+
+	const updateForm = (data: ContactFormActionData) => {
+		if (data && data.contactForm) {
+			form.set(data);
+		}
+	};
+	$: updateForm($page.form);
+
 	let formEl: HTMLFormElement;
 
-	$: name = typeof form?.values?.name === 'string' ? form.values.name : '';
-	$: email = typeof form?.values?.email === 'string' ? form.values.email : '';
+	$: name =
+		typeof $form?.contactForm?.values?.name === 'string'
+			? $form.contactForm.values.name
+			: '';
+	$: email =
+		typeof $form?.contactForm?.values?.email === 'string'
+			? $form.contactForm.values.email
+			: '';
 	$: message =
-		typeof form?.values?.message === 'string' ? form.values.message : '';
+		typeof $form?.contactForm?.values?.message === 'string'
+			? $form.contactForm.values.message
+			: '';
 
 	const getValValidationClass = (
 		key: 'name' | 'email' | 'message',
@@ -41,9 +58,9 @@
 			defaultClass?: string;
 		}
 	) => {
-		if (!form || form.state !== 'invalid')
+		if (!form || !form.contactForm || form.contactForm?.state !== 'invalid')
 			return classes.defaultClass ?? '';
-		if (form.missing[key]) return classes.errorClass ?? '';
+		if (form.contactForm.missing[key]) return classes.errorClass ?? '';
 		return classes.successClass ?? '';
 	};
 
@@ -53,7 +70,7 @@
 		if (missing) {
 			const activeElement = document.activeElement;
 			const name = activeElement?.getAttribute('name');
-			if (name && missing[name] === true) {
+			if (name && missing[name]) {
 				return;
 			}
 
@@ -70,7 +87,10 @@
 		}
 	};
 
-	$: formState = form && form.state ? form.state : 'idle';
+	$: formState =
+		$form && $form.contactForm && $form.contactForm.state
+			? $form.contactForm.state
+			: 'idle';
 
 	async function handleSubmit() {
 		if (formEl) {
@@ -89,7 +109,6 @@
 			});
 
 			const result: ActionResult = await response.json();
-
 			if (result.type === 'success') {
 				formEl.reset();
 				if (activeElement && formEl.contains(activeElement)) {
@@ -98,13 +117,16 @@
 				await invalidateAll();
 			}
 
-			if (result.type === 'invalid' && result.data?.state === 'invalid') {
+			if (
+				result.type === 'invalid' &&
+				result.data?.contactForm?.state === 'invalid'
+			) {
 				// we need to manully override the form state
 				// because otherwise the fielgroup will still
 				// be disabled when we try to focus the input
 				// await tick won't work here
 				formState = 'invalid';
-				await focusInvalid(result.data?.missing);
+				await focusInvalid(result.data?.contactForm?.missing);
 			}
 
 			await applyAction(result);
@@ -150,7 +172,8 @@
 		}
 	};
 
-	$: setNotification(form?.notification);
+	$: if ($form && $form.contactForm && 'notification' in $form.contactForm)
+		setNotification($form.contactForm.notification);
 </script>
 
 <form
@@ -217,7 +240,7 @@
 						for="name"
 						class="border-mauve-12 rounded-none border border-b-0 text-xs ring-mauve-12 group-focus-within:ring-1 px-4 py-1 {getValValidationClass(
 							'name',
-							form,
+							$form,
 							{
 								successClass: colorClasses.green.highlight,
 								errorClass: colorClasses.red.highlight,
@@ -231,7 +254,7 @@
 						id="name"
 						class="py-2 px-4 border-mauve-12 rounded-none border w-full group-focus-within:outline-none ring-mauve-12 group-focus-within:ring-1 bg-gradient-to-r from-transparent {getValValidationClass(
 							'name',
-							form,
+							$form,
 							{
 								successClass: 'to-green-5',
 								errorClass: 'to-red-5'
@@ -244,8 +267,8 @@
 						value={name}
 					/>
 					<p class="text-xs h-4">
-						{#if form?.missing?.name}
-							{form.missing.name}
+						{#if $form && $form.contactForm && 'missing' in $form.contactForm && $form.contactForm.missing?.name}
+							{$form.contactForm.missing.name}
 						{/if}
 					</p>
 				</div>
@@ -257,7 +280,7 @@
 						for="email"
 						class="border-mauve-12 rounded-none border border-b-0 text-xs ring-mauve-12 group-focus-within:ring-1 px-4 py-1 {getValValidationClass(
 							'email',
-							form,
+							$form,
 							{
 								successClass: colorClasses.green.highlight,
 								errorClass: colorClasses.red.highlight,
@@ -271,7 +294,7 @@
 						id="email"
 						class="py-2 px-4 border-mauve-12 rounded-none border w-full group-focus-within:outline-none ring-mauve-12 group-focus-within:ring-1 bg-gradient-to-r from-transparent {getValValidationClass(
 							'email',
-							form,
+							$form,
 							{
 								successClass: 'to-green-5',
 								errorClass: 'to-red-5'
@@ -286,8 +309,8 @@
 					/>
 
 					<p class="text-xs h-4">
-						{#if form?.missing?.email}
-							{form.missing.email}
+						{#if $form && $form.contactForm && 'missing' in $form.contactForm && $form.contactForm.missing?.email}
+							{$form.contactForm.missing.email}
 						{/if}
 					</p>
 				</div>
@@ -299,7 +322,7 @@
 						for="message"
 						class="border-mauve-12 rounded-none border border-b-0 text-xs ring-mauve-12 group-focus-within:ring-1 px-4 py-1 {getValValidationClass(
 							'message',
-							form,
+							$form,
 							{
 								successClass: colorClasses.green.highlight,
 								errorClass: colorClasses.red.highlight,
@@ -316,7 +339,7 @@
 						placeholder="Hi..."
 						class="py-2 px-4 h-full border-mauve-12 rounded-none resize-none border w-full group-focus-within:outline-none ring-mauve-12 group-focus-within:ring-1 bg-gradient-to-r from-transparent {getValValidationClass(
 							'message',
-							form,
+							$form,
 							{
 								successClass: 'to-green-5',
 								errorClass: 'to-red-5'
@@ -326,8 +349,8 @@
 					/>
 
 					<p class="text-xs h-4">
-						{#if form?.missing?.message}
-							{form.missing.message}
+						{#if $form && $form.contactForm && 'missing' in $form.contactForm && $form.contactForm.missing?.message}
+							{$form.contactForm.missing.message}
 						{/if}
 					</p>
 				</div>

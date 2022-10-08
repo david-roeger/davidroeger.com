@@ -13,16 +13,20 @@ export const actions: Actions = {
 		console.log(first, second);
 		if (first && second) {
 			return {
-				message: 'success',
-				values: {}
+				defaultForm: {
+					message: 'success',
+					values: {}
+				}
 			};
 		}
 
 		return invalid(400, {
-			message: 'error',
-			values: {
-				first,
-				second
+			defaultForm: {
+				message: 'error',
+				values: {
+					first,
+					second
+				}
 			}
 		});
 	}

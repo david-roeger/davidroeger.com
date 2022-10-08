@@ -18,30 +18,36 @@ export const actions: Actions = {
 	}): Promise<
 		| undefined
 		| ValidationError<{
-				state: 'invalid';
-				values: { [key: string]: FormDataEntryValue | null };
-				missing: {
-					name?: string;
-					email?: string;
-					message?: string;
+				contactForm: {
+					state: 'invalid';
+					values: { [key: string]: FormDataEntryValue | null };
+					missing: {
+						name?: string;
+						email?: string;
+						message?: string;
+					};
 				};
 		  }>
 		| {
-				state: 'success';
-				notification: {
-					type: 'green' | 'orange' | 'blue';
-					html: string;
+				contactForm: {
+					state: 'success';
+					notification: {
+						type: 'green' | 'orange' | 'blue';
+						html: string;
+					};
+					values?: { [key: string]: FormDataEntryValue | null };
 				};
-				values?: { [key: string]: FormDataEntryValue | null };
 		  }
 		| ValidationError<{
-				state: 'error';
-				notification: {
-					type: 'orange' | 'blue' | 'red';
-					html: string;
-				};
-				values: {
-					[key: string]: FormDataEntryValue | null;
+				contactForm: {
+					state: 'error';
+					notification: {
+						type: 'orange' | 'blue' | 'red';
+						html: string;
+					};
+					values: {
+						[key: string]: FormDataEntryValue | null;
+					};
 				};
 		  }>
 	> => {
@@ -91,9 +97,11 @@ export const actions: Actions = {
 
 		if (Object.keys(missing).length > 0) {
 			return invalid(400, {
-				state: 'invalid',
-				values,
-				missing
+				contactForm: {
+					state: 'invalid',
+					values,
+					missing
+				}
 			});
 		}
 
@@ -117,21 +125,25 @@ export const actions: Actions = {
 			if (meResponse.ok) {
 				if (summaryResponse.ok) {
 					return {
-						state: 'success',
-						notification: {
-							type: 'green',
-							html: `<h3>Thanks for your message ${name}!</h3><p class="text-xs">An auto-reply has been sent to <b><em>${email}</em></b></p>`
+						contactForm: {
+							state: 'success',
+							notification: {
+								type: 'green',
+								html: `<h3>Thanks for your message ${name}!</h3><p class="text-xs">An auto-reply has been sent to <b><em>${email}</em></b></p>`
+							}
 						}
 					};
 				}
 
 				return {
-					state: 'success',
-					notification: {
-						type: 'orange',
-						html: `<h3>Thanks for your message ${name}!</h3><p class="text-xs">An auto-reply has been sent to <b><em>${email}</em></b>, but could not be delivered. Please check if the entered E-Mail address is correct</p>`
-					},
-					values
+					contactForm: {
+						state: 'success',
+						notification: {
+							type: 'orange',
+							html: `<h3>Thanks for your message ${name}!</h3><p class="text-xs">An auto-reply has been sent to <b><em>${email}</em></b>, but could not be delivered. Please check if the entered E-Mail address is correct</p>`
+						},
+						values
+					}
 				};
 			}
 		} catch (error) {
@@ -140,21 +152,25 @@ export const actions: Actions = {
 
 		// invalid infers type as string but we need it ti be <'info' | 'warning' | 'error'>
 		return invalid<{
-			state: 'error';
-			notification: {
-				type: 'red';
-				html: string;
-			};
-			values: {
-				[key: string]: FormDataEntryValue | null;
+			contactForm: {
+				state: 'error';
+				notification: {
+					type: 'red';
+					html: string;
+				};
+				values: {
+					[key: string]: FormDataEntryValue | null;
+				};
 			};
 		}>(500, {
-			state: 'error',
-			notification: {
-				type: 'red',
-				html: '<h3>An unkown error occurred while sending your message. Please try again later</h3>'
-			},
-			values
+			contactForm: {
+				state: 'error',
+				notification: {
+					type: 'red',
+					html: '<h3>An unkown error occurred while sending your message. Please try again later</h3>'
+				},
+				values
+			}
 		});
 	}
 };
