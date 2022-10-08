@@ -16,10 +16,22 @@ const config = {
 		csp: {
 			mode: 'auto',
 			directives: {
-				'default-src': ['self', '*.davidroeger.com', '*.supabase.co'],
+				'default-src': [
+					'self',
+					'*.davidroeger.com',
+					// inter font files
+					'rsms.me',
+					'*.supabase.co'
+				],
 				// needs unsafe-inline for svelte transitions
-				// https://github.com/sveltejs/kit/issues/5215
-				'style-src': ['self', '*.davidroeger.com', 'unsafe-inline'],
+				// https://github.com/s^veltejs/kit/issues/5215
+				'style-src': [
+					'self',
+					'*.davidroeger.com',
+					// inter css
+					'rsms.me',
+					'unsafe-inline'
+				],
 				'img-src': ['*', 'data:']
 			}
 		},
