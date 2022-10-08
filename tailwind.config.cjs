@@ -153,7 +153,12 @@ module.exports = {
 				'fit-content': 'fit-content'
 			},
 			fontFamily: {
-				sans: ['Inter var', 'ui-sans-serif', 'system-ui', 'sans-serif']
+				sans: [
+					'Inter var experimental',
+					'ui-sans-serif',
+					'system-ui',
+					'sans-serif'
+				]
 			},
 			screens: {
 				600: '600px'
