@@ -2,10 +2,9 @@
 	import type { PageData } from './$types';
 	import { Headline } from '$components/Headline';
 
-	console.info('projects/_hidden: +page.svelte');
+	console.info('_prerender: +page.svelte');
 
 	export let data: PageData;
-	console.log(data);
 </script>
 
 <section class="mb-32">
