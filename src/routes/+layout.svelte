@@ -46,16 +46,21 @@
 	};
 
 	onMount(() => {
-		window.addEventListener('scroll', handleScroll);
+		window.addEventListener('scroll', handleScroll, { passive: true });
 		handleScroll();
 	});
 
-	const handleClick = () => {
+	const handleClick = (
+		event: MouseEvent & {
+			currentTarget: EventTarget & HTMLButtonElement;
+		}
+	) => {
 		document.body.scrollTop = 0;
 		document.documentElement.scrollTo({
 			top: 0,
 			behavior: 'smooth'
 		});
+		event.currentTarget.blur();
 	};
 
 	const baseEasing = BezierEasing(0.4, 0, 0.2, 1);
@@ -248,23 +253,26 @@
 		</NotificationProvider>
 	</main>
 	<Footer class="z-20" />
-	{#if showBttButton}
-		<div
-			class="sticky bottom-0 left-0 z-30"
-			in:slideUp|local={{}}
-			out:slideUp|local={{ easing: reversedEasing }}
+	<div
+		class="sticky p-2 bottom-0 left-0 z-30 overflow-hidden pointer-events-none"
+		in:slideUp|local={{}}
+		out:slideUp|local={{ easing: reversedEasing }}
+	>
+		<button
+			aria-hidden={!showBttButton ? true : undefined}
+			tabindex={showBttButton ? 0 : -1}
+			on:click={handleClick}
+			on:click
+			type="button"
+			class="{showBttButton
+				? 'pointer-events-auto'
+				: 'translate-y-[42px] pointer-events-none'} block p-1 text-xs transition-transform bg-white border rounded-full cursor-n-resize touch-manipulation focus:outline-none ring-mauve-12 focus:ring-1"
 		>
-			<button
-				on:click={handleClick}
-				on:click
-				type="button"
-				class="block p-1 m-2 text-xs bg-white border rounded-full cursor-n-resize touch-manipulation focus:outline-none ring-mauve-12 focus:ring-1"
-			>
-				<AccessibleIcon label="Back to top">
-					<North />
-				</AccessibleIcon>
-			</button>
-		</div>
-	{/if}
+			<AccessibleIcon label="Back to top">
+				<North />
+			</AccessibleIcon>
+		</button>
+	</div>
 </div>
+
 <section id="portal" style="position: absolute; z-index: 9999" />
