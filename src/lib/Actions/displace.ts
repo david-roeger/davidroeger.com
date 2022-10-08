@@ -1,4 +1,3 @@
-import { tick } from 'svelte';
 import type { ActionReturnType } from '$lib/types';
 /**
  * Usage: <div use:portal> or <div use:portal={Element | CSS Selector}>
@@ -29,16 +28,13 @@ export const displace = (node: HTMLElement): ActionReturnType => {
 			});
 
 			node.replaceChildren(...chars);
-			console.log(node);
 			node.classList.add('displace');
 			node.classList.add('word');
 		}
 	}
-	function destroy() {}
 	update();
 
 	return {
-		update,
-		destroy
+		update
 	};
 };
