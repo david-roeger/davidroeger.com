@@ -12,8 +12,18 @@ html {
 body {
 	width: 100%;
 	max-width: 100%;
-
 	min-height: 100%;
+}
+
+.dialog-open {
+	overflow: hidden !important;
+	position: relative !important;
+	padding-left: 0px;
+	padding-top: 0px;
+	padding-right: 0px;
+	margin-left: 0;
+	margin-top: 0;
+	margin-right: 0px !important;
 }
 
 @layer utilities {
@@ -40,19 +50,45 @@ body {
 		-ms-overflow-style: none; /* IE and Edge */
 		scrollbar-width: none; /* Firefox */
 	}
-}
 
-.dialog-open {
-	overflow: hidden !important;
-	position: relative !important;
-	padding-left: 0px;
-	padding-top: 0px;
-	padding-right: 0px;
-	margin-left: 0;
-	margin-top: 0;
-	margin-right: 0px !important;
-}
+	.readable {
+		@apply max-w-[60ch];
+	}
 
-.readable {
-	@apply max-w-[60ch];
+	/* displace Effect -------------------------------------------------- */
+	.displace.word .char-wrapper {
+		display: inline-grid;
+		position: relative;
+		overflow: hidden;
+	}
+	.displace.word .char-wrapper .char,
+	.displace.word .char-wrapper::before,
+	.displace.word .char-wrapper::after {
+		transition-property: transform;
+		transition-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+		transition-duration: 400ms;
+	}
+	.displace.word .char-wrapper::before,
+	.displace.word .char-wrapper::after {
+		display: block;
+		content: attr(data-char);
+		position: absolute;
+	}
+	.displace.word .char-wrapper::before {
+		top: -100%;
+	}
+	.displace.word .char-wrapper::after {
+		top: 100%;
+	}
+
+	.displace.word:hover .char-wrapper:nth-child(odd) .char,
+	.displace.word:hover .char-wrapper:nth-child(odd)::before,
+	.displace.word:hover .char-wrapper:nth-child(odd)::after {
+		transform: translateY(-100%);
+	}
+	.displace.word:hover .char-wrapper:nth-child(even) .char,
+	.displace.word:hover .char-wrapper:nth-child(even)::before,
+	.displace.word:hover .char-wrapper:nth-child(even)::after {
+		transform: translateY(100%);
+	}
 }
