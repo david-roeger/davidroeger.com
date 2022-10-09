@@ -18,36 +18,33 @@ export const actions: Actions = {
 	}): Promise<
 		| undefined
 		| ValidationError<{
-				contactForm: {
-					state: 'invalid';
-					values: { [key: string]: FormDataEntryValue | null };
-					missing: {
-						name?: string;
-						email?: string;
-						message?: string;
-					};
+				formId: 'contactForm';
+				state: 'invalid';
+				values: { [key: string]: FormDataEntryValue | null };
+				missing: {
+					name?: string;
+					email?: string;
+					message?: string;
 				};
 		  }>
 		| {
-				contactForm: {
-					state: 'success';
-					notification: {
-						type: 'green' | 'orange' | 'blue';
-						html: string;
-					};
-					values?: { [key: string]: FormDataEntryValue | null };
+				formId: 'contactForm';
+				state: 'success';
+				notification: {
+					type: 'green' | 'orange' | 'blue';
+					html: string;
 				};
+				values?: { [key: string]: FormDataEntryValue | null };
 		  }
 		| ValidationError<{
-				contactForm: {
-					state: 'error';
-					notification: {
-						type: 'orange' | 'blue' | 'red';
-						html: string;
-					};
-					values: {
-						[key: string]: FormDataEntryValue | null;
-					};
+				formId: 'contactForm';
+				state: 'error';
+				notification: {
+					type: 'orange' | 'blue' | 'red';
+					html: string;
+				};
+				values: {
+					[key: string]: FormDataEntryValue | null;
 				};
 		  }>
 	> => {
@@ -97,11 +94,10 @@ export const actions: Actions = {
 
 		if (Object.keys(missing).length > 0) {
 			return invalid(400, {
-				contactForm: {
-					state: 'invalid',
-					values,
-					missing
-				}
+				formId: 'contactForm',
+				state: 'invalid',
+				values,
+				missing
 			});
 		}
 
@@ -125,52 +121,48 @@ export const actions: Actions = {
 			if (meResponse.ok) {
 				if (summaryResponse.ok) {
 					return {
-						contactForm: {
-							state: 'success',
-							notification: {
-								type: 'green',
-								html: `<h3>Thanks for your message ${name}!</h3><p class="text-xs">An auto-reply has been sent to <b><em>${email}</em></b></p>`
-							}
+						formId: 'contactForm',
+						state: 'success',
+						notification: {
+							type: 'green',
+							html: `<h3>Thanks for your message ${name}!</h3><p class="text-xs">An auto-reply has been sent to <b><em>${email}</em></b></p>`
 						}
 					};
 				}
 
 				return {
-					contactForm: {
-						state: 'success',
-						notification: {
-							type: 'orange',
-							html: `<h3>Thanks for your message ${name}!</h3><p class="text-xs">An auto-reply has been sent to <b><em>${email}</em></b>, but could not be delivered. Please check if the entered E-Mail address is correct</p>`
-						},
-						values
-					}
+					formId: 'contactForm',
+					state: 'success',
+					notification: {
+						type: 'orange',
+						html: `<h3>Thanks for your message ${name}!</h3><p class="text-xs">An auto-reply has been sent to <b><em>${email}</em></b>, but could not be delivered. Please check if the entered E-Mail address is correct</p>`
+					},
+					values
 				};
 			}
 		} catch (error) {
 			console.error(error);
 		}
 
-		// invalid infers type as string but we need it ti be <'info' | 'warning' | 'error'>
+		// invalid infers type as string but we need it to be <'info' | 'warning' | 'error'>
 		return invalid<{
-			contactForm: {
-				state: 'error';
-				notification: {
-					type: 'red';
-					html: string;
-				};
-				values: {
-					[key: string]: FormDataEntryValue | null;
-				};
+			formId: 'contactForm';
+			state: 'error';
+			notification: {
+				type: 'red';
+				html: string;
+			};
+			values: {
+				[key: string]: FormDataEntryValue | null;
 			};
 		}>(500, {
-			contactForm: {
-				state: 'error',
-				notification: {
-					type: 'red',
-					html: '<h3>An unkown error occurred while sending your message. Please try again later</h3>'
-				},
-				values
-			}
+			formId: 'contactForm',
+			state: 'error',
+			notification: {
+				type: 'red',
+				html: '<h3>An unkown error occurred while sending your message. Please try again later</h3>'
+			},
+			values
 		});
 	}
 };

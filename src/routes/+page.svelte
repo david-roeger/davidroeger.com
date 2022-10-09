@@ -1,26 +1,18 @@
 <script lang="ts">
 	import { displace } from '$actions';
-	import { applyAction, enhance } from '$app/forms';
+	import { applyAction } from '$app/forms';
+	import { page } from '$app/stores';
+	import AccessibleIcon from '$lib/Components/AccessibleIcon';
 	import Head from '$lib/Components/Head/Head.svelte';
-	import Headline from '$lib/Components/Headline/Headline.svelte';
-	import ContactForm from '$lib/Slices/ContactForm/ContactForm.svelte';
+	import Logo from '$lib/Components/Logo/Logo.svelte';
+	import { createForm } from '$lib/Utils/Form';
 	import type { ActionResult } from '@sveltejs/kit';
 	import { writable } from 'svelte/store';
 	import type { ActionData } from './$types';
 
 	console.info('index: +page.svelte');
 
-	let defaultForm: ActionData;
-	export { defaultForm as form };
-
-	let form = writable<ActionData | undefined>(undefined);
-
-	const updateForm = (data: ActionData) => {
-		if (data && data.defaultForm) {
-			form.set(data);
-		}
-	};
-	$: updateForm(defaultForm);
+	let { form } = createForm<ActionData>('defaultForm');
 
 	$: first =
 		$form && $form.defaultForm && 'first' in $form.defaultForm.values
@@ -32,6 +24,8 @@
 			: '';
 	$: message =
 		$form && $form.defaultForm ? $form.defaultForm.message : 'No message';
+
+	$: console.log('first', first);
 
 	async function handleSubmit(
 		e: SubmitEvent & {
@@ -64,40 +58,38 @@
 <Head />
 
 <section class="mb-32">
-	<Headline containerClass="py-8 md:py-16">Welcome</Headline>
-	<ContactForm variant="blue">
-		<span slot="headline">Hallo</span>
-	</ContactForm>
-
-	<p />
-
-	<p>Message: {message}</p>
-	<form
-		action="?/second"
-		method="post"
-		on:submit|preventDefault={handleSubmit}
-	>
-		<input
-			type="text"
-			name="first"
-			class="p-2 border border-mauve-12"
-			value={first}
-		/>
-		<input
-			type="text"
-			name="second"
-			class="p-2 border border-mauve-12"
-			value={second}
-		/>
-		<button>Send</button>
-	</form>
-
 	<h1 class="text-12xl">
 		<span class="break-all">DAVID_ROEGER</span>
+		<span class="relative inline-block overflow-hidden rounded-full">
+			<span aria-hidden="true" class="absolute mask inset-0 scale-[1]" />
+			<AccessibleIcon label="Logo: Smiley with four eyes">
+				<Logo
+					background={false}
+					container={true}
+					animated={true}
+					smile={$page.error ? false : true}
+					class="w-36 h-36"
+				/>
+			</AccessibleIcon>
+		</span>
 	</h1>
 	<h2 class="text-8xl">
 		<span class="break-all" use:displace>PROJECTS</span>
 		<span class="break-all" use:displace>ABOUT</span>
-		<span class="break-all" use:displace>SAY HI</span>
+		<span class="break-all" use:displace>SAY_HI</span>
 	</h2>
 </section>
+
+<style>
+	.mask {
+		background-size: 400%;
+		background: linear-gradient(
+				360deg,
+				#96c7f2 0%,
+				rgba(150, 199, 242, 0) 50%
+			),
+			linear-gradient(270deg, #ffb381 0%, rgba(255, 179, 129, 0) 50%),
+			linear-gradient(180deg, #d3b4ed 0%, rgba(211, 180, 237, 0) 50%) 400%,
+			linear-gradient(90deg, #92ceac 0%, rgba(146, 206, 172, 0) 50%);
+	}
+</style>
