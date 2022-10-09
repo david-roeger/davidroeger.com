@@ -5,7 +5,10 @@ import type { ActionReturnType } from '$lib/types';
  * @param { HTMLElement } node Comes from Svelte
  */
 
-export const displace = (node: HTMLElement): ActionReturnType => {
+export const displace = (
+	node: HTMLElement,
+	replacer = '_'
+): ActionReturnType => {
 	function update() {
 		const text = node.textContent;
 		const chars: HTMLSpanElement[] = [];
@@ -13,7 +16,8 @@ export const displace = (node: HTMLElement): ActionReturnType => {
 		node.style.position = 'relative';
 
 		if (text) {
-			const textArray = [...text];
+			const fixed = text.replaceAll(' ', replacer);
+			const textArray = [...fixed];
 			textArray.forEach((char) => {
 				const span = document.createElement('span');
 				span.classList.add('char-wrapper');
