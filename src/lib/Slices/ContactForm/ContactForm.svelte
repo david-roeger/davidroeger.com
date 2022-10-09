@@ -9,7 +9,7 @@
 	import type { ContactFormActionData } from '$routes/contact/+page.server';
 	import type { NotificationContext } from '$lib/Provider/NotificationProvider/types';
 	import { colorClasses } from './constants';
-	import { writable } from 'svelte/store';
+	import { createForm } from '$lib/Utils/Form';
 
 	export let variant:
 		| 'default'
@@ -25,29 +25,15 @@
 	let c = '';
 	export { c as class };
 
-	let form = writable<ContactFormActionData | undefined>(undefined);
-
-	const updateForm = (data: ContactFormActionData) => {
-		if (data && data.contactForm) {
-			form.set(data);
-		}
-	};
-	$: updateForm($page.form);
+	let { form } = createForm<ContactFormActionData>('contactForm');
 
 	let formEl: HTMLFormElement;
 
-	$: name =
-		typeof $form?.contactForm?.values?.name === 'string'
-			? $form.contactForm.values.name
-			: '';
+	$: name = typeof $form?.values?.name === 'string' ? $form.values.name : '';
 	$: email =
-		typeof $form?.contactForm?.values?.email === 'string'
-			? $form.contactForm.values.email
-			: '';
+		typeof $form?.values?.email === 'string' ? $form.values.email : '';
 	$: message =
-		typeof $form?.contactForm?.values?.message === 'string'
-			? $form.contactForm.values.message
-			: '';
+		typeof $form?.values?.message === 'string' ? $form.values.message : '';
 
 	const getValValidationClass = (
 		key: 'name' | 'email' | 'message',
@@ -58,9 +44,9 @@
 			defaultClass?: string;
 		}
 	) => {
-		if (!form || !form.contactForm || form.contactForm?.state !== 'invalid')
+		if (!form || form?.state !== 'invalid')
 			return classes.defaultClass ?? '';
-		if (form.contactForm.missing[key]) return classes.errorClass ?? '';
+		if (form.missing[key]) return classes.errorClass ?? '';
 		return classes.successClass ?? '';
 	};
 
@@ -87,10 +73,7 @@
 		}
 	};
 
-	$: formState =
-		$form && $form.contactForm && $form.contactForm.state
-			? $form.contactForm.state
-			: 'idle';
+	$: formState = $form && $form.state ? $form.state : 'idle';
 
 	async function handleSubmit() {
 		if (formEl) {
@@ -154,13 +137,10 @@
 
 	const notificationContext: NotificationContext = getContext('notification');
 
-	const setNotification = (
-		notification?: {
-			type: 'green' | 'red' | 'orange' | 'blue';
-			html: string;
-		},
-		state?: 'success' | 'error' | 'invalid'
-	) => {
+	const setNotification = (notification?: {
+		type: 'green' | 'red' | 'orange' | 'blue';
+		html: string;
+	}) => {
 		if (notification) {
 			notificationContext.addNotification({
 				id: 'contactFormMessage',
@@ -172,8 +152,8 @@
 		}
 	};
 
-	$: if ($form && $form.contactForm && 'notification' in $form.contactForm)
-		setNotification($form.contactForm.notification);
+	$: if ($form && 'notification' in $form)
+		setNotification($form.notification);
 </script>
 
 <form
@@ -267,8 +247,8 @@
 						value={name}
 					/>
 					<p class="text-xs h-4">
-						{#if $form && $form.contactForm && 'missing' in $form.contactForm && $form.contactForm.missing?.name}
-							{$form.contactForm.missing.name}
+						{#if $form && 'missing' in $form && $form.missing?.name}
+							{$form.missing.name}
 						{/if}
 					</p>
 				</div>
@@ -309,8 +289,8 @@
 					/>
 
 					<p class="text-xs h-4">
-						{#if $form && $form.contactForm && 'missing' in $form.contactForm && $form.contactForm.missing?.email}
-							{$form.contactForm.missing.email}
+						{#if $form && 'missing' in $form && $form.missing?.email}
+							{$form.missing.email}
 						{/if}
 					</p>
 				</div>
@@ -349,8 +329,8 @@
 					/>
 
 					<p class="text-xs h-4">
-						{#if $form && $form.contactForm && 'missing' in $form.contactForm && $form.contactForm.missing?.message}
-							{$form.contactForm.missing.message}
+						{#if $form && 'missing' in $form && $form.missing?.message}
+							{$form.missing.message}
 						{/if}
 					</p>
 				</div>
