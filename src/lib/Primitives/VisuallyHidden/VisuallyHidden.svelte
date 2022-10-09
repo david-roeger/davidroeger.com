@@ -10,6 +10,7 @@
     clip: rect(0, 0, 0, 0);
     white-space: nowrap;
     word-wrap: normal;
+    user-select: none;
   "
 >
 	<slot />
