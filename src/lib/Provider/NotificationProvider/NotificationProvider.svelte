@@ -9,7 +9,7 @@
 	import CloseIcon from '$assets/Icons/24/close.svg?component';
 	import { fly, slide, type SlideParams } from 'svelte/transition';
 	import { beforeNavigate } from '$app/navigation';
-	import { colorClasses, type ColorClassesKey } from './constants';
+	import { colorClasses } from './constants';
 
 	export let stack: boolean = false;
 	export let duration: number = 5000;
