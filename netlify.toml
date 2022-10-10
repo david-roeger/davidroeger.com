@@ -5,6 +5,12 @@
 [build.environment]
   AWS_LAMBDA_JS_RUNTIME = "nodejs18.x"
 
+[[plugins]]
+  package = "@netlify/plugin-lighthouse"
+
+  [plugins.inputs]
+    output_path = "reports/lighthouse.html"
+
 [[headers]]
   for = "/*"
   [headers.values]
