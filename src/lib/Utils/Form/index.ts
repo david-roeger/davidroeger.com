@@ -17,17 +17,22 @@ export type Form =
 			[key: string]: unknown;
 	  };
 
-const focusInvalid = async (invalid: { [key: string]: string } | undefined) => {
+const focusInvalid = async (
+	invalid: { [key: string]: string } | undefined,
+	form: HTMLFormElement
+) => {
 	if (invalid) {
 		const activeElement = document.activeElement;
 		const name = activeElement?.getAttribute('name');
-		if (name && invalid[name]) {
+		if (name && form.contains(activeElement) && invalid[name]) {
 			return;
 		}
 
 		for (const [key, value] of Object.entries(invalid)) {
 			if (value) {
-				const element = document.getElementsByName(key)[0];
+				const element = form.querySelector(
+					`:scope [name='${key}']`
+				) as HTMLElement | null;
 				if (element) {
 					await tick();
 					element.focus();
@@ -97,7 +102,7 @@ export function createForm<T extends Form>(formId: string) {
 						// await tick won't work here because the form
 						// store is only update after applyAction
 						state.set('invalid');
-						await focusInvalid(data.invalidValues);
+						await focusInvalid(data.invalidValues, form);
 					}
 				}
 
