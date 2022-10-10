@@ -92,8 +92,6 @@ export const actions: Actions = {
 		if (!messageInvalid.success)
 			invalidValues.message = messageInvalid.error.errors[0].message;
 
-		console.log(invalidValues);
-
 		if (Object.keys(invalidValues).length > 0) {
 			return invalid(400, {
 				formId: 'contactForm',
