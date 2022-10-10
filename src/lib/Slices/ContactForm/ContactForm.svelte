@@ -25,7 +25,8 @@
 	let c = '';
 	export { c as class };
 
-	let { form, state } = createForm<ContactFormActionData>('contactForm');
+	let { form, state, enhance } =
+		createForm<ContactFormActionData>('contactForm');
 
 	let formEl: HTMLFormElement;
 
@@ -49,69 +50,6 @@
 		if (form.invalidValues[key]) return classes.errorClass ?? '';
 		return classes.successClass ?? '';
 	};
-
-	const focusInvalid = async (
-		invalid: { [key: string]: boolean } | undefined
-	) => {
-		if (invalid) {
-			const activeElement = document.activeElement;
-			const name = activeElement?.getAttribute('name');
-			if (name && invalid[name]) {
-				return;
-			}
-
-			for (const [key, value] of Object.entries(invalid)) {
-				if (value) {
-					const element = document.getElementsByName(key)[0];
-					if (element) {
-						await tick();
-						element.focus();
-					}
-					return;
-				}
-			}
-		}
-	};
-
-	async function handleSubmit() {
-		if (formEl) {
-			const activeElement = document.activeElement as HTMLElement | null;
-
-			$state = 'submitting';
-			notificationContext.removeNotification('contactFormMessage');
-
-			// TODO: add delay handling
-
-			const data = new FormData(formEl);
-
-			const response = await fetch(formEl.action, {
-				method: 'POST',
-				body: data
-			});
-
-			const result: ActionResult = await response.json();
-			if (result.type === 'success') {
-				formEl.reset();
-				if (activeElement && formEl.contains(activeElement)) {
-					activeElement.blur();
-				}
-				await invalidateAll();
-			}
-
-			console.log(result);
-
-			if (result.type === 'invalid' && result.data?.state === 'invalid') {
-				// we need to manully override the form state
-				// because otherwise the fielgroup will still
-				// be disabled when we try to focus the input
-				// await tick won't work here
-				$state = 'invalid';
-				await focusInvalid(result.data?.invalidValues);
-			}
-
-			await applyAction(result);
-		}
-	}
 
 	// prettier-ignore
 	const loadingEmojis = ['🌞','🌼','🌚','⭐️','🍥','🍪','🏵','💿','🧿','🪩','🔆'];
@@ -149,6 +87,10 @@
 		}
 	};
 
+	$: if ($state === 'submitting') {
+		notificationContext.removeNotification('contactFormMessage');
+	}
+
 	$: if ($form && 'notification' in $form)
 		setNotification($form.notification);
 </script>
@@ -158,7 +100,7 @@
 	method="POST"
 	novalidate
 	bind:this={formEl}
-	on:submit|preventDefault={handleSubmit}
+	use:enhance
 	class="grid custom-grid border-mauve-6 {borderTop
 		? 'border-t'
 		: ''} {borderBottom ? 'border-b' : ''} {c}"
