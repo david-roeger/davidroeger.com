@@ -21,7 +21,7 @@ export const actions: Actions = {
 				formId: 'contactForm';
 				state: 'invalid';
 				values: { [key: string]: FormDataEntryValue | null };
-				missing: {
+				invalidValues: {
 					name?: string;
 					email?: string;
 					message?: string;
@@ -64,40 +64,42 @@ export const actions: Actions = {
 			message
 		};
 
-		const missing: {
+		const invalidValues: {
 			name?: string;
 			email?: string;
 			message?: string;
 		} = {};
 
-		const nameMissing = z
+		const nameInvalid = z
 			.string()
 			.min(1, { message: 'Name is required' })
 			.safeParse(name);
-		if (!nameMissing.success)
-			missing.name = nameMissing.error.errors[0].message;
+		if (!nameInvalid.success)
+			invalidValues.name = nameInvalid.error.errors[0].message;
 
-		const emailMissing = z
+		const emailInvalid = z
 			.string()
 			.min(1, { message: 'E-Mail is required' })
 			.email({ message: 'Invalid E-Mail' })
 			.safeParse(email);
-		if (!emailMissing.success)
-			missing.email = emailMissing.error.errors[0].message;
+		if (!emailInvalid.success)
+			invalidValues.email = emailInvalid.error.errors[0].message;
 
-		const messageMissing = z
+		const messageInvalid = z
 			.string()
 			.min(1, { message: 'Message is required' })
 			.safeParse(message);
-		if (!messageMissing.success)
-			missing.message = messageMissing.error.errors[0].message;
+		if (!messageInvalid.success)
+			invalidValues.message = messageInvalid.error.errors[0].message;
 
-		if (Object.keys(missing).length > 0) {
+		console.log(invalidValues);
+
+		if (Object.keys(invalidValues).length > 0) {
 			return invalid(400, {
 				formId: 'contactForm',
 				state: 'invalid',
 				values,
-				missing
+				invalidValues
 			});
 		}
 

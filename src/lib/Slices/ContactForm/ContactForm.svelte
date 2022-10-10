@@ -25,7 +25,7 @@
 	let c = '';
 	export { c as class };
 
-	let { form } = createForm<ContactFormActionData>('contactForm');
+	let { form, state } = createForm<ContactFormActionData>('contactForm');
 
 	let formEl: HTMLFormElement;
 
@@ -46,21 +46,21 @@
 	) => {
 		if (!form || form?.state !== 'invalid')
 			return classes.defaultClass ?? '';
-		if (form.missing[key]) return classes.errorClass ?? '';
+		if (form.invalidValues[key]) return classes.errorClass ?? '';
 		return classes.successClass ?? '';
 	};
 
 	const focusInvalid = async (
-		missing: { [key: string]: boolean } | undefined
+		invalid: { [key: string]: boolean } | undefined
 	) => {
-		if (missing) {
+		if (invalid) {
 			const activeElement = document.activeElement;
 			const name = activeElement?.getAttribute('name');
-			if (name && missing[name]) {
+			if (name && invalid[name]) {
 				return;
 			}
 
-			for (const [key, value] of Object.entries(missing)) {
+			for (const [key, value] of Object.entries(invalid)) {
 				if (value) {
 					const element = document.getElementsByName(key)[0];
 					if (element) {
@@ -73,13 +73,11 @@
 		}
 	};
 
-	$: formState = $form && $form.state ? $form.state : 'idle';
-
 	async function handleSubmit() {
 		if (formEl) {
 			const activeElement = document.activeElement as HTMLElement | null;
 
-			formState = 'submitting';
+			$state = 'submitting';
 			notificationContext.removeNotification('contactFormMessage');
 
 			// TODO: add delay handling
@@ -100,16 +98,15 @@
 				await invalidateAll();
 			}
 
-			if (
-				result.type === 'invalid' &&
-				result.data?.contactForm?.state === 'invalid'
-			) {
+			console.log(result);
+
+			if (result.type === 'invalid' && result.data?.state === 'invalid') {
 				// we need to manully override the form state
 				// because otherwise the fielgroup will still
 				// be disabled when we try to focus the input
 				// await tick won't work here
-				formState = 'invalid';
-				await focusInvalid(result.data?.contactForm?.missing);
+				$state = 'invalid';
+				await focusInvalid(result.data?.invalidValues);
 			}
 
 			await applyAction(result);
@@ -158,6 +155,7 @@
 
 <form
 	action="/contact"
+	method="POST"
 	novalidate
 	bind:this={formEl}
 	on:submit|preventDefault={handleSubmit}
@@ -203,7 +201,7 @@
 		<div class="hidden sm:block h-full border-r border-mauve-6" />
 		<div class="flex flex-col space-y-2 sm:flex-1 relative">
 			<fieldset
-				disabled={formState === 'submitting'}
+				disabled={$state === 'submitting'}
 				class="flex flex-col border-mauve-6 border-b space-y-2 p-2
 					pt-0 sm:pt-2"
 			>
@@ -247,8 +245,8 @@
 						value={name}
 					/>
 					<p class="text-xs h-4">
-						{#if $form && 'missing' in $form && $form.missing?.name}
-							{$form.missing.name}
+						{#if $form && 'invalidValues' in $form && $form.invalidValues?.name}
+							{$form.invalidValues.name}
 						{/if}
 					</p>
 				</div>
@@ -289,8 +287,8 @@
 					/>
 
 					<p class="text-xs h-4">
-						{#if $form && 'missing' in $form && $form.missing?.email}
-							{$form.missing.email}
+						{#if $form && 'invalidValues' in $form && $form.invalidValues?.email}
+							{$form.invalidValues.email}
 						{/if}
 					</p>
 				</div>
@@ -329,8 +327,8 @@
 					/>
 
 					<p class="text-xs h-4">
-						{#if $form && 'missing' in $form && $form.missing?.message}
-							{$form.missing.message}
+						{#if $form && 'invalidValues' in $form && $form.invalidValues?.message}
+							{$form.invalidValues.message}
 						{/if}
 					</p>
 				</div>
@@ -343,12 +341,12 @@
 					class="flex flex-1 max-w-xs sm:max-w-none lg:max-w-xs {colorClasses[
 						variant
 					].background}"
-					disabled={formState === 'submitting'}
+					disabled={$state === 'submitting'}
 				>
 					<span
 						class="grow grid grid-cols-[minmax(0,_1fr)_auto_minmax(0,_1fr)] place-items-start "
 					>
-						{#if formState === 'submitting'}
+						{#if $state === 'submitting'}
 							<span class="-ml-2 px-1 bg-white rounded-full">
 								🕸
 							</span>
@@ -362,7 +360,7 @@
 					</span>
 				</Button>
 			</div>
-			{#if formState === 'submitting'}
+			{#if $state === 'submitting'}
 				<div
 					class="absolute inset-0 bg-white/50 icon-mauve-12 flex justify-center items-center cursor-wait"
 				>
