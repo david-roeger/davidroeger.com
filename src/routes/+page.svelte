@@ -57,8 +57,14 @@
 
 <Head />
 
+<div
+	class="absolute top-0 bottom-0 w-full h-full pointer-events-none xl:max-w-7xl -z-10 mask-radial"
+/>
+
 <section class="mb-32">
-	<h1 class="relative p-2 grrrid text-8xl md:text-9xl lg:text-10xl">
+	<h1
+		class="relative p-2 border-b grrrid text-8xl md:text-9xl lg:text-10xl border-mauve-6"
+	>
 		<span
 			aria-hidden="true"
 			class="absolute rounded-full min-w-[96px] min-h-[96px] mask grrrid-mask"
@@ -71,7 +77,7 @@
 				<Logo
 					background={false}
 					container={true}
-					animated={true}
+					animated={false}
 					smile={$page.error ? false : true}
 					class="w-24 h-24 p-2 md:w-32 md:h-32 lg:h-40 lg:w-40"
 				/>
@@ -85,11 +91,8 @@
 		<span class="grrrid-child grrrid-child-5">_</span>
 		<span class="grrrid-child grrrid-child-6">R</span>
 
-		<span class="relative inline-block grrrid-child grrrid-child-7">
-			<span
-				aria-hidden="true"
-				class="absolute rounded-full mask top-4 right-2 bottom-4 left-2 md:top-6 md:right-4 md:bottom-6 md:left-4"
-			/>
+		<span class="relative grrrid-child grrrid-child-7">
+			<span aria-hidden="true" class="absolute rounded-full mask" />
 			<span class="relative">O</span>
 		</span>
 		<span class="grrrid-child grrrid-child-8">E</span>
@@ -97,14 +100,32 @@
 		<span class="grrrid-child grrrid-child-10">E</span>
 		<span class="grrrid-child grrrid-child-11">R</span>
 	</h1>
-	<h2 class="text-8xl">
+	<h2
+		class="p-2 text-2xl border-b sm:text-4xl sm:py-1 md:text-6xl md:py-0 lg:text-8xl border-mauve-6"
+	>
 		<span class="break-all" use:displace>PROJECTS</span>
+	</h2>
+	<h2
+		class="p-2 text-2xl text-center border-b sm:text-4xl sm:py-1 md:text-6xl md:py-0 lg:text-8xl border-mauve-6"
+	>
 		<span class="break-all" use:displace>ABOUT</span>
+	</h2>
+	<h2
+		class="p-2 text-2xl text-right border-b sm:text-4xl sm:py-1 md:text-6xl md:py-0 lg:text-8xl border-mauve-6"
+	>
 		<span class="break-all" use:displace>SAY_HI</span>
 	</h2>
 </section>
 
 <style>
+	.grrrid-child {
+		margin-top: 2px;
+		margin-bottom: 2px;
+		display: inline-block;
+	}
+	.grrrid-child-7 .mask {
+		inset: 16px 8px 16px 8px;
+	}
 	@media (min-width: 268px) {
 		.grrrid {
 			display: grid;
@@ -113,7 +134,9 @@
 		}
 		.grrrid-mask {
 			height: 100%;
-			position: relative;
+			position: sticky;
+			top: 8px;
+
 			grid-column: 1 / 4;
 			grid-row: 1;
 		}
@@ -125,7 +148,11 @@
 
 		.grrrid-child {
 			position: relative;
-			margin: 0 auto;
+			text-align: center;
+		}
+
+		.grrrid-child-7 .mask {
+			display: none;
 		}
 	}
 
@@ -205,6 +232,23 @@
 		.grrrid-child-11 {
 			grid-column: 5;
 			grid-row: 5;
+		}
+
+		.grrrid-child-7 .mask {
+			display: block;
+			inset: 16px calc(50% - 26px);
+		}
+	}
+
+	@media (min-width: 768px) {
+		.grrrid-child-7 .mask {
+			inset: 24px calc(50% - 34px);
+		}
+	}
+
+	@media (min-width: 1024px) {
+		.grrrid-child-7 .mask {
+			inset: 24px calc(50% - 48px);
 		}
 	}
 
