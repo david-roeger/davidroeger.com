@@ -58,20 +58,44 @@
 <Head />
 
 <section class="mb-32">
-	<h1 class="text-12xl">
-		<span class="break-all">DAVID_ROEGER</span>
-		<span class="relative inline-block overflow-hidden rounded-full">
-			<span aria-hidden="true" class="absolute mask inset-0 scale-[1]" />
-			<AccessibleIcon label="Logo: Smiley with four eyes">
+	<h1 class="relative p-2 grrrid text-8xl md:text-9xl lg:text-10xl">
+		<span
+			aria-hidden="true"
+			class="absolute rounded-full min-w-[96px] min-h-[96px] mask grrrid-mask"
+		/>
+		<span
+			aria-hidden="true"
+			class="relative flex items-center rounded-full grrrid-smiley"
+		>
+			<span class="block">
 				<Logo
 					background={false}
 					container={true}
 					animated={true}
 					smile={$page.error ? false : true}
-					class="w-36 h-36"
+					class="w-24 h-24 p-2 md:w-32 md:h-32 lg:h-40 lg:w-40"
 				/>
-			</AccessibleIcon>
+			</span>
 		</span>
+		<span class="grrrid-child grrrid-child-0">D</span>
+		<span class="grrrid-child grrrid-child-1">A</span>
+		<span class="grrrid-child grrrid-child-2">V</span>
+		<span class="grrrid-child grrrid-child-3">I</span>
+		<span class="grrrid-child grrrid-child-4">D</span>
+		<span class="grrrid-child grrrid-child-5">_</span>
+		<span class="grrrid-child grrrid-child-6">R</span>
+
+		<span class="relative inline-block grrrid-child grrrid-child-7">
+			<span
+				aria-hidden="true"
+				class="absolute rounded-full mask top-4 right-2 bottom-4 left-2 md:top-6 md:right-4 md:bottom-6 md:left-4"
+			/>
+			<span class="relative">O</span>
+		</span>
+		<span class="grrrid-child grrrid-child-8">E</span>
+		<span class="grrrid-child grrrid-child-9">G</span>
+		<span class="grrrid-child grrrid-child-10">E</span>
+		<span class="grrrid-child grrrid-child-11">R</span>
 	</h1>
 	<h2 class="text-8xl">
 		<span class="break-all" use:displace>PROJECTS</span>
@@ -81,15 +105,118 @@
 </section>
 
 <style>
+	@media (min-width: 268px) {
+		.grrrid {
+			display: grid;
+			align-items: center;
+			grid-template-columns: repeat(3, minmax(0, 1fr));
+		}
+		.grrrid-mask {
+			height: 100%;
+			position: relative;
+			grid-column: 1 / 4;
+			grid-row: 1;
+		}
+		.grrrid-smiley {
+			margin-left: auto;
+			grid-column: 1 / -1;
+			grid-row: 1;
+		}
+
+		.grrrid-child {
+			position: relative;
+			margin: 0 auto;
+		}
+	}
+
+	@media (min-width: 320px) {
+		.grrrid {
+			grid-template-columns: repeat(4, minmax(0, 1fr));
+		}
+
+		.grrrid-smiley {
+			grid-column: 1 / 4;
+		}
+
+		.grrrid-child-0 {
+			grid-column: 4;
+			grid-row: 1;
+		}
+	}
+
+	@media (min-width: 560px) {
+		.grrrid {
+			grid-template-columns: repeat(6, minmax(0, 1fr));
+		}
+
+		.grrrid-mask {
+			grid-column: 1 / 6;
+			grid-row: 1;
+		}
+
+		.grrrid-smiley {
+			grid-column: 4 / 6;
+		}
+
+		.grrrid-child-0 {
+			grid-column: 2;
+			grid-row: 1;
+		}
+		.grrrid-child-1 {
+			grid-column: 3;
+			grid-row: 1;
+		}
+		.grrrid-child-2 {
+			grid-column: 3;
+			grid-row: 2;
+		}
+		.grrrid-child-3 {
+			grid-column: 4;
+			grid-row: 2;
+		}
+		.grrrid-child-4 {
+			grid-column: 1;
+			grid-row: 3;
+		}
+		.grrrid-child-5 {
+			grid-column: 4;
+			grid-row: 3;
+		}
+		.grrrid-child-6 {
+			grid-column: 5;
+			grid-row: 3;
+		}
+		.grrrid-child-7 {
+			grid-column: 6;
+			grid-row: 3;
+		}
+		.grrrid-child-8 {
+			grid-column: 3;
+			grid-row: 4;
+		}
+		.grrrid-child-9 {
+			grid-column: 4;
+			grid-row: 4;
+		}
+		.grrrid-child-10 {
+			grid-column: 5;
+			grid-row: 4;
+		}
+		.grrrid-child-11 {
+			grid-column: 5;
+			grid-row: 5;
+		}
+	}
+
 	.mask {
-		background-size: 400%;
 		background: linear-gradient(
-				360deg,
-				#96c7f2 0%,
-				rgba(150, 199, 242, 0) 50%
-			),
+					180deg,
+					#d3b4ed 0%,
+					rgba(211, 180, 237, 0) 50%
+				)
+				400%,
 			linear-gradient(270deg, #ffb381 0%, rgba(255, 179, 129, 0) 50%),
-			linear-gradient(180deg, #d3b4ed 0%, rgba(211, 180, 237, 0) 50%) 400%,
+			linear-gradient(360deg, #96c7f2 0%, rgba(150, 199, 242, 0) 50%),
 			linear-gradient(90deg, #92ceac 0%, rgba(146, 206, 172, 0) 50%);
 	}
 </style>
