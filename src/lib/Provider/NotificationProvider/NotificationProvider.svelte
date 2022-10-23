@@ -214,24 +214,24 @@
 </script>
 
 <div
-	role="region"
 	tabindex="-1"
+	role="region"
 	aria-live="polite"
 	aria-label="Notifications (F8)"
 	style="z-index: 99999; position: sticky; top: 0; pointer-events: none;"
 >
-	<div class="w-full absolute top-0">
+	<div class="absolute top-0 w-full">
 		{#if notifications.length}
 			<ul
 				in:slide={{ duration: 400 }}
 				out:slide={{ duration: 400 }}
-				class="flex space-x-2 items-center bg-white p-2 border-b border-mauve-12 overflow-x-hidden"
+				class="flex items-center p-2 space-x-2 overflow-x-hidden bg-white border-b border-mauve-12"
 				aria-hidden
 			>
 				{#each notifications as notification (notification.id)}
 					<li transition:fly={{ y: -4 }}>
 						<span
-							class="h-1 w-1 grid grid-cols-1 grid-rows-1 place-items-center"
+							class="grid w-1 h-1 grid-cols-1 grid-rows-1 place-items-center"
 						>
 							<span
 								class="col-start-1 row-start-1 inline-flex rounded-full h-full w-full bg-mauve-12 {notification.priority
@@ -322,7 +322,7 @@
 					style:z-index={index}
 				>
 					<div
-						class="w-full  p-2 flex space-x-2 items-center relative"
+						class="relative flex items-center w-full p-2 space-x-2"
 					>
 						{#if notification.priority}
 							<div class="h-full p-2">
@@ -348,7 +348,7 @@
 								<Filter />
 							</div>
 						{/if}
-						<div class="flex-1 flex flex-col items-start">
+						<div class="flex flex-col items-start flex-1">
 							{#if notification.html}
 								{@html notification.html}
 							{:else}
@@ -372,8 +372,7 @@
 							<button
 								on:click={() =>
 									removeNotification(notification.id)}
-								class="focus:outline-none ring-mauve-12 focus:ring-1
-							rounded-full flex items-center"
+								class="flex items-center rounded-full focus:outline-none ring-mauve-12 focus:ring-1"
 							>
 								<AccessibleIcon label="Remove notification">
 									<CloseIcon />
