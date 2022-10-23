@@ -96,10 +96,6 @@
 
 <Head />
 
-<div
-	class="absolute top-0 bottom-0 w-full h-full pointer-events-none xl:max-w-7xl -z-10 mask-radial"
-/>
-
 <section class="mb-32">
 	<h1
 		aria-label="David Röger personal website"
@@ -135,10 +131,7 @@
 		<span class="grrrid-child grrrid-child-5">_</span>
 		<span class="grrrid-child grrrid-child-6">R</span>
 
-		<span class="relative grrrid-child grrrid-child-7">
-			<span aria-hidden="true" class="absolute rounded-full mask" />
-			<span class="relative">O</span>
-		</span>
+		<span class="relative grrrid-child grrrid-child-7">O</span>
 		<span class="grrrid-child grrrid-child-8">E</span>
 		<span class="grrrid-child grrrid-child-9">G</span>
 		<span class="grrrid-child grrrid-child-10">E</span>
@@ -149,10 +142,14 @@
 		<span class="line-y line-y-2 border-mauve-6 border-y" />
 		<span class="line-y line-y-3 border-mauve-6 border-y" />
 
+		<span class="line-y line-y-4 border-mauve-6 border-y" />
+
 		<span class="line-x line-x-0 border-mauve-6 border-x" />
 		<span class="line-x line-x-1 border-mauve-6 border-x" />
 		<span class="line-x line-x-2 border-mauve-6 border-x" />
 		<span class="line-x line-x-3 border-mauve-6 border-x" />
+		<span class="line-x line-x-4 border-mauve-6 border-x" />
+		<span class="line-x line-x-5 border-mauve-6 border-x" />
 	</h1>
 	<h2
 		class="p-2 text-2xl border-b sm:text-4xl sm:py-1 md:text-6xl md:py-0 lg:text-8xl border-mauve-6"
@@ -175,11 +172,9 @@
 	.grrrid-child {
 		display: inline-block;
 	}
-	.grrrid-child-7 .mask {
-		inset: 16px 8px 16px 8px;
-	}
 
-	.line {
+	.line-y,
+	.line-x {
 		display: none;
 	}
 
@@ -207,10 +202,6 @@
 		.grrrid-child {
 			position: relative;
 			text-align: center;
-		}
-
-		.grrrid-child-7 .mask {
-			display: none;
 		}
 
 		.grrrid-child-0 {
@@ -283,6 +274,10 @@
 			grid-row: 5;
 		}
 
+		.line-y-4 {
+			display: none;
+		}
+
 		.line-x {
 			display: block;
 			width: 100%;
@@ -293,6 +288,17 @@
 
 		.line-x-0 {
 			grid-column: 1;
+		}
+		.line-x-1 {
+			grid-column: 2;
+		}
+		.line-x-2 {
+			grid-column: 3;
+		}
+		.line-x-3,
+		.line-x-4,
+		.line-x-5 {
+			display: none;
 		}
 	}
 
@@ -353,6 +359,18 @@
 		.grrrid-child-11 {
 			grid-column: 3;
 			grid-row: 5;
+		}
+
+		.line-y-4 {
+			display: block;
+			grid-row: 1 / 2;
+			grid-column: 4;
+		}
+
+		.line-x-3 {
+			display: block;
+			grid-row: 1 / -1;
+			grid-column: 4;
 		}
 	}
 
@@ -419,21 +437,22 @@
 			grid-row: 5;
 		}
 
-		.grrrid-child-7 .mask {
+		.line-y-4 {
+			grid-row: 1 / 2;
+			grid-column: 6;
+		}
+
+		.line-x-3 {
+			grid-row: 2 / -1;
+		}
+		.line-x-4 {
 			display: block;
-			inset: 16px calc(50% - 26px);
+			grid-column: 5;
 		}
-	}
-
-	@media (min-width: 768px) {
-		.grrrid-child-7 .mask {
-			inset: 24px calc(50% - 34px);
-		}
-	}
-
-	@media (min-width: 1024px) {
-		.grrrid-child-7 .mask {
-			inset: 24px calc(50% - 48px);
+		.line-x-5 {
+			display: block;
+			grid-row: 1 / -1;
+			grid-column: 6;
 		}
 	}
 
