@@ -5,6 +5,7 @@
 	export let animated = false;
 	export let container = false;
 	export let background = true;
+	export let backgroundFill = 'white';
 	export let smile = true;
 
 	let c = '';
@@ -69,7 +70,7 @@
 	class={c}
 >
 	{#if background}
-		<circle fill="white" cx="20" cy="20" r="19" />
+		<circle fill={backgroundFill} cx="20" cy="20" r="19" />
 	{/if}
 	<circle fill="currentColor" cx="12" cy="14" r="2" />
 	<circle fill="currentColor" cx="28" cy="14" r="2" />

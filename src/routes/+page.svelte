@@ -68,7 +68,7 @@
 	>
 		<span
 			aria-hidden="true"
-			class="absolute rounded-full min-w-[96px] min-h-[96px] mask grrrid-mask -z-10"
+			class="absolute rounded-full min-w-[96px] min-h-[96px] mask grrrid-mask -z-10 border border-mauve-12"
 		/>
 		<span
 			aria-hidden="true"
@@ -76,9 +76,9 @@
 		>
 			<span class="block">
 				<Logo
-					background={false}
 					container={true}
-					animated={false}
+					animated={true}
+					backgroundFill="rgba(255, 255, 255, 0.8)"
 					smile={$page.error ? false : true}
 					class="w-24 h-24 p-2 md:w-32 md:h-32 lg:h-40 lg:w-40"
 				/>
