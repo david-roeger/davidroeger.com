@@ -63,6 +63,7 @@
 
 <section class="mb-32">
 	<h1
+		aria-label="David Röger personal website"
 		class="relative p-2 border-b grrrid text-8xl md:text-9xl lg:text-10xl border-mauve-6"
 	>
 		<span
