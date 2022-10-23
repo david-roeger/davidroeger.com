@@ -1,59 +1,95 @@
 <script lang="ts">
 	import { displace } from '$actions';
-	import { applyAction } from '$app/forms';
 	import { page } from '$app/stores';
-	import AccessibleIcon from '$lib/Components/AccessibleIcon';
+	import BezierEasing from 'bezier-easing';
 	import Head from '$lib/Components/Head/Head.svelte';
 	import Logo from '$lib/Components/Logo/Logo.svelte';
-	import { createForm } from '$lib/Utils/Form';
-	import type { ActionResult } from '@sveltejs/kit';
-	import { writable } from 'svelte/store';
-	import type { ActionData } from './$types';
+	import { debounce, limit, mapToRange } from '$lib/Utils';
+	import { onMount } from 'svelte';
 
 	console.info('index: +page.svelte');
 
-	let { form } = createForm<ActionData>('defaultForm');
+	const easing = BezierEasing(0.4, 0, 0.2, 1);
 
-	$: first =
-		$form && $form.defaultForm && 'first' in $form.defaultForm.values
-			? $form.defaultForm.values.first
-			: '';
-	$: second =
-		$form && $form.defaultForm && 'second' in $form.defaultForm.values
-			? $form.defaultForm.values.second
-			: '';
-	$: message =
-		$form && $form.defaultForm ? $form.defaultForm.message : 'No message';
+	const calculateOffset = (
+		elementWidth: number,
+		elementHeight: number,
+		scrollPosition: number
+	) => {
+		const computedElementWidth = limit(elementWidth, 0, elementWidth);
+		// scrollposition is a negative value so we need to invert it
+		const computedScrollPosition = limit(
+			scrollPosition * -1,
+			0,
+			elementHeight
+		);
+		const value = mapToRange(
+			computedScrollPosition,
+			0,
+			elementHeight,
+			0,
+			computedElementWidth
+		);
 
-	$: console.log('first', first);
+		const percentage = value / computedElementWidth;
+		const eased = easing(percentage);
 
-	async function handleSubmit(
-		e: SubmitEvent & {
-			currentTarget: EventTarget & HTMLFormElement;
+		// the offset needs to be negative because we want to move the element in the opposite direction
+		return eased * computedElementWidth * -1;
+	};
+
+	let gradient: HTMLSpanElement;
+	let logo: HTMLSpanElement;
+
+	let gradientHeight = 0;
+	let gradientWidth = 0;
+	let scrollPosition = 0;
+
+	let scrollLeft = 0;
+
+	$: scrollLeft = calculateOffset(
+		gradientWidth,
+		gradientHeight,
+		scrollPosition
+	);
+
+	const handleScroll = () => {
+		const { top } = document.body.getBoundingClientRect();
+		scrollPosition = top;
+	};
+
+	const handleResize = () => {
+		const { width: logoWidth } = logo.getBoundingClientRect();
+		const { top, height, width: gw } = gradient.getBoundingClientRect();
+		gradientHeight = top + height;
+
+		const width = window.innerWidth;
+
+		if (width >= 560) {
+			gradientWidth = (gw * 2) / 5 - logoWidth;
+			return;
 		}
-	) {
-		const target = e.currentTarget;
 
-		if (e.target) {
-			// TODO: add delay handling
-			const data = new FormData(target);
+		gradientWidth = gw - logoWidth;
+	};
 
-			const response = await fetch(target.action, {
-				method: 'POST',
-				body: data
-			});
+	onMount(() => {
+		handleScroll();
+		handleResize();
+	});
 
-			const result: ActionResult = await response.json();
-			console.log(target, result);
+	// default gradient width
+	// 560px 2/5
+	// 768px
+	// 1024px
 
-			if (result.type === 'success') {
-				target.reset();
-			}
-
-			await applyAction(result);
-		}
-	}
+	// offset = top + height
 </script>
+
+<svelte:window
+	on:scroll|passive={debounce(handleScroll, 0)}
+	on:resize|passive={debounce(handleResize, 0)}
+/>
 
 <Head />
 
@@ -67,6 +103,7 @@
 		class="relative p-2 border-b grrrid text-8xl md:text-9xl lg:text-10xl border-mauve-6"
 	>
 		<span
+			bind:this={gradient}
 			aria-hidden="true"
 			class="absolute rounded-full min-w-[96px] min-h-[96px] mask grrrid-mask -z-10 border border-mauve-12"
 		/>
@@ -74,7 +111,11 @@
 			aria-hidden="true"
 			class="relative flex items-center rounded-full grrrid-smiley"
 		>
-			<span class="block">
+			<span
+				bind:this={logo}
+				class="block"
+				style:transform="translateX({scrollLeft}px)"
+			>
 				<Logo
 					container={true}
 					animated={true}
@@ -135,8 +176,7 @@
 		}
 		.grrrid-mask {
 			height: 100%;
-			position: sticky;
-			top: 8px;
+			position: relative;
 
 			grid-column: 1 / 4;
 			grid-row: 1;
