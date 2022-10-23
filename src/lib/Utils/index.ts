@@ -84,8 +84,12 @@ export const cloneObject = (obj: {
 	return JSON.parse(JSON.stringify(obj));
 };
 
-// eslint-disable-next-line
-export const debounce = (func: { (): any }, ms: number) => {
+// TODO: refactor this with generics
+export const debounce = (
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	func: { (...any: any[]): any },
+	ms: number
+) => {
 	let timer: NodeJS.Timeout;
 	return () => {
 		clearTimeout(timer);
