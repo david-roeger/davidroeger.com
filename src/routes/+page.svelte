@@ -130,22 +130,20 @@
 		<span class="grrrid-child grrrid-child-10">E</span>
 		<span class="grrrid-child grrrid-child-11">R</span>
 
-		<span class="line-y line-y-0 border-mauve-6 border-y" />
-		<span class="line-y line-y-1 border-mauve-6 border-y" />
-		<span class="line-y line-y-2 border-mauve-6 border-y" />
-		<span class="line-y line-y-3 border-mauve-6 border-y" />
-
-		<span class="line-y line-y-4 border-mauve-6 border-y" />
-
-		<span class="line-x line-x-0 border-mauve-6 border-x" />
-		<span class="line-x line-x-1 border-mauve-6 border-x" />
-		<span class="line-x line-x-2 border-mauve-6 border-x" />
-		<span class="line-x line-x-3 border-mauve-6 border-x" />
-		<span class="line-x line-x-4 border-mauve-6 border-x" />
-		<span class="line-x line-x-5 border-mauve-6 border-x" />
+		<span class="line-y line-y-0 border-[rgba(18,1,18,0.114)] border-y" />
+		<span class="line-y line-y-1 border-[rgba(18,1,18,0.114)] border-y" />
+		<span class="line-y line-y-2 border-[rgba(18,1,18,0.114)] border-y" />
+		<span class="line-y line-y-3 border-[rgba(18,1,18,0.114)] border-y" />
+		<span class="line-y line-y-4 border-[rgba(18,1,18,0.114)] border-y" />
+		<span class="line-x line-x-0 border-[rgba(18,1,18,0.114)] border-x" />
+		<span class="line-x line-x-1 border-[rgba(18,1,18,0.114)] border-x" />
+		<span class="line-x line-x-2 border-[rgba(18,1,18,0.114)] border-x" />
+		<span class="line-x line-x-3 border-[rgba(18,1,18,0.114)] border-x" />
+		<span class="line-x line-x-4 border-[rgba(18,1,18,0.114)] border-x" />
+		<span class="line-x line-x-5 border-[rgba(18,1,18,0.114)] border-x" />
 		<span class="triangle-wrapper">
 			<span
-				class="triangle w-[9px] h-[9px] border-l border-t border-mauve-6 translate-x-2 translate-y-2"
+				class="triangle w-[9px] h-[9px] border-l border-t border-[rgba(18,1,18,0.114)] translate-x-2 translate-y-2"
 			/>
 		</span>
 	</h1>
