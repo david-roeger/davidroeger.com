@@ -127,7 +127,7 @@
 				/>
 			</span>
 		</span>
-		<span class="grrrid-child grrrid-child-0">D</span>
+		<span class="grrrid-child grrrid-child-0" id="d">D</span>
 		<span class="grrrid-child grrrid-child-1">A</span>
 		<span class="grrrid-child grrrid-child-2">V</span>
 		<span class="grrrid-child grrrid-child-3">I</span>
@@ -143,6 +143,11 @@
 		<span class="grrrid-child grrrid-child-9">G</span>
 		<span class="grrrid-child grrrid-child-10">E</span>
 		<span class="grrrid-child grrrid-child-11">R</span>
+
+		<span class="line line-0 border-mauve-6 border-y" />
+		<span class="line line-1 border-mauve-6 border-y" />
+		<span class="line line-2 border-mauve-6 border-y" />
+		<span class="line line-3 border-mauve-6 border-y" />
 	</h1>
 	<h2
 		class="p-2 text-2xl border-b sm:text-4xl sm:py-1 md:text-6xl md:py-0 lg:text-8xl border-mauve-6"
@@ -163,17 +168,21 @@
 
 <style>
 	.grrrid-child {
-		margin-top: 2px;
-		margin-bottom: 2px;
 		display: inline-block;
 	}
 	.grrrid-child-7 .mask {
 		inset: 16px 8px 16px 8px;
 	}
+
+	.line {
+		display: none;
+	}
+
 	@media (min-width: 268px) {
 		.grrrid {
 			display: grid;
 			align-items: center;
+			row-gap: 8px;
 			grid-template-columns: repeat(3, minmax(0, 1fr));
 		}
 		.grrrid-mask {
@@ -196,6 +205,76 @@
 
 		.grrrid-child-7 .mask {
 			display: none;
+		}
+
+		.grrrid-child-0 {
+			grid-column: 1;
+			grid-row: 2;
+		}
+
+		.grrrid-child-1 {
+			grid-column: 2;
+			grid-row: 2;
+		}
+		.grrrid-child-2 {
+			grid-column: 3;
+			grid-row: 2;
+		}
+		.grrrid-child-3 {
+			grid-column: 1;
+			grid-row: 3;
+		}
+		.grrrid-child-4 {
+			grid-column: 2;
+			grid-row: 3;
+		}
+		.grrrid-child-5 {
+			grid-column: 3;
+			grid-row: 3;
+		}
+		.grrrid-child-6 {
+			grid-column: 1;
+			grid-row: 4;
+		}
+		.grrrid-child-7 {
+			grid-column: 2;
+			grid-row: 4;
+		}
+		.grrrid-child-8 {
+			grid-column: 3;
+			grid-row: 4;
+		}
+		.grrrid-child-9 {
+			grid-column: 1;
+			grid-row: 5;
+		}
+		.grrrid-child-10 {
+			grid-column: 2;
+			grid-row: 5;
+		}
+		.grrrid-child-11 {
+			grid-column: 3;
+			grid-row: 5;
+		}
+
+		.line {
+			display: block;
+			height: 100%;
+			grid-column: 1 / -1;
+			margin: 0 -8px;
+		}
+
+		.line-0 {
+			grid-row: 2;
+		}
+		.line-1 {
+			grid-row: 3;
+		}
+		.line-2 {
+			grid-row: 4;
+		}
+		.line-3 {
+			grid-row: 5;
 		}
 	}
 
