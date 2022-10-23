@@ -6,6 +6,7 @@
 	import Logo from '$lib/Components/Logo/Logo.svelte';
 	import { debounce, limit, mapToRange } from '$lib/Utils';
 	import { onMount } from 'svelte';
+	import { spring } from 'svelte/motion';
 
 	console.info('index: +page.svelte');
 
@@ -45,9 +46,11 @@
 	let gradientWidth = 0;
 	let scrollPosition = 0;
 
-	let scrollLeft = 0;
-
-	$: scrollLeft = calculateOffset(
+	let scrollLeft = spring(0, {
+		stiffness: 0.1,
+		damping: 0.8
+	});
+	$: $scrollLeft = calculateOffset(
 		gradientWidth,
 		gradientHeight,
 		scrollPosition
@@ -114,7 +117,7 @@
 			<span
 				bind:this={logo}
 				class="block"
-				style:transform="translateX({scrollLeft}px)"
+				style:transform="translateX({$scrollLeft}px)"
 			>
 				<Logo
 					container={true}
