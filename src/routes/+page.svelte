@@ -68,7 +68,7 @@
 	>
 		<span
 			aria-hidden="true"
-			class="absolute rounded-full min-w-[96px] min-h-[96px] mask grrrid-mask"
+			class="absolute rounded-full min-w-[96px] min-h-[96px] mask grrrid-mask -z-10"
 		/>
 		<span
 			aria-hidden="true"
