@@ -144,10 +144,15 @@
 		<span class="grrrid-child grrrid-child-10">E</span>
 		<span class="grrrid-child grrrid-child-11">R</span>
 
-		<span class="line line-0 border-mauve-6 border-y" />
-		<span class="line line-1 border-mauve-6 border-y" />
-		<span class="line line-2 border-mauve-6 border-y" />
-		<span class="line line-3 border-mauve-6 border-y" />
+		<span class="line-y line-y-0 border-mauve-6 border-y" />
+		<span class="line-y line-y-1 border-mauve-6 border-y" />
+		<span class="line-y line-y-2 border-mauve-6 border-y" />
+		<span class="line-y line-y-3 border-mauve-6 border-y" />
+
+		<span class="line-x line-x-0 border-mauve-6 border-x" />
+		<span class="line-x line-x-1 border-mauve-6 border-x" />
+		<span class="line-x line-x-2 border-mauve-6 border-x" />
+		<span class="line-x line-x-3 border-mauve-6 border-x" />
 	</h1>
 	<h2
 		class="p-2 text-2xl border-b sm:text-4xl sm:py-1 md:text-6xl md:py-0 lg:text-8xl border-mauve-6"
@@ -182,8 +187,9 @@
 		.grrrid {
 			display: grid;
 			align-items: center;
-			row-gap: 8px;
+			gap: 8px;
 			grid-template-columns: repeat(3, minmax(0, 1fr));
+			grid-template-rows: repeat(5, minmax(0, 1fr));
 		}
 		.grrrid-mask {
 			height: 100%;
@@ -257,24 +263,36 @@
 			grid-row: 5;
 		}
 
-		.line {
+		.line-y {
 			display: block;
 			height: 100%;
+			width: 100%;
 			grid-column: 1 / -1;
-			margin: 0 -8px;
 		}
 
-		.line-0 {
+		.line-y-0 {
 			grid-row: 2;
 		}
-		.line-1 {
+		.line-y-1 {
 			grid-row: 3;
 		}
-		.line-2 {
+		.line-y-2 {
 			grid-row: 4;
 		}
-		.line-3 {
+		.line-y-3 {
 			grid-row: 5;
+		}
+
+		.line-x {
+			display: block;
+			width: 100%;
+			height: 100%;
+			margin: -8px 0;
+			grid-row: 2 / -1;
+		}
+
+		.line-x-0 {
+			grid-column: 1;
 		}
 	}
 
