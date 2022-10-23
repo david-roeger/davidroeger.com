@@ -4,7 +4,7 @@
 	import BezierEasing from 'bezier-easing';
 	import Head from '$lib/Components/Head/Head.svelte';
 	import Logo from '$lib/Components/Logo/Logo.svelte';
-	import { limit, mapToRange } from '$lib/Utils';
+	import { debounce, limit, mapToRange } from '$lib/Utils';
 	import { onMount } from 'svelte';
 	import { spring } from 'svelte/motion';
 
@@ -80,18 +80,11 @@
 		handleScroll();
 		handleResize();
 	});
-
-	// default gradient width
-	// 560px 2/5
-	// 768px
-	// 1024px
-
-	// offset = top + height
 </script>
 
 <svelte:window
 	on:scroll|passive={handleScroll}
-	on:resize|passive={handleResize}
+	on:resize|passive={debounce(handleResize, 50)}
 />
 
 <Head />
@@ -150,6 +143,11 @@
 		<span class="line-x line-x-3 border-mauve-6 border-x" />
 		<span class="line-x line-x-4 border-mauve-6 border-x" />
 		<span class="line-x line-x-5 border-mauve-6 border-x" />
+		<span class="triangle-wrapper">
+			<span
+				class="triangle w-[9px] h-[9px] border-l border-t border-mauve-6 translate-x-2 translate-y-2"
+			/>
+		</span>
 	</h1>
 	<h2
 		class="p-2 text-2xl border-b sm:text-4xl sm:py-1 md:text-6xl md:py-0 lg:text-8xl border-mauve-6"
@@ -178,6 +176,13 @@
 		display: none;
 	}
 
+	.triangle-wrapper {
+		display: none;
+		width: 100%;
+		height: 100%;
+		justify-content: flex-end;
+		align-items: flex-end;
+	}
 	@media (min-width: 268px) {
 		.grrrid {
 			display: grid;
@@ -372,6 +377,12 @@
 			grid-row: 1 / -1;
 			grid-column: 4;
 		}
+
+		.triangle-wrapper {
+			display: flex;
+			grid-column: 3;
+			grid-row: 1;
+		}
 	}
 
 	@media (min-width: 560px) {
@@ -453,6 +464,10 @@
 			display: block;
 			grid-row: 1 / -1;
 			grid-column: 6;
+		}
+
+		.triangle-wrapper {
+			grid-column: 5;
 		}
 	}
 
