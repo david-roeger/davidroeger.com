@@ -4,7 +4,7 @@
 	import BezierEasing from 'bezier-easing';
 	import Head from '$lib/Components/Head/Head.svelte';
 	import Logo from '$lib/Components/Logo/Logo.svelte';
-	import { debounce, limit, mapToRange } from '$lib/Utils';
+	import { limit, mapToRange } from '$lib/Utils';
 	import { onMount } from 'svelte';
 	import { spring } from 'svelte/motion';
 
@@ -90,8 +90,8 @@
 </script>
 
 <svelte:window
-	on:scroll|passive={debounce(handleScroll, 0)}
-	on:resize|passive={debounce(handleResize, 0)}
+	on:scroll|passive={handleScroll}
+	on:resize|passive={handleResize}
 />
 
 <Head />
