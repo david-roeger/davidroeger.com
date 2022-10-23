@@ -62,10 +62,10 @@
 	};
 
 	const handleResize = () => {
+		const { top: bodyTop } = document.body.getBoundingClientRect();
 		const { width: logoWidth } = logo.getBoundingClientRect();
 		const { top, height, width: gw } = gradient.getBoundingClientRect();
-		gradientHeight = top + height;
-
+		gradientHeight = top - bodyTop + height;
 		const width = window.innerWidth;
 
 		if (width >= 560) {
