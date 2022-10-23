@@ -121,7 +121,6 @@
 			>
 				<Logo
 					container={true}
-					animated={true}
 					backgroundFill="rgba(255, 255, 255, 0.8)"
 					smile={$page.error ? false : true}
 					class="w-24 h-24 p-2 md:w-32 md:h-32 lg:h-40 lg:w-40"
