@@ -40,7 +40,7 @@
 <nav class={`border-b xl:max-w-7xl border-mauve-6 ${c}`}>
 	<h3><VisuallyHidden.Root>Main Menu</VisuallyHidden.Root></h3>
 	<ul class="flex justify-between">
-		<li class="w-auto m-2 list-none">
+		<li class="w-auto m-2 list-none shrink-0">
 			<NavLink class="block {getActiveClass()}" href="/" type="icon">
 				<slot name="logo">
 					<AccessibleIcon
