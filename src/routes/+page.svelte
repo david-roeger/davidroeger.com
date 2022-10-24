@@ -116,19 +116,18 @@
 				/>
 			</span>
 		</span>
-		<span class="grrrid-child grrrid-child-0" id="d">D</span>
-		<span class="grrrid-child grrrid-child-1">A</span>
-		<span class="grrrid-child grrrid-child-2">V</span>
-		<span class="grrrid-child grrrid-child-3">I</span>
-		<span class="grrrid-child grrrid-child-4">D</span>
-		<span class="grrrid-child grrrid-child-5">_</span>
-		<span class="grrrid-child grrrid-child-6">R</span>
-
-		<span class="relative grrrid-child grrrid-child-7">O</span>
-		<span class="grrrid-child grrrid-child-8">E</span>
-		<span class="grrrid-child grrrid-child-9">G</span>
-		<span class="grrrid-child grrrid-child-10">E</span>
-		<span class="grrrid-child grrrid-child-11">R</span>
+		<span use:displace class="grrrid-child grrrid-child-0" id="d">D</span>
+		<span use:displace class="grrrid-child grrrid-child-1">A</span>
+		<span use:displace class="grrrid-child grrrid-child-2">V</span>
+		<span use:displace class="grrrid-child grrrid-child-3">I</span>
+		<span use:displace class="grrrid-child grrrid-child-4">D</span>
+		<span use:displace class="grrrid-child grrrid-child-5">_</span>
+		<span use:displace class="grrrid-child grrrid-child-6">R</span>
+		<span use:displace class="relative grrrid-child grrrid-child-7">O</span>
+		<span use:displace class="grrrid-child grrrid-child-8">E</span>
+		<span use:displace class="grrrid-child grrrid-child-9">G</span>
+		<span use:displace class="grrrid-child grrrid-child-10">E</span>
+		<span use:displace class="grrrid-child grrrid-child-11">R</span>
 
 		<span class="line-y line-y-0 border-mauve-6 border-y" />
 		<span class="line-y line-y-1 border-mauve-6 border-y" />
