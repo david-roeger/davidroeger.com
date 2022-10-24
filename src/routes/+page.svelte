@@ -130,20 +130,20 @@
 		<span class="grrrid-child grrrid-child-10">E</span>
 		<span class="grrrid-child grrrid-child-11">R</span>
 
-		<span class="line-y line-y-0 border-[rgba(18,1,18,0.114)] border-y" />
-		<span class="line-y line-y-1 border-[rgba(18,1,18,0.114)] border-y" />
-		<span class="line-y line-y-2 border-[rgba(18,1,18,0.114)] border-y" />
-		<span class="line-y line-y-3 border-[rgba(18,1,18,0.114)] border-y" />
-		<span class="line-y line-y-4 border-[rgba(18,1,18,0.114)] border-y" />
-		<span class="line-x line-x-0 border-[rgba(18,1,18,0.114)] border-x" />
-		<span class="line-x line-x-1 border-[rgba(18,1,18,0.114)] border-x" />
-		<span class="line-x line-x-2 border-[rgba(18,1,18,0.114)] border-x" />
-		<span class="line-x line-x-3 border-[rgba(18,1,18,0.114)] border-x" />
-		<span class="line-x line-x-4 border-[rgba(18,1,18,0.114)] border-x" />
-		<span class="line-x line-x-5 border-[rgba(18,1,18,0.114)] border-x" />
+		<span class="line-y line-y-0 border-mauve-6 border-y" />
+		<span class="line-y line-y-1 border-mauve-6 border-y" />
+		<span class="line-y line-y-2 border-mauve-6 border-y" />
+		<span class="line-y line-y-3 border-mauve-6 border-y" />
+		<span class="line-y line-y-4 border-mauve-6 border-y" />
+		<span class="line-x line-x-0 border-mauve-6 border-x" />
+		<span class="line-x line-x-1 border-mauve-6 border-x" />
+		<span class="line-x line-x-2 border-mauve-6 border-x" />
+		<span class="line-x line-x-3 border-mauve-6 border-x" />
+		<span class="line-x line-x-4 border-mauve-6 border-x" />
+		<span class="line-x line-x-5 border-mauve-6 border-x" />
 		<span class="triangle-wrapper">
 			<span
-				class="triangle w-[9px] h-[9px] border-l border-t border-[rgba(18,1,18,0.114)] translate-x-2 translate-y-2"
+				class="triangle w-[9px] h-[9px] border-l border-t border-mauve-6 translate-x-2 translate-y-2 z-10"
 			/>
 		</span>
 	</h1>
@@ -170,12 +170,13 @@
 	}
 
 	.line-y,
-	.line-x {
+	.line-x,
+	.background,
+	.triangle-wrapper {
 		display: none;
 	}
 
 	.triangle-wrapper {
-		display: none;
 		width: 100%;
 		height: 100%;
 		justify-content: flex-end;
@@ -472,12 +473,24 @@
 	.mask {
 		background: linear-gradient(
 					180deg,
-					#d3b4ed 0%,
+					rgba(211, 180, 237, 0.8) 0%,
 					rgba(211, 180, 237, 0) 50%
 				)
 				400%,
-			linear-gradient(270deg, #ffb381 0%, rgba(255, 179, 129, 0) 50%),
-			linear-gradient(360deg, #96c7f2 0%, rgba(150, 199, 242, 0) 50%),
-			linear-gradient(90deg, #92ceac 0%, rgba(146, 206, 172, 0) 50%);
+			linear-gradient(
+				270deg,
+				rgba(255, 179, 129, 0.8) 0%,
+				rgba(255, 179, 129, 0) 50%
+			),
+			linear-gradient(
+				360deg,
+				rgba(150, 199, 242, 0.8) 0%,
+				rgba(150, 199, 242, 0) 50%
+			),
+			linear-gradient(
+				90deg,
+				rgba(146, 206, 172, 0.8) 0%,
+				rgba(146, 206, 172, 0) 50%
+			);
 	}
 </style>
