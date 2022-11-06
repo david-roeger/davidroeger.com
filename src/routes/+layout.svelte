@@ -244,7 +244,7 @@
 	<Header class="z-30" />
 	<main
 		id="content"
-		class="z-10 flex flex-col xl:max-w-7xl xl:border-r border-mauve-6 mb-auto relative"
+		class="z-10 flex flex-col xl:max-w-7xl xl:border-r border-mauve-6 mb-auto"
 	>
 		<NotificationProvider stack>
 			<BreakpointProvider>
