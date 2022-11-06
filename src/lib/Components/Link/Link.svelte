@@ -26,7 +26,7 @@
 <a
 	{href}
 	target="_blank"
-	rel="noopener nofollow"
+	rel="noopener nofollow noreferrer"
 	tabIndex={type === 'ghost' ? -1 : 0}
 	class="focus:outline-none {variantClass} {c}"
 >

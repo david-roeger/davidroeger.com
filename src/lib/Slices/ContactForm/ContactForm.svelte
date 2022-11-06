@@ -1,11 +1,8 @@
 <script lang="ts">
-	import { applyAction } from '$app/forms';
 	import { page } from '$app/stores';
 	import Button from '$lib/Components/Button/Button.svelte';
 
-	import type { ActionResult } from '@sveltejs/kit';
-	import { invalidateAll } from '$app/navigation';
-	import { getContext, tick } from 'svelte';
+	import { getContext } from 'svelte';
 	import type { ContactFormActionData } from '$routes/contact/+page.server';
 	import type { NotificationContext } from '$lib/Provider/NotificationProvider/types';
 	import { colorClasses } from './constants';

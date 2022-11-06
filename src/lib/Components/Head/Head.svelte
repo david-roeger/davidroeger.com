@@ -202,7 +202,7 @@
 
 <svelte:head>
 	{#each tags as tagObj (`${tagObj.tag}-${tagObj.key}`)}
-		{@const { tag, slot, key, ...props } = tagObj}
+		{@const { tag, slot, ...props } = tagObj}
 		{#if slot}
 			<svelte:element this={tag} {...props} data-dr-head={id}>
 				{slot}

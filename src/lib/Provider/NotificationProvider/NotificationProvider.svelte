@@ -11,8 +11,8 @@
 	import { beforeNavigate } from '$app/navigation';
 	import { colorClasses } from './constants';
 
-	export let stack: boolean = false;
-	export let duration: number = 5000;
+	export let stack = false;
+	export let duration = 5000;
 
 	export function findLastIndex<T>(
 		array: Array<T>,
