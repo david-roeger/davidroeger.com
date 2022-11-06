@@ -6,7 +6,7 @@
 	import type { ContactFormActionData } from '$routes/contact/+page.server';
 	import type { NotificationContext } from '$lib/Provider/NotificationProvider/types';
 	import { colorClasses } from './constants';
-	import { createForm } from '$lib/Utils/Form';
+	import { createForm, FORM_STATE } from '$lib/Utils/Form';
 
 	export let variant:
 		| 'default'
@@ -22,8 +22,10 @@
 	let c = '';
 	export { c as class };
 
-	let { form, state, enhance } =
-		createForm<ContactFormActionData>('contactForm');
+	let { form, state, enhance } = createForm<
+		ContactFormActionData,
+		'contactForm'
+	>('contactForm');
 
 	let formEl: HTMLFormElement;
 
@@ -84,7 +86,7 @@
 		}
 	};
 
-	$: if ($state === 'submitting') {
+	$: if ($state === FORM_STATE.SUBMITTING) {
 		notificationContext.removeNotification('contactFormMessage');
 	}
 
@@ -140,7 +142,7 @@
 		<div class="hidden sm:block h-full border-r border-mauve-6" />
 		<div class="flex flex-col space-y-2 sm:flex-1 relative">
 			<fieldset
-				disabled={$state === 'submitting'}
+				disabled={$state === FORM_STATE.SUBMITTING}
 				class="flex flex-col border-mauve-6 border-b space-y-2 p-2
 					pt-0 sm:pt-2"
 			>
@@ -280,12 +282,12 @@
 					class="flex flex-1 max-w-xs sm:max-w-none lg:max-w-xs {colorClasses[
 						variant
 					].background}"
-					disabled={$state === 'submitting'}
+					disabled={$state === FORM_STATE.SUBMITTING}
 				>
 					<span
 						class="grow grid grid-cols-[minmax(0,_1fr)_auto_minmax(0,_1fr)] place-items-start "
 					>
-						{#if $state === 'submitting'}
+						{#if $state === FORM_STATE.SUBMITTING}
 							<span class="-ml-2 px-1 bg-white rounded-full">
 								🕸
 							</span>
@@ -299,7 +301,7 @@
 					</span>
 				</Button>
 			</div>
-			{#if $state === 'submitting'}
+			{#if $state === FORM_STATE.SUBMITTING}
 				<div
 					class="absolute inset-0 bg-white/50 icon-mauve-12 flex justify-center items-center cursor-wait"
 				>

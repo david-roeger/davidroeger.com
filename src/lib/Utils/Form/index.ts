@@ -6,16 +6,38 @@ import type { ActionResult } from '@sveltejs/kit';
 import { invalidateAll } from '$app/navigation';
 import { applyAction } from '$app/forms';
 
-type State = 'idle' | 'submitting' | 'invalid' | 'error' | 'success';
+export enum FORM_STATE {
+	'IDLE',
+	'SUBMITTING',
+	'INVALID',
+	'ERROR',
+	'SUCCESS'
+}
 
-export type Form =
+type FormBase<ID extends string> = {
+	formId: I;
+	state: FORM_STATE;
+	[key: string]: unknown;
+};
+
+export interface FormInvalid<ID extends string> extends FormBase<ID> {
+	state: FORM_STATE.INVALID;
+	invalidValues?: { [key: string]: string };
+}
+
+export interface FormSuccess<ID extends string> extends FormBase<ID> {
+	state: FORM_STATE.SUCCESS;
+}
+
+export interface FormError<ID extends string> extends FormBase<ID> {
+	state: FORM_STATE.ERROR;
+}
+
+export type Form<ID extends string> =
 	| undefined
-	| {
-			formId: string;
-			invalidValues?: { [key: string]: string };
-			state: State;
-			[key: string]: unknown;
-	  };
+	| FormInvalid<ID>
+	| FormSuccess<ID>
+	| FormError<ID>;
 
 const focusInvalid = async (
 	invalid: { [key: string]: string } | undefined,
@@ -43,7 +65,8 @@ const focusInvalid = async (
 	}
 };
 
-export function createForm<T extends Form>(formId: string) {
+// TODO: Refactor formId to be a generic type
+export function createForm<T extends Form<ID>, ID extends string>(formId: ID) {
 	const form = readable<T>(undefined, (set) => {
 		page.subscribe(async (newPage) => {
 			const newForm = newPage?.form as T;
@@ -53,7 +76,7 @@ export function createForm<T extends Form>(formId: string) {
 		});
 	});
 
-	const state = writable<State>('idle');
+	const state = writable<FORM_STATE>(FORM_STATE.IDLE);
 	form.subscribe((newForm) => {
 		if (newForm && newForm.state) {
 			state.set(newForm.state);
@@ -67,7 +90,7 @@ export function createForm<T extends Form>(formId: string) {
 				const activeElement =
 					document.activeElement as HTMLElement | null;
 
-				state.set('submitting');
+				state.set(FORM_STATE.SUBMITTING);
 				// TODO: add delay handling
 				// if the server responds quickly, the form will flicker
 				// because the loading state is rendered only for a short time
@@ -81,28 +104,43 @@ export function createForm<T extends Form>(formId: string) {
 				});
 
 				const result: ActionResult = await response.json();
-				if (result.type === 'success') {
-					form.reset();
-					if (activeElement && form.contains(activeElement)) {
-						activeElement.blur();
-					}
-					await invalidateAll();
-				}
+				console.info('result', result);
 
-				if (result.type === 'invalid') {
-					const data = result.data as T;
-					if (
-						data &&
-						data.state === 'invalid' &&
-						data.invalidValues
-					) {
-						// we need to manully override the form state
-						// because otherwise the fielgroup will still
-						// be disabled when we try to focus the input
-						// await tick won't work here because the form
-						// store is only update after applyAction
-						state.set('invalid');
-						await focusInvalid(data.invalidValues, form);
+				switch (result.type) {
+					case 'success':
+						form.reset();
+						if (activeElement && form.contains(activeElement)) {
+							activeElement.blur();
+						}
+						await invalidateAll();
+						break;
+					case 'invalid': {
+						const data = result.data as T;
+						if (
+							data &&
+							data.state === FORM_STATE.INVALID &&
+							data.invalidValues
+						) {
+							// we need to manully override the form state
+							// because otherwise the fielgroup will still
+							// be disabled when we try to focus the input
+							// await tick won't work here because the form
+							// store is only update after applyAction
+							state.set(FORM_STATE.INVALID);
+							await focusInvalid(data.invalidValues, form);
+						}
+						break;
+					}
+
+					case 'redirect':
+						await invalidateAll();
+						break;
+					case 'error':
+						break;
+					default: {
+						// Use never type here
+						const exhaustiveCheck: never = result;
+						throw new Error(exhaustiveCheck);
 					}
 				}
 
