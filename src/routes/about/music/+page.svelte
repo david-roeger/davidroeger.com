@@ -124,6 +124,7 @@
 				align="end"
 				sideOffset={8}
 				alignOffset={0}
+				avoidCollision={false}
 			>
 				<Headline
 					as="h2"
