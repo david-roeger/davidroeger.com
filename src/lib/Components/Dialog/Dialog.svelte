@@ -1,5 +1,6 @@
 <script lang="ts">
 	import * as Dialog from '$primitives/Dialog';
+	import type { Writable } from 'svelte/store';
 
 	export let trigger = '';
 	export let triggerClass: string;
@@ -17,9 +18,11 @@
 
 	export let close = true;
 	export let closeClass = '';
+
+	export let setClose: Writable<(() => void) | undefined> | undefined;
 </script>
 
-<Dialog.Root defaultOpen={false} on:openChange>
+<Dialog.Root bind:setClose defaultOpen={false} on:openChange>
 	<Dialog.Trigger
 		{disabled}
 		class={`border border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 transition-colors px-4 py-2 ${roundedClass} ${triggerClass} ${
