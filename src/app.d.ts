@@ -1,10 +1,6 @@
 /// <reference types="@sveltejs/kit" />
 
-declare namespace App {
-	interface PageData {
-		session: import('@supabase/supabase-js').Session | null;
-	}
-}
+declare namespace App {}
 
 declare module '*.svg' {
 	const content: string;

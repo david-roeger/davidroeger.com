@@ -11,10 +11,9 @@
 	import Headline from '$components/Headline/Headline.svelte';
 
 	import Dialog from '$components/Dialog/Dialog.svelte';
-	import { Form, Close } from '$primitives/Dialog';
+	import { Close } from '$primitives/Dialog';
 
 	import { Button } from '$components/Button';
-	import NavLink from '$components/NavLink/NavLink.svelte';
 	import EmojiPicker from '$components/EmojiPicker';
 
 	import * as VisuallyHidden from '$primitives/VisuallyHidden';

@@ -230,49 +230,48 @@
 		}
 	]}
 />
-
-<div
-	class="relative flex flex-col min-h-full font-sans text-mauve-12"
-	data-sveltekit-prefetch
->
-	<a
-		href="#content"
-		class="absolute -top-12 left-2 px-4 py-2 focus:top-2 z-50 bg-white border focus:outline-none ring-mauve-12 focus:ring-1"
+<NotificationProvider>
+	<div
+		class="relative flex flex-col min-h-full font-sans text-mauve-12"
+		data-sveltekit-prefetch
 	>
-		Skip to content
-	</a>
-	<Header class="z-30" />
-	<main
-		id="content"
-		class="z-10 flex flex-col xl:max-w-7xl xl:border-r border-mauve-6 mb-auto"
-	>
-		<NotificationProvider stack>
+		<a
+			href="#content"
+			class="absolute -top-12 left-2 px-4 py-2 focus:top-2 z-50 bg-white border focus:outline-none ring-mauve-12 focus:ring-1"
+		>
+			Skip to content
+		</a>
+		<Header class="z-30" />
+		<main
+			id="content"
+			class="z-10 flex flex-col xl:max-w-7xl xl:border-r border-mauve-6 mb-auto"
+		>
 			<BreakpointProvider>
 				<slot />
 			</BreakpointProvider>
-		</NotificationProvider>
-	</main>
-	<Footer class="z-20" />
-	<div
-		class="sticky p-2 bottom-0 left-0 z-30 overflow-hidden pointer-events-none"
-		in:slideUp|local={{}}
-		out:slideUp|local={{ easing: reversedEasing }}
-	>
-		<button
-			aria-hidden={!showBttButton ? true : undefined}
-			tabindex={showBttButton ? 0 : -1}
-			on:click={handleClick}
-			on:click
-			type="button"
-			class="{showBttButton
-				? 'pointer-events-auto'
-				: 'translate-y-[42px] pointer-events-none'} block p-1 text-xs transition-transform bg-white border rounded-full cursor-n-resize touch-manipulation focus:outline-none ring-mauve-12 focus:ring-1"
+		</main>
+		<Footer class="z-20" />
+		<div
+			class="sticky p-2 bottom-0 left-0 z-30 overflow-hidden pointer-events-none"
+			in:slideUp|local={{}}
+			out:slideUp|local={{ easing: reversedEasing }}
 		>
-			<AccessibleIcon label="Back to top">
-				<North />
-			</AccessibleIcon>
-		</button>
+			<button
+				aria-hidden={!showBttButton ? true : undefined}
+				tabindex={showBttButton ? 0 : -1}
+				on:click={handleClick}
+				on:click
+				type="button"
+				class="{showBttButton
+					? 'pointer-events-auto'
+					: 'translate-y-[42px] pointer-events-none'} block p-1 text-xs transition-transform bg-white border rounded-full cursor-n-resize touch-manipulation focus:outline-none ring-mauve-12 focus:ring-1"
+			>
+				<AccessibleIcon label="Back to top">
+					<North />
+				</AccessibleIcon>
+			</button>
+		</div>
 	</div>
-</div>
 
-<section id="portal" style="position: absolute; z-index: 9999" />
+	<section id="portal" style="position: absolute; z-index: 9999" />
+</NotificationProvider>

@@ -218,9 +218,9 @@
 	role="region"
 	aria-live="polite"
 	aria-label="Notifications (F8)"
-	style="z-index: 99999; position: sticky; top: 0; pointer-events: none;"
+	style="z-index: 99999; pointer-events: none; position: sticky; top: 0"
 >
-	<div class="absolute top-0 w-full">
+	<div class="w-full">
 		{#if notifications.length}
 			<ul
 				in:slide={{ duration: 400 }}
