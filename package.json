@@ -19,7 +19,7 @@
 		"@sveltejs/kit": "next",
 		"@tailwindcss/aspect-ratio": "^0.4.0",
 		"@types/nodemailer": "^6.4.6",
-		"@typescript-eslint/eslint-plugin": "^5.40.1",
+		"@typescript-eslint/eslint-plugin": "^5.42.0",
 		"@typescript-eslint/parser": "^5.40.1",
 		"autoprefixer": "^10.4.12",
 		"csstype": "^3.1.0",
