@@ -1,12 +1,14 @@
 console.info('experimental/dreams: +page.ts');
 
-import { getDreams } from '$lib/Utils/Auth/request';
+import supabaseClient from '$utils/Dreams/subabaseClient';
+import { getDreams } from '$utils/Dreams/supabaseRequest';
 import { error } from '@sveltejs/kit';
 import type { PageLoad } from './$types';
 
 export const load: PageLoad = async ({ fetch }) => {
 	console.info('experimental/dreams: +page.ts //  load');
-	const { dreams = [], error: err, status } = await getDreams();
+
+	const { dreams = [], error: err, status } = await getDreams(supabaseClient);
 	if (err) {
 		throw error(status ?? 500, err.message);
 	}

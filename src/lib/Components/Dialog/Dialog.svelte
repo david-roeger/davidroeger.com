@@ -19,7 +19,8 @@
 	export let close = true;
 	export let closeClass = '';
 
-	export let setClose: Writable<(() => void) | undefined> | undefined;
+	export let setClose: Writable<(() => void) | undefined> | undefined =
+		undefined;
 </script>
 
 <Dialog.Root bind:setClose defaultOpen={false} on:openChange>

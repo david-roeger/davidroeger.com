@@ -1,8 +1,8 @@
 /// <reference types="@sveltejs/kit" />
 
 declare namespace App {
-	interface Session {
-		dreams: import('$lib/types').Dream[];
+	interface PageData {
+		session: import('@supabase/supabase-js').Session | null;
 	}
 }
 

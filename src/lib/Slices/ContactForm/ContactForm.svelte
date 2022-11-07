@@ -27,8 +27,6 @@
 		'contactForm'
 	>('contactForm');
 
-	let formEl: HTMLFormElement;
-
 	$: name = typeof $form?.values?.name === 'string' ? $form.values.name : '';
 	$: email =
 		typeof $form?.values?.email === 'string' ? $form.values.email : '';
@@ -44,7 +42,7 @@
 			defaultClass?: string;
 		}
 	) => {
-		if (!form || form?.state !== 'invalid')
+		if (!form || form?.state !== FORM_STATE.INVALID)
 			return classes.defaultClass ?? '';
 		if (form.invalidValues[key]) return classes.errorClass ?? '';
 		return classes.successClass ?? '';
@@ -98,7 +96,6 @@
 	action="/contact"
 	method="POST"
 	novalidate
-	bind:this={formEl}
 	use:enhance
 	class="grid custom-grid border-mauve-6 {borderTop
 		? 'border-t'

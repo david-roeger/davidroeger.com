@@ -40,6 +40,7 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@supabase/auth-helpers-sveltekit": "^0.8.6",
 		"@supabase/supabase-js": "^2.0.4",
 		"bezier-easing": "^2.1.0",
 		"focus-trap": "^7.0.0",

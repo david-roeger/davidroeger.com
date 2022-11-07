@@ -5,8 +5,40 @@ import { z } from 'zod';
 import { invalid, type ValidationError } from '@sveltejs/kit';
 import type { Actions, ActionData } from './$types';
 import { MAIL_SECRET } from '$env/static/private';
+import {
+	FORM_STATE,
+	type FormError,
+	type FormInvalid,
+	type FormSuccess
+} from '$lib/Utils/Form';
 
 export type ContactFormActionData = ActionData;
+
+type CustomFormInvalid = FormInvalid<'contactForm'> & {
+	values: { [key: string]: FormDataEntryValue | null };
+	invalidValues: {
+		name?: string;
+		email?: string;
+		message?: string;
+	};
+};
+
+type CustomFormSuccess = FormSuccess<'contactForm'> & {
+	notification: {
+		type: 'green' | 'orange' | 'blue';
+		html: string;
+	};
+};
+
+type CustomFormError = FormError<'contactForm'> & {
+	values: {
+		[key: string]: FormDataEntryValue | null;
+	};
+	notification: {
+		type: 'red';
+		html: string;
+	};
+};
 
 // TODO: this needs to be manually typed for now
 // At least I think so
@@ -17,36 +49,9 @@ export const actions: Actions = {
 		url: pageUrl
 	}): Promise<
 		| undefined
-		| ValidationError<{
-				formId: 'contactForm';
-				state: 'invalid';
-				values: { [key: string]: FormDataEntryValue | null };
-				invalidValues: {
-					name?: string;
-					email?: string;
-					message?: string;
-				};
-		  }>
-		| {
-				formId: 'contactForm';
-				state: 'success';
-				notification: {
-					type: 'green' | 'orange' | 'blue';
-					html: string;
-				};
-				values?: { [key: string]: FormDataEntryValue | null };
-		  }
-		| ValidationError<{
-				formId: 'contactForm';
-				state: 'error';
-				notification: {
-					type: 'orange' | 'blue' | 'red';
-					html: string;
-				};
-				values: {
-					[key: string]: FormDataEntryValue | null;
-				};
-		  }>
+		| ValidationError<CustomFormInvalid>
+		| CustomFormSuccess
+		| ValidationError<CustomFormError>
 	> => {
 		console.info('contact: +page.server.ts // Action // default');
 
@@ -93,9 +98,9 @@ export const actions: Actions = {
 			invalidValues.message = messageInvalid.error.errors[0].message;
 
 		if (Object.keys(invalidValues).length > 0) {
-			return invalid(400, {
+			return invalid<CustomFormInvalid>(400, {
 				formId: 'contactForm',
-				state: 'invalid',
+				state: FORM_STATE.INVALID,
 				values,
 				invalidValues
 			});
@@ -122,7 +127,7 @@ export const actions: Actions = {
 				if (summaryResponse.ok) {
 					return {
 						formId: 'contactForm',
-						state: 'success',
+						state: FORM_STATE.SUCCESS,
 						notification: {
 							type: 'green',
 							html: `<h3>Thanks for your message ${name}!</h3><p class="text-xs">An auto-reply has been sent to <b><em>${email}</em></b></p>`
@@ -132,12 +137,11 @@ export const actions: Actions = {
 
 				return {
 					formId: 'contactForm',
-					state: 'success',
+					state: FORM_STATE.SUCCESS,
 					notification: {
 						type: 'orange',
 						html: `<h3>Thanks for your message ${name}!</h3><p class="text-xs">An auto-reply has been sent to <b><em>${email}</em></b>, but could not be delivered. Please check if the entered E-Mail address is correct</p>`
-					},
-					values
+					}
 				};
 			}
 		} catch (error) {
@@ -145,19 +149,9 @@ export const actions: Actions = {
 		}
 
 		// invalid infers type as string but we need it to be <'info' | 'warning' | 'error'>
-		return invalid<{
-			formId: 'contactForm';
-			state: 'error';
-			notification: {
-				type: 'red';
-				html: string;
-			};
-			values: {
-				[key: string]: FormDataEntryValue | null;
-			};
-		}>(500, {
+		return invalid<CustomFormError>(500, {
 			formId: 'contactForm',
-			state: 'error',
+			state: FORM_STATE.ERROR,
 			notification: {
 				type: 'red',
 				html: '<h3>An unkown error occurred while sending your message. Please try again later</h3>'

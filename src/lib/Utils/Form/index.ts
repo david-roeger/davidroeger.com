@@ -15,23 +15,22 @@ export enum FORM_STATE {
 }
 
 type FormBase<ID extends string> = {
-	formId: I;
+	formId: ID;
 	state: FORM_STATE;
-	[key: string]: unknown;
 };
 
-export interface FormInvalid<ID extends string> extends FormBase<ID> {
+export type FormInvalid<ID extends string> = FormBase<ID> & {
 	state: FORM_STATE.INVALID;
 	invalidValues?: { [key: string]: string };
-}
+};
 
-export interface FormSuccess<ID extends string> extends FormBase<ID> {
+export type FormSuccess<ID extends string> = FormBase<ID> & {
 	state: FORM_STATE.SUCCESS;
-}
+};
 
-export interface FormError<ID extends string> extends FormBase<ID> {
+export type FormError<ID extends string> = FormBase<ID> & {
 	state: FORM_STATE.ERROR;
-}
+};
 
 export type Form<ID extends string> =
 	| undefined
@@ -66,7 +65,10 @@ const focusInvalid = async (
 };
 
 // TODO: Refactor formId to be a generic type
-export function createForm<T extends Form<ID>, ID extends string>(formId: ID) {
+export function createForm<T extends Form<ID>, ID extends string>(
+	formId: ID,
+	resetOnsuccess = true
+) {
 	const form = readable<T>(undefined, (set) => {
 		page.subscribe(async (newPage) => {
 			const newForm = newPage?.form as T;
@@ -108,7 +110,7 @@ export function createForm<T extends Form<ID>, ID extends string>(formId: ID) {
 
 				switch (result.type) {
 					case 'success':
-						form.reset();
+						if (resetOnsuccess) form.reset();
 						if (activeElement && form.contains(activeElement)) {
 							activeElement.blur();
 						}
