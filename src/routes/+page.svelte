@@ -170,7 +170,6 @@
 
 	.line-y,
 	.line-x,
-	.background,
 	.triangle-wrapper {
 		display: none;
 	}

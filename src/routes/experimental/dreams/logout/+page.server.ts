@@ -1,4 +1,6 @@
-console.info('experimental/dreams/(admin)/logout: +page.server.ts');
+console.info('experimental/dreams/logout: +page.server.ts');
+
+export const prerender = false;
 
 import { FORM_STATE, type FormSuccess } from '$lib/Utils/Form';
 import { getSupabase } from '@supabase/auth-helpers-sveltekit';
@@ -20,7 +22,7 @@ export const actions: Actions = {
 		}
 	> => {
 		console.info(
-			'experimental/dreams/(admin)/logout: +page.server.ts // Action // default'
+			'experimental/dreams/logout: +page.server.ts // Action // default'
 		);
 
 		const { supabaseClient } = await getSupabase(event);

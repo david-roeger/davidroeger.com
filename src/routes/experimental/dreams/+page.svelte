@@ -21,17 +21,22 @@
 	import AccessibleIcon from '$components/AccessibleIcon';
 	import EditIcon from '$assets/Icons/24/edit.svg?component';
 	import CloseIcon from '$assets/Icons/24/close.svg?component';
-	import {
-		insertDream,
-		updateDream,
-		deleteDream
-	} from '$lib/Utils/Dreams/supabaseRequest';
-
-	console.info('experimental/dreams Page: script call');
 
 	import { sessionDreams } from './store';
 
 	import type { PageData } from './$types';
+
+	import { createForm, FORM_STATE } from '$lib/Utils/Form';
+	import type { DreamsLoginFormActionData } from './login/+page.server';
+	import type { DreamsLogoutFormActionData } from './logout/+page.server';
+	import type { NotificationContext } from '$lib/Provider/NotificationProvider/types';
+	import type {
+		DreamsEditFormActionData,
+		DreamsInsertFormActionData,
+		DreamsRemoveFormActionData
+	} from './actions/+page.server';
+	import type { Writable } from 'svelte/store';
+
 	export let data: PageData;
 
 	onMount(() => {
@@ -50,18 +55,6 @@
 		const parsed = new Date(date);
 		return parsed.toLocaleDateString('en-GB');
 	};
-
-	import { createForm, FORM_STATE } from '$lib/Utils/Form';
-	import type { DreamsLoginFormActionData } from './(admin)/login/+page.server';
-	import type { DreamsLogoutFormActionData } from './(admin)/logout/+page.server';
-	import type { NotificationContext } from '$lib/Provider/NotificationProvider/types';
-	import type {
-		DreamsEditFormActionData,
-		DreamsInsertFormActionData,
-		DreamsRemoveFormActionData
-	} from './(admin)/dreams/+page.server';
-	import type { Writable } from 'svelte/store';
-	import { text } from 'svelte/internal';
 
 	let {
 		form: loginForm,
@@ -301,7 +294,7 @@
 				>
 					<form
 						method="POST"
-						action="/experimental/dreams/dreams?/insert"
+						action="/experimental/dreams/actions?/insert"
 						class="bg-white/[.85] flex flex-col"
 						use:insertDreamFormEnhance
 					>
@@ -561,7 +554,7 @@
 						</AccessibleIcon>
 						<form
 							method="POST"
-							action="/experimental/dreams/dreams?/edit"
+							action="/experimental/dreams/actions?/edit"
 							class="bg-white/[.85] flex flex-col"
 							use:editDreamFormEnhance
 						>
@@ -657,7 +650,7 @@
 						</AccessibleIcon>
 						<form
 							method="POST"
-							action="/experimental/dreams/dreams?/remove"
+							action="/experimental/dreams/actions?/remove"
 							class="bg-white/[.85] flex flex-col"
 							use:removeDreamFormEnhance
 						>

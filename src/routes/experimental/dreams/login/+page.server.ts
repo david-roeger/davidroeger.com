@@ -1,4 +1,6 @@
-console.info('experimental/dreams/(admin)/login: +page.server.ts');
+console.info('experimental/dreams/login: +page.server.ts');
+
+export const prerender = false;
 
 import {
 	FORM_STATE,
@@ -51,7 +53,7 @@ export const actions: Actions = {
 		| ValidationError<CustomFormError>
 	> => {
 		console.info(
-			'experimental/dreams/(admin)/login: +page.server.ts // Action // default'
+			'experimental/dreams/login: +page.server.ts // Action // default'
 		);
 
 		const { request } = event;

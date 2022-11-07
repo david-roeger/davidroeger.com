@@ -1,4 +1,5 @@
-console.info('experimental/dreams/(admin)/login: +page.server.ts');
+console.info('experimental/dreams/login: +page.server.ts');
+export const prerender = false;
 
 import type { Dream } from '$lib/types';
 import {
@@ -99,7 +100,7 @@ export const actions: Actions = {
 		| InsertFormSuccess
 	> => {
 		console.info(
-			'experimental/dreams/(admin)/login: +page.server.ts // Action // insert'
+			'experimental/dreams/login: +page.server.ts // Action // insert'
 		);
 
 		const { request } = event;
@@ -206,7 +207,7 @@ export const actions: Actions = {
 		| EditFormSuccess
 	> => {
 		console.info(
-			'experimental/dreams/(admin)/login: +page.server.ts // Action // edit'
+			'experimental/dreams/login: +page.server.ts // Action // edit'
 		);
 
 		const { request } = event;
@@ -314,7 +315,7 @@ export const actions: Actions = {
 		| RemoveFormSuccess
 	> => {
 		console.info(
-			'experimental/dreams/(admin)/login: +page.server.ts // Action // remove'
+			'experimental/dreams/login: +page.server.ts // Action // remove'
 		);
 
 		const { request } = event;
