@@ -1,9 +1,13 @@
 <script lang="ts">
 	import { Headline } from '$components/Headline';
+	import type { ComponentType } from 'svelte';
 
 	export let subline: [string, string];
-	//export let children: [SvelteComponent | undefined, SvelteComponent | undefined, SvelteComponent?];
-	let children = [undefined, undefined, undefined];
+	export let children: [
+		ComponentType | undefined,
+		ComponentType | undefined,
+		ComponentType | undefined
+	] = [undefined, undefined, undefined];
 </script>
 
 <div class="flex items-center w-full pt-2 pl-2 space-x-1 text-xs text-mauve-11">

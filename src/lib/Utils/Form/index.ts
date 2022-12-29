@@ -4,14 +4,15 @@ import { tick } from 'svelte';
 import type { ActionReturnType } from '$lib/types';
 import type { ActionResult } from '@sveltejs/kit';
 import { invalidateAll } from '$app/navigation';
-import { applyAction } from '$app/forms';
+import { applyAction, deserialize } from '$app/forms';
 
 export enum FORM_STATE {
-	'IDLE',
-	'SUBMITTING',
-	'INVALID',
-	'ERROR',
-	'SUCCESS'
+	'IDLE' = 'idle',
+	'SUBMITTING' = 'submitting',
+	'FAILURE' = 'failure',
+	'ERROR' = 'error',
+	'SUCCESS' = 'success',
+	'REDIRECT' = 'redirect'
 }
 
 type FormBase<ID extends string> = {
@@ -19,8 +20,8 @@ type FormBase<ID extends string> = {
 	state: FORM_STATE;
 };
 
-export type FormInvalid<ID extends string> = FormBase<ID> & {
-	state: FORM_STATE.INVALID;
+export type FormFailure<ID extends string> = FormBase<ID> & {
+	state: FORM_STATE.FAILURE;
 	invalidValues?: { [key: string]: string };
 };
 
@@ -33,10 +34,8 @@ export type FormError<ID extends string> = FormBase<ID> & {
 };
 
 export type Form<ID extends string> =
-	| undefined
-	| FormInvalid<ID>
-	| FormSuccess<ID>
-	| FormError<ID>;
+	| (undefined | FormFailure<ID> | FormSuccess<ID> | FormError<ID>)
+	| null;
 
 const focusInvalid = async (
 	invalid: { [key: string]: string } | undefined,
@@ -105,22 +104,21 @@ export function createForm<T extends Form<ID>, ID extends string>(
 					body: data
 				});
 
-				const result: ActionResult = await response.json();
-				console.info('result', result);
+				const result: ActionResult = deserialize(await response.text());
 
 				switch (result.type) {
-					case 'success':
+					case FORM_STATE.SUCCESS:
 						if (resetOnsuccess) form.reset();
 						if (activeElement && form.contains(activeElement)) {
 							activeElement.blur();
 						}
 						await invalidateAll();
 						break;
-					case 'invalid': {
+					case FORM_STATE.FAILURE: {
 						const data = result.data as T;
 						if (
 							data &&
-							data.state === FORM_STATE.INVALID &&
+							data.state === FORM_STATE.FAILURE &&
 							data.invalidValues
 						) {
 							// we need to manully override the form state
@@ -128,21 +126,22 @@ export function createForm<T extends Form<ID>, ID extends string>(
 							// be disabled when we try to focus the input
 							// await tick won't work here because the form
 							// store is only update after applyAction
-							state.set(FORM_STATE.INVALID);
+							state.set(FORM_STATE.FAILURE);
 							await focusInvalid(data.invalidValues, form);
 						}
 						break;
 					}
 
-					case 'redirect':
+					case FORM_STATE.REDIRECT:
 						await invalidateAll();
 						break;
-					case 'error':
+					case FORM_STATE.ERROR:
 						break;
 					default: {
+						// TODO: find out how to use this with enums
 						// Use never type here
-						const exhaustiveCheck: never = result;
-						throw new Error(exhaustiveCheck);
+						// const exhaustiveCheck: never = result;
+						// throw new Error(exhaustiveCheck);
 					}
 				}
 

@@ -1,7 +1,3 @@
-<script context="module">
-	let id = 0;
-</script>
-
 <script lang="ts">
 	export let min: number;
 	export let max: number;

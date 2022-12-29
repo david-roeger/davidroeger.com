@@ -5,7 +5,7 @@ import type { Dream } from '$lib/types';
 import {
 	FORM_STATE,
 	type FormError,
-	type FormInvalid,
+	type FormFailure,
 	type FormSuccess
 } from '$utils/Form';
 import {
@@ -14,14 +14,14 @@ import {
 	updateDream
 } from '$utils/Dreams/supabaseRequest';
 import { getSupabase } from '@supabase/auth-helpers-sveltekit';
-import { invalid, type ValidationError } from '@sveltejs/kit';
+import { fail, type ActionFailure } from '@sveltejs/kit';
 import { z } from 'zod';
 import type { ActionData, Actions } from './$types';
 
-type CustomFormInvalid<
+type CustomFormFailure<
 	T extends string,
 	U extends Record<string, string | undefined>
-> = FormInvalid<T> & {
+> = FormFailure<T> & {
 	values: { [key: string]: FormDataEntryValue | null };
 	invalidValues: U;
 };
@@ -39,7 +39,7 @@ type CustomFormError<T extends string> = FormError<T> & {
 };
 
 // insert dream ---------------------------------------------------------------
-type InsertFormInvalid = CustomFormInvalid<
+type InsertFormFailure = CustomFormFailure<
 	'dreamsInsertForm',
 	{
 		default?: string;
@@ -57,7 +57,7 @@ export type DreamsInsertFormActionData =
 	| undefined;
 
 // edit dream ---------------------------------------------------------------
-type EditFormInvalid = CustomFormInvalid<
+type EditFormFailure = CustomFormFailure<
 	'dreamsEditForm',
 	{
 		default?: string;
@@ -75,7 +75,7 @@ export type DreamsEditFormActionData =
 	| undefined;
 
 // remove dream ---------------------------------------------------------------
-type RemoveFormInvalid = CustomFormInvalid<
+type RemoveFormFailure = CustomFormFailure<
 	'dreamsRemoveForm',
 	{
 		default?: string;
@@ -95,8 +95,8 @@ export const actions: Actions = {
 		event
 	): Promise<
 		| undefined
-		| ValidationError<InsertFormInvalid>
-		| ValidationError<InsertFormError>
+		| ActionFailure<InsertFormFailure>
+		| ActionFailure<InsertFormError>
 		| InsertFormSuccess
 	> => {
 		console.info(
@@ -125,7 +125,7 @@ export const actions: Actions = {
 
 		const createdByInvalid = z.string().min(1).safeParse(createdBy);
 		if (!createdByInvalid.success) {
-			return invalid<InsertFormError>(401, {
+			return fail<InsertFormError>(401, {
 				formId: 'dreamsInsertForm',
 				state: FORM_STATE.ERROR,
 				notification: {
@@ -151,9 +151,9 @@ export const actions: Actions = {
 			invalidValues.emoji = emojiInvalid.error.errors[0].message;
 
 		if (Object.keys(invalidValues).length > 0) {
-			return invalid<InsertFormInvalid>(400, {
+			return fail<InsertFormFailure>(400, {
 				formId: 'dreamsInsertForm',
-				state: FORM_STATE.INVALID,
+				state: FORM_STATE.FAILURE,
 				values,
 				invalidValues
 			});
@@ -169,7 +169,7 @@ export const actions: Actions = {
 		);
 
 		if (response.error) {
-			return invalid<InsertFormError>(response.status ?? 500, {
+			return fail<InsertFormError>(response.status ?? 500, {
 				formId: 'dreamsInsertForm',
 				state: FORM_STATE.ERROR,
 				notification: {
@@ -181,7 +181,7 @@ export const actions: Actions = {
 		}
 
 		if (!response.dream) {
-			return invalid<InsertFormError>(500, {
+			return fail<InsertFormError>(500, {
 				formId: 'dreamsInsertForm',
 				state: FORM_STATE.ERROR,
 				notification: {
@@ -202,8 +202,8 @@ export const actions: Actions = {
 		event
 	): Promise<
 		| undefined
-		| ValidationError<EditFormInvalid>
-		| ValidationError<EditFormError>
+		| ActionFailure<EditFormFailure>
+		| ActionFailure<EditFormError>
 		| EditFormSuccess
 	> => {
 		console.info(
@@ -233,7 +233,7 @@ export const actions: Actions = {
 
 		const dreamIdInvalid = z.number().safeParse(dreamId);
 		if (!dreamIdInvalid.success) {
-			return invalid<EditFormError>(500, {
+			return fail<EditFormError>(500, {
 				formId: 'dreamsEditForm',
 				state: FORM_STATE.ERROR,
 				notification: {
@@ -259,9 +259,9 @@ export const actions: Actions = {
 			invalidValues.emoji = emojiInvalid.error.errors[0].message;
 
 		if (Object.keys(invalidValues).length > 0) {
-			return invalid<EditFormInvalid>(400, {
+			return fail<EditFormFailure>(400, {
 				formId: 'dreamsEditForm',
-				state: FORM_STATE.INVALID,
+				state: FORM_STATE.FAILURE,
 				values,
 				invalidValues
 			});
@@ -277,7 +277,7 @@ export const actions: Actions = {
 		);
 
 		if (response.error) {
-			return invalid<EditFormError>(response.status ?? 500, {
+			return fail<EditFormError>(response.status ?? 500, {
 				formId: 'dreamsEditForm',
 				state: FORM_STATE.ERROR,
 				notification: {
@@ -289,7 +289,7 @@ export const actions: Actions = {
 		}
 
 		if (!response.dream) {
-			return invalid<EditFormError>(500, {
+			return fail<EditFormError>(500, {
 				formId: 'dreamsEditForm',
 				state: FORM_STATE.ERROR,
 				notification: {
@@ -310,8 +310,8 @@ export const actions: Actions = {
 		event
 	): Promise<
 		| undefined
-		| ValidationError<RemoveFormInvalid>
-		| ValidationError<RemoveFormError>
+		| ActionFailure<RemoveFormFailure>
+		| ActionFailure<RemoveFormError>
 		| RemoveFormSuccess
 	> => {
 		console.info(
@@ -331,9 +331,9 @@ export const actions: Actions = {
 
 		const dreamIdInvalid = z.number().safeParse(dreamId);
 		if (!dreamIdInvalid.success) {
-			return invalid<RemoveFormInvalid>(400, {
+			return fail<RemoveFormFailure>(400, {
 				formId: 'dreamsRemoveForm',
-				state: FORM_STATE.INVALID,
+				state: FORM_STATE.FAILURE,
 				values,
 				invalidValues: {
 					default: 'Something went wrong. Please try again later.'
@@ -349,7 +349,7 @@ export const actions: Actions = {
 		);
 
 		if (response.error) {
-			return invalid<RemoveFormError>(response.status ?? 500, {
+			return fail<RemoveFormError>(response.status ?? 500, {
 				formId: 'dreamsRemoveForm',
 				state: FORM_STATE.ERROR,
 				notification: {
@@ -361,7 +361,7 @@ export const actions: Actions = {
 		}
 
 		if (!response.dream) {
-			return invalid<RemoveFormError>(500, {
+			return fail<RemoveFormError>(500, {
 				formId: 'dreamsRemoveForm',
 				state: FORM_STATE.ERROR,
 				notification: {

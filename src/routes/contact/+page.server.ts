@@ -2,19 +2,19 @@ console.info('contact: +page.server.ts');
 
 import { z } from 'zod';
 
-import { invalid, type ValidationError } from '@sveltejs/kit';
+import { fail, type ActionFailure } from '@sveltejs/kit';
 import type { Actions, ActionData } from './$types';
 import { MAIL_SECRET } from '$env/static/private';
 import {
 	FORM_STATE,
 	type FormError,
-	type FormInvalid,
+	type FormFailure,
 	type FormSuccess
 } from '$lib/Utils/Form';
 
 export type ContactFormActionData = ActionData;
 
-type CustomFormInvalid = FormInvalid<'contactForm'> & {
+type CustomFormFailure = FormFailure<'contactForm'> & {
 	values: { [key: string]: FormDataEntryValue | null };
 	invalidValues: {
 		name?: string;
@@ -49,9 +49,9 @@ export const actions: Actions = {
 		url: pageUrl
 	}): Promise<
 		| undefined
-		| ValidationError<CustomFormInvalid>
+		| ActionFailure<CustomFormFailure>
 		| CustomFormSuccess
-		| ValidationError<CustomFormError>
+		| ActionFailure<CustomFormError>
 	> => {
 		console.info('contact: +page.server.ts // Action // default');
 
@@ -98,9 +98,13 @@ export const actions: Actions = {
 			invalidValues.message = messageInvalid.error.errors[0].message;
 
 		if (Object.keys(invalidValues).length > 0) {
-			return invalid<CustomFormInvalid>(400, {
+			console.info(
+				'contact: +page.server.ts // Action // default // invalidValues'
+			);
+			console.info(invalidValues);
+			return fail(400, {
 				formId: 'contactForm',
-				state: FORM_STATE.INVALID,
+				state: FORM_STATE.FAILURE,
 				values,
 				invalidValues
 			});
@@ -148,8 +152,8 @@ export const actions: Actions = {
 			console.error(error);
 		}
 
-		// invalid infers type as string but we need it to be <'info' | 'warning' | 'error'>
-		return invalid<CustomFormError>(500, {
+		// fail infers type as string but we need it to be <'info' | 'warning' | 'error'>
+		return fail(500, {
 			formId: 'contactForm',
 			state: FORM_STATE.ERROR,
 			notification: {
@@ -157,7 +161,7 @@ export const actions: Actions = {
 				html: '<h3>An unkown error occurred while sending your message. Please try again later</h3>'
 			},
 			values
-		});
+		} as const);
 	}
 };
 

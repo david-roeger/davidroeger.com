@@ -5,11 +5,11 @@
 	import Tag from '$assets/Icons/24/tag.svg?component';
 	import Score from '$assets/Icons/24/score.svg?component';
 	import type {
-		SpotifyTopArtistsResponse,
+		TopArtist as TopArtistType,
 		Image
 	} from '$components/Music/types';
 
-	export let topArtistsResponse: SpotifyTopArtistsResponse;
+	export let topArtists: TopArtistType[] | string;
 	let c = '';
 	export { c as class };
 	export let labelledby: string | undefined = undefined;
@@ -36,9 +36,9 @@
 </script>
 
 <section class={c}>
-	{#if topArtistsResponse.ok && topArtistsResponse.data.items.length}
+	{#if typeof topArtists !== 'string'}
 		<Music.Root {labelledby}>
-			{#each topArtistsResponse.data.items as artist (artist.id)}
+			{#each topArtists as artist (artist.id)}
 				<Music.Row class="flex">
 					{#if artist.images.length}
 						<Music.Atom>
@@ -74,7 +74,7 @@
 				</Music.Row>
 			{/each}
 		</Music.Root>
-	{:else if !topArtistsResponse.ok && topArtistsResponse.message}
+	{:else}
 		<Music.Root {labelledby}>
 			<Music.Row class="flex">
 				<Music.Atom>
@@ -84,8 +84,8 @@
 				</Music.Atom>
 				<Music.Atom class="flex-1 min-w-0 border-l border-mauve-6">
 					<Music.Detail subline={['', '']}>
-						<p>Error:</p>
-						<p>{topArtistsResponse.message}</p>
+						<p class="text-xs text-mauve-11">Error:</p>
+						<p>{topArtists}</p>
 					</Music.Detail>
 				</Music.Atom>
 			</Music.Row>

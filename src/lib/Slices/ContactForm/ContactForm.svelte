@@ -42,7 +42,7 @@
 			defaultClass?: string;
 		}
 	) => {
-		if (!form || form?.state !== FORM_STATE.INVALID)
+		if (!form || form?.state !== FORM_STATE.FAILURE)
 			return classes.defaultClass ?? '';
 		if (form.invalidValues[key]) return classes.errorClass ?? '';
 		return classes.successClass ?? '';

@@ -1,25 +1,3 @@
-export type ErrorResponse = {
-	ok: false;
-	message: string;
-};
-
-export interface SuccessResponse<T extends interface> {
-	ok: true;
-	data: T;
-}
-
-export type SpotifyTopTracksResponse =
-	| SuccessResponse<{ items: TopTrack[] }>
-	| ErrorResponse;
-
-export type SpotifyTopArtistsResponse =
-	| SuccessResponse<{ items: TopArtist[] }>
-	| ErrorResponse;
-
-export type SpotifyLastTrackResponse =
-	| SuccessResponse<{ item: LastTrack }>
-	| ErrorResponse;
-
 /**
  * Spotify Types
  */
@@ -79,10 +57,10 @@ export interface TopArtist extends BaseObject {
 	popularity: number;
 }
 
-interface CurrentTrack extends TopTrack {
+export interface CurrentTrack extends TopTrack {
 	is_playable: true;
 }
 
-type RecentTrack = TopTrack;
+export type RecentTrack = TopTrack;
 
 export type LastTrack = CurrentTrack | RecentTrack;

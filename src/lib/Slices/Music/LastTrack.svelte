@@ -7,18 +7,13 @@
 	import Wave from '$components/Wave/Wave.svelte';
 
 	import type {
-		SpotifyLastTrackResponse,
+		LastTrack as LastTrackType,
 		Image
 	} from '$components/Music/types';
-	export let lastTrackResponse: SpotifyLastTrackResponse;
+	export let lastTrack: LastTrackType | string;
 	let c = '';
 	export { c as class };
 	export let labelledby: string | undefined = undefined;
-
-	const track =
-		lastTrackResponse.ok && lastTrackResponse.data.item
-			? lastTrackResponse.data.item
-			: undefined;
 
 	const getImageUrl = (images: Image[]): string => {
 		if (images.length === 0) return '';
@@ -42,15 +37,18 @@
 </script>
 
 <section class={c}>
-	{#if lastTrackResponse.ok && track}
+	{#if typeof lastTrack !== 'string'}
 		<Music.Root {labelledby}>
 			<Music.Row class="flex">
-				{#if track.album.images.length}
+				{#if lastTrack.album.images.length}
 					<Music.Atom>
-						<Link href={track.external_urls.spotify} type="ghost">
+						<Link
+							href={lastTrack.external_urls.spotify}
+							type="ghost"
+						>
 							<Music.Image
-								url={getImageUrl(track.album.images)}
-								alt="{track.album.name} Album Cover"
+								url={getImageUrl(lastTrack.album.images)}
+								alt="{lastTrack.album.name} Album Cover"
 							/>
 						</Link>
 					</Music.Atom>
@@ -58,20 +56,20 @@
 				<Music.Atom class="flex-1 min-w-0 border-l border-mauve-6">
 					<Music.Detail
 						subline={[
-							track.artists
+							lastTrack.artists
 								.map((artist) => artist.name)
 								.join(', '),
-							track.album.name
+							lastTrack.album.name
 						]}
 					>
 						<AccessibleIcon label="Artist:" slot="preline">
 							<Artist />
 						</AccessibleIcon>
-						<Link href={track.external_urls.spotify}>
-							{track.name}
+						<Link href={lastTrack.external_urls.spotify}>
+							{lastTrack.name}
 						</Link>
 						<div slot="headline">
-							{#if 'is_playable' in track}
+							{#if 'is_playable' in lastTrack}
 								<AccessibleIcon label="Currently Playing:">
 									<Wave
 										fill={[
@@ -91,7 +89,7 @@
 				</Music.Atom>
 			</Music.Row>
 		</Music.Root>
-	{:else if !lastTrackResponse.ok && lastTrackResponse.message}
+	{:else}
 		<Music.Root {labelledby}>
 			<Music.Row class="flex">
 				<Music.Atom>
@@ -101,8 +99,8 @@
 				</Music.Atom>
 				<Music.Atom class="flex-1 min-w-0 border-l border-mauve-6">
 					<Music.Detail subline={['', '']}>
-						<p>Error:</p>
-						<p>{lastTrackResponse.message}</p>
+						<p class="text-xs text-mauve-11">Error:</p>
+						<p>{lastTrack}</p>
 					</Music.Detail>
 				</Music.Atom>
 			</Music.Row>

@@ -20,10 +20,7 @@
 	const selected = writable(defaultSelected);
 
 	let timeRange = 1;
-	const timeRanges: {
-		label: string;
-		value: 'short' | 'medium' | 'long';
-	}[] = [
+	const timeRanges = [
 		{
 			label: 'last 4 Weeks',
 			value: 'short'
@@ -36,18 +33,18 @@
 			label: 'probably forever',
 			value: 'long'
 		}
-	];
+	] as const;
 
-	const topTracksResponses = {
-		short: data.topTracksShortResponse,
-		medium: data.topTracksMediumResponse,
-		long: data.topTrackLongResponse
+	const topTracks = {
+		short: data.topTracksShort,
+		medium: data.topTracksMedium,
+		long: data.topTracksLong
 	};
 
-	const topArtistsResponses = {
-		short: data.topArtistsShortResponse,
-		medium: data.topArtistsMediumResponse,
-		long: data.topArtistsLongResponse
+	const topArtists = {
+		short: data.topArtistsShort,
+		medium: data.topArtistsMedium,
+		long: data.topArtistsLong
 	};
 </script>
 
@@ -55,22 +52,20 @@
 	Favorite Music
 </Headline>
 
-{#if data.lastTrackResponse}
-	<Headline
-		as="h2"
-		type="quaternary"
-		id="current_track"
-		containerClass="p-2 bg-white border-b border-mauve-6"
-	>
-		Last listened on Spotify
-	</Headline>
+<Headline
+	as="h2"
+	type="quaternary"
+	id="current_track"
+	containerClass="p-2 bg-white border-b border-mauve-6"
+>
+	Last listened on Spotify
+</Headline>
 
-	<LastTrack
-		labelledby="current_track"
-		lastTrackResponse={data.lastTrackResponse}
-		class="border-b bg-white/[.85] border-mauve-6 mb-8 md:mb-16"
-	/>
-{/if}
+<LastTrack
+	labelledby="current_track"
+	lastTrack={data.lastTrack}
+	class="border-b bg-white/[.85] border-mauve-6 mb-8 md:mb-16"
+/>
 
 <Tabs.Root
 	defaultValue={defaultSelected}
@@ -158,11 +153,7 @@
 									class="block absolute inset-0 m-1 rounded-full bg-plum-5"
 								/>
 							</RadioGroup.Item>
-							<label
-								for={range.value}
-								on:click={(e) => e.stopPropagation()}
-								class="cursor-pointer "
-							>
+							<label for={range.value} class="cursor-pointer ">
 								{range.label}
 							</label>
 						</div>
@@ -185,7 +176,7 @@
 	>
 		<TopTracks
 			labelledby="top_tracks"
-			topTracksResponse={topTracksResponses[timeRanges[timeRange].value]}
+			topTracks={topTracks[timeRanges[timeRange].value]}
 		/>
 	</Tabs.Content>
 	<Tabs.Content
@@ -194,9 +185,7 @@
 	>
 		<TopArtists
 			labelledby="top_artists"
-			topArtistsResponse={topArtistsResponses[
-				timeRanges[timeRange].value
-			]}
+			topArtists={topArtists[timeRanges[timeRange].value]}
 		/>
 	</Tabs.Content>
 </Tabs.Root>

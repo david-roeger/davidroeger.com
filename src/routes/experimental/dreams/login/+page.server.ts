@@ -6,18 +6,18 @@ import {
 	FORM_STATE,
 	type Form,
 	type FormError,
-	type FormInvalid,
+	type FormFailure,
 	type FormSuccess
 } from '$utils/Form';
 import { getSupabase } from '@supabase/auth-helpers-sveltekit';
 import { AuthApiError } from '@supabase/supabase-js';
-import { invalid, type ValidationError } from '@sveltejs/kit';
+import { fail, type ActionFailure } from '@sveltejs/kit';
 import { z } from 'zod';
 import type { ActionData, Actions } from './$types';
 
 export type DreamsLoginFormActionData = ActionData & Form<'dreamsLoginForm'>;
 
-type CustomFormInvalid = FormInvalid<'dreamsLoginForm'> & {
+type CustomFormFailure = FormFailure<'dreamsLoginForm'> & {
 	values: { [key: string]: FormDataEntryValue | null };
 	invalidValues: {
 		default?: string;
@@ -48,9 +48,9 @@ export const actions: Actions = {
 		event
 	): Promise<
 		| undefined
-		| ValidationError<CustomFormInvalid>
+		| ActionFailure<CustomFormFailure>
 		| CustomFormSuccess
-		| ValidationError<CustomFormError>
+		| ActionFailure<CustomFormError>
 	> => {
 		console.info(
 			'experimental/dreams/login: +page.server.ts // Action // default'
@@ -90,9 +90,9 @@ export const actions: Actions = {
 			invalidValues.password = passwordInvalid.error.errors[0].message;
 
 		if (Object.keys(invalidValues).length > 0) {
-			return invalid<CustomFormInvalid>(400, {
+			return fail<CustomFormFailure>(400, {
 				formId: 'dreamsLoginForm',
-				state: FORM_STATE.INVALID,
+				state: FORM_STATE.FAILURE,
 				values,
 				invalidValues
 			});
@@ -105,9 +105,9 @@ export const actions: Actions = {
 
 		if (error) {
 			if (error instanceof AuthApiError && error.status === 400) {
-				return invalid<CustomFormInvalid>(400, {
+				return fail<CustomFormFailure>(400, {
 					formId: 'dreamsLoginForm',
-					state: FORM_STATE.INVALID,
+					state: FORM_STATE.FAILURE,
 					values,
 					invalidValues: {
 						default: 'Invalid Credentials'
@@ -115,7 +115,7 @@ export const actions: Actions = {
 				});
 			}
 
-			return invalid<CustomFormError>(500, {
+			return fail<CustomFormError>(500, {
 				formId: 'dreamsLoginForm',
 				state: FORM_STATE.ERROR,
 				notification: {

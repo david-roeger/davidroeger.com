@@ -148,7 +148,7 @@
 			const oldDreams = $sessionDreams ?? [];
 			$sessionDreams = [...oldDreams, newDream];
 			if ($setInsertDreamDialogClose) $setInsertDreamDialogClose();
-			goto(`#${newDream.id}`, { noscroll: true });
+			goto(`#${newDream.id}`, { noScroll: true });
 		}
 	}
 
@@ -198,7 +198,7 @@
 
 			$sessionDreams = [...computedDreams];
 			if ($setEditDreamDialogClose) $setEditDreamDialogClose();
-			goto(`#${updatedDream.id}`, { noscroll: true });
+			goto(`#${updatedDream.id}`, { noScroll: true });
 		}
 	}
 
@@ -240,7 +240,7 @@
 
 			$sessionDreams = [...computedDreams];
 
-			goto('', { noscroll: true });
+			goto('', { noScroll: true });
 		}
 	}
 </script>

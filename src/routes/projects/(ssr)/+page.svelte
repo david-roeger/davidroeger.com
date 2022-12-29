@@ -23,7 +23,7 @@
 	import pmd from '$assets/projectsMediaData.json';
 	import Head from '$components/Head/Head.svelte';
 	import type { PageData } from './$types';
-	import { browser, prerendering } from '$app/environment';
+	import { browser, building } from '$app/environment';
 
 	const projectsMediaData: ProjectsMediaData = { ...pmd };
 
@@ -45,7 +45,7 @@
 
 	let defaultTags: string[] = [];
 
-	const encoded = prerendering ? null : $page.url.searchParams.get('tags');
+	const encoded = building ? null : $page.url.searchParams.get('tags');
 	const decoded = decodeURIComponent(encoded ?? '');
 
 	if (decoded && decoded !== 'null') {

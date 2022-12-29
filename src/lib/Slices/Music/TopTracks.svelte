@@ -5,12 +5,11 @@
 	import Album from '$assets/Icons/24/album.svg?component';
 	import Artist from '$assets/Icons/24/artist.svg?component';
 	import type {
-		SpotifyTopTracksResponse,
+		TopTrack as TopTrackType,
 		Image
 	} from '$components/Music/types';
 
-	export let topTracksResponse: SpotifyTopTracksResponse;
-
+	export let topTracks: TopTrackType[] | string;
 	let c = '';
 	export { c as class };
 	export let labelledby: string | undefined = '';
@@ -37,9 +36,9 @@
 </script>
 
 <section class={c}>
-	{#if topTracksResponse.ok && topTracksResponse.data.items.length}
+	{#if typeof topTracks !== 'string'}
 		<Music.Root {labelledby}>
-			{#each topTracksResponse.data.items as track (track.id)}
+			{#each topTracks as track (track.id)}
 				<Music.Row class="flex">
 					{#if track.album.images.length}
 						<Music.Atom>
@@ -77,7 +76,7 @@
 				</Music.Row>
 			{/each}
 		</Music.Root>
-	{:else if !topTracksResponse.ok && topTracksResponse.message}
+	{:else}
 		<Music.Root {labelledby}>
 			<Music.Row class="flex">
 				<Music.Atom>
@@ -87,8 +86,8 @@
 				</Music.Atom>
 				<Music.Atom class="flex-1 min-w-0 border-l border-mauve-6">
 					<Music.Detail subline={['', '']}>
-						<p>Error:</p>
-						<p>{topTracksResponse.message}</p>
+						<p class="text-xs text-mauve-11">Error:</p>
+						<p>{topTracks}</p>
 					</Music.Detail>
 				</Music.Atom>
 			</Music.Row>
