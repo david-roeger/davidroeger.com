@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { building } from '$app/environment';
+	import { building, version } from '$app/environment';
 
 	let c = '';
 	export { c as class };
@@ -9,6 +9,6 @@
 	<div>
 		<p>Building: {building}</p>
 		<p>Last updated at: {process.env.VITE_BUILD_TIME}</p>
-		<p>Version: {process.env.VITE_APP_VERSION}</p>
+		<p>Version: {version}</p>
 	</div>
 </footer>
