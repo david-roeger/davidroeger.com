@@ -6,7 +6,7 @@ import { error } from '@sveltejs/kit';
 import type { PageLoad } from './$types';
 
 export const load: PageLoad = async ({ fetch }) => {
-	console.info('experimental/dreams: +page.ts //  load');
+	console.info('experimental/dreams: +page.ts // load');
 
 	const { dreams = [], error: err, status } = await getDreams(supabaseClient);
 	if (err) {

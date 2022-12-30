@@ -11,7 +11,7 @@ import type { TopTrack, TopArtist, LastTrack } from '$components/Music/types';
 
 import type { PageServerLoad } from './$types';
 
-export const load: PageServerLoad = async ({ fetch }) => {
+export const load: PageServerLoad = async ({ fetch, setHeaders }) => {
 	console.info('about/music: +page.server.ts // load');
 
 	const params = new URLSearchParams({
@@ -34,6 +34,12 @@ export const load: PageServerLoad = async ({ fetch }) => {
 			  }
 			| undefined;
 		if (data) {
+			const age = response.headers.get('age');
+			const cacheControl = response.headers.get('cache-control');
+			const headers: Record<string, string> = {};
+			if (age) headers['age'] = age;
+			if (cacheControl) headers['cache-control'] = cacheControl;
+			setHeaders(headers);
 			return data;
 		}
 	}

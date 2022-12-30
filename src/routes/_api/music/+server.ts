@@ -3,15 +3,15 @@ console.info('_api/music: +server.ts');
 import { error, json } from '@sveltejs/kit';
 import { authorize, baseRequest, getTopArtists, getTopTracks } from './utils';
 
-import type { RequestHandler } from './$types';
-
 import type {
 	CurrentTrack,
 	LastTrack,
 	RecentTrack
 } from '$lib/Components/Music/types';
 
-export const getAccessToken = async ({
+import type { RequestHandler } from './$types';
+
+const getAccessToken = async ({
 	clientId,
 	clientSecret,
 	refreshToken
@@ -109,7 +109,7 @@ export const getLastTrack = async (accessToken: string): Promise<LastTrack> => {
 	return await getRecentTrack(accessToken);
 };
 
-export const GET: RequestHandler = async ({ url }) => {
+export const GET: RequestHandler = async ({ url, setHeaders }) => {
 	console.info('_api/music: +server.ts // GET');
 
 	authorize(url);
@@ -181,6 +181,10 @@ export const GET: RequestHandler = async ({ url }) => {
 			topArtistsMedium: finalTopArtistsMedium,
 			topArtistsLong: finalTopArtistsLong
 		};
+	});
+
+	setHeaders({
+		'Cache-Control': 'private, max-age=60'
 	});
 
 	return json(results);
