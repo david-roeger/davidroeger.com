@@ -233,7 +233,7 @@
 <NotificationProvider>
 	<div
 		class="relative flex flex-col min-h-full font-sans text-mauve-12"
-		data-sveltekit-prefetch
+		data-sveltekit-preload-data
 	>
 		<a
 			href="#content"
