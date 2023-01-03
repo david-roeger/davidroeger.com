@@ -4,7 +4,7 @@
 	import type { PageData } from './$types';
 
 	export let data: PageData;
-	console.info(`projects/(ssg)/[slug]: +page.svelte // ${data.slug}`);
+	console.info(`projects/(ssg)/[slug]: +page.svelte // ${data.project.slug}`);
 
 	import AccessibleIcon from '$components/AccessibleIcon/AccessibleIcon.svelte';
 
@@ -23,19 +23,19 @@
 
 	const projectsMediaData: ProjectsMediaData = { ...pmd };
 
-	const projectMediaData = projectsMediaData[data.slug];
+	const projectMediaData = projectsMediaData[data.project.slug];
 
-	const verticalMedia = data.vertical
-		? projectMediaData[data.vertical]
+	const verticalMedia = data.project.vertical
+		? projectMediaData[data.project.vertical]
 		: undefined;
-	const horizontalMedia = data.horizontal
-		? projectMediaData[data.horizontal]
+	const horizontalMedia = data.project.horizontal
+		? projectMediaData[data.project.horizontal]
 		: undefined;
 
 	const mediaArray: MediaType[] = [];
 
-	if (data.media && Array.isArray(data.media)) {
-		data.media.forEach((medium) => {
+	if (data.project.media && Array.isArray(data.project.media)) {
+		data.project.media.forEach((medium) => {
 			if (projectMediaData[medium]) {
 				mediaArray.push(projectMediaData[medium]);
 			}
@@ -66,12 +66,12 @@
 />
 
 <article class="mb-32">
-	{#if data.tags.length}
+	{#if data.project.tags.length}
 		<div
 			class="flex items-center p-1 text-xs border-b text-mauve-11 border-mauve-6"
 		>
 			<AccessibleIcon label="Tags"><TagIcon /></AccessibleIcon>
-			{#each data.tags as tag (tag)}
+			{#each data.project.tags as tag (tag)}
 				<a
 					href={`../projects?tags=${tag}`}
 					class="m-1 hover:underline focus:underline decoration-from-font focus:outline-none"
@@ -82,50 +82,53 @@
 		</div>
 	{/if}
 	<section class="mb-32 border-b border-mauve-6">
-		{#if data.title}
+		{#if data.project.title}
 			<Headline containerClass="py-8 md:py-16">
-				{data.title}
+				{data.project.title}
 			</Headline>
 		{/if}
-		{#if data.meta}
+		{#if data.project.meta}
 			<div class="border-b border-mauve-6">
 				<div
 					class="p-1 md:w-3/4 md:border-r flex-grow-1 border-mauve-6 bg-white/[.85] flex flex-wrap items-baseline"
 				>
-					<p class="m-1 text">{data.meta}</p>
+					<p class="m-1 text">{data.project.meta}</p>
 				</div>
 			</div>
 		{/if}
-		{#if (data.team && data.team.length > 0) || data.place}
+		{#if (data.project.team && data.project.team.length > 0) || data.project.place}
 			<div class="border-b border-mauve-6">
 				<div
 					class="p-1 md:w-3/4 md:border-r flex-grow-1 border-mauve-6 bg-white/[.85]"
 				>
-					{#if data.team && data.team.length > 0}
+					{#if data.project.team && data.project.team.length > 0}
 						<p class="m-1 text-xs text-mauve-11">
-							{data.team.join(', ')}{!data.place && data.date
-								? ` (${data.date})`
+							{data.project.team.join(', ')}{!data.project
+								.place && data.project.date
+								? ` (${data.project.date})`
 								: ''}
 						</p>
 					{/if}
-					{#if data.place}
+					{#if data.project.place}
 						<p class="m-1 text-xs text-mauve-11">
-							{data.place}{data.date ? ` (${data.date})` : ''}
+							{data.project.place}{data.project.date
+								? ` (${data.project.date})`
+								: ''}
 						</p>
 					{/if}
 				</div>
 			</div>
 		{/if}
-		{#if data.github || data.link}
+		{#if data.project.github || data.project.link}
 			<div class="border-b border-mauve-6">
 				<div
 					class="p-1 md:w-3/4 md:border-r flex-grow-1 border-mauve-6 bg-white/[.85]"
 				>
-					{#if data.link}
+					{#if data.project.link}
 						<p class="m-1 text-xs text-mauve-11">
 							<a
 								class="flex items-center space-x-1 hover:underline focus:underline decoration-from-font focus:outline-none"
-								href={data.link}
+								href={data.project.link}
 								rel="noopener noreferrer"
 								target="_blank"
 							>
@@ -134,11 +137,11 @@
 							</a>
 						</p>
 					{/if}
-					{#if data.github}
+					{#if data.project.github}
 						<p class="m-1 text-xs text-mauve-11">
 							<a
 								class="flex items-center space-x-1 hover:underline focus:underline decoration-from-font focus:outline-none"
-								href={data.github}
+								href={data.project.github}
 								rel="noopener noreferrer"
 								target="_blank"
 							>
@@ -155,7 +158,7 @@
 				class="py-8 px-2 grow md:grow-0 md:w-3/4 md:border-r border-mauve-6 md:p-8 xl:p-16 bg-white/[.85]"
 			>
 				<div class="readable markdown">
-					{@html data.html}
+					{@html data.project.html}
 				</div>
 			</div>
 		</div>
@@ -184,7 +187,7 @@
 								>
 									<Media
 										media={medium}
-										src="../assets/projects/{data.slug}/{medium.src}"
+										src="/assets/projects/{data.project.slug}/{medium.src}"
 										alt=""
 										class="block"
 									/>
@@ -222,7 +225,7 @@
 											>
 												<Media
 													media={activeMedia.media}
-													src="../assets/projects/{data.slug}/{activeMedia
+													src="/assets/projects/{data.project.slug}/{activeMedia
 														.media.src}"
 													alt=""
 													class="border-mauve-6 w-full h-full block"
@@ -282,7 +285,13 @@
 			</div>
 		{/if} -->
 	</section>
-	<MediaGalery {mediaArray} assetPath={data.slug} />
+	<MediaGalery
+		{mediaArray}
+		defaultIndex={data.gallery !== undefined
+			? parseInt(data.gallery)
+			: undefined}
+		assetPath={data.project.slug}
+	/>
 
 	<ContactForm variant="green" borderTop={true}>
 		<span slot="headline">Bla Bla Bla</span>

@@ -13,9 +13,16 @@ export const load: PageServerLoad = async ({ url }) => {
 
 	if (projectResponse.ok) {
 		const projects = (await projectResponse.json()) ?? [];
-
+		console.log('_prerender: +page.ts // load // projects:', projects);
+		const projectLinks: string[] = [];
+		for (const project of projects as ProjectMetaData[]) {
+			projectLinks.push(`/projects/${project.slug}`);
+			for (let i = 0; i < project.media.length + 2; i++) {
+				projectLinks.push(`/projects/${project.slug}/${i}`);
+			}
+		}
 		return {
-			projects: projects as ProjectMetaData[]
+			projectLinks
 		};
 	}
 

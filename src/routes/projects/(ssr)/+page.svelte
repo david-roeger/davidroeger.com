@@ -213,7 +213,7 @@
 						{#if project.vertical && projectMediaData && projectMediaData[project.vertical]}
 							<Media
 								media={projectMediaData[project.vertical]}
-								src="./assets/projects/{project.slug}/{projectMediaData[
+								src="/assets/projects/{project.slug}/{projectMediaData[
 									project.vertical
 								].src}"
 								alt=""
@@ -224,7 +224,7 @@
 						{#if project.horizontal && projectMediaData && projectMediaData[project.horizontal]}
 							<Media
 								media={projectMediaData[project.horizontal]}
-								src="./assets/projects/{project.slug}/{projectMediaData[
+								src="/assets/projects/{project.slug}/{projectMediaData[
 									project.horizontal
 								].src}"
 								alt=""
@@ -237,7 +237,7 @@
 								{#if media && projectMediaData && projectMediaData[media]}
 									<Media
 										media={projectMediaData[media]}
-										src="./assets/projects/{project.slug}/{projectMediaData[
+										src="/assets/projects/{project.slug}/{projectMediaData[
 											media
 										].src}"
 										class="block h-full border-r last:border-r-0 border-mauve-6 max-w-none"
@@ -285,11 +285,11 @@
 					<span class="flex">
 						<img
 							loading="lazy"
-							alt={`Thumbnail for experimental Project ${computed}`}
+							alt="Thumbnail for experimental Project {computed}"
 							width="40"
 							height="40"
 							class="block w-12 h-12 bg-white max-w-none"
-							src={`./assets/experimental/${experiment.slug}.png`}
+							src="/assets/experimental/{experiment.slug}.png"
 						/>
 						<span
 							class={`block p-2 group-hover:underline group-focus:underline decoration-from-font ${
