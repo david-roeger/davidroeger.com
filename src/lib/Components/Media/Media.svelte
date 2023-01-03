@@ -15,14 +15,12 @@
 		<video
 			width={media.width || undefined}
 			height={media.height || undefined}
-			{loading}
 			{id}
 			muted
 			autoplay
 			loop
 			playsInline
 			controls={undefined}
-			{alt}
 			class={c}
 			src={src || media.src}
 			{...$$restProps}
