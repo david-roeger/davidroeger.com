@@ -17,13 +17,14 @@ body {
 
 .dialog-open {
 	overflow: hidden !important;
-	position: relative !important;
+	position: fixed !important;
 	padding-left: 0px;
 	padding-top: 0px;
 	padding-right: 0px;
 	margin-left: 0;
 	margin-top: 0;
 	margin-right: 0px !important;
+	top: var(--topOffset, 0px);
 }
 
 @layer utilities {
