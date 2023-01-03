@@ -16,8 +16,8 @@
 </script>
 
 <button
-	on:click={handleClick}
 	on:click
+	on:click={handleClick}
 	aria-haspopup="dialog"
 	data-state={$dataState}
 	aria-expanded={$open}
