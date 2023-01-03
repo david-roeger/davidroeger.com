@@ -7,8 +7,13 @@ declare module '*.svg' {
 	export default content;
 }
 declare module '*.svg?component' {
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	const content: any;
+	import type { ComponentType, SvelteComponentTyped } from 'svelte';
+	import type { SVGAttributes } from 'svelte/elements';
+
+	const content: ComponentType<
+		SvelteComponentTyped<SVGAttributes<SVGSVGElement>>
+	>;
+
 	export default content;
 }
 
