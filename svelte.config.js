@@ -21,7 +21,10 @@ const config = {
 					'*.davidroeger.com',
 					// inter font files
 					'rsms.me',
-					'*.supabase.co'
+					// supabase
+					'*.supabase.co',
+					// netlify asset output cache
+					'*.cloudfront.net'
 				],
 				// needs unsafe-inline for svelte transitions
 				// https://github.com/s^veltejs/kit/issues/5215
