@@ -12,31 +12,32 @@ const config = {
 	preprocess: [preprocess(), mdsvex(mdsvexConfig)],
 
 	kit: {
-		inlineStyleThreshold: 1024,
+		inlineStyleThreshold: 1024 * 4,
 		adapter: adapter(),
 		csp: {
 			mode: 'auto',
 			directives: {
-				'default-src': [
-					'self',
-					'*.davidroeger.com',
-					// inter font files
-					'rsms.me',
-					// supabase
-					'*.supabase.co',
-					// netlify asset output cache
-					'*.cloudfront.net'
-				],
-				// needs unsafe-inline for svelte transitions
-				// https://github.com/s^veltejs/kit/issues/5215
-				'style-src': [
-					'self',
-					'*.davidroeger.com',
-					// inter css
-					'rsms.me',
-					'unsafe-inline'
-				],
-				'img-src': ['*', 'data:']
+				// 'default-src': [
+				// 	'self',
+				// 	'unsafe-inline',
+				// 	'*.davidroeger.com',
+				// 	// inter font files
+				// 	'rsms.me',
+				// 	// supabase
+				// 	'*.supabase.co',
+				// 	// netlify asset output cache
+				// 	'*.cloudfront.net'
+				// ],
+				// // needs unsafe-inline for svelte transitions
+				// // https://github.com/sveltejs/kit/issues/5215
+				// 'style-src': [
+				// 	'self',
+				// 	'unsafe-inline',
+				// 	'*.davidroeger.com',
+				// 	// inter css
+				// 	'rsms.me'
+				// ],
+				// 'img-src': ['*', 'data:']
 			}
 		},
 		alias: {
