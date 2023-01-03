@@ -6,7 +6,7 @@
 
 	export let focusTrapOptions: Options = {};
 
-	import { getContext, tick } from 'svelte';
+	import { getContext, onMount, tick } from 'svelte';
 	import { derived } from 'svelte/store';
 
 	import type { RootContext } from './types';
@@ -16,10 +16,16 @@
 	const dataState = derived(open, ($open) => ($open ? 'open' : 'closed'));
 
 	let content: HTMLElement;
+	let mounted = false;
 	$: activateTrap($open);
 
+	onMount(() => {
+		mounted = true;
+		activateTrap($open);
+	});
+
 	const activateTrap = async (state: boolean) => {
-		if (state && !$trap) {
+		if (state && !$trap && mounted) {
 			await tick();
 			$trap = createFocusTrap(content, {
 				allowOutsideClick: true,

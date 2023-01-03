@@ -29,10 +29,11 @@
 	const dataState = derived(open, ($open) => ($open ? 'open' : 'closed'));
 
 	let content: HTMLElement;
+	let mounted = false;
 	$: activateTrap($open);
 
 	const activateTrap = async (state: boolean) => {
-		if (state && !$trap) {
+		if (state && !$trap && mounted) {
 			await tick();
 			$trap = createFocusTrap(content, {
 				allowOutsideClick: true,
@@ -52,6 +53,9 @@
 	};
 
 	onMount(() => {
+		mounted = true;
+		activateTrap($open);
+
 		$contentElement = content;
 		const options = {
 			side,
