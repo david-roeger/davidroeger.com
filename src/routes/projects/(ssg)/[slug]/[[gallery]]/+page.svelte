@@ -1,10 +1,12 @@
 <script lang="ts">
-	console.info('projects/(ssg)/[slug]: +page.svelte');
+	console.info('projects/(ssg)/[slug]/[[gallery]]: +page.svelte');
 
 	import type { PageData } from './$types';
 
 	export let data: PageData;
-	console.info(`projects/(ssg)/[slug]: +page.svelte // ${data.project.slug}`);
+	console.info(
+		`projects/(ssg)/[slug]/[[gallery]]: +page.svelte // ${data.project.slug} / ${data.gallery}`
+	);
 
 	import AccessibleIcon from '$components/AccessibleIcon/AccessibleIcon.svelte';
 
@@ -73,7 +75,7 @@
 			<AccessibleIcon label="Tags"><TagIcon /></AccessibleIcon>
 			{#each data.project.tags as tag (tag)}
 				<a
-					href={`../projects?tags=${tag}`}
+					href="/projects?tags={tag}"
 					class="m-1 hover:underline focus:underline decoration-from-font focus:outline-none"
 				>
 					{tag}

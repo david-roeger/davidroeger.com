@@ -1,4 +1,4 @@
-console.info('projects/(ssr): +page.ts');
+console.info('projects/(ssr): +page.server.ts');
 
 import type { ProjectMetaData } from '$lib/types';
 

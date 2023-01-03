@@ -36,8 +36,6 @@ export const handler = async ({ params }: { params: RouteParams }) => {
 			if (published) {
 				return json({ ...metadata, published, html });
 			}
-
-			throw error(404, `Project ${urlSlug} not found`);
 		}
 	}
 
