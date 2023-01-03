@@ -12,6 +12,7 @@ const config = {
 	preprocess: [preprocess(), mdsvex(mdsvexConfig)],
 
 	kit: {
+		inlineStyleThreshold: 1024,
 		adapter: adapter(),
 		csp: {
 			mode: 'auto',
