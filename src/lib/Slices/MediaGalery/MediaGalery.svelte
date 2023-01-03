@@ -267,7 +267,7 @@
 								tabindex={0}
 								title="Open Overlay"
 								data-index={index}
-								class=" ring-mauve-6 focus:ring-2"
+								class="focus:outline-none ring-mauve-6 focus:ring-2"
 								on:click={() => setActiveMedia(index)}
 							>
 								<Media
