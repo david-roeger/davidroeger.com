@@ -1,17 +1,12 @@
 <script lang="ts">
 	console.info('projects/(ssg)/[slug]: +page.svelte');
 
-	import { getContext, tick } from 'svelte';
-	import * as Dialog from '$primitives/Dialog';
-
 	import type { PageData } from './$types';
 
 	export let data: PageData;
 	console.info(`projects/(ssg)/[slug]: +page.svelte // ${data.slug}`);
-	import { cubicInOut } from 'svelte/easing';
 
 	import AccessibleIcon from '$components/AccessibleIcon/AccessibleIcon.svelte';
-	import { Media } from '$components/Media';
 
 	import TagIcon from '$assets/Icons/24/tag.svg?component';
 	import LinkIcon from '$assets/Icons/24/link.svg?component';
@@ -22,13 +17,9 @@
 	import pmd from '$assets/projectsMediaData.json';
 	import Head from '$components/Head/Head.svelte';
 	import type { Media as MediaType, ProjectsMediaData } from '$lib/types';
-	import type { BreakpointContext } from '$provider/BreakpointProvider/types';
-	import { tweened } from 'svelte/motion';
 
-	import { get, type Writable } from 'svelte/store';
-	import Close16 from '$assets/Icons/16/close.svg?component';
-	import { debounce } from '$lib/Utils';
 	import ContactForm from '$lib/Slices/ContactForm/ContactForm.svelte';
+	import MediaGalery from '$lib/Slices/MediaGalery/MediaGalery.svelte';
 
 	const projectsMediaData: ProjectsMediaData = { ...pmd };
 
@@ -43,9 +34,6 @@
 
 	const mediaArray: MediaType[] = [];
 
-	let innerWidth: number;
-	let innerHeight: number;
-
 	if (data.media && Array.isArray(data.media)) {
 		data.media.forEach((medium) => {
 			if (projectMediaData[medium]) {
@@ -59,187 +47,8 @@
 	if (horizontalMedia) {
 		mediaArray.push(horizontalMedia);
 	}
-
-	const createNestedMediaArray = (md: boolean) => {
-		const array: MediaType[][] = [];
-		const cols = md ? 3 : 2;
-		for (let i = 0; i < cols; i++) {
-			array.push([]);
-		}
-		/* place media array items in nested media with <col> levels*/
-		mediaArray.forEach((medium, index) => {
-			array[index % cols].push(medium);
-		});
-
-		return array;
-	};
-
-	const { MD }: BreakpointContext = getContext('breakpoints');
-	$: nestedMediaArray = createNestedMediaArray($MD);
-
-	interface ActiveMedia {
-		media: MediaType | undefined;
-		width: number;
-		height: number;
-		x: number;
-		y: number;
-		scale: number;
-	}
-
-	let overlay = false;
-
-	let activeMedia: ActiveMedia = {
-		media: undefined,
-		width: 0,
-		height: 0,
-		x: 0,
-		y: 0,
-		scale: 1
-	};
-
-	const instant = { duration: 0 };
-	const transition = { duration: 300 };
-	let scale = tweened(1, {
-		easing: cubicInOut,
-		...transition
-	});
-
-	let offsetX = tweened(0, {
-		easing: cubicInOut,
-		...transition
-	});
-
-	let offsetY = tweened(0, {
-		easing: cubicInOut,
-		...transition
-	});
-
-	let opacity = tweened(0, {
-		easing: cubicInOut,
-		...transition
-	});
-
-	const getTargetScale = (
-		mediaWidth: number,
-		mediaHeight: number,
-		windowWidth: number,
-		windowHeight: number
-	) => {
-		const widthScale = mediaWidth / windowWidth;
-		const heightScale = mediaHeight / windowHeight;
-		return Math.max(widthScale, heightScale);
-	};
-
-	const dialogs: {
-		[key: string]: Writable<(() => void) | undefined>;
-	} = {};
-
-	let section: HTMLElement;
-	const handleDialogOpen = async (media: MediaType) => {
-		await tick();
-		const button = section.querySelector('button[data-state="open"]');
-		if (!button) return;
-
-		const { x, y, width, height } = button.getBoundingClientRect();
-
-		activeMedia.media = media;
-
-		overlay = !overlay;
-
-		const targetScale = getTargetScale(
-			width,
-			height,
-			innerWidth,
-			innerHeight
-		);
-
-		const invertedScale = 1 / targetScale;
-		const targetWidth = width * invertedScale;
-		const targetHeight = height * invertedScale;
-
-		activeMedia.width = targetWidth;
-		activeMedia.height = targetHeight;
-		activeMedia.x = x;
-		activeMedia.y = y;
-		activeMedia.scale = targetScale;
-
-		// center element
-		requestAnimationFrame(() => {
-			scale.set(targetScale, instant);
-			scale.set(1, transition);
-
-			offsetX.set(x, instant);
-			offsetX.set((innerWidth - targetWidth) / 2, transition);
-			offsetY.set(y, instant);
-			offsetY.set((innerHeight - targetHeight) / 2, transition);
-			opacity.set(1);
-		});
-	};
-
-	async function handleDialogClose(media: MediaType) {
-		const button = section.querySelector('button[data-state="open"]');
-		if (!button) return;
-
-		const { x, y, width, height } = button.getBoundingClientRect();
-		const targetScale = getTargetScale(
-			width,
-			height,
-			innerWidth,
-			innerHeight
-		);
-
-		requestAnimationFrame(async () => {
-			await Promise.all([
-				scale.set(targetScale, transition),
-				offsetX.set(x, transition),
-				offsetY.set(y, transition),
-				opacity.set(0)
-			]);
-
-			activeMedia = {
-				media: undefined,
-				width: 0,
-				height: 0,
-				x: 0,
-				y: 0,
-				scale: 1
-			};
-			overlay = false;
-
-			if (dialogs[media.src]) {
-				const setClose = get(dialogs[media.src]);
-				if (setClose) setClose();
-			}
-		});
-	}
-
-	const handleResize = () => {
-		if (activeMedia) {
-			const targetScale = getTargetScale(
-				activeMedia.width,
-				activeMedia.height,
-				innerWidth,
-				innerHeight
-			);
-
-			const invertedScale = 1 / targetScale;
-			const targetWidth = activeMedia.width * invertedScale;
-			const targetHeight = activeMedia.height * invertedScale;
-
-			activeMedia.width = targetWidth;
-			activeMedia.height = targetHeight;
-
-			offsetX.set((innerWidth - targetWidth) / 2, instant);
-			offsetY.set((innerHeight - targetHeight) / 2, instant);
-		}
-	};
 </script>
 
-<svelte:window
-	bind:innerWidth
-	bind:innerHeight
-	on:resize={debounce(() => handleResize(), 50)}
-/>
 <Head
 	additionalMetaTags={[
 		{
@@ -272,7 +81,7 @@
 			{/each}
 		</div>
 	{/if}
-	<section bind:this={section} class="mb-32 border-b border-mauve-6">
+	<section class="mb-32 border-b border-mauve-6">
 		{#if data.title}
 			<Headline containerClass="py-8 md:py-16">
 				{data.title}
@@ -351,7 +160,7 @@
 			</div>
 		</div>
 
-		{#if nestedMediaArray?.[0].length > 0}
+		<!-- {#if nestedMediaArray?.[0].length > 0}
 			<div class="flex p-1 border-t border-mauve-6">
 				{#each nestedMediaArray as nestedMedia}
 					<div class="flex flex-col flex-1 ">
@@ -381,27 +190,29 @@
 									/>
 								</Dialog.Trigger>
 								<Dialog.Portal>
-									<Dialog.Overlay
-										on:click={async (e) => {
-											e.stopImmediatePropagation();
-											await handleDialogClose(medium);
-										}}
-										class="fixed top-0 w-full h-full bg-mauve-12/80"
-										style="opacity: {$opacity};"
-									/>
-									<Dialog.Content
-										focusTrapOptions={{
-											preventScroll: true
-										}}
-										on:keydown={async (e) => {
-											if (e.key === 'Escape') {
+									{#if activeMedia.media}
+										<Dialog.Overlay
+											on:click={async (e) => {
 												e.stopImmediatePropagation();
 												await handleDialogClose(medium);
-											}
-										}}
-										class="fixed inset-0 pointer-events-none"
-									>
-										{#if activeMedia.media}
+											}}
+											class="fixed top-0 w-full h-full bg-mauve-12/80"
+											style="opacity: {$opacity};"
+										/>
+										<Dialog.Content
+											focusTrapOptions={{
+												preventScroll: true
+											}}
+											on:keydown={async (e) => {
+												if (e.key === 'Escape') {
+													e.stopImmediatePropagation();
+													await handleDialogClose(
+														medium
+													);
+												}
+											}}
+											class="fixed inset-0 pointer-events-none"
+										>
 											<div
 												style:width="{activeMedia.width}px"
 												style:height="{activeMedia.height}px"
@@ -416,31 +227,63 @@
 													alt=""
 													class="border-mauve-6 w-full h-full block"
 												/>
+												<div
+													class="absolute p-2 transform left-0  -translate-x-full top-1/2 -translate-y-1/2"
+												>
+													<button
+														class="z-10 block p-1 text-xs bg-white border rounded-full cursor-e-resize touch-manipulation focus:outline-none ring-mauve-12 focus:ring-1 pointer-events-none"
+														style="opacity: {$opacity};"
+													>
+														<AccessibleIcon
+															label="Go to previous"
+														>
+															<West16 />
+														</AccessibleIcon>
+													</button>
+												</div>
+												<div
+													class="absolute p-2 transform right-0 top-1/2 translate-x-full -translate-y-1/2"
+												>
+													<button
+														class="z-10 block p-1 text-xs bg-white border rounded-full cursor-e-resize touch-manipulation focus:outline-none ring-mauve-12 focus:ring-1 pointer-events-none"
+														style="opacity: {$opacity};"
+													>
+														<AccessibleIcon
+															label="Go to next"
+														>
+															<East16 />
+														</AccessibleIcon>
+													</button>
+												</div>
 											</div>
-										{/if}
-										<Dialog.Close
-											on:click={async (e) => {
-												e.stopImmediatePropagation();
-												await handleDialogClose(medium);
-											}}
-											class="fixed bg-white/[.85] rounded-full top-0 right-0 m-2 p-1 border border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1"
-											style="opacity: {$opacity};"
-										>
-											<AccessibleIcon
-												label="Close Fullscreen"
+											<Dialog.Close
+												on:click={async (e) => {
+													e.stopImmediatePropagation();
+													await handleDialogClose(
+														medium
+													);
+												}}
+												class="fixed bg-white/[.85] rounded-full top-0 right-0 m-2 p-1 border border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1"
+												style="opacity: {$opacity};"
 											>
-												<Close16 />
-											</AccessibleIcon>
-										</Dialog.Close>
-									</Dialog.Content>
+												<AccessibleIcon
+													label="Close Fullscreen"
+												>
+													<Close16 />
+												</AccessibleIcon>
+											</Dialog.Close>
+										</Dialog.Content>
+									{/if}
 								</Dialog.Portal>
 							</Dialog.Root>
 						{/each}
 					</div>
 				{/each}
 			</div>
-		{/if}
+		{/if} -->
 	</section>
+	<MediaGalery {mediaArray} assetPath={data.slug} />
+
 	<ContactForm variant="green" borderTop={true}>
 		<span slot="headline">Bla Bla Bla</span>
 	</ContactForm>
