@@ -12,7 +12,7 @@
 	import { Header } from '$slices/Header';
 	import { Footer } from '$slices/Footer';
 
-	import AccessibleIcon from '$components/AccessibleIcon';
+	import { AccessibleIcon } from '$components/AccessibleIcon';
 	import North from '$assets/Icons/24/north.svg?component';
 
 	import { page } from '$app/stores';

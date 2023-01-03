@@ -5,7 +5,7 @@
 	import Progress from './Progress.svelte';
 	import { get } from 'svelte/store';
 	import Filter from '$assets/Icons/24/filter.svg?component';
-	import AccessibleIcon from '$lib/Components/AccessibleIcon';
+	import { AccessibleIcon } from '$lib/Components/AccessibleIcon';
 	import CloseIcon from '$assets/Icons/24/close.svg?component';
 	import { fly, slide, type SlideParams } from 'svelte/transition';
 	import { beforeNavigate } from '$app/navigation';

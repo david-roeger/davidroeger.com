@@ -2,7 +2,7 @@
 	let c = '';
 	export { c as class };
 
-	import AccessibleIcon from '$components/AccessibleIcon';
+	import { AccessibleIcon } from '$components/AccessibleIcon';
 	import Logo from '$components/Logo/Logo.svelte';
 	import { NavLink } from '$components/NavLink';
 	import * as VisuallyHidden from '$primitives/VisuallyHidden';

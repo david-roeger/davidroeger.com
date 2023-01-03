@@ -2,7 +2,7 @@
 	console.info('experimental/move:  +page.svelte');
 
 	import * as Slider from '$primitives/Slider';
-	import AccessibleIcon from '$components/AccessibleIcon';
+	import { AccessibleIcon } from '$components/AccessibleIcon';
 
 	import Close from '$assets/Icons/24/close.svg?component';
 	import West from '$assets/Icons/24/west.svg?component';

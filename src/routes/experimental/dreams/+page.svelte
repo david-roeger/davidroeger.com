@@ -17,7 +17,7 @@
 	import EmojiPicker from '$components/EmojiPicker';
 
 	import * as VisuallyHidden from '$primitives/VisuallyHidden';
-	import AccessibleIcon from '$components/AccessibleIcon';
+	import { AccessibleIcon } from '$components/AccessibleIcon';
 	import EditIcon from '$assets/Icons/24/edit.svg?component';
 	import CloseIcon from '$assets/Icons/24/close.svg?component';
 

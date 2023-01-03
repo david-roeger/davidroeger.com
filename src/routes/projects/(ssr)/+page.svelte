@@ -16,7 +16,7 @@
 	import Close16 from '$assets/Icons/16/close.svg?component';
 	import East16 from '$assets/Icons/16/east.svg?component';
 
-	import AccessibleIcon from '$components/AccessibleIcon';
+	import { AccessibleIcon } from '$components/AccessibleIcon';
 
 	import BezierEasing from 'bezier-easing';
 

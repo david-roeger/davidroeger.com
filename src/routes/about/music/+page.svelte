@@ -11,7 +11,7 @@
 	import { writable } from 'svelte/store';
 	import Link from '$components/Link/Link.svelte';
 	import * as Popper from '$primitives/Popper';
-	import AccessibleIcon from '$components/AccessibleIcon';
+	import { AccessibleIcon } from '$components/AccessibleIcon';
 	import * as RadioGroup from '$primitives/RadioGroup';
 	import Filter from '$assets/Icons/24/filter.svg?component';
 	import Close from '$assets/Icons/24/close.svg?component';
