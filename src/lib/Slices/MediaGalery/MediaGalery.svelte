@@ -20,6 +20,7 @@
 	import { Media } from '$components/Media';
 
 	export let mediaArray: MediaType[];
+	export let defaultIndex: number | undefined = undefined;
 	export let assetPath: string;
 
 	const BUTTON_WIDTH = 42;
@@ -36,20 +37,36 @@
 	const { MD }: BreakpointContext = getContext('breakpoints');
 	$: nestedMediaArray = createNestedMediaArray($MD, mediaArray);
 
-	let activeMedia: ActiveMedia = {
-		index: undefined,
-		media: undefined,
-		width: 0,
-		height: 0,
-		x: 0,
-		y: 0,
-		scale: 1,
-		targetWidth: 0,
-		targetHeight: 0,
-		targetScale: 1,
-		targetX: 0,
-		targetY: 0
-	};
+	let activeMedia: ActiveMedia =
+		defaultIndex !== undefined
+			? {
+					index: defaultIndex,
+					media: mediaArray[defaultIndex],
+					width: 0,
+					height: 0,
+					x: 0,
+					y: 0,
+					scale: 1,
+					targetWidth: 0,
+					targetHeight: 0,
+					targetScale: 1,
+					targetX: 0,
+					targetY: 0
+			  }
+			: {
+					index: undefined,
+					media: undefined,
+					width: 0,
+					height: 0,
+					x: 0,
+					y: 0,
+					scale: 1,
+					targetWidth: 0,
+					targetHeight: 0,
+					targetScale: 1,
+					targetX: 0,
+					targetY: 0
+			  };
 
 	const instant = { duration: 0 };
 	const transition = { duration: 300 };
@@ -71,7 +88,7 @@
 		...transition
 	});
 
-	let opacity = tweened(0, {
+	let opacity = tweened(defaultIndex !== undefined ? 1 : 0, {
 		easing: cubicInOut,
 		...transition
 	});
@@ -92,9 +109,11 @@
 
 	const handleDialogOpen = async () => {
 		if (!activeMedia || activeMedia.index === undefined) return;
+		await updateSizes();
 		const size = sizes[activeMedia.index];
 		if (!size) return;
 
+		console.log('handleDialogOpen', size);
 		enabled = true;
 
 		// center element
@@ -115,7 +134,6 @@
 		if (activeMedia.index === undefined) return;
 		const size = sizes[activeMedia.index];
 		if (!size) return;
-
 		const index = activeMedia.index;
 		const element = section.querySelector(
 			`button[data-index="${index}"]`
@@ -166,9 +184,8 @@
 
 		const sizes: MediaSize[] = [];
 		const computedInnerWidth = innerWidth - BUTTONS_WIDTH;
-		sortedElements.forEach((element, index) => {
+		sortedElements.forEach((element) => {
 			const { x, y, width, height } = element.getBoundingClientRect();
-
 			const targetScale = getTargetScale(
 				width,
 				height,
@@ -243,14 +260,13 @@
 	bind:innerWidth
 	bind:innerHeight
 	on:resize={debounce(() => updateSizes(), 50)}
-	on:scroll={debounce(() => updateSizes(), 50)}
 />
 
 <section bind:this={section}>
 	{#if mediaArray.length}
 		<Dialog.Root
 			class="flex p-1 border-t border-mauve-6"
-			defaultOpen={false}
+			defaultOpen={defaultIndex !== undefined}
 			bind:setClose
 			on:openChange={async (e) => {
 				if (e.detail.open) {
@@ -272,7 +288,7 @@
 							>
 								<Media
 									media={medium}
-									src="../assets/projects/{assetPath}/{medium.src}"
+									src="/assets/projects/{assetPath}/{medium.src}"
 									alt=""
 									class="block"
 								/>
@@ -287,7 +303,7 @@
 						e.stopImmediatePropagation();
 						await handleDialogClose();
 					}}
-					class="fixed top-0 w-full h-full bg-mauve-12/80"
+					class="fixed top-0 w-full h-full bg-mauve-12/80 overscroll-contain"
 					style="opacity: {$opacity};"
 				/>
 				<Dialog.Content
@@ -353,7 +369,7 @@
 								>
 									<Media
 										media={activeMedia.media}
-										src="../assets/projects/{assetPath}/{activeMedia
+										src="/assets/projects/{assetPath}/{activeMedia
 											.media.src}"
 										alt=""
 										class="border-mauve-6 w-full h-full block"
