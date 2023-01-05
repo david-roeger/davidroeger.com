@@ -45,9 +45,9 @@
 
 		console.log(beta, gamma);
 
-		const mappedX = mapToRange(beta, -180, 180, -MAX_ANGLE, MAX_ANGLE);
+		const mappedX = mapToRange(gamma, -90, 90, -MAX_ANGLE, MAX_ANGLE);
 
-		const mappedY = mapToRange(gamma, -90, 90, MAX_ANGLE, -MAX_ANGLE);
+		const mappedY = mapToRange(beta, -180, 180, MAX_ANGLE, -MAX_ANGLE);
 
 		currentAngle.set({
 			x: mappedX,
