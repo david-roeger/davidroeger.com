@@ -81,18 +81,16 @@ export const unsafeClone = <T>(any: T): T => {
 };
 
 // TODO: refactor this with generics
-export const debounce = (
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	func: { (...any: any[]): any },
+export function debounce<F extends (...args: Parameters<F>) => ReturnType<F>>(
+	func: F,
 	ms: number
-) => {
-	let timer: NodeJS.Timeout;
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	return (...any: any[]) => {
-		clearTimeout(timer);
-		timer = setTimeout(() => func(...any), ms);
+): (...args: Parameters<F>) => void {
+	let timeout: ReturnType<typeof setTimeout>;
+	return (...args: Parameters<F>): void => {
+		clearTimeout(timeout);
+		timeout = setTimeout(() => func(...args), ms);
 	};
-};
+}
 
 /**
  * Write Query Params to URL

@@ -84,7 +84,7 @@
 
 <svelte:window
 	on:scroll|passive={handleScroll}
-	on:resize|passive={debounce(handleResize, 50)}
+	on:resize={debounce(handleResize, 50)}
 />
 
 <Head />
