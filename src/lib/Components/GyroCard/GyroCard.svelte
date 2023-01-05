@@ -1,10 +1,10 @@
 <script lang="ts">
-	import { mapToRange } from '$lib/Utils';
+	import { debounce, mapToRange } from '$lib/Utils';
 	import { spring } from 'svelte/motion';
 	import Button from '../Button/Button.svelte';
 	import { requestDeviceOrientationPermission } from './utils';
 
-	const MAX_ANGLE = 15;
+	const MAX_ANGLE = 45;
 
 	const transition = {
 		stiffness: 0.1,
@@ -42,8 +42,6 @@
 		if (isTouching) return;
 		const { beta, gamma } = event;
 		if (!beta || !gamma) return;
-
-		console.log(beta, gamma);
 
 		const mappedX = mapToRange(gamma, -90, 90, -MAX_ANGLE, MAX_ANGLE);
 
@@ -156,7 +154,7 @@
 	on:touchend={handleTouchEnd}
 	on:touchcancel={handleTouchEnd}
 	on:mousemove={handleMouseMove}
-	on:deviceorientation={handleOrientation}
+	on:deviceorientation={debounce(() => handleOrientation, 50)}
 />
 
 <Button
