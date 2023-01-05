@@ -39,6 +39,8 @@
 	);
 
 	const handleOrientation = (event: DeviceOrientationEvent) => {
+		console.log(event);
+
 		if (isTouching) return;
 		const { beta, gamma } = event;
 		if (!beta || !gamma) return;
