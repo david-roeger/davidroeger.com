@@ -7,6 +7,7 @@
 	import smile from '$assets/me/smile.png?w=124;248;372;188;376;564&format=webp;png&picture&imageTools';
 
 	import { Image } from '$primitives/Image';
+	import GyroCard from '$lib/Components/GyroCard/GyroCard.svelte';
 </script>
 
 <div
@@ -14,14 +15,14 @@
 >
 	<Headline containerClass="py-8 border-b-0 md:py-16">This is me</Headline>
 	<div
-		class="flex overflow-hidden max-w-[249px] sm:max-w-[250px] md:max-w-[378px]"
+		class="overflow-hidden max-w-[249px] sm:max-w-[250px] md:max-w-[378px]"
 	>
-		<Image
-			picture={serious}
-			alt="me"
-			class="border-r sm:border-l border-mauve-6"
-		/>
-		<Image picture={smile} alt="me smiling" />
+		<GyroCard>
+			<div class="flex border-r sm:border-l border-mauve-6">
+				<Image picture={serious} alt="me" />
+				<Image picture={smile} alt="me smiling" />
+			</div>
+		</GyroCard>
 	</div>
 </div>
 <Headline as="h2" type="secondary" containerClass="bg-white/[0.85]">
