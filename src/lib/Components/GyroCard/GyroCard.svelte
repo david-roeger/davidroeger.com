@@ -5,6 +5,39 @@
 	import { requestDeviceOrientationPermission } from './utils';
 
 	const MAX_ANGLE = 15;
+
+	const transition = {
+		stiffness: 0.1,
+		damping: 0.8
+	};
+
+	let isTouching = false;
+	let touchId: number;
+	let initialTouch = {
+		x: 0,
+		y: 0
+	};
+
+	let currentTouchDistance = spring(
+		{
+			x: 0,
+			y: 0
+		},
+		{
+			...transition
+		}
+	);
+
+	let currentAngle = spring(
+		{
+			x: 0,
+			y: 0
+		},
+		{
+			...transition
+		}
+	);
+
 	const handleOrientation = (event: DeviceOrientationEvent) => {
 		if (isTouching) return;
 		const { beta, gamma } = event;
@@ -96,54 +129,23 @@
 		});
 	};
 
-	const transition = {
-		stiffness: 0.1,
-		damping: 0.8
-	};
-
-	let isTouching = false;
-	let touchId: number;
-	let initialTouch = {
-		x: 0,
-		y: 0
-	};
-
-	let currentTouchDistance = spring(
-		{
-			x: 0,
-			y: 0
-		},
-		{
-			...transition
-		}
-	);
-
-	let currentAngle = spring(
-		{
-			x: 0,
-			y: 0
-		},
-		{
-			...transition
-		}
-	);
-
-	$: currentAngle.set({
-		x: mapToRange(
-			$currentTouchDistance.x,
-			-window.innerWidth / 2,
-			window.innerWidth / 2,
-			-MAX_ANGLE,
-			MAX_ANGLE
-		),
-		y: mapToRange(
-			$currentTouchDistance.y,
-			-window.innerHeight / 2,
-			window.innerHeight / 2,
-			MAX_ANGLE,
-			-MAX_ANGLE
-		)
-	});
+	$: if (typeof window !== 'undefined')
+		currentAngle.set({
+			x: mapToRange(
+				$currentTouchDistance.x,
+				-window.innerWidth / 2,
+				window.innerWidth / 2,
+				-MAX_ANGLE,
+				MAX_ANGLE
+			),
+			y: mapToRange(
+				$currentTouchDistance.y,
+				-window.innerHeight / 2,
+				window.innerHeight / 2,
+				MAX_ANGLE,
+				-MAX_ANGLE
+			)
+		});
 </script>
 
 <svelte:window
