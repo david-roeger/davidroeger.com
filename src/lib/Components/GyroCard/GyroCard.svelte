@@ -154,7 +154,7 @@
 	on:touchend={handleTouchEnd}
 	on:touchcancel={handleTouchEnd}
 	on:mousemove={handleMouseMove}
-	on:deviceorientation={debounce(() => handleOrientation, 50)}
+	on:deviceorientation={debounce((e) => handleOrientation(e), 50)}
 />
 
 <Button

@@ -76,12 +76,8 @@ export const adjustScale = (
 	return min + mapped;
 };
 
-export const cloneObject = (obj: {
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	[key: string]: any;
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-}): { [key: string]: any } => {
-	return JSON.parse(JSON.stringify(obj));
+export const unsafeClone = <T>(any: T): T => {
+	return JSON.parse(JSON.stringify(any));
 };
 
 // TODO: refactor this with generics
@@ -91,9 +87,10 @@ export const debounce = (
 	ms: number
 ) => {
 	let timer: NodeJS.Timeout;
-	return () => {
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	return (...any: any[]) => {
 		clearTimeout(timer);
-		timer = setTimeout(func, ms);
+		timer = setTimeout(() => func(...any), ms);
 	};
 };
 
