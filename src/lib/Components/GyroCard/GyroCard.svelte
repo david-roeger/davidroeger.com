@@ -4,7 +4,7 @@
 	import Button from '../Button/Button.svelte';
 	import { requestDeviceOrientationPermission } from './utils';
 
-	const MAX_ANGLE = 90;
+	const MAX_ANGLE = 15;
 
 	const transition = {
 		stiffness: 0.1,
