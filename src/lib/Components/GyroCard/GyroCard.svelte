@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { mapToRange } from '$lib/Utils';
-	import { onMount } from 'svelte';
 	import { spring } from 'svelte/motion';
+	import Button from '../Button/Button.svelte';
 	import { requestDeviceOrientationPermission } from './utils';
 
 	const MAX_ANGLE = 15;
@@ -149,21 +149,21 @@
 </script>
 
 <svelte:window
-	on:touchstart|preventDefault={handleTouchStart}
-	on:touchmove|preventDefault={handleTouchMove}
-	on:touchend|preventDefault={handleTouchEnd}
-	on:touchcancel|preventDefault={handleTouchEnd}
-	on:mousemove|preventDefault={handleMouseMove}
-	on:deviceorientation|preventDefault={handleOrientation}
+	on:touchstart={handleTouchStart}
+	on:touchmove={handleTouchMove}
+	on:touchend={handleTouchEnd}
+	on:touchcancel={handleTouchEnd}
+	on:mousemove={handleMouseMove}
+	on:deviceorientation={handleOrientation}
 />
 
-<button
+<Button
 	on:click={() => {
 		requestDeviceOrientationPermission();
 	}}
 >
 	Request Device Orientation Permission
-</button>
+</Button>
 <div class="touch-none" style="perspective: 1000px;">
 	<div
 		style="transform-style: preserve-3d;"
