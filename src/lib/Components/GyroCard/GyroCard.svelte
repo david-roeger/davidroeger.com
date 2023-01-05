@@ -4,7 +4,7 @@
 	import Button from '../Button/Button.svelte';
 	import { requestDeviceOrientationPermission } from './utils';
 
-	const MAX_ANGLE = 15;
+	const MAX_ANGLE = 90;
 
 	const transition = {
 		stiffness: 0.1,
@@ -42,6 +42,8 @@
 		if (isTouching) return;
 		const { beta, gamma } = event;
 		if (!beta || !gamma) return;
+
+		console.log(beta, gamma);
 
 		const mappedX = mapToRange(beta, -180, 180, -MAX_ANGLE, MAX_ANGLE);
 
