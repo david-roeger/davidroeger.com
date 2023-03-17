@@ -194,14 +194,14 @@
 					)}"
 				>
 					<Gallery.Previous
-						class="cursor-w-resize bg-white absolute top-0 lg:top-1/2 right-0 lg:left-2 lg:right-auto z-10 transform -translate-y-1/2 -translate-x-[calc(100%+16px)] lg:translate-x-0 block p-1 text-xs  border rounded-full md:p-2 touch-manipulation focus:outline-none ring-mauve-12 focus:ring-1"
+						class="cursor-w-resize bg-white absolute top-0 lg:top-1/2 right-0 lg:left-2 lg:right-auto z-10 transform -translate-y-1/2 -translate-x-[calc(100%+16px)] lg:translate-x-0 block p-1 text-xs  border rounded-full touch-manipulation focus:outline-none ring-mauve-12 focus:ring-1"
 					>
 						<AccessibleIcon label="Go to previous">
 							<West />
 						</AccessibleIcon>
 					</Gallery.Previous>
 					<Gallery.Next
-						class="absolute top-0 right-0 z-10 block p-1 text-xs transform -translate-x-2 -translate-y-1/2 bg-white border rounded-full cursor-e-resize lg:translate-x-0 lg:top-1/2 lg:right-2 md:p-2 touch-manipulation focus:outline-none ring-mauve-12 focus:ring-1"
+						class="absolute top-0 right-0 z-10 block p-1 text-xs transform -translate-x-2 -translate-y-1/2 bg-white border rounded-full cursor-e-resize lg:translate-x-0 lg:top-1/2 lg:right-2 touch-manipulation focus:outline-none ring-mauve-12 focus:ring-1"
 					>
 						<AccessibleIcon label="Go to next">
 							<East />
