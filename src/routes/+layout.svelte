@@ -251,27 +251,30 @@
 			</BreakpointProvider>
 		</main>
 		<Footer class="z-20" />
-		<div
-			class="sticky p-2 bottom-0 left-0 z-30 overflow-hidden pointer-events-none"
-			in:slideUp|local={{}}
-			out:slideUp|local={{ easing: reversedEasing }}
-		>
-			<button
-				aria-hidden={!showBttButton ? true : undefined}
-				tabindex={showBttButton ? 0 : -1}
-				on:click={handleClick}
-				on:click
-				type="button"
-				class="{showBttButton
-					? 'pointer-events-auto'
-					: 'translate-y-[42px] pointer-events-none'} block p-1 text-xs transition-transform bg-white border rounded-full cursor-n-resize touch-manipulation focus:outline-none ring-mauve-12 focus:ring-1"
+
+		{#if showBttButton}
+			<div
+				class="sticky p-2 bottom-0 left-0 z-30 overflow-hidden pointer-events-none"
+				in:slideUp|local={{}}
+				out:slideUp|local={{ easing: reversedEasing }}
 			>
-				<AccessibleIcon label="Back to top">
-					<North />
-				</AccessibleIcon>
-			</button>
-		</div>
+				<button
+					aria-hidden={!showBttButton ? true : undefined}
+					tabindex={showBttButton ? 0 : -1}
+					on:click={handleClick}
+					on:click
+					type="button"
+					class="{showBttButton
+						? 'pointer-events-auto'
+						: 'translate-y-[42px] pointer-events-none'} block p-1 text-xs transition-transform bg-white border rounded-full cursor-n-resize touch-manipulation focus:outline-none ring-mauve-12 focus:ring-1"
+				>
+					<AccessibleIcon label="Back to top">
+						<North />
+					</AccessibleIcon>
+				</button>
+			</div>
+		{/if}
 	</div>
 
-	<section id="portal" style="position: absolute; z-index: 9999" />
+	<div id="portal" style="position: absolute; z-index: 9999" />
 </NotificationProvider>
