@@ -5,16 +5,16 @@
 	import { debounce, mapToRange } from '$utils';
 	import BezierEasing from 'bezier-easing';
 
-	import { getContext, onMount, tick } from 'svelte';
+	import { createEventDispatcher, getContext, onMount, tick } from 'svelte';
 	import { cubicInOut } from 'svelte/easing';
 	import { tweened } from 'svelte/motion';
 	import type { Writable } from 'svelte/store';
 	import type { ActiveMedia, MediaSize } from './types';
 	import { createNestedMediaArray, getTargetScale } from './utils';
 
-	import West16 from '$assets/Icons/16/west.svg?component';
-	import Close16 from '$assets/Icons/16/close.svg?component';
-	import East16 from '$assets/Icons/16/east.svg?component';
+	import West from '$assets/Icons/24/west.svg?component';
+	import Close from '$assets/Icons/24/close.svg?component';
+	import East from '$assets/Icons/24/east.svg?component';
 
 	import { AccessibleIcon } from '$components/AccessibleIcon';
 	import { Media } from '$components/Media';
@@ -23,7 +23,10 @@
 	export let defaultIndex: number | undefined = undefined;
 	export let assetPath: string;
 
-	const BUTTON_WIDTH = 42;
+	export let title: string;
+	export let description: string;
+
+	const BUTTON_WIDTH = 50;
 	const BUTTONS_WIDTH = BUTTON_WIDTH * 2;
 
 	let innerWidth: number;
@@ -113,7 +116,6 @@
 		const size = sizes[activeMedia.index];
 		if (!size) return;
 
-		console.log('handleDialogOpen', size);
 		enabled = true;
 
 		// center element
@@ -136,12 +138,8 @@
 		if (!size) return;
 		const index = activeMedia.index;
 		const element = section.querySelector(
-			`button[data-index="${index}"]`
+			`button[data-galery-index="${index}"]`
 		) as HTMLElement;
-		if (element)
-			element.focus({
-				preventScroll: true
-			});
 
 		requestAnimationFrame(async () => {
 			await Promise.all([
@@ -167,6 +165,7 @@
 			};
 
 			if ($setClose) $setClose();
+
 			if (element)
 				element.focus({
 					preventScroll: true
@@ -176,8 +175,8 @@
 
 	const calculateSizes = async (elements: Element[]) => {
 		const sortedElements = elements.sort((a, b) => {
-			const aIndex = a.getAttribute('data-index');
-			const bIndex = b.getAttribute('data-index');
+			const aIndex = a.getAttribute('data-galery-index');
+			const bIndex = b.getAttribute('data-galery-index');
 			if (!aIndex || !bIndex) return 0;
 			return parseInt(aIndex) - parseInt(bIndex);
 		});
@@ -216,14 +215,11 @@
 
 	onMount(async () => {
 		updateSizes();
-		MD.subscribe(async (v) => {
-			await tick();
-			updateSizes();
-		});
 	});
 
 	const updateSizes = async () => {
-		const buttons = section.querySelectorAll('button[data-index]');
+		if (!section) return;
+		const buttons = section.querySelectorAll('button[data-galery-index]');
 		sizes = await calculateSizes(Array.from(buttons));
 		if (activeMedia.index !== undefined) {
 			activeMedia = {
@@ -254,12 +250,22 @@
 
 	$: offsetX.set(activeMedia.targetX, instant);
 	$: offsetY.set(activeMedia.targetY, instant);
+
+	const dispatch = createEventDispatcher<{
+		mediaChange: { index: number | undefined };
+	}>();
+
+	$: dispatch('mediaChange', {
+		index: activeMedia.index
+	});
+
+	$: console.log('enabled', enabled);
 </script>
 
 <svelte:window
 	bind:innerWidth
 	bind:innerHeight
-	on:resize={debounce(() => updateSizes(), 50)}
+	on:resize={debounce(updateSizes, 50)}
 />
 
 <section bind:this={section}>
@@ -282,7 +288,7 @@
 							<Dialog.Trigger
 								tabindex={0}
 								title="Open Overlay"
-								data-index={index}
+								data-galery-index={index}
 								class="focus:outline-none ring-mauve-6 focus:ring-2"
 								on:click={() => setActiveMedia(index)}
 							>
@@ -309,7 +315,8 @@
 				<Dialog.Content
 					focusTrapOptions={{
 						preventScroll: true,
-						returnFocusOnDeactivate: false
+						returnFocusOnDeactivate: false,
+						initialFocus: '#lightbox-next'
 					}}
 					on:keydown={async (e) => {
 						if (e.key === 'Escape') {
@@ -342,6 +349,10 @@
 					}}
 					class="fixed inset-0 pointer-events-none"
 				>
+					<Dialog.Title class="sr-only">{title}</Dialog.Title>
+					<Dialog.Description class="sr-only">
+						<p>{description}</p>
+					</Dialog.Description>
 					{#if activeMedia.media}
 						{#key activeMedia.index}
 							<div
@@ -377,37 +388,15 @@
 								</div>
 							</div>
 						{/key}
-						<div
-							class="absolute p-2 transform right-0 top-1/2 -translate-y-1/2"
-						>
-							<button
-								disabled={!enabled}
-								class="z-10 block p-1 text-xs bg-white border rounded-full cursor-e-resize touch-manipulation focus:outline-none ring-mauve-12 focus:ring-1 pointer-events-auto"
-								style="opacity: {$opacity};"
-								on:click={() => {
-									DIRECTION = 1;
-									const index = activeMedia.index || 0;
-									setActiveMedia(
-										index === mediaArray.length - 1
-											? 0
-											: index + 1
-									);
-								}}
-							>
-								<AccessibleIcon label="Go to next">
-									<East16 />
-								</AccessibleIcon>
-							</button>
-						</div>
 
 						<div
 							class="absolute p-2 transform left-0 top-1/2 -translate-y-1/2"
 						>
 							<button
-								disabled={!enabled}
 								class="z-10 block p-1 text-xs bg-white border rounded-full cursor-w-resize touch-manipulation focus:outline-none ring-mauve-12 focus:ring-1 pointer-events-auto"
 								style="opacity: {$opacity};"
 								on:click={() => {
+									if (!enabled) return;
 									DIRECTION = -1;
 									const index = activeMedia.index || 0;
 									setActiveMedia(
@@ -418,7 +407,31 @@
 								}}
 							>
 								<AccessibleIcon label="Go to previous">
-									<West16 />
+									<West />
+								</AccessibleIcon>
+							</button>
+						</div>
+
+						<div
+							class="absolute p-2 transform right-0 top-1/2 -translate-y-1/2"
+						>
+							<button
+								id="lightbox-next"
+								class="z-10 block p-1 text-xs bg-white border rounded-full cursor-e-resize touch-manipulation focus:outline-none ring-mauve-12 focus:ring-1 pointer-events-auto"
+								style="opacity: {$opacity};"
+								on:click={() => {
+									if (!enabled) return;
+									DIRECTION = 1;
+									const index = activeMedia.index || 0;
+									setActiveMedia(
+										index === mediaArray.length - 1
+											? 0
+											: index + 1
+									);
+								}}
+							>
+								<AccessibleIcon label="Go to next">
+									<East />
 								</AccessibleIcon>
 							</button>
 						</div>
@@ -433,7 +446,7 @@
 						style="opacity: {$opacity};"
 					>
 						<AccessibleIcon label="Close Fullscreen">
-							<Close16 />
+							<Close />
 						</AccessibleIcon>
 					</Dialog.Close>
 				</Dialog.Content>
