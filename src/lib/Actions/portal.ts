@@ -44,6 +44,11 @@ export const portal = (
 				}. Allowed types: string (CSS selector) or HTMLElement.`
 			);
 		}
+
+		if (targetEl.contains(node)) {
+			return;
+		}
+
 		targetEl.appendChild(node);
 	}
 	function destroy() {
