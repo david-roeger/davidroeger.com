@@ -5,6 +5,6 @@
 	import { portal } from '$actions';
 </script>
 
-<div class={c} use:portal={target}>
+<div class={c} use:portal={target} data-ssr-portal>
 	<slot />
 </div>

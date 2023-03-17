@@ -60,7 +60,6 @@
 			document.body.classList.remove('dialog-open');
 			const prevOffset =
 				document.body.style.getPropertyValue('--topOffset');
-			console.log(prevOffset);
 			window.scrollTo({
 				top: -parseInt(
 					document.body.style.getPropertyValue('--topOffset')
