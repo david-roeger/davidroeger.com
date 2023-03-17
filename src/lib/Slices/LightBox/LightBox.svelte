@@ -18,6 +18,7 @@
 
 	import { AccessibleIcon } from '$components/AccessibleIcon';
 	import { Media } from '$components/Media';
+	import { fade } from 'svelte/transition';
 
 	export let mediaArray: MediaType[];
 	export let defaultIndex: number | undefined = undefined;
@@ -213,8 +214,16 @@
 		return sizes;
 	};
 
+	let mounted = false;
+
 	onMount(async () => {
 		updateSizes();
+		// if is md we need to update the sizes after layout shift
+		MD.subscribe(async (v) => {
+			await tick();
+			updateSizes();
+		});
+		mounted = true;
 	});
 
 	const updateSizes = async () => {
@@ -258,20 +267,19 @@
 	$: dispatch('mediaChange', {
 		index: activeMedia.index
 	});
-
-	$: console.log('enabled', enabled);
 </script>
 
 <svelte:window
 	bind:innerWidth
 	bind:innerHeight
+	on:scroll={debounce(updateSizes, 50)}
 	on:resize={debounce(updateSizes, 50)}
 />
 
 <section bind:this={section}>
 	{#if mediaArray.length}
 		<Dialog.Root
-			class="flex p-1 border-t border-mauve-6"
+			class="flex p-1 border-b mb-32 border-mauve-6"
 			defaultOpen={defaultIndex !== undefined}
 			bind:setClose
 			on:openChange={async (e) => {
@@ -353,89 +361,93 @@
 					<Dialog.Description class="sr-only">
 						<p>{description}</p>
 					</Dialog.Description>
-					{#if activeMedia.media}
-						{#key activeMedia.index}
-							<div
-								in:slide|local={{
-									start: DIRECTION === 1 ? 100 : -100,
-									end: 0,
-									duration: 500
-								}}
-								out:slide|local={{
-									start: DIRECTION === 1 ? -100 : 100,
-									end: 0,
-									duration: 500,
-									easing: reversedEasing
-								}}
-								on:introstart={() => (enabled = false)}
-								on:introend={() => (enabled = true)}
-								class="absolute w-full"
-							>
-								<div
-									style:width="{activeMedia.targetWidth}px"
-									style:height="{activeMedia.targetHeight}px"
-									style:transform="translateX({$offsetX}px)
-									translateY({$offsetY}px) scale({$scale})"
-									class="origin-top-left pointer-events-auto"
-								>
-									<Media
-										media={activeMedia.media}
-										src="/assets/projects/{assetPath}/{activeMedia
-											.media.src}"
-										alt=""
-										class="border-mauve-6 w-full h-full block"
-									/>
-								</div>
-							</div>
-						{/key}
-
-						<div
-							class="absolute p-2 transform left-0 top-1/2 -translate-y-1/2"
-						>
-							<button
-								class="z-10 block p-1 text-xs bg-white border rounded-full cursor-w-resize touch-manipulation focus:outline-none ring-mauve-12 focus:ring-1 pointer-events-auto"
-								style="opacity: {$opacity};"
-								on:click={() => {
-									if (!enabled) return;
-									DIRECTION = -1;
-									const index = activeMedia.index || 0;
-									setActiveMedia(
-										index === 0
-											? mediaArray.length - 1
-											: index - 1
-									);
-								}}
-							>
-								<AccessibleIcon label="Go to previous">
-									<West />
-								</AccessibleIcon>
-							</button>
+					{#key mounted}
+						<div in:fade|local>
+							{#if activeMedia.media}
+								{#key activeMedia.index}
+									<div
+										in:slide|local={{
+											start: DIRECTION === 1 ? 100 : -100,
+											end: 0,
+											duration: 500
+										}}
+										out:slide|local={{
+											start: DIRECTION === 1 ? -100 : 100,
+											end: 0,
+											duration: 500,
+											easing: reversedEasing
+										}}
+										on:introstart={() => (enabled = false)}
+										on:introend={() => (enabled = true)}
+										class="absolute w-full"
+									>
+										<div
+											style:width="{activeMedia.targetWidth}px"
+											style:height="{activeMedia.targetHeight}px"
+											style:transform="translateX({$offsetX}px)
+											translateY({$offsetY}px) scale({$scale})"
+											class="origin-top-left pointer-events-auto"
+										>
+											<Media
+												media={activeMedia.media}
+												src="/assets/projects/{assetPath}/{activeMedia
+													.media.src}"
+												alt=""
+												class="border-mauve-6 w-full h-full block"
+											/>
+										</div>
+									</div>
+								{/key}
+							{/if}
 						</div>
+					{/key}
 
-						<div
-							class="absolute p-2 transform right-0 top-1/2 -translate-y-1/2"
+					<div
+						class="absolute p-2 transform left-0 top-1/2 -translate-y-1/2"
+					>
+						<button
+							class="z-10 block p-1 text-xs bg-white border rounded-full cursor-w-resize touch-manipulation focus:outline-none ring-mauve-12 focus:ring-1 pointer-events-auto"
+							style="opacity: {$opacity};"
+							on:click={() => {
+								if (!enabled) return;
+								DIRECTION = -1;
+								const index = activeMedia.index || 0;
+								setActiveMedia(
+									index === 0
+										? mediaArray.length - 1
+										: index - 1
+								);
+							}}
 						>
-							<button
-								id="lightbox-next"
-								class="z-10 block p-1 text-xs bg-white border rounded-full cursor-e-resize touch-manipulation focus:outline-none ring-mauve-12 focus:ring-1 pointer-events-auto"
-								style="opacity: {$opacity};"
-								on:click={() => {
-									if (!enabled) return;
-									DIRECTION = 1;
-									const index = activeMedia.index || 0;
-									setActiveMedia(
-										index === mediaArray.length - 1
-											? 0
-											: index + 1
-									);
-								}}
-							>
-								<AccessibleIcon label="Go to next">
-									<East />
-								</AccessibleIcon>
-							</button>
-						</div>
-					{/if}
+							<AccessibleIcon label="Go to previous">
+								<West />
+							</AccessibleIcon>
+						</button>
+					</div>
+
+					<div
+						class="absolute p-2 transform right-0 top-1/2 -translate-y-1/2"
+					>
+						<button
+							id="lightbox-next"
+							class="z-10 block p-1 text-xs bg-white border rounded-full cursor-e-resize touch-manipulation focus:outline-none ring-mauve-12 focus:ring-1 pointer-events-auto"
+							style="opacity: {$opacity};"
+							on:click={() => {
+								if (!enabled) return;
+								DIRECTION = 1;
+								const index = activeMedia.index || 0;
+								setActiveMedia(
+									index === mediaArray.length - 1
+										? 0
+										: index + 1
+								);
+							}}
+						>
+							<AccessibleIcon label="Go to next">
+								<East />
+							</AccessibleIcon>
+						</button>
+					</div>
 
 					<Dialog.Close
 						on:click={async (e) => {
