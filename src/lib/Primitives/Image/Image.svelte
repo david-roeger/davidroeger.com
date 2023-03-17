@@ -8,7 +8,7 @@
 	export let picture: Picture;
 
 	export let alt: string;
-	export let loading: string | undefined = undefined;
+	export let loading: 'eager' | 'lazy' | undefined = undefined;
 
 	let c = '';
 	export { c as class };
