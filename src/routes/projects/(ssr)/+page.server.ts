@@ -3,7 +3,7 @@ console.info('projects/(ssr): +page.server.ts');
 import type { ProjectMetaData } from '$lib/types';
 
 import { handler as experimentalHandler } from '$routes/_api/experimental/+server';
-import { handler as projectHandler } from '$routes/_api/projects/+server';
+import { _handler as projectHandler } from '$routes/_api/projects/+server';
 import { error } from '@sveltejs/kit';
 
 import type { PageServerLoad } from './$types';

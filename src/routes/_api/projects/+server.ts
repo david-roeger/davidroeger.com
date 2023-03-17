@@ -9,7 +9,7 @@ type Project = {
 	metadata: PorjectFrontMatter;
 };
 
-export const handler = async ({ url }: { url: URL }) => {
+export const _handler = async ({ url }: { url: URL }) => {
 	console.info('_api/projects: +server.ts // GET // handler');
 
 	const modules = import.meta.glob(
@@ -42,5 +42,5 @@ export const handler = async ({ url }: { url: URL }) => {
 
 export const GET: RequestHandler = async ({ url }) => {
 	console.info('_api/projects: +server.ts // GET');
-	return handler({ url });
+	return _handler({ url });
 };
