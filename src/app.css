@@ -5,7 +5,6 @@
 html {
 	width: 100%;
 	max-width: 100%;
-	overflow-x: hidden;
 	height: 100%;
 }
 
@@ -17,14 +16,14 @@ body {
 
 .dialog-open {
 	overflow: hidden !important;
-	position: fixed !important;
+	overscroll-behavior: contain;
+	position: relative !important;
 	padding-left: 0px;
 	padding-top: 0px;
 	padding-right: 0px;
 	margin-left: 0;
 	margin-top: 0;
 	margin-right: 0px !important;
-	top: var(--topOffset, 0px);
 }
 
 @layer utilities {

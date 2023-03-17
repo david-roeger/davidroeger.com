@@ -13,6 +13,7 @@
 	import { writable } from 'svelte/store';
 	import { createEventDispatcher } from 'svelte';
 	import type { RootContext } from './types';
+	import { debounce } from '$lib/Utils';
 
 	id++;
 	const rootContext: RootContext = {
@@ -58,8 +59,6 @@
 
 		if ($activeDialogs.length === 0) {
 			document.body.classList.remove('dialog-open');
-			const prevOffset =
-				document.body.style.getPropertyValue('--topOffset');
 			window.scrollTo({
 				top: -parseInt(
 					document.body.style.getPropertyValue('--topOffset')
@@ -80,7 +79,16 @@
 			$trap = undefined;
 		}
 	});
+
+	const handleScroll = () => {
+		if ($open) {
+			const topOffset = document.documentElement.scrollTop;
+			document.body.style.setProperty('--topOffset', -topOffset + 'px');
+		}
+	};
 </script>
+
+<svelte:window on:scroll|passive={debounce(handleScroll, 50)} />
 
 <div class={c}>
 	<slot />
