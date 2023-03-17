@@ -21,7 +21,8 @@
 	import type { Media as MediaType, ProjectsMediaData } from '$lib/types';
 
 	import ContactForm from '$lib/Slices/ContactForm/ContactForm.svelte';
-	import MediaGalery from '$lib/Slices/MediaGalery/MediaGalery.svelte';
+	import { goto } from '$app/navigation';
+	import LightBox from '$lib/Slices/LightBox/LightBox.svelte';
 
 	const projectsMediaData: ProjectsMediaData = { ...pmd };
 
@@ -164,135 +165,33 @@
 				</div>
 			</div>
 		</div>
-
-		<!-- {#if nestedMediaArray?.[0].length > 0}
-			<div class="flex p-1 border-t border-mauve-6">
-				{#each nestedMediaArray as nestedMedia}
-					<div class="flex flex-col flex-1 ">
-						{#each nestedMedia as medium (medium.src)}
-							<Dialog.Root
-								class="m-1 flex"
-								bind:setClose={dialogs[medium.src]}
-								defaultOpen={false}
-								on:openChange={async (e) => {
-									if (e.detail.open) {
-										await handleDialogOpen(medium);
-									} else {
-										if (activeMedia.media)
-											await handleDialogClose(medium);
-									}
-								}}
-							>
-								<Dialog.Trigger
-									title="Open Overlay"
-									class="focus:outline-none ring-mauve-6 focus:ring-2"
-								>
-									<Media
-										media={medium}
-										src="/assets/projects/{data.project.slug}/{medium.src}"
-										alt=""
-										class="block"
-									/>
-								</Dialog.Trigger>
-								<Dialog.Portal>
-									{#if activeMedia.media}
-										<Dialog.Overlay
-											on:click={async (e) => {
-												e.stopImmediatePropagation();
-												await handleDialogClose(medium);
-											}}
-											class="fixed top-0 w-full h-full bg-mauve-12/80"
-											style="opacity: {$opacity};"
-										/>
-										<Dialog.Content
-											focusTrapOptions={{
-												preventScroll: true
-											}}
-											on:keydown={async (e) => {
-												if (e.key === 'Escape') {
-													e.stopImmediatePropagation();
-													await handleDialogClose(
-														medium
-													);
-												}
-											}}
-											class="fixed inset-0 pointer-events-none"
-										>
-											<div
-												style:width="{activeMedia.width}px"
-												style:height="{activeMedia.height}px"
-												style:transform="translate({$offsetX}px,
-												{$offsetY}px) scale({$scale})"
-												class="origin-top-left"
-											>
-												<Media
-													media={activeMedia.media}
-													src="/assets/projects/{data.project.slug}/{activeMedia
-														.media.src}"
-													alt=""
-													class="border-mauve-6 w-full h-full block"
-												/>
-												<div
-													class="absolute p-2 transform left-0  -translate-x-full top-1/2 -translate-y-1/2"
-												>
-													<button
-														class="z-10 block p-1 text-xs bg-white border rounded-full cursor-e-resize touch-manipulation focus:outline-none ring-mauve-12 focus:ring-1 pointer-events-none"
-														style="opacity: {$opacity};"
-													>
-														<AccessibleIcon
-															label="Go to previous"
-														>
-															<West16 />
-														</AccessibleIcon>
-													</button>
-												</div>
-												<div
-													class="absolute p-2 transform right-0 top-1/2 translate-x-full -translate-y-1/2"
-												>
-													<button
-														class="z-10 block p-1 text-xs bg-white border rounded-full cursor-e-resize touch-manipulation focus:outline-none ring-mauve-12 focus:ring-1 pointer-events-none"
-														style="opacity: {$opacity};"
-													>
-														<AccessibleIcon
-															label="Go to next"
-														>
-															<East16 />
-														</AccessibleIcon>
-													</button>
-												</div>
-											</div>
-											<Dialog.Close
-												on:click={async (e) => {
-													e.stopImmediatePropagation();
-													await handleDialogClose(
-														medium
-													);
-												}}
-												class="fixed bg-white/[.85] rounded-full top-0 right-0 m-2 p-1 border border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1"
-												style="opacity: {$opacity};"
-											>
-												<AccessibleIcon
-													label="Close Fullscreen"
-												>
-													<Close16 />
-												</AccessibleIcon>
-											</Dialog.Close>
-										</Dialog.Content>
-									{/if}
-								</Dialog.Portal>
-							</Dialog.Root>
-						{/each}
-					</div>
-				{/each}
-			</div>
-		{/if} -->
 	</section>
-	<MediaGalery
+	<LightBox
 		{mediaArray}
-		defaultIndex={data.gallery !== undefined
-			? parseInt(data.gallery)
-			: undefined}
+		title={`Fullscreen Gallery for ${data.project.title}`}
+		description={`Currently showing media ${
+			data.gallery !== undefined ? data.gallery + 1 : 0
+		} of ${mediaArray.length}`}
+		defaultIndex={data.gallery !== undefined ? data.gallery : undefined}
 		assetPath={data.project.slug}
+		on:mediaChange={(e) => {
+			const { index } = e.detail;
+			if (index === undefined) {
+				// this should be shallow routing
+				// https://github.com/sveltejs/kit/issues/2673
+				goto(`/projects/${data.project.slug}`, {
+					replaceState: false,
+					keepFocus: true,
+					noScroll: true
+				});
+				return;
+			}
+			goto(`/projects/${data.project.slug}/${index}`, {
+				replaceState: false,
+				keepFocus: true,
+				noScroll: true
+			});
+		}}
 	/>
 
 	<ContactForm variant="green" borderTop={true}>

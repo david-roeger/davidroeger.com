@@ -22,8 +22,9 @@ export const load: PageServerLoad = async ({ params }) => {
 			if (isNaN(index) || index < 0 || index > media) {
 				throw redirect(303, `/projects/${slug}`);
 			}
+			return { project, gallery: index };
 		}
-		return { project, gallery };
+		return { project };
 	}
 	throw error(404, `Project not found: ${slug} / ${gallery}`);
 };
