@@ -1,8 +1,10 @@
 <script lang="ts">
 	import { getContext, onMount, tick } from 'svelte';
 	import { derived } from 'svelte/store';
-	import { createFocusTrap } from 'focus-trap';
+	import { createFocusTrap, type Options } from 'focus-trap';
 	import { clickOutside } from '$actions';
+
+	export let focusTrapOptions: Options = {};
 
 	import type { Side, Align, RootContext } from './types';
 
@@ -38,7 +40,8 @@
 			$trap = createFocusTrap(content, {
 				allowOutsideClick: true,
 				escapeDeactivates: false,
-				fallbackFocus: content
+				fallbackFocus: content,
+				...focusTrapOptions
 			});
 			$trap.activate();
 		}
