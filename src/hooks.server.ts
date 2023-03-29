@@ -1,6 +1,5 @@
 import type { Handle } from '@sveltejs/kit';
 import { JSDOM } from 'jsdom';
-import '$utils/Dreams/subabaseClient';
 
 const collectPortals = (html: string) => {
 	const dom = new JSDOM(html);

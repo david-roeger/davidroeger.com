@@ -153,7 +153,7 @@
 									class="block absolute inset-0 m-1 rounded-full bg-plum-5"
 								/>
 							</RadioGroup.Item>
-							<label for={range.value} class="cursor-pointer ">
+							<label for={range.value} class="cursor-pointer">
 								{range.label}
 							</label>
 						</div>

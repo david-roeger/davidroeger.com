@@ -430,7 +430,5 @@ export type DefaultSeoProps = {
 };
 
 export type Tags = {
-	tag: string;
-	key: string;
 	[key: string]: string | undefined;
 };

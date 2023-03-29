@@ -3,7 +3,7 @@ console.info('_api/experimental: +server.ts');
 import { error, json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 
-export const handler = async ({ url }: { url: URL }) => {
+export const _handler = async ({ url }: { url: URL }) => {
 	console.info('_api/experimental: +server.ts // GET // handler');
 
 	const nested = import.meta.glob('../../experimental/*/+page.svelte');
@@ -32,5 +32,5 @@ export const handler = async ({ url }: { url: URL }) => {
 
 export const GET: RequestHandler = async ({ url }) => {
 	console.info('_api/experimental: +server.ts // GET');
-	return handler({ url });
+	return _handler({ url });
 };
