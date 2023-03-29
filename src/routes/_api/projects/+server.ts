@@ -1,12 +1,12 @@
 console.info('_api/projects: +server.ts');
 
-import type { PorjectFrontMatter } from '$lib/types';
+import type { ProjectFrontMatter } from '$lib/types';
 import { error, json } from '@sveltejs/kit';
 
 import type { RequestHandler } from './$types';
 
 type Project = {
-	metadata: PorjectFrontMatter;
+	metadata: ProjectFrontMatter;
 };
 
 export const _handler = async ({ url }: { url: URL }) => {

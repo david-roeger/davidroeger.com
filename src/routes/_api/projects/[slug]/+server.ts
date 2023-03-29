@@ -1,6 +1,6 @@
 console.info('_api/projects/[slug]: +server.ts');
 
-import type { PorjectFrontMatter } from '$lib/types';
+import type { ProjectFrontMatter } from '$lib/types';
 import { error, json } from '@sveltejs/kit';
 
 import type { RequestEvent, RequestHandler } from './$types';
@@ -9,7 +9,7 @@ export type RouteParams = RequestEvent['params'];
 
 type ProjectEntry = {
 	default: { render: () => { html: string } };
-	metadata: PorjectFrontMatter;
+	metadata: ProjectFrontMatter;
 };
 
 export const handler = async ({ params }: { params: RouteParams }) => {

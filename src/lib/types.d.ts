@@ -28,7 +28,7 @@ export interface ProjectsMediaData {
 	[key: string]: ProjectMediaData;
 }
 
-export interface PorjectFrontMatter {
+export interface ProjectFrontMatter {
 	published: boolean;
 	slug: string;
 	order: number;
@@ -48,7 +48,7 @@ export interface PorjectFrontMatter {
 	lastmod: string;
 	keywords: string[];
 }
-export interface ProjectMetaData extends PorjectFrontMatter {
+export interface ProjectMetaData extends ProjectFrontMatter {
 	// this gets added by the server
 	html: string;
 }
