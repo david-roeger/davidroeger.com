@@ -1,0 +1,77 @@
+{
+	"basics": {
+		"name": "David Röger",
+		"label": "Programmer",
+		"image": "",
+		"email": "david@davidroeger.com",
+		"phone": "(912) 555-4321",
+		"url": "https://davidroeger.com",
+		"summary": "TBD...",
+		"location": {
+			"address": null,
+			"postalCode": null,
+			"city": null,
+			"countryCode": "DE",
+			"region": "Baden-Württemberg"
+		},
+		"profiles": [
+			{
+				"network": "Github",
+				"username": "david-roeger",
+				"url": "https://github.com/david-roeger"
+			}
+		]
+	},
+	"work": [
+		{
+			"name": "Codeatelier GmBH",
+			"position": "Full Stack Developer",
+			"url": "https://codeatelier.com",
+			"startDate": "2013-01-01",
+			"endDate": "2014-01-01",
+			"summary": "Description…",
+			"highlights": ["Started the company"]
+		}
+	],
+	"volunteer": [],
+	"education": [
+		{
+			"institution": "Hochschule der Medien Stuttgart",
+			"url": "https://www.hdm-stuttgart.de//",
+			"area": "Informationdesign",
+			"studyType": "Bachelor",
+			"startDate": "2017-09-01",
+			"endDate": "2021-08-02",
+			"score": "1.3",
+			"courses": []
+		}
+	],
+	"awards": [],
+	"certificates": [],
+	"publications": [],
+	"skills": [
+		{
+			"name": "Web Development",
+			"level": "Master",
+			"keywords": ["HTML", "CSS", "JavaScript"]
+		}
+	],
+	"languages": [
+		{
+			"language": "German",
+			"fluency": "Native speaker"
+		},
+		{
+			"language": "English",
+			"fluency": "Fluent"
+		}
+	],
+	"interests": [
+		{
+			"name": "Wildlife",
+			"keywords": ["Ferrets", "Unicorns"]
+		}
+	],
+	"references": [],
+	"projects": []
+}

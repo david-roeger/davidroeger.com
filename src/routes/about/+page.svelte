@@ -7,8 +7,12 @@
 	import smile from '$assets/me/smile.png?w=124;248;372;188;376;564&format=webp;png&picture&imageTools';
 
 	import { Image } from '$primitives/Image';
+	import type { PageData } from './$types';
+
+	export let data: PageData;
 </script>
 
+<h2>{data.basics?.name}</h2>
 <div
 	class="flex flex-col-reverse border-b sm:flex-row sm:justify-between border-mauve-6"
 >
