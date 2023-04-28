@@ -134,3 +134,12 @@ export const getRandomEmojis = (limit = 10): string[] => {
 
 	return [...randomEmojis];
 };
+
+export const toBase64 = (str: string) => {
+	if (typeof window !== 'undefined') return window.btoa(str);
+	return Buffer.from(str).toString('base64');
+};
+export const fromBase64 = (str: string) => {
+	if (typeof window !== 'undefined') return window.atob(str);
+	return Buffer.from(str, 'base64').toString('utf8');
+};

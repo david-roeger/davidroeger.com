@@ -1,7 +1,9 @@
 console.info('_api/music: +server.ts');
 
+import z from 'zod';
 import { error, json } from '@sveltejs/kit';
-import { authorize, baseRequest, getTopArtists, getTopTracks } from './utils';
+
+import { baseRequest, getTopArtists, getTopTracks } from './utils';
 
 import type {
 	CurrentTrack,
@@ -10,6 +12,12 @@ import type {
 } from '$lib/Components/Music/types';
 
 import type { RequestHandler } from './$types';
+import {
+	SPOTIFY_CLIENT_ID,
+	SPOTIFY_CLIENT_SECRET,
+	SPOTIFY_REFRESH_TOKEN
+} from '$env/static/private';
+import { rangeSchema as baseRangeSchema } from '$routes/about/music/constants';
 
 const getAccessToken = async ({
 	clientId,
@@ -103,89 +111,72 @@ const getRecentTrack = async (accessToken: string): Promise<RecentTrack> => {
 	throw error(500, errorFromBody);
 };
 
-export const getLastTrack = async (accessToken: string): Promise<LastTrack> => {
+const getLastTrack = async (accessToken: string): Promise<LastTrack> => {
 	const current = await getCurrentTrack(accessToken);
 	if (current !== false) return current;
 	return await getRecentTrack(accessToken);
 };
 
-export const GET: RequestHandler = async ({ url, setHeaders }) => {
+let accessToken: string;
+
+const typeSchema = z.enum(['lastTrack', 'tracks', 'artists']);
+
+const rangeSchema = baseRangeSchema.transform((val) => {
+	if (val === 'short') return 'short_term';
+	if (val === 'medium') return 'medium_term';
+	if (val === 'long') return 'long_term';
+	return val;
+});
+
+export const GET: RequestHandler = async ({ url }) => {
 	console.info('_api/music: +server.ts // GET');
 
-	authorize(url);
+	const type = url.searchParams.get('type');
+	const range = url.searchParams.get('range');
 
-	const clientId = url.searchParams.get('clientId') as string;
-	const clientSecret = url.searchParams.get('clientSecret') as string;
-	const refreshToken = url.searchParams.get('refreshToken') as string;
+	const parsedType = typeSchema.safeParse(type);
+	if (!parsedType.success) {
+		throw error(400);
+	}
 
-	const accessToken = await getAccessToken({
-		clientId,
-		clientSecret,
-		refreshToken
-	});
+	const parsedRange = rangeSchema.safeParse(range);
+	if (!parsedRange.success && type !== 'lastTrack') {
+		throw error(400);
+	}
 
+	if (!accessToken) {
+		accessToken = await getAccessToken({
+			clientId: SPOTIFY_CLIENT_ID,
+			clientSecret: SPOTIFY_CLIENT_SECRET,
+			refreshToken: SPOTIFY_REFRESH_TOKEN
+		});
+	}
 	if (!accessToken) throw error(500, "Couldn't load music data");
 
-	const lastTrack = getLastTrack(accessToken);
-	const topTracksShort = getTopTracks('short_term', accessToken);
-	const topTracksMedium = getTopTracks('medium_term', accessToken);
-	const topTrackLong = getTopTracks('long_term', accessToken);
-	const topArtistsShort = getTopArtists('short_term', accessToken);
-	const topArtistsMedium = getTopArtists('medium_term', accessToken);
-	const topArtistsLong = getTopArtists('long_term', accessToken);
+	try {
+		if (type === 'lastTrack') {
+			const lastTrack = await getLastTrack(accessToken);
+			return json(lastTrack);
+		}
+		if ('data' in parsedRange) {
+			if (type === 'tracks') {
+				const topTracks = await getTopTracks(
+					accessToken,
+					parsedRange.data
+				);
+				return json(topTracks);
+			}
+			if (type === 'artists') {
+				const topArtists = await getTopArtists(
+					accessToken,
+					parsedRange.data
+				);
+				return json(topArtists);
+			}
+		}
+	} catch {
+		throw error(500, "Couldn't load music data");
+	}
 
-	const results = await Promise.allSettled([
-		lastTrack,
-		topTracksShort,
-		topTracksMedium,
-		topTrackLong,
-		topArtistsShort,
-		topArtistsMedium,
-		topArtistsLong
-	]).then((results) => {
-		const finalLastTrack =
-			results[0].status === 'fulfilled'
-				? results[0].value
-				: 'Error fetching last track';
-		const finalTopTracksShort =
-			results[1].status === 'fulfilled'
-				? results[1].value
-				: 'Error fetching top tracks short';
-		const finalTopTracksMedium =
-			results[2].status === 'fulfilled'
-				? results[2].value
-				: 'Error fetching top tracks medium';
-		const finalTopTracksLong =
-			results[3].status === 'fulfilled'
-				? results[3].value
-				: 'Error fetching top tracks long';
-		const finalTopArtistsShort =
-			results[4].status === 'fulfilled'
-				? results[4].value
-				: 'Error fetching top artists short';
-		const finalTopArtistsMedium =
-			results[5].status === 'fulfilled'
-				? results[5].value
-				: 'Error fetching top artists medium';
-		const finalTopArtistsLong =
-			results[6].status === 'fulfilled'
-				? results[6].value
-				: 'Error fetching top artists long';
-
-		return {
-			lastTrack: finalLastTrack,
-			topTracksShort: finalTopTracksShort,
-			topTracksMedium: finalTopTracksMedium,
-			topTracksLong: finalTopTracksLong,
-			topArtistsShort: finalTopArtistsShort,
-			topArtistsMedium: finalTopArtistsMedium,
-			topArtistsLong: finalTopArtistsLong
-		};
-	});
-
-	setHeaders({
-		'Cache-Control': 'private, max-age=60'
-	});
-
-	return json(results);
+	throw error(500, "Couldn't load music data");
 };

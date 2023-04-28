@@ -19,6 +19,11 @@
 	import DefaultHead from '$components/Head/DefaultHead.svelte';
 	import { mapToRange } from '$utils';
 
+	import { QueryClientProvider } from '@tanstack/svelte-query';
+	import type { LayoutData } from './$types';
+
+	export let data: LayoutData;
+
 	const getTitle = (path: string) => {
 		const pathArray = path.split('/').filter((item) => item !== '');
 
@@ -230,51 +235,54 @@
 		}
 	]}
 />
-<NotificationProvider>
-	<div
-		class="relative flex flex-col min-h-full font-sans text-mauve-12"
-		data-sveltekit-preload-data
-	>
-		<a
-			href="#content"
-			class="absolute -top-12 left-2 px-4 py-2 focus:top-2 z-50 bg-white border focus:outline-none ring-mauve-12 focus:ring-1"
-		>
-			Skip to content
-		</a>
-		<Header class="z-30" />
-		<main
-			id="content"
-			class="z-10 flex flex-col xl:max-w-7xl xl:border-r border-mauve-6 mb-auto"
-		>
-			<BreakpointProvider>
-				<slot />
-			</BreakpointProvider>
-		</main>
-		<Footer class="z-20" />
 
-		{#if showBttButton}
-			<div
-				class="sticky p-2 bottom-0 left-0 z-30 overflow-hidden pointer-events-none"
-				in:slideUp|local={{}}
-				out:slideUp|local={{ easing: reversedEasing }}
+<QueryClientProvider client={data.queryClient}>
+	<NotificationProvider>
+		<div
+			class="relative flex flex-col min-h-full font-sans text-mauve-12"
+			data-sveltekit-preload-data
+		>
+			<a
+				href="#content"
+				class="absolute -top-12 left-2 px-4 py-2 focus:top-2 z-50 bg-white border focus:outline-none ring-mauve-12 focus:ring-1"
 			>
-				<button
-					aria-hidden={!showBttButton ? true : undefined}
-					tabindex={showBttButton ? 0 : -1}
-					on:click={handleClick}
-					on:click
-					type="button"
-					class="{showBttButton
-						? 'pointer-events-auto'
-						: 'translate-y-[42px] pointer-events-none'} block p-1 text-xs transition-transform bg-white border rounded-full cursor-n-resize touch-manipulation focus:outline-none ring-mauve-12 focus:ring-1"
-				>
-					<AccessibleIcon label="Back to top">
-						<North />
-					</AccessibleIcon>
-				</button>
-			</div>
-		{/if}
-	</div>
+				Skip to content
+			</a>
+			<Header class="z-30" />
+			<main
+				id="content"
+				class="z-10 flex flex-col xl:max-w-7xl xl:border-r border-mauve-6 mb-auto"
+			>
+				<BreakpointProvider>
+					<slot />
+				</BreakpointProvider>
+			</main>
+			<Footer class="z-20" />
 
-	<div id="portal" style="position: absolute; z-index: 9999" />
-</NotificationProvider>
+			{#if showBttButton}
+				<div
+					class="sticky p-2 bottom-0 left-0 z-30 overflow-hidden pointer-events-none"
+					in:slideUp|local={{}}
+					out:slideUp|local={{ easing: reversedEasing }}
+				>
+					<button
+						aria-hidden={!showBttButton ? true : undefined}
+						tabindex={showBttButton ? 0 : -1}
+						on:click={handleClick}
+						on:click
+						type="button"
+						class="{showBttButton
+							? 'pointer-events-auto'
+							: 'translate-y-[42px] pointer-events-none'} block p-1 text-xs transition-transform bg-white border rounded-full cursor-n-resize touch-manipulation focus:outline-none ring-mauve-12 focus:ring-1"
+					>
+						<AccessibleIcon label="Back to top">
+							<North />
+						</AccessibleIcon>
+					</button>
+				</div>
+			{/if}
+		</div>
+
+		<div id="portal" style="position: absolute; z-index: 9999" />
+	</NotificationProvider>
+</QueryClientProvider>

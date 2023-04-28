@@ -8,44 +8,30 @@
 	import { TopTracks, TopArtists, LastTrack } from '$slices/Music';
 
 	import * as Tabs from '$primitives/Tabs';
-	import { writable } from 'svelte/store';
 	import Link from '$components/Link/Link.svelte';
 	import * as Popper from '$primitives/Popper';
 	import { AccessibleIcon } from '$components/AccessibleIcon';
 	import * as RadioGroup from '$primitives/RadioGroup';
 	import Filter from '$assets/Icons/24/filter.svg?component';
 	import Close from '$assets/Icons/24/close.svg?component';
+	import { toBase64 } from '$lib/Utils';
+	import {
+		type S,
+		timeRanges,
+		tabSchema,
+		rangeSchema,
+		createStateFromParam
+	} from './constants';
+	import { queryParam } from '$lib/Utils/Store/queryParam';
 
-	const defaultSelected = 'tracks';
-	const selected = writable(defaultSelected);
+	const queryStore = queryParam('s', {
+		// base64 encode string
+		encode: (value: S) =>
+			toBase64(JSON.stringify(value).replaceAll(' ', '')),
+		decode: (value: string | null) => createStateFromParam(value)
+	});
 
-	let timeRange = 1;
-	const timeRanges = [
-		{
-			label: 'last 4 Weeks',
-			value: 'short'
-		},
-		{
-			label: 'last 6 Months',
-			value: 'medium'
-		},
-		{
-			label: 'probably forever',
-			value: 'long'
-		}
-	] as const;
-
-	const topTracks = {
-		short: data.topTracksShort,
-		medium: data.topTracksMedium,
-		long: data.topTracksLong
-	};
-
-	const topArtists = {
-		short: data.topArtistsShort,
-		medium: data.topArtistsMedium,
-		long: data.topArtistsLong
-	};
+	$: store = $queryStore ?? data.initalState;
 </script>
 
 <Headline containerClass="flex items-end py-8 md:py-16">
@@ -63,17 +49,24 @@
 
 <LastTrack
 	labelledby="current_track"
-	lastTrack={data.lastTrack}
 	class="border-b bg-white/[.85] border-mauve-6 mb-8 md:mb-16"
 />
 
 <Tabs.Root
-	defaultValue={defaultSelected}
-	on:valueChange={(e) => ($selected = e.detail.value)}
+	defaultValue={data.initalState.tab}
+	on:valueChange={(e) => {
+		const tab = tabSchema.safeParse(e.detail.value);
+		if (tab.success) {
+			queryStore.update((s) => {
+				const last = s ?? data.initalState;
+				return { ...last, tab: tab.data };
+			});
+		}
+	}}
 >
 	<p class="p-2 bg-white border-t border-mauve-6">
 		Favorite on Spotify <span class="text-mauve-11">
-			({timeRanges[timeRange].label})
+			({timeRanges[store.range].label})
 		</span>
 	</p>
 
@@ -84,7 +77,7 @@
 		>
 			<Tabs.Trigger
 				value="tracks"
-				class="flex-grow border border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 px-4 py-2 rounded-l-full {$selected ===
+				class="flex-grow border border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 px-4 py-2 rounded-l-full {store.tab ===
 				'tracks'
 					? 'bg-purple-5'
 					: 'bg-white'}"
@@ -95,7 +88,7 @@
 			</Tabs.Trigger>
 			<Tabs.Trigger
 				value="artists"
-				class="flex-grow border border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 px-4 py-2 rounded-r-full {$selected ===
+				class="flex-grow border border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 px-4 py-2 rounded-r-full {store.tab ===
 				'artists'
 					? 'bg-purple-5'
 					: 'bg-white'}"
@@ -131,29 +124,37 @@
 				</Headline>
 
 				<RadioGroup.Root
-					defaultValue={timeRanges[timeRange].value}
+					defaultValue={timeRanges[store.range].value}
 					required
 					name="time"
 					labelledby="timeHeadline"
 					orientation="vertical"
 					class="p-2"
-					on:valueChange={(e) =>
-						(timeRange = timeRanges.findIndex(
-							(range) => range.value === e.detail.value
-						))}
+					on:valueChange={(e) => {
+						const range = rangeSchema.safeParse(e.detail.value);
+						if (range.success) {
+							queryStore.update((s) => {
+								const last = s ?? data.initalState;
+								return { ...last, range: range.data };
+							});
+						}
+					}}
 				>
-					{#each timeRanges as range}
+					{#each Object.values(timeRanges) as range}
 						<div class="flex mb-2 space-x-2 last:mb-0 group">
 							<RadioGroup.Item
 								value={range.value}
-								id={range.value}
+								id="timerange-{range.value}"
 								class="relative w-6 h-6 p-1 bg-white border rounded-full b border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 before:absolute before:inset-0 before:block before:m-1 before:rounded-full group-hover:before:bg-mauve-5 before:transition-colors"
 							>
 								<RadioGroup.Indicator
 									class="block absolute inset-0 m-1 rounded-full bg-plum-5"
 								/>
 							</RadioGroup.Item>
-							<label for={range.value} class="cursor-pointer">
+							<label
+								for="timerange-{range.value}"
+								class="cursor-pointer"
+							>
 								{range.label}
 							</label>
 						</div>
@@ -174,19 +175,13 @@
 		value="tracks"
 		class="border-t border-b bg-white/[.85] border-mauve-6 focus:outline-none ring-mauve-6 focus:ring-1"
 	>
-		<TopTracks
-			labelledby="top_tracks"
-			topTracks={topTracks[timeRanges[timeRange].value]}
-		/>
+		<TopTracks labelledby="top_tracks" range={store.range} />
 	</Tabs.Content>
 	<Tabs.Content
 		value="artists"
 		class="border-t border-b bg-white/[.85] border-mauve-6 focus:outline-none ring-mauve-6 focus:ring-1"
 	>
-		<TopArtists
-			labelledby="top_artists"
-			topArtists={topArtists[timeRanges[timeRange].value]}
-		/>
+		<TopArtists labelledby="top_artists" range={store.range} />
 	</Tabs.Content>
 </Tabs.Root>
 

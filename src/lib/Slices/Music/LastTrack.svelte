@@ -1,16 +1,17 @@
 <script lang="ts">
+	import { createQuery } from '@tanstack/svelte-query';
+
 	import * as Music from '$components/Music';
 	import { Link } from '$components/Link';
 	import { AccessibleIcon } from '$components/AccessibleIcon';
 	import Album from '$assets/Icons/24/album.svg?component';
 	import Artist from '$assets/Icons/24/artist.svg?component';
 	import Wave from '$components/Wave/Wave.svelte';
-
 	import type {
 		LastTrack as LastTrackType,
 		Image
 	} from '$components/Music/types';
-	export let lastTrack: LastTrackType | string;
+
 	let c = '';
 	export { c as class };
 	export let labelledby: string | undefined = undefined;
@@ -34,10 +35,37 @@
 
 		return images[targetIndex].url;
 	};
+
+	const queryFn = async () =>
+		(await fetch('/_api/music?type=lastTrack'))
+			.json()
+			.then((data) => data as LastTrackType);
+
+	const query = createQuery({
+		queryKey: ['music', 'lastTrack'],
+		queryFn
+	});
 </script>
 
 <section class={c}>
-	{#if typeof lastTrack !== 'string'}
+	{#if $query.isLoading}
+		<Music.Root {labelledby}>
+			<Music.Row class="flex">
+				<Music.Atom>
+					<div
+						class="h-[68px] md:h-[92px] w-[68px] md:w-[92px] bg-purple-3"
+					/>
+				</Music.Atom>
+				<Music.Atom class="flex-1 min-w-0 border-l border-mauve-6">
+					<Music.Detail subline={['', '']}>
+						<p class="text-xs text-mauve-11">Loading:</p>
+						<p>Waiting for data...</p>
+					</Music.Detail>
+				</Music.Atom>
+			</Music.Row>
+		</Music.Root>
+	{:else if $query.data}
+		{@const lastTrack = $query.data}
 		<Music.Root {labelledby}>
 			<Music.Row class="flex">
 				{#if lastTrack.album.images.length}
@@ -51,6 +79,12 @@
 								alt="{lastTrack.album.name} Album Cover"
 							/>
 						</Link>
+					</Music.Atom>
+				{:else}
+					<Music.Atom>
+						<div
+							class="h-[68px] md:h-[92px] w-[68px] md:w-[92px] bg-purple-3"
+						/>
 					</Music.Atom>
 				{/if}
 				<Music.Atom class="flex-1 min-w-0 border-l border-mauve-6">
@@ -100,7 +134,7 @@
 				<Music.Atom class="flex-1 min-w-0 border-l border-mauve-6">
 					<Music.Detail subline={['', '']}>
 						<p class="text-xs text-mauve-11">Error:</p>
-						<p>{lastTrack}</p>
+						<p>Something went wrong. Please try again later</p>
 					</Music.Detail>
 				</Music.Atom>
 			</Music.Row>

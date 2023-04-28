@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { createQuery } from '@tanstack/svelte-query';
+
 	import * as Music from '$components/Music';
 	import { Link } from '$components/Link';
 	import { AccessibleIcon } from '$components/AccessibleIcon';
@@ -8,8 +10,13 @@
 		TopArtist as TopArtistType,
 		Image
 	} from '$components/Music/types';
+	import type { Range } from '$routes/about/music/constants';
+	import { flip } from 'svelte/animate';
+	import { quintOut } from 'svelte/easing';
+	import { fade } from 'svelte/transition';
 
-	export let topArtists: TopArtistType[] | string;
+	export let range: Range;
+
 	let c = '';
 	export { c as class };
 	export let labelledby: string | undefined = undefined;
@@ -33,10 +40,41 @@
 
 		return images[targetIndex].url;
 	};
+
+	const queryFn = async () =>
+		(await fetch(`/_api/music?type=artists&range=${range}`))
+			.json()
+			.then((data) => data as TopArtistType[]);
+
+	$: query = createQuery({
+		queryKey: ['music', 'artists', range],
+		queryFn
+	});
 </script>
 
 <section class={c}>
-	{#if typeof topArtists !== 'string'}
+	{#if $query.isLoading}
+		<Music.Root {labelledby}>
+			{#each { length: 8 } as _, i (i)}
+				<Music.Row class="flex">
+					<Music.Atom>
+						<div
+							class="h-[68px] md:h-[92px] w-[68px] md:w-[92px] bg-purple-3"
+						/>
+					</Music.Atom>
+					<Music.Atom class="flex-1 min-w-0 border-l border-mauve-6">
+						<Music.Detail subline={['', '']}>
+							<p class="text-xs text-mauve-11">
+								Loading artists:
+							</p>
+							<p>Waiting for data...</p>
+						</Music.Detail>
+					</Music.Atom>
+				</Music.Row>
+			{/each}
+		</Music.Root>
+	{:else if $query.data}
+		{@const topArtists = $query.data}
 		<Music.Root {labelledby}>
 			{#each topArtists as artist (artist.id)}
 				<Music.Row class="flex">
@@ -52,6 +90,10 @@
 								/>
 							</Link>
 						</Music.Atom>
+					{:else}
+						<Music.Atom
+							class="h-[68px] md:h-[92px] w-[68px] md:w-[92px] object-cover bg-purple-3"
+						/>
 					{/if}
 					<Music.Atom class="flex-1 min-w-0 border-l border-mauve-6">
 						<Music.Detail
@@ -85,7 +127,7 @@
 				<Music.Atom class="flex-1 min-w-0 border-l border-mauve-6">
 					<Music.Detail subline={['', '']}>
 						<p class="text-xs text-mauve-11">Error:</p>
-						<p>{topArtists}</p>
+						<p>Something went wrong. Please try again later</p>
 					</Music.Detail>
 				</Music.Atom>
 			</Music.Row>

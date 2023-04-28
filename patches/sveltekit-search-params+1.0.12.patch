@@ -1,0 +1,66 @@
+diff --git a/node_modules/sveltekit-search-params/package/sveltekit-search-params.d.ts b/node_modules/sveltekit-search-params/package/sveltekit-search-params.d.ts
+index deb3a3a..ede6cb5 100644
+--- a/node_modules/sveltekit-search-params/package/sveltekit-search-params.d.ts
++++ b/node_modules/sveltekit-search-params/package/sveltekit-search-params.d.ts
+@@ -7,6 +7,7 @@ export type EncodeAndDecodeOptions<T = any> = {
+ export type StoreOptions = {
+     debounceHistory?: number;
+     pushHistory?: boolean;
++    shallow?: boolean;
+ };
+ type LooseAutocomplete<T> = {
+     [K in keyof T]: T[K];
+diff --git a/node_modules/sveltekit-search-params/package/sveltekit-search-params.js b/node_modules/sveltekit-search-params/package/sveltekit-search-params.js
+index c7c30ee..d879205 100644
+--- a/node_modules/sveltekit-search-params/package/sveltekit-search-params.js
++++ b/node_modules/sveltekit-search-params/package/sveltekit-search-params.js
+@@ -17,6 +17,13 @@ const GOTO_OPTIONS_PUSH = {
+     noScroll: true,
+     replaceState: false,
+ };
++
++const GOTO_OPTIONS_SHALLOW= {
++    keepFocus: true,
++    noScroll: true,
++    replaceState: false,
++};
++
+ function mixSearchAndOptions(searchParams, options) {
+     const uniqueKeys = Array.from(new Set(Array.from(searchParams?.keys?.() || []).concat(Object.keys(options ?? {}))));
+     let anyDefaultedParam = false;
+@@ -109,7 +116,7 @@ const batchedUpdates = new Set();
+ let batchTimeout;
+ const defaultedParams = new Set();
+ const debouncedTimeouts = new Map();
+-export function queryParameters(options, { debounceHistory = 0, pushHistory = true } = {}) {
++export function queryParameters(options, { debounceHistory = 0, pushHistory = true, shallow = false } = {}) {
+     const { set: _set, subscribe } = writable();
+     const setRef = { value: noop };
+     const unsubPage = page.subscribe(($page) => {
+@@ -139,7 +146,7 @@ export function queryParameters(options, { debounceHistory = 0, pushHistory = tr
+                 });
+                 clearTimeout(debouncedTimeouts.get('queryParameters'));
+                 if (browser)
+-                    await goto(`?${query}${hash}`, GOTO_OPTIONS);
++                    await goto(`?${query}${hash}`, shallow ? GOTO_OPTIONS_SHALLOW : GOTO_OPTIONS);
+                 if (pushHistory && browser) {
+                     debouncedTimeouts.set('queryParameters', setTimeout(() => {
+                         goto(hash, GOTO_OPTIONS_PUSH);
+@@ -179,7 +186,7 @@ const DEFAULT_ENCODER_DECODER = {
+     encode: (value) => value.toString(),
+     decode: (value) => (value ? value.toString() : null),
+ };
+-export function queryParam(name, { encode: encode = DEFAULT_ENCODER_DECODER.encode, decode: decode = DEFAULT_ENCODER_DECODER.decode, defaultValue, } = DEFAULT_ENCODER_DECODER, { debounceHistory = 0, pushHistory = true } = {}) {
++export function queryParam(name, { encode: encode = DEFAULT_ENCODER_DECODER.encode, decode: decode = DEFAULT_ENCODER_DECODER.decode, defaultValue, } = DEFAULT_ENCODER_DECODER, { debounceHistory = 0, pushHistory = true, shallow = false } = {}) {
+     const { set: _set, subscribe } = writable();
+     const setRef = { value: noop };
+     const unsubPage = page.subscribe(($page) => {
+@@ -203,7 +210,7 @@ export function queryParam(name, { encode: encode = DEFAULT_ENCODER_DECODER.enco
+                 });
+                 clearTimeout(debouncedTimeouts.get(name));
+                 if (browser)
+-                    await goto(`?${query}${hash}`, GOTO_OPTIONS);
++                    await goto(`?${query}${hash}`, shallow ? GOTO_OPTIONS_SHALLOW : GOTO_OPTIONS);
+                 if (pushHistory && browser) {
+                     debouncedTimeouts.set(name, setTimeout(() => {
+                         goto(hash, GOTO_OPTIONS_PUSH);

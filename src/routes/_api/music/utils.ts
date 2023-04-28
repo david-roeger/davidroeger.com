@@ -1,25 +1,6 @@
 import { error } from '@sveltejs/kit';
 
-import {
-	SPOTIFY_CLIENT_ID,
-	SPOTIFY_CLIENT_SECRET,
-	SPOTIFY_REFRESH_TOKEN
-} from '$env/static/private';
 import type { TopArtist, TopTrack } from '$lib/Components/Music/types';
-
-export const authorize = (url: URL) => {
-	const clientId = url.searchParams.get('clientId');
-	const clientSecret = url.searchParams.get('clientSecret');
-	const refreshToken = url.searchParams.get('refreshToken');
-
-	if (
-		clientId !== SPOTIFY_CLIENT_ID ||
-		clientSecret !== SPOTIFY_CLIENT_SECRET ||
-		refreshToken !== SPOTIFY_REFRESH_TOKEN
-	) {
-		throw error(401);
-	}
-};
 
 export const baseRequest = async (
 	accessToken: string,
@@ -35,9 +16,9 @@ export const baseRequest = async (
 };
 
 export const getTop = async <T>(
+	accessToken: string,
 	type: 'tracks' | 'artists',
-	range: 'short_term' | 'medium_term' | 'long_term',
-	accessToken: string
+	range: 'short_term' | 'medium_term' | 'long_term'
 ): Promise<T> => {
 	const response = await baseRequest(
 		accessToken,
@@ -58,17 +39,15 @@ export const getTop = async <T>(
 };
 
 export const getTopTracks = async (
-	range: 'short_term' | 'medium_term' | 'long_term',
-	accessToken: string
+	accessToken: string,
+	range: 'short_term' | 'medium_term' | 'long_term'
 ): Promise<TopTrack[]> => {
-	console.info(`_api/music: +server.ts // GET // getTopTracks // ${range}`);
-	return await getTop('tracks', range, accessToken);
+	return await getTop(accessToken, 'tracks', range);
 };
 
 export const getTopArtists = async (
-	range: 'short_term' | 'medium_term' | 'long_term',
-	accessToken: string
+	accessToken: string,
+	range: 'short_term' | 'medium_term' | 'long_term'
 ): Promise<TopArtist[]> => {
-	console.info(`_api/music: +server.ts // GET // getTopArtists // ${range}`);
-	return await getTop('artists', range, accessToken);
+	return await getTop(accessToken, 'artists', range);
 };
