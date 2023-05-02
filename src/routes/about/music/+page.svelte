@@ -20,9 +20,12 @@
 		timeRanges,
 		tabSchema,
 		rangeSchema,
-		createStateFromParam
+		createStateFromParam,
+		type Range,
+		type Tab
 	} from './constants';
 	import { queryParam } from '$lib/Utils/Store/queryParam';
+	import { preload } from '$lib/Actions/preload';
 
 	const queryStore = queryParam('s', {
 		// base64 encode string
@@ -30,6 +33,13 @@
 			toBase64(JSON.stringify(value).replaceAll(' ', '')),
 		decode: (value: string | null) => createStateFromParam(value)
 	});
+
+	const queryFnFactory = (tab: Tab, range: Range) => async () => {
+		const data = (
+			await fetch(`/_api/music?type=${tab}&range=${range}`)
+		).json();
+		return data;
+	};
 
 	$: store = $queryStore ?? data.initalState;
 </script>
@@ -75,28 +85,55 @@
 			ariaLabel="My Favorite Artists and Tracks on Spotify"
 			class="w-full flex space-x-2"
 		>
-			<Tabs.Trigger
-				value="tracks"
-				class="flex-grow border border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 px-4 py-2 rounded-l-full {store.tab ===
-				'tracks'
-					? 'bg-purple-5'
-					: 'bg-white'}"
+			<div
+				class="contents"
+				use:preload
+				on:preload={() => {
+					data.queryClient.prefetchQuery({
+						queryKey: ['music', 'tracks', store.range],
+						queryFn: queryFnFactory('tracks', store.range)
+					});
+				}}
 			>
-				<Headline as="h2" unstyled id="top_tracks" type="secondary">
-					Tracks
-				</Headline>
-			</Tabs.Trigger>
-			<Tabs.Trigger
-				value="artists"
-				class="flex-grow border border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 px-4 py-2 rounded-r-full {store.tab ===
-				'artists'
-					? 'bg-purple-5'
-					: 'bg-white'}"
+				<Tabs.Trigger
+					value="tracks"
+					class="flex-grow border border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 px-4 py-2 rounded-l-full {store.tab ===
+					'tracks'
+						? 'bg-purple-5'
+						: 'bg-white'}"
+				>
+					<Headline as="h2" unstyled id="top_tracks" type="secondary">
+						Tracks
+					</Headline>
+				</Tabs.Trigger>
+			</div>
+			<div
+				class="contents"
+				use:preload
+				on:preload={() => {
+					data.queryClient.prefetchQuery({
+						queryKey: ['music', 'artists', store.range],
+						queryFn: queryFnFactory('artists', store.range)
+					});
+				}}
 			>
-				<Headline as="h2" unstyled type="secondary" id="top_artists">
-					Artists
-				</Headline>
-			</Tabs.Trigger>
+				<Tabs.Trigger
+					value="artists"
+					class="flex-grow border border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 px-4 py-2 rounded-r-full {store.tab ===
+					'artists'
+						? 'bg-purple-5'
+						: 'bg-white'}"
+				>
+					<Headline
+						as="h2"
+						unstyled
+						type="secondary"
+						id="top_artists"
+					>
+						Artists
+					</Headline>
+				</Tabs.Trigger>
+			</div>
 		</Tabs.List>
 		<Popper.Root defaultOpen={false}>
 			<Popper.Trigger
@@ -141,7 +178,19 @@
 					}}
 				>
 					{#each Object.values(timeRanges) as range}
-						<div class="flex mb-2 space-x-2 last:mb-0 group">
+						<div
+							class="flex mb-2 space-x-2 last:mb-0 group"
+							use:preload
+							on:preload={() => {
+								data.queryClient.prefetchQuery({
+									queryKey: ['music', store.tab, range.value],
+									queryFn: queryFnFactory(
+										store.tab,
+										range.value
+									)
+								});
+							}}
+						>
 							<RadioGroup.Item
 								value={range.value}
 								id="timerange-{range.value}"

@@ -37,3 +37,13 @@ declare module '*.png' {
 declare module '*&imageTools' {
 	export default import('$lib/Primitives/Image/imageTools').Picture;
 }
+
+declare namespace svelteHTML {
+	// enhance elements
+	// interface IntrinsicElements {}
+	// enhance attributes
+	interface HTMLAttributes<T> {
+		// If you want to use on:beforeinstallprompt
+		'on:preload'?: (event: { detail: { type: 'tap' | 'move' } }) => void;
+	}
+}

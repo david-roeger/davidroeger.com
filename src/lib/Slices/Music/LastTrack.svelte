@@ -11,6 +11,8 @@
 		LastTrack as LastTrackType,
 		Image
 	} from '$components/Music/types';
+	import Image from '$lib/Components/Music/Image.svelte';
+	import { onMount } from 'svelte';
 
 	let c = '';
 	export { c as class };
@@ -43,7 +45,8 @@
 
 	const query = createQuery({
 		queryKey: ['music', 'lastTrack'],
-		queryFn
+		queryFn,
+		refetchInterval: 1000 * 30 // 30 seconds
 	});
 </script>
 
