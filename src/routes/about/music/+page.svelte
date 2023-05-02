@@ -85,44 +85,45 @@
 			ariaLabel="My Favorite Artists and Tracks on Spotify"
 			class="w-full flex space-x-2"
 		>
-			<div
-				class="contents"
-				use:preload
-				on:preload={() => {
-					data.queryClient.prefetchQuery({
-						queryKey: ['music', 'tracks', store.range],
-						queryFn: queryFnFactory('tracks', store.range)
-					});
-				}}
+			<Tabs.Trigger
+				value="tracks"
+				class="flex-grow border border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 rounded-l-full {store.tab ===
+				'tracks'
+					? 'bg-purple-5'
+					: 'bg-white'}"
 			>
-				<Tabs.Trigger
-					value="tracks"
-					class="flex-grow border border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 px-4 py-2 rounded-l-full {store.tab ===
-					'tracks'
-						? 'bg-purple-5'
-						: 'bg-white'}"
+				<div
+					class=" px-4 py-2"
+					use:preload
+					on:preload={() => {
+						data.queryClient.prefetchQuery({
+							queryKey: ['music', 'tracks', store.range],
+							queryFn: queryFnFactory('tracks', store.range)
+						});
+					}}
 				>
 					<Headline as="h2" unstyled id="top_tracks" type="secondary">
 						Tracks
 					</Headline>
-				</Tabs.Trigger>
-			</div>
-			<div
-				class="contents"
-				use:preload
-				on:preload={() => {
-					data.queryClient.prefetchQuery({
-						queryKey: ['music', 'artists', store.range],
-						queryFn: queryFnFactory('artists', store.range)
-					});
-				}}
+				</div>
+			</Tabs.Trigger>
+
+			<Tabs.Trigger
+				value="artists"
+				class="flex-grow border border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 rounded-r-full {store.tab ===
+				'artists'
+					? 'bg-purple-5'
+					: 'bg-white'}"
 			>
-				<Tabs.Trigger
-					value="artists"
-					class="flex-grow border border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 px-4 py-2 rounded-r-full {store.tab ===
-					'artists'
-						? 'bg-purple-5'
-						: 'bg-white'}"
+				<div
+					class="px-4 py-2"
+					use:preload
+					on:preload={() => {
+						data.queryClient.prefetchQuery({
+							queryKey: ['music', 'artists', store.range],
+							queryFn: queryFnFactory('artists', store.range)
+						});
+					}}
 				>
 					<Headline
 						as="h2"
@@ -132,8 +133,8 @@
 					>
 						Artists
 					</Headline>
-				</Tabs.Trigger>
-			</div>
+				</div>
+			</Tabs.Trigger>
 		</Tabs.List>
 		<Popper.Root defaultOpen={false}>
 			<Popper.Trigger
