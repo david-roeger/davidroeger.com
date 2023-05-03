@@ -1,7 +1,7 @@
 console.info('about/music: +page.ts');
 
 import type { PageLoad } from './$types';
-import { createStateFromParam } from './constants';
+import { MUSIC_KEYS, createStateFromParam } from './constants';
 
 const constructParams = (type: string, range?: string) => {
 	const newParams = new URLSearchParams();
@@ -27,12 +27,12 @@ export const load: PageLoad = async ({ parent, url, fetch }) => {
 		fetch(`/_api/music?${intialTabParams.toString()}`);
 
 	const lastTrackQuery = queryClient.prefetchQuery({
-		queryKey: ['music', 'lastTrack'],
+		queryKey: MUSIC_KEYS.type('lastTrack'),
 		queryFn: async () => (await lastTrackQueryFunction()).json()
 	});
 
 	const initalTabQuery = queryClient.prefetchQuery({
-		queryKey: ['music', state.tab, state.range],
+		queryKey: MUSIC_KEYS.range(state.tab, state.range),
 		queryFn: async () => (await intitalTabQueryFunction()).json()
 	});
 

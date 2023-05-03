@@ -5,16 +5,12 @@
 	import { Link } from '$components/Link';
 	import { AccessibleIcon } from '$components/AccessibleIcon';
 	import Tag from '$assets/Icons/24/tag.svg?component';
-	import Score from '$assets/Icons/24/score.svg?component';
 	import type {
 		TopArtist as TopArtistType,
 		Image
 	} from '$components/Music/types';
-	import type { Range } from '$routes/about/music/constants';
-	import { flip } from 'svelte/animate';
-	import { quintOut } from 'svelte/easing';
-	import { fade } from 'svelte/transition';
-
+	import { MUSIC_KEYS, type Range } from '$routes/about/music/constants';
+	import { Score } from '$lib/Components/Score';
 	export let range: Range;
 
 	let c = '';
@@ -47,7 +43,7 @@
 			.then((data) => data as TopArtistType[]);
 
 	$: query = createQuery({
-		queryKey: ['music', 'artists', range],
+		queryKey: MUSIC_KEYS.range('artists', range),
 		queryFn
 	});
 </script>
@@ -108,8 +104,8 @@
 							<Link href={artist.external_urls.spotify}>
 								{artist.name}
 							</Link>
-							<AccessibleIcon label="Score:" slot="subline">
-								<Score />
+							<AccessibleIcon label="Popularity:" slot="subline">
+								<Score score={artist.popularity} />
 							</AccessibleIcon>
 						</Music.Detail>
 					</Music.Atom>

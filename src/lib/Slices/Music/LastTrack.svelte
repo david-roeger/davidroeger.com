@@ -11,8 +11,8 @@
 		LastTrack as LastTrackType,
 		Image
 	} from '$components/Music/types';
-	import Image from '$lib/Components/Music/Image.svelte';
 	import { onMount } from 'svelte';
+	import { MUSIC_KEYS } from '$routes/about/music/constants';
 
 	let c = '';
 	export { c as class };
@@ -44,7 +44,7 @@
 			.then((data) => data as LastTrackType);
 
 	const query = createQuery({
-		queryKey: ['music', 'lastTrack'],
+		queryKey: MUSIC_KEYS.type('lastTrack'),
 		queryFn,
 		refetchInterval: 1000 * 30 // 30 seconds
 	});

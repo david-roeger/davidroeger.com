@@ -49,3 +49,9 @@ export const createStateFromParam = (value: string | null): S => {
 	if (!s.success) return defaultValue;
 	return s.data;
 };
+
+export const MUSIC_KEYS = {
+	all: () => ['music'],
+	type: (type: Tab | 'lastTrack') => [...MUSIC_KEYS.all(), type],
+	range: (type: Tab, range: Range) => [...MUSIC_KEYS.type(type), range]
+};

@@ -10,7 +10,8 @@
 		TopTrack as TopTrackType,
 		Image
 	} from '$components/Music/types';
-	import type { Range } from '$routes/about/music/constants';
+	import { MUSIC_KEYS, type Range } from '$routes/about/music/constants';
+	import Score from '$lib/Components/Score/Score.svelte';
 
 	export let range: Range;
 
@@ -44,7 +45,7 @@
 			.then((data) => data as TopTrackType[]);
 
 	$: query = createQuery({
-		queryKey: ['music', 'tracks', range],
+		queryKey: MUSIC_KEYS.range('tracks', range),
 		queryFn
 	});
 </script>

@@ -42,8 +42,7 @@ declare namespace svelteHTML {
 	// enhance elements
 	// interface IntrinsicElements {}
 	// enhance attributes
-	interface HTMLAttributes<T> {
-		// If you want to use on:beforeinstallprompt
+	interface HTMLAttributes {
 		'on:preload'?: (event: { detail: { type: 'tap' | 'move' } }) => void;
 	}
 }
