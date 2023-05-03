@@ -22,7 +22,8 @@
 		rangeSchema,
 		createStateFromParam,
 		type Range,
-		type Tab
+		type Tab,
+		MUSIC_KEYS
 	} from './constants';
 	import { queryParam } from '$lib/Utils/Store/queryParam';
 	import { preload } from '$lib/Actions/preload';
@@ -34,7 +35,7 @@
 		decode: (value: string | null) => createStateFromParam(value)
 	});
 
-	const queryFnFactory = (tab: Tab, range: Range) => async () => {
+	const queryFn = (tab: Tab, range: Range) => async () => {
 		const data = (
 			await fetch(`/_api/music?type=${tab}&range=${range}`)
 		).json();
@@ -92,16 +93,7 @@
 					? 'bg-purple-5'
 					: 'bg-white'}"
 			>
-				<div
-					class=" px-4 py-2"
-					use:preload
-					on:preload={() => {
-						data.queryClient.prefetchQuery({
-							queryKey: ['music', 'tracks', store.range],
-							queryFn: queryFnFactory('tracks', store.range)
-						});
-					}}
-				>
+				<div class=" px-4 py-2">
 					<Headline as="h2" unstyled id="top_tracks" type="secondary">
 						Tracks
 					</Headline>
@@ -115,16 +107,7 @@
 					? 'bg-purple-5'
 					: 'bg-white'}"
 			>
-				<div
-					class="px-4 py-2"
-					use:preload
-					on:preload={() => {
-						data.queryClient.prefetchQuery({
-							queryKey: ['music', 'artists', store.range],
-							queryFn: queryFnFactory('artists', store.range)
-						});
-					}}
-				>
+				<div class="px-4 py-2">
 					<Headline
 						as="h2"
 						unstyled
@@ -184,11 +167,18 @@
 							use:preload
 							on:preload={() => {
 								data.queryClient.prefetchQuery({
-									queryKey: ['music', store.tab, range.value],
-									queryFn: queryFnFactory(
-										store.tab,
+									queryKey: MUSIC_KEYS.range(
+										'tracks',
 										range.value
-									)
+									),
+									queryFn: queryFn('tracks', range.value)
+								});
+								data.queryClient.prefetchQuery({
+									queryKey: MUSIC_KEYS.range(
+										'artists',
+										range.value
+									),
+									queryFn: queryFn('artists', range.value)
 								});
 							}}
 						>
