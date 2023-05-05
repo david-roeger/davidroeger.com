@@ -57,7 +57,6 @@ body {
 
 	/* displace Effect -------------------------------------------------- */
 	.displace.word .char-wrapper {
-		z-index: -1;
 		display: inline-grid;
 		position: relative;
 		overflow: hidden;
