@@ -45,6 +45,7 @@ type CustomFormError = FormError<'contactForm'> & {
 // https://github.com/sveltejs/kit/issues/7004
 export const actions: Actions = {
 	default: async ({
+		fetch,
 		request,
 		url: pageUrl
 	}): Promise<
@@ -110,9 +111,10 @@ export const actions: Actions = {
 			});
 		}
 
+		console.info(pageUrl.origin);
 		try {
 			const meResponse = await fetch(
-				`${pageUrl.origin}/_api/mail/me?secret=${MAIL_SECRET}`,
+				`/_api/mail/me?secret=${MAIL_SECRET}`,
 				{
 					method: 'POST',
 					body: JSON.stringify(values)
@@ -120,7 +122,7 @@ export const actions: Actions = {
 			);
 
 			const summaryResponse = await fetch(
-				`${pageUrl.origin}/_api/mail/summary?secret=${MAIL_SECRET}`,
+				`/_api/mail/summary?secret=${MAIL_SECRET}`,
 				{
 					method: 'POST',
 					body: JSON.stringify({ name, email, message })
