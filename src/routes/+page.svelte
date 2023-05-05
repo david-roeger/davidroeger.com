@@ -1,12 +1,15 @@
 <script lang="ts">
-	import { displace } from '$actions';
-	import { page } from '$app/stores';
-	import BezierEasing from 'bezier-easing';
-	import Head from '$lib/Components/Head/Head.svelte';
-	import Logo from '$lib/Components/Logo/Logo.svelte';
-	import { debounce, limit, mapToRange } from '$lib/Utils';
 	import { onMount } from 'svelte';
 	import { spring } from 'svelte/motion';
+
+	import BezierEasing from 'bezier-easing';
+
+	import { page } from '$app/stores';
+
+	import Head from '$lib/Components/Head/Head.svelte';
+	import Logo from '$lib/Components/Logo/Logo.svelte';
+	import Displace from '$lib/Components/Displace/Displace.svelte';
+	import { debounce, limit, mapToRange } from '$lib/Utils';
 
 	console.info('index: +page.svelte');
 
@@ -116,18 +119,18 @@
 				/>
 			</span>
 		</span>
-		<span use:displace class="grrrid-child grrrid-child-0" id="d">D</span>
-		<span use:displace class="grrrid-child grrrid-child-1">A</span>
-		<span use:displace class="grrrid-child grrrid-child-2">V</span>
-		<span use:displace class="grrrid-child grrrid-child-3">I</span>
-		<span use:displace class="grrrid-child grrrid-child-4">D</span>
-		<span use:displace class="grrrid-child grrrid-child-5">_</span>
-		<span use:displace class="grrrid-child grrrid-child-6">R</span>
-		<span use:displace class="relative grrrid-child grrrid-child-7">O</span>
-		<span use:displace class="grrrid-child grrrid-child-8">E</span>
-		<span use:displace class="grrrid-child grrrid-child-9">G</span>
-		<span use:displace class="grrrid-child grrrid-child-10">E</span>
-		<span use:displace class="grrrid-child grrrid-child-11">R</span>
+		<Displace class="grrrid-child grrrid-child-0" text="D" />
+		<Displace class="grrrid-child grrrid-child-1" text="A" />
+		<Displace class="grrrid-child grrrid-child-2" text="V" />
+		<Displace class="grrrid-child grrrid-child-3" text="I" />
+		<Displace class="grrrid-child grrrid-child-4" text="D" />
+		<Displace class="grrrid-child grrrid-child-5" text="_" />
+		<Displace class="grrrid-child grrrid-child-6" text="R" />
+		<Displace class="relative grrrid-child grrrid-child-7" text="O" />
+		<Displace class="grrrid-child grrrid-child-8" text="E" />
+		<Displace class="grrrid-child grrrid-child-9" text="G" />
+		<Displace class="grrrid-child grrrid-child-10" text="E" />
+		<Displace class="grrrid-child grrrid-child-11" text="R" />
 
 		<span class="line-y line-y-0 border-mauve-6 border-y" />
 		<span class="line-y line-y-1 border-mauve-6 border-y" />
@@ -149,21 +152,21 @@
 	<h2
 		class="p-2 text-2xl border-b sm:text-4xl sm:py-1 md:text-6xl md:py-0 lg:text-8xl border-mauve-6"
 	>
-		<span class="break-all" use:displace>PROJECTS</span>
+		<Displace class="break-all" text="PROJECTS" />
 	</h2>
 	<h2
 		class="p-2 text-2xl text-center border-b sm:text-4xl sm:py-1 md:text-6xl md:py-0 lg:text-8xl border-mauve-6"
 	>
-		<span class="break-all" use:displace>ABOUT</span>
+		<Displace class="break-all" text="ABOUT" />
 	</h2>
 	<h2
 		class="p-2 text-2xl text-right border-b sm:text-4xl sm:py-1 md:text-6xl md:py-0 lg:text-8xl border-mauve-6"
 	>
-		<span class="break-all" use:displace>SAY_HI</span>
+		<Displace class="break-all" text="SAY_HI" />
 	</h2>
 </section>
 
-<style>
+<style global>
 	.grrrid-child {
 		display: inline-block;
 	}

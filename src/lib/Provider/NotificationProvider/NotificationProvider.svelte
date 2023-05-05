@@ -257,7 +257,7 @@
 						: undefined}
 					class="{stack
 						? 'col-start-1 row-start-1'
-						: ''} svelteEase transition-colors relative bg-white before:bg-gradient-to-r  before:from-transparent before:absolute before:inset-0 touch-manipulation flex items-center border-b border-mauve-12 focus:outline-none {notification.closeOnClick &&
+						: ''} svelteEase transition-colors relative bg-white before:bg-gradient-to-r before:from-transparent before:absolute before:inset-0 touch-manipulation flex items-center border-b border-mauve-12 focus:outline-none {notification.closeOnClick &&
 					(!stack || index === notifications.length - 1)
 						? 'cursor-pointer'
 						: 'cursor-auto'} {colorClasses[notification.variant]
