@@ -124,7 +124,7 @@
 		<Displace class="grrrid-child grrrid-child-2" text="V" />
 		<Displace class="grrrid-child grrrid-child-3" text="I" />
 		<Displace class="grrrid-child grrrid-child-4" text="D" />
-		<Displace class="grrrid-child grrrid-child-5" text="_" />
+		<Displace class="grrrid-child grrrid-child-5" text="::" split={false} />
 		<Displace class="grrrid-child grrrid-child-6" text="R" />
 		<Displace class="relative grrrid-child grrrid-child-7" text="O" />
 		<Displace class="grrrid-child grrrid-child-8" text="E" />
@@ -150,16 +150,19 @@
 		</span>
 	</h1>
 	<h2
+		aria-label="Projects"
 		class="p-2 text-2xl border-b sm:text-4xl sm:py-1 md:text-6xl md:py-0 lg:text-8xl border-mauve-6"
 	>
 		<Displace class="break-all" text="PROJECTS" />
 	</h2>
 	<h2
+		aria-label="About"
 		class="p-2 text-2xl text-center border-b sm:text-4xl sm:py-1 md:text-6xl md:py-0 lg:text-8xl border-mauve-6"
 	>
 		<Displace class="break-all" text="ABOUT" />
 	</h2>
 	<h2
+		aria-label="Say hi"
 		class="p-2 text-2xl text-right border-b sm:text-4xl sm:py-1 md:text-6xl md:py-0 lg:text-8xl border-mauve-6"
 	>
 		<Displace class="break-all" text="SAY_HI" />
@@ -167,10 +170,6 @@
 </section>
 
 <style>
-	.grrrid-child {
-		display: inline-block;
-	}
-
 	.line-y,
 	.line-x,
 	.triangle-wrapper {

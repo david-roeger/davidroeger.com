@@ -4,9 +4,10 @@
 
 	export let text: string = '';
 	export let replacer: string = '_';
+	export let split: boolean = true;
 
 	const fixed = text.replaceAll(' ', replacer);
-	const charArray = [...fixed];
+	const charArray = split ? [...fixed] : [fixed];
 
 	export let as: string = 'span';
 </script>

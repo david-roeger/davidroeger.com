@@ -46,6 +46,7 @@
 </script>
 
 <Headline containerClass="flex items-end py-8 md:py-16">
+	<span aria-hidden="true" class="select-none">::</span>
 	Favorite Music
 </Headline>
 

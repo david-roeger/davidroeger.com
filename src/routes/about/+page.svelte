@@ -16,7 +16,10 @@
 <div
 	class="flex flex-col-reverse border-b sm:flex-row sm:justify-between border-mauve-6"
 >
-	<Headline containerClass="py-8 border-b-0 md:py-16">This is me</Headline>
+	<Headline containerClass="py-8 border-b-0 md:py-16">
+		<span aria-hidden="true" class="select-none">::</span>
+		This is me
+	</Headline>
 	<div
 		class="overflow-hidden max-w-[249px] sm:max-w-[250px] md:max-w-[378px]"
 	>

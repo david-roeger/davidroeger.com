@@ -7,7 +7,16 @@ import type { ActionReturnType } from '$lib/types';
 
 export const displace = (
 	node: HTMLElement,
-	replacer = '_'
+	{
+		replacer,
+		split
+	}: {
+		replacer: string;
+		split: boolean;
+	} = {
+		replacer: '_',
+		split: true
+	}
 ): ActionReturnType => {
 	function update() {
 		const text = node.textContent;
@@ -18,18 +27,31 @@ export const displace = (
 		if (text) {
 			const fixed = text.replaceAll(' ', replacer);
 			const textArray = [...fixed];
-			textArray.forEach((char) => {
+			if (split) {
+				textArray.forEach((char) => {
+					const span = document.createElement('span');
+					span.classList.add('char-wrapper');
+					span.dataset.char = char;
+
+					const innerSpan = document.createElement('span');
+					innerSpan.classList.add('char');
+					innerSpan.textContent = char;
+
+					span.appendChild(innerSpan);
+					chars.push(span);
+				});
+			} else {
 				const span = document.createElement('span');
 				span.classList.add('char-wrapper');
-				span.dataset.char = char;
+				span.dataset.char = fixed;
 
 				const innerSpan = document.createElement('span');
 				innerSpan.classList.add('char');
-				innerSpan.textContent = char;
+				innerSpan.textContent = fixed;
 
 				span.appendChild(innerSpan);
 				chars.push(span);
-			});
+			}
 
 			node.replaceChildren(...chars);
 			node.classList.add('displace');

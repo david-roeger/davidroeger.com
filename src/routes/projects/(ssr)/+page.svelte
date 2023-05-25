@@ -165,7 +165,10 @@
 			</Tags.Tag>
 		{/each}
 	</Tags.List>
-	<Headline containerClass="py-8 md:py-16">My Projects</Headline>
+	<Headline containerClass="py-8 md:py-16">
+		<span aria-hidden="true" class="select-none">::</span>
+		My Projects
+	</Headline>
 
 	<div class={$tags.size ? 'pb-32' : ''}>
 		{#each filteredProjects as project, index (project.title)}
@@ -269,6 +272,7 @@
 
 {#if !$tags.size && experimental.length}
 	<Headline as="h2" containerClass="py-8 md:py-16" id="experimental">
+		<span aria-hidden="true" class="select-none">::</span>
 		Experi&shy;mental
 	</Headline>
 
