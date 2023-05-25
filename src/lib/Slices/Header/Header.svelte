@@ -8,6 +8,7 @@
 	import * as VisuallyHidden from '$primitives/VisuallyHidden';
 
 	import { page } from '$app/stores';
+	import { Marquee } from '../Marquee';
 
 	const projectsRegex = /^\/projects/;
 	const aboutRegex = /^\/about/;
@@ -37,7 +38,9 @@
 	};
 </script>
 
-<nav class={`border-b xl:max-w-7xl border-mauve-6 ${c}`}>
+<div class="flex border-r sm:border-l border-mauve-6" />
+
+<nav class="border-b xl:max-w-7xl border-mauve-6 {c}">
 	<h3><VisuallyHidden.Root>Main Menu</VisuallyHidden.Root></h3>
 	<ul class="flex justify-between">
 		<li class="w-auto m-2 list-none shrink-0">
@@ -58,7 +61,8 @@
 				</slot>
 			</NavLink>
 		</li>
-		<li>
+
+		<li class="flex-1">
 			<ul
 				role="menubar"
 				class="flex flex-wrap justify-end m-1 items-center"
@@ -105,4 +109,6 @@
 			</ul>
 		</li>
 	</ul>
+
+	<Marquee title="← this guy is looking for new connections →" />
 </nav>

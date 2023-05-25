@@ -143,3 +143,20 @@ export const fromBase64 = (str: string) => {
 	if (typeof window !== 'undefined') return window.atob(str);
 	return Buffer.from(str, 'base64').toString('utf8');
 };
+
+// prettier-ignore
+export const loadingEmojis = ['🌞','🌼','🌚','⭐️','🍥','🍪','🏵','💿','🧿','🪩','🔆'];
+
+export const getLoadingEmojis = (count = 3) => {
+	const emojis: string[] = [];
+	for (let i = 0; i < count; i++) {
+		const randomIndex = Math.floor(Math.random() * loadingEmojis.length);
+		const randomEmoji = loadingEmojis[randomIndex];
+		if (!emojis.includes(randomEmoji)) {
+			emojis.push(randomEmoji);
+			continue;
+		}
+		i--;
+	}
+	return emojis;
+};

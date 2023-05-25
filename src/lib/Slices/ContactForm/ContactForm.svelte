@@ -11,6 +11,7 @@
 		contactFormSchema,
 		type ContactFormSchema
 	} from './constants';
+	import { getLoadingEmojis } from '$lib/Utils';
 
 	export let variant:
 		| 'default'
@@ -65,25 +66,6 @@
 		}
 
 		return classes.defaultClass ?? '';
-	};
-
-	// prettier-ignore
-	const loadingEmojis = ['🌞','🌼','🌚','⭐️','🍥','🍪','🏵','💿','🧿','🪩','🔆'];
-
-	const getLoadingEmojis = () => {
-		const emojis: string[] = [];
-		for (let i = 0; i < 3; i++) {
-			const randomIndex = Math.floor(
-				Math.random() * loadingEmojis.length
-			);
-			const randomEmoji = loadingEmojis[randomIndex];
-			if (!emojis.includes(randomEmoji)) {
-				emojis.push(randomEmoji);
-				continue;
-			}
-			i--;
-		}
-		return emojis;
 	};
 
 	const notificationContext: NotificationContext = getContext('notification');

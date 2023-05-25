@@ -3,34 +3,27 @@
 
 	import { Headline } from '$components/Headline';
 
-	import serious from '$assets/me/serious.png?w=124;248;372;188;376;564&format=webp;png&picture&imageTools';
-	import smile from '$assets/me/smile.png?w=124;248;372;188;376;564&format=webp;png&picture&imageTools';
-
-	import { Image } from '$primitives/Image';
 	import type { PageData } from './$types';
 
 	export let data: PageData;
+	$: console.log(data);
+
+	$: resume = data.resume;
 </script>
 
-<h2>{data.basics?.name}</h2>
 <div
 	class="flex flex-col-reverse border-b sm:flex-row sm:justify-between border-mauve-6"
 >
 	<Headline containerClass="py-8 border-b-0 md:py-16">
 		<span aria-hidden="true" class="select-none">::</span>
-		This is me
+		{resume.basics?.name}
 	</Headline>
 	<div
 		class="overflow-hidden max-w-[249px] sm:max-w-[250px] md:max-w-[378px]"
-	>
-		<div class="flex border-r sm:border-l border-mauve-6">
-			<Image picture={serious} alt="me" />
-			<Image picture={smile} alt="me smiling" />
-		</div>
-	</div>
+	/>
 </div>
 <Headline as="h2" type="secondary" containerClass="bg-white/[0.85]">
-	Frontend Developer, UI/UX Designer
+	{resume.basics?.label}
 </Headline>
 
 <section class="mb-32">

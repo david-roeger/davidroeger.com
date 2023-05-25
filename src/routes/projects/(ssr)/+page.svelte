@@ -167,7 +167,7 @@
 	</Tags.List>
 	<Headline containerClass="py-8 md:py-16">
 		<span aria-hidden="true" class="select-none">::</span>
-		My Projects
+		Projects
 	</Headline>
 
 	<div class={$tags.size ? 'pb-32' : ''}>
