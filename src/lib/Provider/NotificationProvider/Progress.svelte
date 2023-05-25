@@ -15,7 +15,7 @@
 	{min}
 	{max}
 	value={$value}
-	getValueLabel={(value) => `Remaining: ${value}ms`}
+	getValueLabel={(value) => `Remaining: ${Math.round(value)}ms`}
 >
 	<Progress.Indicator class="bg-mauve-12 will-change-[width]" />
 </Progress.Root>
