@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { superForm } from 'sveltekit-superforms/client';
-	import SuperDebug from 'sveltekit-superforms/client/SuperDebug.svelte';
 
 	import { page } from '$app/stores';
 	import Button from '$lib/Components/Button/Button.svelte';
@@ -104,8 +103,6 @@
 	}
 </script>
 
-<SuperDebug data={$tainted} />
-<SuperDebug data={$errors} />
 <form
 	use:enhance
 	novalidate
