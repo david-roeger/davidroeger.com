@@ -4,7 +4,7 @@
 		"label": "Programmer",
 		"image": "",
 		"email": "david@davidroeger.com",
-		"phone": "(912) 555-4321",
+		"phone": "+4915736969830",
 		"url": "https://davidroeger.com",
 		"summary": "TBD...",
 		"location": {
@@ -23,6 +23,15 @@
 		]
 	},
 	"work": [
+		{
+			"name": "Codeatelier GmBH",
+			"position": "Frontend Developer | internship",
+			"url": "https://codeatelier.com",
+			"startDate": "2013-01-01",
+			"endDate": "2014-01-01",
+			"summary": "Description…",
+			"highlights": ["Started the company"]
+		},
 		{
 			"name": "Codeatelier GmBH",
 			"position": "Full Stack Developer",
