@@ -1,7 +1,7 @@
 console.info('projects/(ssg)/[slug]/[[gallery]]: +page.server.ts');
 
 import type { ProjectMetaData } from '$lib/types';
-import { handler } from '$routes/_api/projects/[slug]/+server';
+import { _handler } from '$routes/_api/projects/[slug]/+server';
 import { error, redirect } from '@sveltejs/kit';
 
 import type { PageServerLoad } from './$types';
@@ -13,7 +13,7 @@ export const load: PageServerLoad = async ({ params }) => {
 		`projects/(ssg)/[slug]/[[gallery]]: +page.server.ts // load (${slug} / ${gallery})`
 	);
 
-	const res = await handler({ params });
+	const res = await _handler({ params });
 	if (res.ok) {
 		const project = (await res.json()) as ProjectMetaData;
 		const media = project.media.length - 1 + 2; // add 2 for the vertical and horizontal images
