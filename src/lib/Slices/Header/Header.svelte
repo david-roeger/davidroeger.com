@@ -59,7 +59,10 @@
 			</NavLink>
 		</li>
 		<li>
-			<ul role="menubar" class="flex flex-wrap justify-end m-1">
+			<ul
+				role="menubar"
+				class="flex flex-wrap justify-end m-1 items-center"
+			>
 				<li role="none" class="m-1 list-none">
 					<NavLink
 						role="menuitem"
@@ -72,6 +75,7 @@
 						Projects
 					</NavLink>
 				</li>
+				<li aria-hidden="true"><span class="select-none">:</span></li>
 				<li role="none" class="m-1 list-none">
 					<NavLink
 						role="menuitem"
@@ -84,6 +88,7 @@
 						About
 					</NavLink>
 				</li>
+				<li aria-hidden="true"><span class="select-none">:</span></li>
 				<li role="none" class="m-1 list-none">
 					<NavLink
 						role="menuitem"
