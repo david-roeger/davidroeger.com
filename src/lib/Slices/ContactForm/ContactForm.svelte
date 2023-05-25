@@ -1,12 +1,18 @@
 <script lang="ts">
+	import { superForm } from 'sveltekit-superforms/client';
+	import SuperDebug from 'sveltekit-superforms/client/SuperDebug.svelte';
+
 	import { page } from '$app/stores';
 	import Button from '$lib/Components/Button/Button.svelte';
 
 	import { getContext } from 'svelte';
-	import type { ContactFormActionData } from '$routes/contact/+page.server';
 	import type { NotificationContext } from '$lib/Provider/NotificationProvider/types';
-	import { colorClasses } from './constants';
-	import { createForm, FORM_STATE } from '$lib/Utils/Form';
+	import {
+		COLOR_CLASSES,
+		contactFormSchema,
+		type ContactFormSchema
+	} from './constants';
+	import { afterNavigate, beforeNavigate } from '$app/navigation';
 
 	export let variant:
 		| 'default'
@@ -22,30 +28,50 @@
 	let c = '';
 	export { c as class };
 
-	let { form, state, enhance } = createForm<
-		ContactFormActionData,
-		'contactForm'
-	>('contactForm');
+	$: unsuccessfulSubmitted = $page.status !== 200;
 
-	$: name = typeof $form?.values?.name === 'string' ? $form.values.name : '';
-	$: email =
-		typeof $form?.values?.email === 'string' ? $form.values.email : '';
-	$: message =
-		typeof $form?.values?.message === 'string' ? $form.values.message : '';
+	const {
+		enhance,
+		form,
+		errors,
+		tainted,
+		constraints,
+		message,
+		submitting,
+		delayed,
+		capture,
+		restore
+	} = superForm($page.data.contactForm, {
+		id: 'contactForm',
+		validators: contactFormSchema,
+		clearOnSubmit: 'none',
+		taintedMessage: null
+	});
 
-	const getValValidationClass = (
-		key: 'name' | 'email' | 'message',
-		form: ContactFormActionData,
+	export const snapshot = { capture, restore };
+
+	$: getValValidationClass = (
+		key: keyof ContactFormSchema,
 		classes: {
 			successClass?: string;
 			errorClass?: string;
 			defaultClass?: string;
 		}
 	) => {
-		if (!form || form?.state !== FORM_STATE.FAILURE)
-			return classes.defaultClass ?? '';
-		if (form.invalidValues[key]) return classes.errorClass ?? '';
-		return classes.successClass ?? '';
+		const error = $errors[key];
+		if (error && error.length > 0) {
+			return classes.errorClass ?? '';
+		}
+		// after an unsuccessful submission each field should be in an error or success state
+		if (
+			key in $errors ||
+			unsuccessfulSubmitted ||
+			($tainted && $tainted[key])
+		) {
+			return classes.successClass ?? '';
+		}
+
+		return classes.defaultClass ?? '';
 	};
 
 	// prettier-ignore
@@ -69,34 +95,48 @@
 
 	const notificationContext: NotificationContext = getContext('notification');
 
-	const setNotification = (notification?: {
-		type: 'green' | 'red' | 'orange' | 'blue';
-		html: string;
-	}) => {
-		if (notification) {
-			notificationContext.addNotification({
-				id: 'contactFormMessage',
-				variant: notification.type,
-				priority: notification.type === 'red' ? true : false,
-				html: notification.html,
-				closeIcon: true
-			});
-		}
-	};
-
-	$: if ($state === FORM_STATE.SUBMITTING) {
+	$: if ($submitting) {
 		notificationContext.removeNotification('contactFormMessage');
 	}
 
-	$: if ($form && 'notification' in $form)
-		setNotification($form.notification);
+	$: if ($message) {
+		notificationContext.addNotification({
+			id: 'contactFormMessage',
+			variant: $message.type,
+			priority: $message.type === 'red' ? true : false,
+			html: $message.html,
+			closeIcon: true
+		});
+	}
+
+	beforeNavigate(() => {
+		console.log('beforeNavigate');
+		sessionStorage.setItem('dr-cf', JSON.stringify(capture()));
+	});
+
+	afterNavigate(() => {
+		console.log('afterNavigate');
+		console.log($page.form);
+		// after formsubmit we dont want to overwrite the returned data
+		if ($page.form && 'contactForm' in $page.form) {
+			sessionStorage.removeItem('dr-cf');
+			return;
+		}
+		const snapshot = sessionStorage.getItem('dr-cf');
+		if (snapshot) {
+			restore(JSON.parse(snapshot));
+			sessionStorage.removeItem('dr-cf');
+		}
+	});
 </script>
 
+<SuperDebug data={$errors} />
+<SuperDebug data={$form} />
+<SuperDebug data={$tainted} />
 <form
+	novalidate
 	action="/contact"
 	method="POST"
-	novalidate
-	use:enhance
 	class="grid custom-grid border-mauve-6 {borderTop
 		? 'border-t'
 		: ''} {borderBottom ? 'border-b' : ''} {c}"
@@ -139,7 +179,7 @@
 		<div class="hidden sm:block h-full border-r border-mauve-6" />
 		<div class="flex flex-col space-y-2 sm:flex-1 relative">
 			<fieldset
-				disabled={$state === FORM_STATE.SUBMITTING}
+				disabled={$submitting}
 				class="flex flex-col border-mauve-6 border-b space-y-2 p-2
 					pt-0 sm:pt-2"
 			>
@@ -156,11 +196,10 @@
 						for="name"
 						class="border-mauve-12 rounded-none border border-b-0 text-xs ring-mauve-12 group-focus-within:ring-1 px-4 py-1 {getValValidationClass(
 							'name',
-							$form,
 							{
-								successClass: colorClasses.green.highlight,
-								errorClass: colorClasses.red.highlight,
-								defaultClass: colorClasses[variant].highlight
+								successClass: COLOR_CLASSES.green.highlight,
+								errorClass: COLOR_CLASSES.red.highlight,
+								defaultClass: COLOR_CLASSES[variant].highlight
 							}
 						)}"
 					>
@@ -170,7 +209,6 @@
 						id="name"
 						class="py-2 px-4 border-mauve-12 rounded-none border w-full group-focus-within:outline-none ring-mauve-12 group-focus-within:ring-1 bg-gradient-to-r from-transparent {getValValidationClass(
 							'name',
-							$form,
 							{
 								successClass: 'to-green-5',
 								errorClass: 'to-red-5'
@@ -180,11 +218,13 @@
 						autocomplete="name"
 						enterkeyhint="send"
 						type="text"
-						value={name}
+						bind:value={$form.name}
+						data-invalid={$errors.name}
+						{...$constraints.name}
 					/>
 					<p class="text-xs h-4">
-						{#if $form && 'invalidValues' in $form && $form.invalidValues?.name}
-							{$form.invalidValues.name}
+						{#if $errors.name}
+							{$errors.name[0]}
 						{/if}
 					</p>
 				</div>
@@ -196,11 +236,10 @@
 						for="email"
 						class="border-mauve-12 rounded-none border border-b-0 text-xs ring-mauve-12 group-focus-within:ring-1 px-4 py-1 {getValValidationClass(
 							'email',
-							$form,
 							{
-								successClass: colorClasses.green.highlight,
-								errorClass: colorClasses.red.highlight,
-								defaultClass: colorClasses[variant].highlight
+								successClass: COLOR_CLASSES.green.highlight,
+								errorClass: COLOR_CLASSES.red.highlight,
+								defaultClass: COLOR_CLASSES[variant].highlight
 							}
 						)}"
 					>
@@ -210,7 +249,6 @@
 						id="email"
 						class="py-2 px-4 border-mauve-12 rounded-none border w-full group-focus-within:outline-none ring-mauve-12 group-focus-within:ring-1 bg-gradient-to-r from-transparent {getValValidationClass(
 							'email',
-							$form,
 							{
 								successClass: 'to-green-5',
 								errorClass: 'to-red-5'
@@ -221,12 +259,14 @@
 						enterkeyhint="send"
 						placeholder="email@example.com"
 						type="email"
-						value={email}
+						bind:value={$form.email}
+						data-invalid={$errors.email}
+						{...$constraints.email}
 					/>
 
 					<p class="text-xs h-4">
-						{#if $form && 'invalidValues' in $form && $form.invalidValues?.email}
-							{$form.invalidValues.email}
+						{#if $errors.email}
+							{$errors.email[0]}
 						{/if}
 					</p>
 				</div>
@@ -238,11 +278,10 @@
 						for="message"
 						class="border-mauve-12 rounded-none border border-b-0 text-xs ring-mauve-12 group-focus-within:ring-1 px-4 py-1 {getValValidationClass(
 							'message',
-							$form,
 							{
-								successClass: colorClasses.green.highlight,
-								errorClass: colorClasses.red.highlight,
-								defaultClass: colorClasses[variant].highlight
+								successClass: COLOR_CLASSES.green.highlight,
+								errorClass: COLOR_CLASSES.red.highlight,
+								defaultClass: COLOR_CLASSES[variant].highlight
 							}
 						)}"
 					>
@@ -253,20 +292,21 @@
 						name="message"
 						id="message"
 						placeholder="Hi..."
-						class="py-2 px-4 h-full border-mauve-12 rounded-none resize-none border w-full group-focus-within:outline-none ring-mauve-12 group-focus-within:ring-1 bg-gradient-to-r from-transparent {getValValidationClass(
+						class="py-2 px-4 border-mauve-12 rounded-none resize-none border w-full group-focus-within:outline-none ring-mauve-12 group-focus-within:ring-1 bg-gradient-to-r from-transparent {getValValidationClass(
 							'message',
-							$form,
 							{
 								successClass: 'to-green-5',
 								errorClass: 'to-red-5'
 							}
 						)}"
-						value={message}
+						bind:value={$form.message}
+						data-invalid={$errors.message}
+						{...$constraints.message}
 					/>
 
 					<p class="text-xs h-4">
-						{#if $form && 'invalidValues' in $form && $form.invalidValues?.message}
-							{$form.invalidValues.message}
+						{#if $errors.message}
+							{$errors.message[0]}
 						{/if}
 					</p>
 				</div>
@@ -276,15 +316,15 @@
 					name="submit"
 					type="submit"
 					variant="rounded"
-					class="flex flex-1 max-w-xs sm:max-w-none lg:max-w-xs {colorClasses[
+					class="flex flex-1 max-w-xs sm:max-w-none lg:max-w-xs {COLOR_CLASSES[
 						variant
 					].background}"
-					disabled={$state === FORM_STATE.SUBMITTING}
+					disabled={$submitting}
 				>
 					<span
-						class="grow grid grid-cols-[minmax(0,_1fr)_auto_minmax(0,_1fr)] place-items-start "
+						class="grow grid grid-cols-[minmax(0,_1fr)_auto_minmax(0,_1fr)] place-items-start"
 					>
-						{#if $state === FORM_STATE.SUBMITTING}
+						{#if $delayed}
 							<span class="-ml-2 px-1 bg-white rounded-full">
 								🕸
 							</span>
@@ -298,7 +338,7 @@
 					</span>
 				</Button>
 			</div>
-			{#if $state === FORM_STATE.SUBMITTING}
+			{#if $delayed}
 				<div
 					class="absolute inset-0 bg-white/50 icon-mauve-12 flex justify-center items-center cursor-wait"
 				>

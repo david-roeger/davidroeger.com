@@ -35,7 +35,6 @@
 		});
 		return finalPath;
 	};
-
 	// bttbutton handling
 	let showBttButton = false;
 	const handleScroll = () => {
@@ -244,7 +243,7 @@
 		>
 			<a
 				href="#content"
-				class="absolute -top-12 left-2 px-4 py-2 focus:top-2 z-50 bg-white border focus:outline-none ring-mauve-12 focus:ring-1"
+				class="absolute -top-full left-2 px-4 py-2 focus:top-2 z-50 bg-white border focus:outline-none ring-mauve-12 focus:ring-1"
 			>
 				Skip to content
 			</a>

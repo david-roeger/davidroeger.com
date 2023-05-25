@@ -310,6 +310,17 @@
 							removeNotification(notification.id);
 						}
 					}}
+					on:keydown={(e) => {
+						if (
+							(e.key === 'Enter' || e.key === ' ') &&
+							notification.closeOnClick &&
+							(!stack || index === notifications.length - 1)
+						) {
+							e.preventDefault();
+							removeNotification(notification.id);
+						}
+					}}
+					aria-atomic="true"
 					style:transform={stack
 						? `rotateX(${Math.max(
 								16 * -(notifications.length - 1 - index),

@@ -11,7 +11,6 @@
 		Image
 	} from '$components/Music/types';
 	import { MUSIC_KEYS, type Range } from '$routes/about/music/constants';
-	import Score from '$lib/Components/Score/Score.svelte';
 
 	export let range: Range;
 
