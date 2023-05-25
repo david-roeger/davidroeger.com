@@ -12,7 +12,6 @@
 		contactFormSchema,
 		type ContactFormSchema
 	} from './constants';
-	import { afterNavigate, beforeNavigate } from '$app/navigation';
 
 	export let variant:
 		| 'default'
@@ -38,17 +37,13 @@
 		constraints,
 		message,
 		submitting,
-		delayed,
-		capture,
-		restore
+		delayed
 	} = superForm($page.data.contactForm, {
 		id: 'contactForm',
 		validators: contactFormSchema,
 		clearOnSubmit: 'none',
 		taintedMessage: null
 	});
-
-	export const snapshot = { capture, restore };
 
 	$: getValValidationClass = (
 		key: keyof ContactFormSchema,
@@ -64,9 +59,8 @@
 		}
 		// after an unsuccessful submission each field should be in an error or success state
 		if (
-			key in $errors ||
-			unsuccessfulSubmitted ||
-			($tainted && $tainted[key])
+			(key in $errors && $tainted && $tainted[key]) ||
+			unsuccessfulSubmitted
 		) {
 			return classes.successClass ?? '';
 		}
@@ -108,32 +102,12 @@
 			closeIcon: true
 		});
 	}
-
-	beforeNavigate(() => {
-		console.log('beforeNavigate');
-		sessionStorage.setItem('dr-cf', JSON.stringify(capture()));
-	});
-
-	afterNavigate(() => {
-		console.log('afterNavigate');
-		console.log($page.form);
-		// after formsubmit we dont want to overwrite the returned data
-		if ($page.form && 'contactForm' in $page.form) {
-			sessionStorage.removeItem('dr-cf');
-			return;
-		}
-		const snapshot = sessionStorage.getItem('dr-cf');
-		if (snapshot) {
-			restore(JSON.parse(snapshot));
-			sessionStorage.removeItem('dr-cf');
-		}
-	});
 </script>
 
-<SuperDebug data={$errors} />
-<SuperDebug data={$form} />
 <SuperDebug data={$tainted} />
+<SuperDebug data={$errors} />
 <form
+	use:enhance
 	novalidate
 	action="/contact"
 	method="POST"
