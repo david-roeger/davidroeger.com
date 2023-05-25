@@ -12,7 +12,7 @@ type ProjectEntry = {
 	metadata: ProjectFrontMatter;
 };
 
-export const handler = async ({ params }: { params: RouteParams }) => {
+export const _handler = async ({ params }: { params: RouteParams }) => {
 	console.info('_api/projects/[slug]: +server.ts // GET // handler');
 
 	const modules = import.meta.glob(
@@ -44,5 +44,5 @@ export const handler = async ({ params }: { params: RouteParams }) => {
 
 export const GET: RequestHandler = async ({ params }) => {
 	console.info('_api/projects/[slug]: +server.ts // GET');
-	return handler({ params });
+	return _handler({ params });
 };
