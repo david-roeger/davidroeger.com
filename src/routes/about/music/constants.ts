@@ -40,14 +40,18 @@ export const defaultValue: S = {
 
 export const createStateFromParam = (value: string | null): S => {
 	if (!value) return defaultValue;
-	const decoded = decodeURIComponent(value);
-	const json = fromBase64(decoded);
-	if (!json) return defaultValue;
-	const parsed = JSON.parse(json);
-	if (!parsed) return defaultValue;
-	const s = sSchema.safeParse(parsed);
-	if (!s.success) return defaultValue;
-	return s.data;
+	try {
+		const decoded = decodeURIComponent(value);
+		const json = fromBase64(decoded);
+		if (!json) return defaultValue;
+		const parsed = JSON.parse(json);
+		if (!parsed) return defaultValue;
+		const s = sSchema.safeParse(parsed);
+		if (!s.success) return defaultValue;
+		return s.data;
+	} catch {
+		return defaultValue;
+	}
 };
 
 export const MUSIC_KEYS = {
