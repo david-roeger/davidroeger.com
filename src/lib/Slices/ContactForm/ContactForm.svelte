@@ -188,6 +188,7 @@
 						name="name"
 						autocomplete="name"
 						enterkeyhint="send"
+						placeholder="vielleicht David"
 						type="text"
 						bind:value={$form.name}
 						data-invalid={$errors.name}
