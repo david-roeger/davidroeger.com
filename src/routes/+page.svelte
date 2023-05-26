@@ -10,6 +10,7 @@
 	import Logo from '$lib/Components/Logo/Logo.svelte';
 	import Displace from '$lib/Components/Displace/Displace.svelte';
 	import { debounce, limit, mapToRange } from '$lib/Utils';
+	import HireMe from '$lib/Slices/HireMe/HireMe.svelte';
 
 	console.info('index: +page.svelte');
 
@@ -93,6 +94,7 @@
 <Head />
 
 <section class="mb-32">
+	<HireMe />
 	<h1
 		aria-label="David Röger personal website"
 		class="relative p-2 border-b grrrid text-8xl md:text-9xl lg:text-10xl border-mauve-6"

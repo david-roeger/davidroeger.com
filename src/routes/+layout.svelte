@@ -21,6 +21,7 @@
 
 	import { QueryClientProvider } from '@tanstack/svelte-query';
 	import type { LayoutData } from './$types';
+	import { HireMe } from '$slices/HireMe';
 
 	export let data: LayoutData;
 
@@ -247,7 +248,8 @@
 			>
 				Skip to content
 			</a>
-			<Header class="z-30" />
+			<Header class="z-40" />
+
 			<main
 				id="content"
 				class="z-10 flex flex-col xl:max-w-7xl xl:border-r border-mauve-6 mb-auto"
@@ -256,6 +258,7 @@
 					<slot />
 				</BreakpointProvider>
 			</main>
+
 			<Footer class="z-20" />
 
 			{#if showBttButton}

@@ -16,7 +16,7 @@
 >
 	<Headline containerClass="py-8 border-b-0 md:py-16">
 		<span aria-hidden="true" class="select-none">::</span>
-		{resume.basics?.name}
+		Me
 	</Headline>
 	<div
 		class="overflow-hidden max-w-[249px] sm:max-w-[250px] md:max-w-[378px]"

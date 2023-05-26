@@ -8,7 +8,6 @@
 	import * as VisuallyHidden from '$primitives/VisuallyHidden';
 
 	import { page } from '$app/stores';
-	import { Marquee } from '../Marquee';
 
 	const projectsRegex = /^\/projects/;
 	const aboutRegex = /^\/about/;
@@ -109,6 +108,4 @@
 			</ul>
 		</li>
 	</ul>
-
-	<Marquee title="← this guy is looking for new connections →" />
 </nav>
