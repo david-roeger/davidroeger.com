@@ -4,7 +4,7 @@ services:
     app:
         build: ./
         ports:
-            - '2001:3000'
+            - '2000:3000'
         env_file:
             - stack.env
 
