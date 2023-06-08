@@ -5,6 +5,8 @@ services:
         build: ./
         ports:
             - '80:3000'
+        env_file:
+            - stack.env
 
 networks:
     default:
