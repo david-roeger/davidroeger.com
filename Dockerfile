@@ -20,7 +20,7 @@ COPY package*.json ./
 # ENV MAIL_ME=""
 # ENV MAIL_NO_REPLY=""
 
-RUN npm ci --omit dev
+RUN npm ci
 COPY . .
 RUN npm run build
 ENV NODE_ENV=production
