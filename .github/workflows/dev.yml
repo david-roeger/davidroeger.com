@@ -1,0 +1,15 @@
+name: dev portainer deploy
+
+on:
+    push:
+        branches:
+            - dev
+
+jobs:
+    request:
+        runs-on: ubuntu-latest
+        steps:
+            - name: fetch dreams
+              uses: wei/curl@master
+              with:
+                  args: -X POST https://portainer.davidroeger.com/api/stacks/webhooks/ed441996-6d0d-430c-9a6f-b69b69e18d14
