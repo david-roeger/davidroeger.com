@@ -1,10 +1,8 @@
 console.info('contact: +page.server.ts');
 
-import { z } from 'zod';
-
 import { fail } from '@sveltejs/kit';
 import type { Actions } from './$types';
-import { MAIL_SECRET } from '$env/static/private';
+import { env } from '$env/dynamic/private';
 
 import {
 	contactFormSchema,
@@ -37,7 +35,7 @@ export const actions: Actions = {
 		console.info(request.url);
 		try {
 			const meResponse = await fetch(
-				`/_api/mail/me?secret=${MAIL_SECRET}`,
+				`/_api/mail/me?secret=${env.MAIL_SECRET}`,
 				{
 					method: 'POST',
 					body: JSON.stringify({ ...contactForm.data, url: pageUrl })
@@ -45,7 +43,7 @@ export const actions: Actions = {
 			);
 
 			const summaryResponse = await fetch(
-				`/_api/mail/summary?secret=${MAIL_SECRET}`,
+				`/_api/mail/summary?secret=${env.MAIL_SECRET}`,
 				{
 					method: 'POST',
 					body: JSON.stringify(contactForm.data)

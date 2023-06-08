@@ -1,9 +1,9 @@
-import { MAIL_SECRET } from '$env/static/private';
+import { env } from '$env/dynamic/private';
 import { error } from '@sveltejs/kit';
 
 export const authorize = (url: URL) => {
 	const secret = url.searchParams.get('secret');
-	if (secret !== MAIL_SECRET) {
+	if (secret !== env.MAIL_SECRET) {
 		throw error(401);
 	}
 };

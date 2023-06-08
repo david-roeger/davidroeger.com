@@ -12,11 +12,7 @@ import type {
 } from '$lib/Components/Music/types';
 
 import type { RequestHandler } from './$types';
-import {
-	SPOTIFY_CLIENT_ID,
-	SPOTIFY_CLIENT_SECRET,
-	SPOTIFY_REFRESH_TOKEN
-} from '$env/static/private';
+import { env } from '$env/dynamic/private';
 import { rangeSchema as baseRangeSchema } from '$routes/about/music/constants';
 
 const getAccessToken = async ({
@@ -146,9 +142,9 @@ export const GET: RequestHandler = async ({ url }) => {
 
 	if (!accessToken) {
 		accessToken = await getAccessToken({
-			clientId: SPOTIFY_CLIENT_ID,
-			clientSecret: SPOTIFY_CLIENT_SECRET,
-			refreshToken: SPOTIFY_REFRESH_TOKEN
+			clientId: env.SPOTIFY_CLIENT_ID,
+			clientSecret: env.SPOTIFY_CLIENT_SECRET,
+			refreshToken: env.SPOTIFY_REFRESH_TOKEN
 		});
 	}
 	if (!accessToken) throw error(500, "Couldn't load music data");

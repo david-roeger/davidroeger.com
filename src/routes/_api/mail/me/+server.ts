@@ -1,4 +1,5 @@
 console.info('_api/mail/me: +server.ts');
+import { env } from '$env/dynamic/private';
 
 import { error, json } from '@sveltejs/kit';
 
@@ -6,7 +7,6 @@ import type { RequestHandler } from './$types';
 
 import nodemailer, { type Transporter } from 'nodemailer';
 
-import { MAIL_SERVER, MAIL_ME, MAIL_PASSWORD } from '$env/static/private';
 import type Mail from 'nodemailer/lib/mailer';
 import type SMTPTransport from 'nodemailer/lib/smtp-transport';
 import { authorize, createHtmlBlock } from '../utils';
@@ -51,15 +51,15 @@ export const POST: RequestHandler = async ({ url, request }) => {
 		secure: true,
 		auth: {
 			type: 'login',
-			user: MAIL_SERVER,
-			pass: MAIL_PASSWORD
+			user: env.MAIL_SERVER,
+			pass: env.MAIL_PASSWORD
 		}
 	});
 
 	try {
 		const response = await sendMailWrapper(transporter, {
-			from: MAIL_SERVER,
-			to: MAIL_ME,
+			from: env.MAIL_SERVER,
+			to: env.MAIL_ME,
 			subject: `${
 				subjectString
 					? `${subjectString} [automated mail]`

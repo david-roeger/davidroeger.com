@@ -6,12 +6,7 @@ import type { RequestHandler } from './$types';
 
 import nodemailer, { type Transporter } from 'nodemailer';
 
-import {
-	MAIL_NO_REPLY,
-	MAIL_ME,
-	MAIL_PASSWORD,
-	MAIL_SERVER
-} from '$env/static/private';
+import { env } from '$env/dynamic/private';
 import type Mail from 'nodemailer/lib/mailer';
 import type SMTPTransport from 'nodemailer/lib/smtp-transport';
 import { authorize } from '../utils';
@@ -56,7 +51,7 @@ export const POST: RequestHandler = async ({ url, request }) => {
 		<br />
 		<p>Best regards,</p>
 		<p><b>David</b></p>
-		<p><em>${MAIL_ME}</em></p>
+		<p><em>${env.MAIL_ME}</em></p>
 	`;
 	const summaryBlock = message
 		? `
@@ -75,14 +70,14 @@ export const POST: RequestHandler = async ({ url, request }) => {
 		secure: true,
 		auth: {
 			type: 'login',
-			user: MAIL_SERVER,
-			pass: MAIL_PASSWORD
+			user: env.MAIL_SERVER,
+			pass: env.MAIL_PASSWORD
 		}
 	});
 
 	try {
 		const response = await sendMailWrapper(transporter, {
-			from: MAIL_NO_REPLY,
+			from: env.MAIL_NO_REPLY,
 			to: email,
 			subject: `Summary from davidroeger.com [automated mail]`,
 			html: html.concat(summaryBlock)
