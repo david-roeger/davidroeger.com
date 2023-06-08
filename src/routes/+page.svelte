@@ -126,7 +126,12 @@
 		<Displace class="grrrid-child grrrid-child-2" text="V" />
 		<Displace class="grrrid-child grrrid-child-3" text="I" />
 		<Displace class="grrrid-child grrrid-child-4" text="D" />
-		<Displace class="grrrid-child grrrid-child-5" text="::" split={false} />
+		<Displace
+			aria-hidden="true"
+			class="grrrid-child grrrid-child-5 select-none"
+			text="::"
+			split={false}
+		/>
 		<Displace class="grrrid-child grrrid-child-6" text="R" />
 		<Displace class="relative grrrid-child grrrid-child-7" text="O" />
 		<Displace class="grrrid-child grrrid-child-8" text="E" />
