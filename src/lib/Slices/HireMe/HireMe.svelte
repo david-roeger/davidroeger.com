@@ -20,14 +20,14 @@
 	class={c}
 	wrapperClass="ml-2 inline-flex items-center gap-2 shrink-0"
 >
+	<span class="w-10">
+		<Image picture={smile} alt="me smiling" />
+	</span>
 	<span>{title}</span>
 	<span class="w-10">
 		<Image picture={serious} alt="me" />
 	</span>
 	<span aria-hidden="true">
 		{title}
-	</span>
-	<span class="w-10">
-		<Image picture={smile} alt="me smiling" />
 	</span>
 </Marquee>

@@ -15,24 +15,33 @@
 	let show = true;
 
 	const tag = href ? 'a' : 'span';
+	let contentWidth = 0;
 </script>
 
 {#if show}
-	<div class="flex mr-0 border-b border-mauve-6 h-[41px] {c}">
+	<div
+		out:slide|local={{ duration: 400 }}
+		class="flex mr-0 border-b border-mauve-6 h-[41px] {c}"
+	>
 		<div class="flex-1 relative">
 			<div
-				class="absolute left-0 right-0 overflow-hidden flex items-center justify-center"
+				style:--count={count + 1}
+				style:--width={contentWidth}
+				class="absolute left-0 right-0 overflow-hidden flex justify-start items-center"
 			>
-				<div class="w-fit-content flex will-change-transform">
+				<div class="w-fit-content flex">
 					<svelte:element
 						this={tag}
 						{href}
-						class="w-fit-content flex will-change-transform {tag ===
+						class="w-fit-content flex will-change-transform c {tag ===
 						'a'
 							? 'hover:underline'
-							: ''} c"
+							: ''}"
 					>
-						<span class={wrapperClass}>
+						<span
+							bind:clientWidth={contentWidth}
+							class={wrapperClass}
+						>
 							<slot />
 						</span>
 						{#each { length: count } as _, i}
@@ -62,9 +71,13 @@
 {/if}
 
 <style>
+	.c {
+		--duration: calc(10000s / var(--width));
+		--offset: calc(var(--width) * -1px);
+	}
 	@media (prefers-reduced-motion: no-preference) {
 		.c {
-			animation: scroll 120s linear infinite;
+			animation: scroll var(--duration) linear infinite;
 		}
 
 		.c:hover {
@@ -77,7 +90,7 @@
 			transform: translateX(0);
 		}
 		to {
-			transform: translateX(-100%);
+			transform: translateX(var(--offset));
 		}
 	}
 </style>
