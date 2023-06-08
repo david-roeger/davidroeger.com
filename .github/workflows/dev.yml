@@ -9,7 +9,7 @@ jobs:
     request:
         runs-on: ubuntu-latest
         steps:
-            - name: fetch dreams
+            - name: fetch portainer dev-davidroeger
               uses: wei/curl@master
               with:
                   args: -X POST https://portainer.davidroeger.com/api/stacks/webhooks/ed441996-6d0d-430c-9a6f-b69b69e18d14
