@@ -113,8 +113,6 @@ const getLastTrack = async (accessToken: string): Promise<LastTrack> => {
 	return await getRecentTrack(accessToken);
 };
 
-let accessToken: string;
-
 const typeSchema = z.enum(['lastTrack', 'tracks', 'artists']);
 
 const rangeSchema = baseRangeSchema.transform((val) => {
@@ -140,13 +138,12 @@ export const GET: RequestHandler = async ({ url }) => {
 		throw error(400);
 	}
 
-	if (!accessToken) {
-		accessToken = await getAccessToken({
-			clientId: env.SPOTIFY_CLIENT_ID,
-			clientSecret: env.SPOTIFY_CLIENT_SECRET,
-			refreshToken: env.SPOTIFY_REFRESH_TOKEN
-		});
-	}
+	const accessToken = await getAccessToken({
+		clientId: env.SPOTIFY_CLIENT_ID,
+		clientSecret: env.SPOTIFY_CLIENT_SECRET,
+		refreshToken: env.SPOTIFY_REFRESH_TOKEN
+	});
+
 	if (!accessToken) throw error(500, "Couldn't load music data");
 
 	try {
