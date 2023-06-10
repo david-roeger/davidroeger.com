@@ -2,6 +2,8 @@ name: main portainer deploy
 
 on:
     push:
+        tags:
+            - '*'
         branches:
             - main
 
