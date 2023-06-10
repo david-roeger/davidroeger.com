@@ -3,6 +3,7 @@ version: '3.9'
 services:
     app:
         build: ./
+        pull_policy: build
         ports:
             - '2000:3000'
         env_file:
