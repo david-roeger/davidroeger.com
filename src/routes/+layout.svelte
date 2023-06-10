@@ -249,7 +249,6 @@
 				Skip to content
 			</a>
 			<Header class="z-40" />
-			<p>test</p>
 
 			<main
 				id="content"
