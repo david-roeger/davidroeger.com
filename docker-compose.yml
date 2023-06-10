@@ -4,6 +4,7 @@ services:
     app:
         build: ./
         pull_policy: build
+        restart: unless-stopped
         ports:
             - '2000:3000'
         env_file:

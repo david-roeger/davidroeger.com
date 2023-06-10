@@ -1,5 +1,7 @@
 /// <reference types="@sveltejs/kit" />
 declare global {
+	// eslint-disable-next-line no-var
+	var __BUILD_TIME__: string;
 	declare namespace App {
 		interface PageData {
 			contactForm: import('$lib/Slices/ContactForm/constants').ContactForm;
