@@ -1,9 +1,9 @@
-name: dev portainer deploy
+name: main portainer deploy
 
 on:
     push:
         branches:
-            - 'main'
+            - main
 
 jobs:
     request:

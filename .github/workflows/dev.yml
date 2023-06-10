@@ -3,7 +3,7 @@ name: dev portainer deploy
 on:
     push:
         branches:
-            - 'dev'
+            - dev
 
 jobs:
     request:
