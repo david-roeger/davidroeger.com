@@ -12,4 +12,4 @@ jobs:
             - name: fetch portainer dev-davidroeger
               uses: wei/curl@master
               with:
-                  args: -X POST https://portainer.davidroeger.com/api/stacks/webhooks/ed441996-6d0d-430c-9a6f-b69b69e18d14
+                  args: -X POST https://portainer.davidroeger.com/api/stacks/webhooks/22950753-1764-4dd6-bdb6-320f13cdc0be

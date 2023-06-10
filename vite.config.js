@@ -6,7 +6,7 @@ import svg from '@poppanator/sveltekit-svg';
 /** @type {import('vite').UserConfig} */
 const config = {
 	define: {
-		'process.env.VITE_BUILD_TIME': JSON.stringify(
+		__BUILD_TIME__: JSON.stringify(
 			`${new Date().toJSON().split('T')[0]} // ${
 				new Date().toJSON().split('T')[1].split('Z')[0].split('.')[0]
 			} (UTC)`
