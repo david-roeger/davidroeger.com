@@ -34,6 +34,11 @@ export const actions: Actions = {
 
 		console.info(request.url);
 		try {
+			console.log(
+				'contact: +page.server.ts // Action // default // try',
+				contactForm.data
+			);
+
 			const meResponse = await fetch(
 				`/_api/mail/me?secret=${env.MAIL_SECRET}`,
 				{
@@ -51,17 +56,25 @@ export const actions: Actions = {
 			);
 
 			if (meResponse.ok) {
+				console.info(
+					'contact: +page.server.ts // Action // default // try // meResponse.ok'
+				);
+				const { name, email } = contactForm.data;
+
 				contactForm.data = DEFAULT_CONTACT_FORM;
 				if (summaryResponse.ok) {
+					console.info(
+						'contact: +page.server.ts // Action // default // try // meResponse.ok // summaryResponse.ok'
+					);
 					return message(contactForm, {
 						type: 'green',
-						html: `<h3>Thanks for your message ${contactForm.data.name}!</h3><p class="text-xs">An auto-reply has been sent to <b><em>${contactForm.data.email}</em></b></p>`
+						html: `<h3>Thanks for your message ${name}!</h3><p class="text-xs">An auto-reply has been sent to <b><em>${email}</em></b></p>`
 					});
 				}
 
 				return message(contactForm, {
 					type: 'orange',
-					html: `<h3>Thanks for your message ${contactForm.data.name}!</h3><p class="text-xs">An auto-reply has been sent to <b><em>${contactForm.data.email}</em></b>, but could not be delivered. Please check if the entered E-Mail address is correct</p>`
+					html: `<h3>Thanks for your message ${name}!</h3><p class="text-xs">An auto-reply has been sent to <b><em>${email}</em></b>, but could not be delivered. Please check if the entered E-Mail address is correct</p>`
 				});
 			}
 		} catch (error) {

@@ -42,7 +42,10 @@
 		id: 'contactForm',
 		validators: contactFormSchema,
 		clearOnSubmit: 'none',
-		taintedMessage: null
+		taintedMessage: null,
+		onError: (errors) => {
+			console.log('errors', errors);
+		}
 	});
 
 	$: getValValidationClass = (

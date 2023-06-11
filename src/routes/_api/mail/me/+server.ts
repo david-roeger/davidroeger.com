@@ -5,31 +5,17 @@ import { error, json } from '@sveltejs/kit';
 
 import type { RequestHandler } from './$types';
 
-import nodemailer, { type Transporter } from 'nodemailer';
-
-import type Mail from 'nodemailer/lib/mailer';
-import type SMTPTransport from 'nodemailer/lib/smtp-transport';
-import { authorize, createHtmlBlock } from '../utils';
-
-const sendMailWrapper = async (
-	transporter: Transporter<SMTPTransport.SentMessageInfo>,
-	mailOptions: Mail.Options
-) =>
-	new Promise<SMTPTransport.SentMessageInfo>((resolve, reject) => {
-		transporter.sendMail(mailOptions, (error, info) => {
-			if (error) {
-				reject(error);
-			} else {
-				resolve(info);
-			}
-		});
-	});
+import { authorize, createHtmlBlock, sendMailWrapper } from '../utils';
 
 export const POST: RequestHandler = async ({ url, request }) => {
 	console.info('_api/mail/me: +server.ts // POST');
 	// get secret from url params
 	authorize(url);
-
+	console.info(
+		'_api/mail/me: +server.ts // POST // authorized',
+		env.MAIL_SERVER,
+		env.MAIL_PASSWORD
+	);
 	const body: { [key: string]: unknown } = await request.json();
 	const { subject: subjectUnknown, ...unkownRest } = body;
 	const subjectString: string | undefined =
@@ -45,19 +31,8 @@ export const POST: RequestHandler = async ({ url, request }) => {
 
 	blocks.push(createHtmlBlock('Server Url', url));
 
-	const transporter = nodemailer.createTransport({
-		host: 'smtp.strato.de',
-		port: 465,
-		secure: true,
-		auth: {
-			type: 'login',
-			user: env.MAIL_SERVER,
-			pass: env.MAIL_PASSWORD
-		}
-	});
-
 	try {
-		const response = await sendMailWrapper(transporter, {
+		const response = await sendMailWrapper({
 			from: env.MAIL_SERVER,
 			to: env.MAIL_ME,
 			subject: `${
@@ -67,6 +42,7 @@ export const POST: RequestHandler = async ({ url, request }) => {
 			} (${new Date().toLocaleString()})`,
 			html: blocks.join('')
 		});
+
 		return json({ id: response.messageId });
 	} catch (e) {
 		throw error(500);
