@@ -63,7 +63,7 @@ export const POST: RequestHandler = async ({ url, request }) => {
 
 	const transporter = nodemailer.createTransport({
 		host: 'smtp.strato.de',
-		port: 465,
+		port: 587,
 		secure: true,
 		auth: {
 			type: 'login',

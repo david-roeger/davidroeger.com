@@ -7,10 +7,10 @@ services:
         restart: unless-stopped
         ports:
             - '2001:3000'
-            - '465:465'
         env_file:
             - stack.env
+
 networks:
-    host:
-        name: host
+    default:
         external: true
+        name: nginx
