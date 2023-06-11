@@ -16,10 +16,22 @@ const sendMailWrapper = async (
 	mailOptions: Mail.Options
 ) =>
 	new Promise<SMTPTransport.SentMessageInfo>((resolve, reject) => {
+		console.info(
+			'_api/mail/me: +server.ts // sendMailWrapper // Promise // +server.ts'
+		);
+
 		transporter.sendMail(mailOptions, (error, info) => {
 			if (error) {
+				console.error(
+					'_api/mail/me: +server.ts // sendMailWrapper // Promise // +server.ts // error',
+					error
+				);
 				reject(error);
 			} else {
+				console.info(
+					'_api/mail/me: +server.ts // sendMailWrapper // Promise // +server.ts // info',
+					info
+				);
 				resolve(info);
 			}
 		});
