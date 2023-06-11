@@ -18,7 +18,7 @@ export const createHtmlBlock = (key: string, value: unknown) =>
 
 const transporter = nodemailer.createTransport({
 	host: 'smtp.strato.de',
-	port: 587,
+	port: 465,
 	secure: true,
 	auth: {
 		type: 'login',
