@@ -4,26 +4,8 @@ import { error, json } from '@sveltejs/kit';
 
 import type { RequestHandler } from './$types';
 
-import nodemailer, { type Transporter } from 'nodemailer';
-
 import { env } from '$env/dynamic/private';
-import type Mail from 'nodemailer/lib/mailer';
-import type SMTPTransport from 'nodemailer/lib/smtp-transport';
-import { authorize } from '../utils';
-
-const sendMailWrapper = async (
-	transporter: Transporter<SMTPTransport.SentMessageInfo>,
-	mailOptions: Mail.Options
-) =>
-	new Promise<SMTPTransport.SentMessageInfo>((resolve, reject) => {
-		transporter.sendMail(mailOptions, (error, info) => {
-			if (error) {
-				reject(error);
-			} else {
-				resolve(info);
-			}
-		});
-	});
+import { authorize, sendMailWrapper } from '../utils';
 
 export const POST: RequestHandler = async ({ url, request }) => {
 	console.info('_api/mail/summary: +server.ts // POST');
@@ -64,34 +46,16 @@ export const POST: RequestHandler = async ({ url, request }) => {
 			<p>${message}</p>`
 		: '';
 
-	const transporter = nodemailer.createTransport({
-		host: 'smtp.strato.de',
-		port: 465,
-		secure: true,
-		auth: {
-			type: 'login',
-			user: env.MAIL_SERVER,
-			pass: env.MAIL_PASSWORD
-		}
-	});
-
 	try {
-		const response = await sendMailWrapper(transporter, {
+		const response = await sendMailWrapper({
 			from: env.MAIL_NO_REPLY,
 			to: email,
 			subject: `Summary from davidroeger.com [automated mail]`,
 			html: html.concat(summaryBlock)
 		});
-		console.info(
-			'_api/mail/summary: +server.ts // POST // sendMailWrapper // response',
-			response
-		);
+
 		return json({ id: response.messageId });
 	} catch (e) {
-		console.error(
-			'_api/mail/summary: +server.ts // POST // sendMailWrapper // catch',
-			e
-		);
 		throw error(500);
 	}
 };

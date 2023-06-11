@@ -5,37 +5,7 @@ import { error, json } from '@sveltejs/kit';
 
 import type { RequestHandler } from './$types';
 
-import nodemailer, { type Transporter } from 'nodemailer';
-
-import type Mail from 'nodemailer/lib/mailer';
-import type SMTPTransport from 'nodemailer/lib/smtp-transport';
-import { authorize, createHtmlBlock } from '../utils';
-
-const sendMailWrapper = async (
-	transporter: Transporter<SMTPTransport.SentMessageInfo>,
-	mailOptions: Mail.Options
-) =>
-	new Promise<SMTPTransport.SentMessageInfo>((resolve, reject) => {
-		console.info(
-			'_api/mail/me: +server.ts // sendMailWrapper // Promise // +server.ts'
-		);
-
-		transporter.sendMail(mailOptions, (error, info) => {
-			if (error) {
-				console.error(
-					'_api/mail/me: +server.ts // sendMailWrapper // Promise // +server.ts // error',
-					error
-				);
-				reject(error);
-			} else {
-				console.info(
-					'_api/mail/me: +server.ts // sendMailWrapper // Promise // +server.ts // info',
-					info
-				);
-				resolve(info);
-			}
-		});
-	});
+import { authorize, createHtmlBlock, sendMailWrapper } from '../utils';
 
 export const POST: RequestHandler = async ({ url, request }) => {
 	console.info('_api/mail/me: +server.ts // POST');
@@ -61,24 +31,8 @@ export const POST: RequestHandler = async ({ url, request }) => {
 
 	blocks.push(createHtmlBlock('Server Url', url));
 
-	const transporter = nodemailer.createTransport({
-		host: 'smtp.strato.de',
-		port: 587,
-		secure: true,
-		auth: {
-			type: 'login',
-			user: env.MAIL_SERVER,
-			pass: env.MAIL_PASSWORD
-		}
-	});
-
-	console.info(
-		'_api/mail/me: +server.ts // POST // transporter',
-		transporter
-	);
-
 	try {
-		const response = await sendMailWrapper(transporter, {
+		const response = await sendMailWrapper({
 			from: env.MAIL_SERVER,
 			to: env.MAIL_ME,
 			subject: `${
@@ -88,16 +42,9 @@ export const POST: RequestHandler = async ({ url, request }) => {
 			} (${new Date().toLocaleString()})`,
 			html: blocks.join('')
 		});
-		console.info(
-			'_api/mail/me: +server.ts // POST // sendMailWrapper // response',
-			response
-		);
+
 		return json({ id: response.messageId });
 	} catch (e) {
-		console.error(
-			'_api/mail/me: +server.ts // POST // sendMailWrapper // catch',
-			e
-		);
 		throw error(500);
 	}
 };
