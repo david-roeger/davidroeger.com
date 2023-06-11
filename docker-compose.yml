@@ -10,8 +10,7 @@ services:
             - '465:465'
         env_file:
             - stack.env
-
-networks:
-    default:
-        external: true
-        name: host
+# networks:
+#     default:
+#         external: true
+#         name: host
