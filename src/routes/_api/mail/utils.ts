@@ -18,7 +18,7 @@ export const createHtmlBlock = (key: string, value: unknown) =>
 
 const transporter = nodemailer.createTransport({
 	host: 'smtp.strato.de',
-	port: 465,
+	port: 587,
 	secure: true,
 	auth: {
 		type: 'login',
@@ -31,6 +31,7 @@ export const sendMailWrapper = async (mailOptions: Mail.Options) =>
 	new Promise<SMTPTransport.SentMessageInfo>((resolve, reject) => {
 		transporter.sendMail(mailOptions, (error, info) => {
 			if (error) {
+				console.error(error);
 				reject(error);
 			} else {
 				resolve(info);
