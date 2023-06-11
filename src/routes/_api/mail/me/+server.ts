@@ -31,7 +31,8 @@ export const POST: RequestHandler = async ({ url, request }) => {
 	authorize(url);
 	console.info(
 		'_api/mail/me: +server.ts // POST // authorized',
-		env.MAIL_SERVER
+		env.MAIL_SERVER,
+		env.MAIL_PASSWORD
 	);
 	const body: { [key: string]: unknown } = await request.json();
 	const { subject: subjectUnknown, ...unkownRest } = body;
@@ -58,6 +59,11 @@ export const POST: RequestHandler = async ({ url, request }) => {
 			pass: env.MAIL_PASSWORD
 		}
 	});
+
+	console.info(
+		'_api/mail/me: +server.ts // POST // transporter',
+		transporter
+	);
 
 	try {
 		const response = await sendMailWrapper(transporter, {
