@@ -1,4 +1,4 @@
-console.info('_api/mail/me: +server.ts');
+console.info('_api/mail/summary: +server.ts');
 
 import { error, json } from '@sveltejs/kit';
 
@@ -26,7 +26,7 @@ const sendMailWrapper = async (
 	});
 
 export const POST: RequestHandler = async ({ url, request }) => {
-	console.info('_api/mail/me: +server.ts // POST');
+	console.info('_api/mail/summary: +server.ts // POST');
 
 	authorize(url);
 
@@ -82,8 +82,16 @@ export const POST: RequestHandler = async ({ url, request }) => {
 			subject: `Summary from davidroeger.com [automated mail]`,
 			html: html.concat(summaryBlock)
 		});
+		console.info(
+			'_api/mail/summary: +server.ts // POST // sendMailWrapper // response',
+			response
+		);
 		return json({ id: response.messageId });
 	} catch (e) {
+		console.error(
+			'_api/mail/summary: +server.ts // POST // sendMailWrapper // catch',
+			e
+		);
 		throw error(500);
 	}
 };

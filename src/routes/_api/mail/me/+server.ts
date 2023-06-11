@@ -29,7 +29,10 @@ export const POST: RequestHandler = async ({ url, request }) => {
 	console.info('_api/mail/me: +server.ts // POST');
 	// get secret from url params
 	authorize(url);
-
+	console.info(
+		'_api/mail/me: +server.ts // POST // authorized',
+		env.MAIL_SERVER
+	);
 	const body: { [key: string]: unknown } = await request.json();
 	const { subject: subjectUnknown, ...unkownRest } = body;
 	const subjectString: string | undefined =
@@ -67,8 +70,16 @@ export const POST: RequestHandler = async ({ url, request }) => {
 			} (${new Date().toLocaleString()})`,
 			html: blocks.join('')
 		});
+		console.info(
+			'_api/mail/me: +server.ts // POST // sendMailWrapper // response',
+			response
+		);
 		return json({ id: response.messageId });
 	} catch (e) {
+		console.error(
+			'_api/mail/me: +server.ts // POST // sendMailWrapper // catch',
+			e
+		);
 		throw error(500);
 	}
 };
