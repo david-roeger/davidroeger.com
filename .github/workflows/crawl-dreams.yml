@@ -11,6 +11,6 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - name: fetch dreams
-              uses: wei/curl@master
+              uses: sozo-design/curl@v1.0.2
               with:
                   args: https://www.davidroeger.com/experimental/dreams
