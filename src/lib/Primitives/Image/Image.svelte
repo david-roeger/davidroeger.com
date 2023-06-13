@@ -23,8 +23,8 @@
 		<source type="image/{format}" {srcset} />
 	{/each}
 	<img
-		width={picture.fallback.w}
-		height={picture.fallback.h}
+		width={picture.img.w}
+		height={picture.img.h}
 		{alt}
 		{loading}
 		class={imgClass}

@@ -15,7 +15,7 @@ export interface Source {
  */
 export interface Picture {
 	sources: Record<string, Source[]>;
-	fallback: {
+	img: {
 		src: string;
 		w: number;
 		h: number;

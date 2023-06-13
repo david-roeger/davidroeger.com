@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { Image } from '$lib/Primitives/Image';
 
-	import serious from '$assets/me/serious.png?w=40;80;120;160&format=webp;png&picture&imageTools';
-	import smile from '$assets/me/smile.png?w=40;80;120;160&format=webp;png&picture&imageTools';
+	import smile from '$assets/me/smile.png?w=40;80;120;160&format=webp;png&as=picture&imageTools';
+	import serious from '$assets/me/serious.png?w=40;80;120;160&format=webp;png&as=picture&imageTools';
 
 	import { Marquee } from '$lib/Components/Marquee';
 
@@ -27,6 +27,7 @@
 	<span class="w-10">
 		<Image picture={serious} alt="me" />
 	</span>
+
 	<span aria-hidden="true">
 		{title}
 	</span>
