@@ -10,7 +10,7 @@ import type { PageServerLoad } from './$types';
 export const load: PageServerLoad = async ({ url }) => {
 	console.info('_prerender: +page.ts // load');
 
-	const projectUrl = new URL('./_api/_cachable/projects', url.href);
+	const projectUrl = new URL('/_api/_cachable/projects', url.href);
 	const projectResponse = await _handler({ url: projectUrl });
 
 	if (projectResponse.ok) {

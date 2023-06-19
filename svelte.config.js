@@ -50,6 +50,11 @@ const config = {
 			'$provider/*': 'src/lib/Provider/*',
 			'$slices/*': 'src/lib/Slices/*',
 			$utils: 'src/lib/Utils'
+		},
+
+		prerender: {
+			crawl: true,
+			entries: ['*', '/_prerender']
 		}
 	}
 };

@@ -17,5 +17,3 @@ export const GET: RequestHandler = async ({ url }) => {
 
 	return json(emojis);
 };
-
-export const prerender = true;

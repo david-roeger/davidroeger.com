@@ -34,5 +34,3 @@ export const GET: RequestHandler = async ({ url }) => {
 	console.info('_api/_cachable/experimental: +server.ts // GET');
 	return _handler({ url });
 };
-
-export const prerender = true;

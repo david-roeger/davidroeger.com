@@ -5,14 +5,7 @@ import type { RequestHandler } from './$types';
 
 import resume from './resume.json';
 
-export const _handler = async () => {
-	console.info('_api/_cachable/resume: +server.ts // GET // handler');
-	return json(resume);
-};
-
 export const GET: RequestHandler = async () => {
 	console.info('_api/_cachable/resume: +server.ts // GET');
-	return _handler();
+	return json(resume);
 };
-
-export const prerender = true;

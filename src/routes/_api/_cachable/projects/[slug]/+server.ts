@@ -12,7 +12,8 @@ type ProjectEntry = {
 	metadata: ProjectFrontMatter;
 };
 
-export const _handler = async ({ params }: { params: RouteParams }) => {
+export const GET: RequestHandler = async ({ params }) => {
+	console.info('_api/_cachable/projects/[slug]: +server.ts // GET');
 	console.info(
 		'_api/_cachable/projects/[slug]: +server.ts // GET // handler'
 	);
@@ -44,9 +45,4 @@ export const _handler = async ({ params }: { params: RouteParams }) => {
 	throw error(404, `Project ${urlSlug} not found`);
 };
 
-export const GET: RequestHandler = async ({ params }) => {
-	console.info('_api/_cachable/projects/[slug]: +server.ts // GET');
-	return _handler({ params });
-};
-
-export const prerender = true;
+export const prerender = 'auto';
