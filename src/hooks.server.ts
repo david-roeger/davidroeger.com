@@ -136,7 +136,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 		env.REDIS === 'false' ||
 		building ||
 		event.request.method !== 'GET' ||
-		event.url.pathname.includes('/_api/')
+		(event.url.pathname.includes('/_api/') && !event.url.pathname.includes('/_api/_cachable/')
 	) {
 		logger.cache(`CACHE NOT ELIGIBLE: ${event.request.url}`);
 		return resolve(event);
