@@ -2,25 +2,21 @@ console.info('projects/(ssr): +page.server.ts');
 
 import type { ProjectMetaData } from '$lib/types';
 
-import { _handler as experimentalHandler } from '$routes/_api/experimental/+server';
-import { _handler as projectHandler } from '$routes/_api/projects/+server';
 import { error } from '@sveltejs/kit';
 
 import type { PageServerLoad } from './$types';
 
-export const load: PageServerLoad = async ({ url }) => {
+export const load: PageServerLoad = async ({ fetch }) => {
 	console.info('projects/(ssr): +page.server.ts // load');
 
-	const projectUrl = new URL('./_api/projects', url.href);
-	const projectResponse = await projectHandler({ url: projectUrl });
+	const projectResponse = await fetch('/_api/_cachable/projects');
 
 	if (projectResponse.ok) {
 		const projects = (await projectResponse.json()) ?? [];
 
-		const experimentalUrl = new URL('./_api/experimental', url.href);
-		const experimentalResponse = await experimentalHandler({
-			url: experimentalUrl
-		});
+		const experimentalResponse = await fetch(
+			'/_api/_cachable/experimental'
+		);
 
 		let experimental = [];
 		if (experimentalResponse.ok) {

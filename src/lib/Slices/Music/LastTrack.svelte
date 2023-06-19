@@ -39,7 +39,7 @@
 	};
 
 	const queryFn = async () =>
-		(await fetch('/_api/music?type=lastTrack'))
+		(await fetch('/_api/_cachable/music?type=lastTrack'))
 			.json()
 			.then((data) => data as LastTrackType);
 

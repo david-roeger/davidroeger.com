@@ -3,13 +3,12 @@ console.info('about: +page.ts');
 import { error } from '@sveltejs/kit';
 
 import type { Resume } from '$lib/resume';
-import { _handler } from '$routes/_api/resume/+server';
 import type { PageLoad } from './$types';
 
-export const load: PageLoad = async ({}) => {
+export const load: PageLoad = async ({ fetch }) => {
 	console.info('about: +page.ts // load');
 
-	const resumeResponse = await _handler();
+	const resumeResponse = await fetch('/_api/_cachable/resume');
 	if (!resumeResponse.ok) {
 		throw error(500, "Couldn't load resume");
 	}

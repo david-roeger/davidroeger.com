@@ -39,7 +39,7 @@
 	};
 
 	const queryFn = async () =>
-		(await fetch(`/_api/music?type=tracks&range=${range}`))
+		(await fetch(`/_api/_cachable/music?type=tracks&range=${range}`))
 			.json()
 			.then((data) => data as TopTrackType[]);
 

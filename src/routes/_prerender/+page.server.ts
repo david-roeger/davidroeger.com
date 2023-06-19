@@ -1,14 +1,16 @@
 console.info('_prerender: +page.ts');
 
-import type { ProjectMetaData } from '$lib/types';
-import { _handler } from '$routes/_api/projects/+server';
 import { error } from '@sveltejs/kit';
+
+import type { ProjectMetaData } from '$lib/types';
+
+import { _handler } from '$routes/_api/_cachable/projects/+server';
 import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ url }) => {
 	console.info('_prerender: +page.ts // load');
 
-	const projectUrl = new URL('./_api/projects', url.href);
+	const projectUrl = new URL('/_api/_cachable/projects', url.href);
 	const projectResponse = await _handler({ url: projectUrl });
 
 	if (projectResponse.ok) {
