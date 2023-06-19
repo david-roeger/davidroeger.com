@@ -20,7 +20,7 @@ const log = ({
 export const logger = {
 	cache: (message: string, type: Type = 'log') => {
 		log({
-			message,
+			message: `@CACHE // ${message}`,
 			type,
 			level: 'CACHE'
 		});
@@ -29,9 +29,11 @@ export const logger = {
 		message: string,
 		type: 'log' | 'info' | 'warn' | 'error' | 'time' | 'timeEnd' = 'log'
 	) => {
-		if (DEBUG_LEVEL.PAGE) {
-			console[type](message);
-		}
+		log({
+			message: `@PAGE // ${message}`,
+			type,
+			level: 'PAGE'
+		});
 	}
 };
 

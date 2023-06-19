@@ -19,33 +19,21 @@ const collectPortals = (html: string) => {
 	return dom.serialize();
 };
 
-const portalHandle = async (
-	{ event, resolve }: Parameters<Handle>[0],
-	{ now, source }: { now: number; source: 'redis' | 'handle' }
-) => {
-	logger.cache(`portals: ${event.request.url} @ ${source}; ${now}}`, 'time');
+const portalHandle = async ({ event, resolve }: Parameters<Handle>[0]) => {
 	const result = await resolve(event, {
 		transformPageChunk: ({ html }) => {
 			return collectPortals(html);
 		}
 	});
 
-	logger.cache(
-		`portals: ${event.request.url} @ ${source}; ${now}}`,
-		'timeEnd'
-	);
 	return {
 		portals: result
 	};
 };
 
-const redisHandle = async (
-	{ event, resolve }: Parameters<Handle>[0],
-	{ now }: { now: number }
-) => {
+const redisHandle = async ({ event, resolve }: Parameters<Handle>[0]) => {
 	const redis = getClient();
-	logger.cache(`redis: ${event.request.url}; ${now}`, 'time');
-	const cached = await redis.get(`render:${event.request.url}:${version}`);
+	const cached = await redis.get(`render:${version}:${event.request.url}`);
 	if (cached) {
 		const parsed = JSON.parse(cached) as {
 			body: string;
@@ -54,39 +42,29 @@ const redisHandle = async (
 
 		if (parsed.body && parsed.headers) {
 			parsed.headers['x-cache'] = 'hit';
-			logger.cache(`redis: ${event.request.url}; ${now}`, 'timeEnd');
 			return { cached: parsed };
 		}
 	}
 
-	const portal = await portalHandle(
-		{ event, resolve },
-		{ source: 'redis', now }
-	);
-	logger.cache(`redis: ${event.request.url}; ${now}`, 'timeEnd');
+	const portal = await portalHandle({ event, resolve });
 	return portal;
 };
 
 const handleCache = async ({ event, resolve }: Parameters<Handle>[0]) => {
-	const now = new Date().getTime();
-	logger.cache(`handle: ${event.request.url}; ${now}`, 'time');
+	logger.cache(`handle: ${event.request.url}`, 'time');
+
 	const result = await Promise.race([
-		redisHandle(
-			{
-				event,
-				resolve
-			},
-			{
-				now
-			}
-		),
-		portalHandle(
-			{
-				event,
-				resolve
-			},
-			{ now, source: 'handle' }
-		)
+		redisHandle({
+			event,
+			resolve
+		})
+		// this doesn't work cause race is weird
+		// and always returns the slowest promise
+		// https://github.com/nodejs/node/issues/37683#issuecomment-795896483
+		// portalHandle({
+		// 	event,
+		// 	resolve
+		// })
 	]);
 
 	if ('portals' in result) {
@@ -99,18 +77,18 @@ const handleCache = async ({ event, resolve }: Parameters<Handle>[0]) => {
 			const redis = getClient();
 
 			redis.set(
-				`render:${event.request.url}:${version}`,
+				`render:${version}:${event.request.url}`,
 				JSON.stringify({
 					headers,
 					body
 				}),
 				'EX',
-				'30'
+				'60'
 			);
 
 			headers['x-cache'] = 'miss';
-			logger.cache(`handle: ${event.request.url}; ${now}`, 'timeEnd');
-			logger.cache(`CACHE SET: ${event.request.url}`);
+			logger.cache(`handle: ${event.request.url}`, 'timeEnd');
+			logger.cache(`MISS/SET: ${event.request.url}`);
 			return new Response(body, {
 				headers: new Headers(headers)
 			});
@@ -118,14 +96,14 @@ const handleCache = async ({ event, resolve }: Parameters<Handle>[0]) => {
 
 		result.portals.headers.set('x-cache', 'miss');
 
-		logger.cache(`handle: ${event.request.url}; ${now}`, 'timeEnd');
-		logger.cache(`CACHE MISS: ${event.request.url}`);
+		logger.cache(`handle: ${event.request.url}`, 'timeEnd');
+		logger.cache(`MISS: ${event.request.url}`);
 
 		return result.portals;
 	}
 
-	logger.cache(`handle: ${event.request.url}; ${now}`, 'timeEnd');
-	logger.cache(`CACHE HIT: ${event.request.url}`);
+	logger.cache(`handle: ${event.request.url}`, 'timeEnd');
+	logger.cache(`HIT: ${event.request.url}`);
 	return new Response(result.cached.body, {
 		headers: new Headers(result.cached.headers)
 	});
@@ -136,14 +114,15 @@ export const handle: Handle = async ({ event, resolve }) => {
 		env.REDIS === 'false' ||
 		building ||
 		event.request.method !== 'GET' ||
-		(event.url.pathname.includes('/_api/') && !event.url.pathname.includes('/_api/_cachable/')
+		(event.url.pathname.includes('/_api/') &&
+			!event.url.pathname.includes('/_api/_cachable/'))
 	) {
-		logger.cache(`CACHE NOT ELIGIBLE: ${event.request.url}`);
+		logger.cache(`not eligible: ${event.request.url}`);
 		return resolve(event);
 	}
 
-	logger.cache(`CACHE START: --- ${event.request.url}`);
+	logger.cache(`start ----- ${event.request.url}`);
 	const result = await handleCache({ event, resolve });
-	logger.cache(`CACHE END: --- ${event.request.url}`);
+	logger.cache(`end ----- ${event.request.url}`);
 	return result;
 };
