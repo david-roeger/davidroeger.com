@@ -1,3 +1,40 @@
+export const DEBUG_LEVEL = {
+	CACHE: true,
+	PAGE: true
+};
+
+type Type = 'log' | 'info' | 'warn' | 'error' | 'time' | 'timeEnd';
+const log = ({
+	message,
+	level,
+	type = 'log'
+}: {
+	message: string;
+	type?: Type;
+	level: keyof typeof DEBUG_LEVEL;
+}) => {
+	if (DEBUG_LEVEL[level]) {
+		console[type](message);
+	}
+};
+export const logger = {
+	cache: (message: string, type: Type = 'log') => {
+		log({
+			message,
+			type,
+			level: 'CACHE'
+		});
+	},
+	page: (
+		message: string,
+		type: 'log' | 'info' | 'warn' | 'error' | 'time' | 'timeEnd' = 'log'
+	) => {
+		if (DEBUG_LEVEL.PAGE) {
+			console[type](message);
+		}
+	}
+};
+
 /**
  * check if element is descendant of another element with given type
  * @param element this
