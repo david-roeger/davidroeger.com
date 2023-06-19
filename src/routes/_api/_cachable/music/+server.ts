@@ -1,4 +1,4 @@
-console.info('_api/music: +server.ts');
+console.info('_api/_cachable/music: +server.ts');
 
 import z from 'zod';
 import { error, json } from '@sveltejs/kit';
@@ -24,7 +24,7 @@ const getAccessToken = async ({
 	clientSecret: string;
 	refreshToken: string;
 }): Promise<string> => {
-	console.info('_api/music: +server.ts // GET // getAccessToken');
+	console.info('_api/_cachable/music: +server.ts // GET // getAccessToken');
 
 	const response = await fetch('https://accounts.spotify.com/api/token', {
 		method: 'POST',
@@ -57,7 +57,7 @@ const getAccessToken = async ({
 const getCurrentTrack = async (
 	accessToken: string
 ): Promise<CurrentTrack | false> => {
-	console.info('_api/music: +server.ts // GET // getCurrentTrack');
+	console.info('_api/_cachable/music: +server.ts // GET // getCurrentTrack');
 
 	const response = await baseRequest(
 		accessToken,
@@ -87,7 +87,7 @@ const getCurrentTrack = async (
 };
 
 const getRecentTrack = async (accessToken: string): Promise<RecentTrack> => {
-	console.info('_api/music: +server.ts // GET // getRecentTrack');
+	console.info('_api/_cachable/music: +server.ts // GET // getRecentTrack');
 
 	const response = await baseRequest(
 		accessToken,
@@ -123,7 +123,7 @@ const rangeSchema = baseRangeSchema.transform((val) => {
 });
 
 export const GET: RequestHandler = async ({ url }) => {
-	console.info('_api/music: +server.ts // GET');
+	console.info('_api/_cachable/music: +server.ts // GET');
 
 	const type = url.searchParams.get('type');
 	const range = url.searchParams.get('range');

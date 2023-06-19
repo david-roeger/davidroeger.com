@@ -1,4 +1,4 @@
-console.info('_api/projects/[slug]: +server.ts');
+console.info('_api/_cachable/projects/[slug]: +server.ts');
 
 import type { ProjectFrontMatter } from '$lib/types';
 import { error, json } from '@sveltejs/kit';
@@ -13,15 +13,17 @@ type ProjectEntry = {
 };
 
 export const _handler = async ({ params }: { params: RouteParams }) => {
-	console.info('_api/projects/[slug]: +server.ts // GET // handler');
+	console.info(
+		'_api/_cachable/projects/[slug]: +server.ts // GET // handler'
+	);
 
 	const modules = import.meta.glob(
-		`../../../projects/content/*.{md,svx,svelte.md}`
+		`../../../../projects/content/*.{md,svx,svelte.md}`
 	);
 	const { slug: urlSlug } = params;
 
 	console.info(
-		`_api/projects/[slug]: +server.ts // GET // handler (${urlSlug})`
+		`_api/_cachable/projects/[slug]: +server.ts // GET // handler (${urlSlug})`
 	);
 
 	for (const [, resolver] of Object.entries(
@@ -43,6 +45,8 @@ export const _handler = async ({ params }: { params: RouteParams }) => {
 };
 
 export const GET: RequestHandler = async ({ params }) => {
-	console.info('_api/projects/[slug]: +server.ts // GET');
+	console.info('_api/_cachable/projects/[slug]: +server.ts // GET');
 	return _handler({ params });
 };
+
+export const prerender = true;

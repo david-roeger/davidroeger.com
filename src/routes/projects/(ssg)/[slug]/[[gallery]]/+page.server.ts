@@ -1,7 +1,7 @@
 console.info('projects/(ssg)/[slug]/[[gallery]]: +page.server.ts');
 
 import type { ProjectMetaData } from '$lib/types';
-import { _handler } from '$routes/_api/projects/[slug]/+server';
+import { _handler } from '$routes/_api/_cachable/projects/[slug]/+server';
 import { error, redirect } from '@sveltejs/kit';
 
 import type { PageServerLoad } from './$types';

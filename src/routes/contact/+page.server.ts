@@ -40,7 +40,7 @@ export const actions: Actions = {
 			);
 
 			const meResponse = await fetch(
-				`/_api/mail/me?secret=${env.MAIL_SECRET}`,
+				`/_api/_cachable/mail/me?secret=${env.MAIL_SECRET}`,
 				{
 					method: 'POST',
 					body: JSON.stringify({ ...contactForm.data, url: pageUrl })
@@ -48,7 +48,7 @@ export const actions: Actions = {
 			);
 
 			const summaryResponse = await fetch(
-				`/_api/mail/summary?secret=${env.MAIL_SECRET}`,
+				`/_api/_cachable/mail/summary?secret=${env.MAIL_SECRET}`,
 				{
 					method: 'POST',
 					body: JSON.stringify(contactForm.data)

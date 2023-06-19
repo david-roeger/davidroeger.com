@@ -5,7 +5,6 @@ import { error, json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 
 import { getClient } from '$lib/Utils/Redis';
-import { env } from '$env/dynamic/private';
 
 export const GET: RequestHandler = async () => {
 	console.info('_api/clearCache: +server.ts // GET');
