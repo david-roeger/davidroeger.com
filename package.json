@@ -45,7 +45,7 @@
 	"type": "module",
 	"dependencies": {
 		"@supabase/auth-helpers-sveltekit": "^0.9.0",
-		"@supabase/supabase-js": "^2.20.0",
+		"@supabase/supabase-js": "^2.25.0",
 		"@tanstack/svelte-query": "^4.29.5",
 		"bezier-easing": "^2.1.0",
 		"focus-trap": "^7.4.3",
