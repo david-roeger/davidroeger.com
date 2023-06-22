@@ -289,7 +289,7 @@
 			}}
 		>
 			{#each nestedMediaArray as nestedMedia}
-				<div class="flex flex-col flex-1 ">
+				<div class="flex flex-col flex-1">
 					{#each nestedMedia as medium (medium.src)}
 						{@const index = mediaArray.indexOf(medium)}
 						<div class="m-1 flex">
@@ -362,16 +362,16 @@
 						<p>{description}</p>
 					</Dialog.Description>
 					{#key mounted}
-						<div in:fade|local>
+						<div in:fade>
 							{#if activeMedia.media}
 								{#key activeMedia.index}
 									<div
-										in:slide|local={{
+										in:slide={{
 											start: DIRECTION === 1 ? 100 : -100,
 											end: 0,
 											duration: 500
 										}}
-										out:slide|local={{
+										out:slide={{
 											start: DIRECTION === 1 ? -100 : 100,
 											end: 0,
 											duration: 500,

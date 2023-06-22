@@ -139,10 +139,7 @@
 		class="flex flex-wrap p-1 transition-all border-b border-mauve-6 ocus:outline-none ring-mauve-6 ring-inset focus:ring-1"
 	>
 		{#if $tags.size}
-			<div
-				in:slideLeft|local={{}}
-				out:slideLeft|local={{ easing: reversedEasing }}
-			>
+			<div in:slideLeft={{}} out:slideLeft={{ easing: reversedEasing }}>
 				<Tags.Unset
 					class="p-1 m-1 text-xs border rounded-full touch-manipulation border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1"
 				>

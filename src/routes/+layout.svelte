@@ -264,8 +264,8 @@
 			{#if showBttButton}
 				<div
 					class="sticky p-2 bottom-0 left-0 z-30 overflow-hidden pointer-events-none"
-					in:slideUp|local={{}}
-					out:slideUp|local={{ easing: reversedEasing }}
+					in:slideUp={{}}
+					out:slideUp={{ easing: reversedEasing }}
 				>
 					<button
 						aria-hidden={!showBttButton ? true : undefined}

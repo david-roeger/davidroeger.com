@@ -20,7 +20,7 @@
 
 {#if show}
 	<div
-		out:slide|local={{ duration: 400 }}
+		out:slide={{ duration: 400 }}
 		class="flex mr-0 border-b border-mauve-6 h-[41px] {c}"
 	>
 		<div class="flex-1 relative">
