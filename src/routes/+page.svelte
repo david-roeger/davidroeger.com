@@ -93,6 +93,8 @@
 
 <Head />
 
+<h1>hi luca</h1>
+
 <section class="mb-32">
 	<HireMe title="← Hi, welcome to my site! This is me." />
 	<h1
