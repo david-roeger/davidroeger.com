@@ -5,7 +5,7 @@ services:
         image: redis:7.0-alpine
         restart: unless-stopped
         ports:
-            - '2100:6379'
+            - '2101:6379'
         command: redis-server --save 20 1 --loglevel warning
         volumes:
             - cache:/data
@@ -14,7 +14,7 @@ services:
         pull_policy: build
         restart: unless-stopped
         ports:
-            - '2000:3000'
+            - '2001:3000'
         env_file:
             - stack.env
         depends_on:
