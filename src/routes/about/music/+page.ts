@@ -20,11 +20,11 @@ export const load: PageLoad = async ({ parent, url, fetch }) => {
 
 	const lastTrackParams = constructParams('lastTrack');
 	const lastTrackQueryFunction = () =>
-		fetch(`/_api/_cachable/music?${lastTrackParams.toString()}`);
+		fetch(`/_api/music?${lastTrackParams.toString()}`);
 
 	const intialTabParams = constructParams(state.tab, state.range);
 	const intitalTabQueryFunction = () =>
-		fetch(`/_api/_cachable/music?${intialTabParams.toString()}`);
+		fetch(`/_api/music?${intialTabParams.toString()}`);
 
 	const lastTrackQuery = queryClient.prefetchQuery({
 		queryKey: MUSIC_KEYS.type('lastTrack'),

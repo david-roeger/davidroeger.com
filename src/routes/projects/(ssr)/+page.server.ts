@@ -9,14 +9,12 @@ import type { PageServerLoad } from './$types';
 export const load: PageServerLoad = async ({ fetch }) => {
 	console.info('projects/(ssr): +page.server.ts // load');
 
-	const projectResponse = await fetch('/_api/_cachable/projects');
+	const projectResponse = await fetch('/_api/projects');
 
 	if (projectResponse.ok) {
 		const projects = (await projectResponse.json()) ?? [];
 
-		const experimentalResponse = await fetch(
-			'/_api/_cachable/experimental'
-		);
+		const experimentalResponse = await fetch('/_api/experimental');
 
 		let experimental = [];
 		if (experimentalResponse.ok) {

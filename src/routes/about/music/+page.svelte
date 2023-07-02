@@ -37,7 +37,7 @@
 
 	const queryFn = (tab: Tab, range: Range) => async () => {
 		const data = (
-			await fetch(`/_api/_cachable/music?type=${tab}&range=${range}`)
+			await fetch(`/_api/music?type=${tab}&range=${range}`)
 		).json();
 		return data;
 	};

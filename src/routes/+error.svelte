@@ -1,5 +1,8 @@
 <script lang="ts">
-	console.info('error: +error.svelte');
+	import { logger } from '$lib/Utils';
+	logger.page('error: +error.svelte');
+
+	// ----------------------------------------------------------------
 
 	import { page } from '$app/stores';
 

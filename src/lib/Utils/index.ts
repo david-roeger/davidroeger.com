@@ -17,6 +17,7 @@ const log = ({
 		console[type](message);
 	}
 };
+
 export const logger = {
 	cache: (message: string, type: Type = 'log') => {
 		log({
@@ -25,10 +26,7 @@ export const logger = {
 			level: 'CACHE'
 		});
 	},
-	page: (
-		message: string,
-		type: 'log' | 'info' | 'warn' | 'error' | 'time' | 'timeEnd' = 'log'
-	) => {
+	page: (message: string, type: Type = 'log') => {
 		log({
 			message: `@PAGE // ${message}`,
 			type,

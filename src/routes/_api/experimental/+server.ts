@@ -1,12 +1,12 @@
-console.info('_api/_cachable/experimental: +server.ts');
+console.info('_api/experimental: +server.ts');
 
 import { error, json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 
 export const _handler = async ({ url }: { url: URL }) => {
-	console.info('_api/_cachable/experimental: +server.ts // GET // handler');
+	console.info('_api/experimental: +server.ts // GET // handler');
 
-	const nested = import.meta.glob('../../../experimental/*/+page.svelte');
+	const nested = import.meta.glob('../../experimental/*/+page.svelte');
 	const limit = Number(url.searchParams.get('limit') ?? Infinity);
 
 	if (Number.isNaN(limit)) {
@@ -16,8 +16,10 @@ export const _handler = async ({ url }: { url: URL }) => {
 	const projects = [];
 
 	for (const [path] of Object.entries(nested)) {
+		console.log(path);
 		const slug =
 			path.match(/\.\.\/\.\.\/experimental\/(.*?)\//i)?.[1] ?? undefined;
+		console.log(slug);
 		if (!slug) {
 			continue;
 		}
@@ -31,6 +33,6 @@ export const _handler = async ({ url }: { url: URL }) => {
 };
 
 export const GET: RequestHandler = async ({ url }) => {
-	console.info('_api/_cachable/experimental: +server.ts // GET');
+	console.info('_api/experimental: +server.ts // GET');
 	return _handler({ url });
 };

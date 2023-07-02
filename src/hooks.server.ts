@@ -115,7 +115,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 		building ||
 		event.request.method !== 'GET' ||
 		(event.url.pathname.includes('/_api/') &&
-			!event.url.pathname.includes('/_api/_cachable/'))
+			!event.url.pathname.includes('/_api/_cachable'))
 	) {
 		logger.cache(`not eligible: ${event.request.url}`);
 		return resolve(event);

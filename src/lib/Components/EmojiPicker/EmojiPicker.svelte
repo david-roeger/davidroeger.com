@@ -64,7 +64,7 @@
 			return $emojiData;
 		}
 
-		const res = await fetch(`/_api/_cachable/emojiData`);
+		const res = await fetch(`/_api/emojiData`);
 		if (res.ok) {
 			const data = await res.json();
 			$emojiData = data as EmojiData;

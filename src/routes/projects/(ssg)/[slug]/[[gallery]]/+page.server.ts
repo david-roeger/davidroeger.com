@@ -12,7 +12,7 @@ export const load: PageServerLoad = async ({ fetch, params }) => {
 		`projects/(ssg)/[slug]/[[gallery]]: +page.server.ts // load (${slug} / ${gallery})`
 	);
 
-	const res = await fetch(`/_api/_cachable/projects/${slug}`);
+	const res = await fetch(`/_api/projects/${slug}`);
 	if (res.ok) {
 		const project = (await res.json()) as ProjectMetaData;
 		const media = project.media.length - 1 + 2; // add 2 for the vertical and horizontal images

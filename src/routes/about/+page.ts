@@ -8,7 +8,7 @@ import type { PageLoad } from './$types';
 export const load: PageLoad = async ({ fetch }) => {
 	console.info('about: +page.ts // load');
 
-	const resumeResponse = await fetch('/_api/_cachable/resume');
+	const resumeResponse = await fetch('/_api/resume');
 	if (!resumeResponse.ok) {
 		throw error(500, "Couldn't load resume");
 	}

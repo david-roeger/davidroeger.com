@@ -1,11 +1,11 @@
-console.info('_api/_cachable/emojiData: +server.ts');
+console.info('_api/emojiData: +server.ts');
 
 import type { EmojiData } from '$components/EmojiPicker/types';
 import { error, json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 
 export const GET: RequestHandler = async () => {
-	console.info('_api/_cachable/emojiData: +server.ts // GET');
+	console.info('_api/emojiData: +server.ts // GET');
 
 	try {
 		const response = await fetch(
