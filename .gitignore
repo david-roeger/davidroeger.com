@@ -5,6 +5,7 @@ node_modules
 /package
 .env
 .env.*
+stack.env
 !.env.example
 .vite/
 .vscode/
