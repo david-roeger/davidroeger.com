@@ -8,3 +8,5 @@ export const load: PageServerLoad = async () => {
 		dreams: dreams.rows
 	};
 };
+
+export const prerender = false;

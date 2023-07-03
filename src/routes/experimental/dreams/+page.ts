@@ -43,5 +43,3 @@ export const load: PageLoad = async ({ fetch, data }) => {
 
 	throw error(404, 'No Emojis found');
 };
-
-export const prerender = false;
