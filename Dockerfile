@@ -1,11 +1,14 @@
 FROM node:20-alpine
+
 WORKDIR /app
 COPY package*.json ./
+COPY pnpm*.yaml ./
 
-# force as long as tanstack/svelte-query@4.29.19 doesn't support svelte 4
-RUN npm ci --force
+RUN npm i -g pnpm
+RUN pnpm install
+
 COPY . .
-RUN npm run build
+RUN pnpm run build
 ENV NODE_ENV=production
 
 EXPOSE 3000
