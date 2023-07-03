@@ -1,7 +1,12 @@
 import pg from 'pg';
 import { env } from '$env/dynamic/private';
 
-const client = new pg.Client(env.SUPABASE_CONNECTION_STRING);
+const client = new pg.Client({
+    host: env.SUPABASE_HOST,
+    user: env.SUPABASE_USER,
+    password: env.SUPABASE_PASSWORD,
+  });
+
 await client.connect();
 
 export default client;
