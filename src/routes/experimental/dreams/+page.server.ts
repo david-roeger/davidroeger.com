@@ -1,16 +1,14 @@
 import type { PageServerLoad } from './$types';
 
-// import client from '$lib/Utils/Supabase/client';
+import client from '$lib/Utils/Supabase/client';
 
 export const load: PageServerLoad = async () => {
-	// const dreams = await client.query('SELECT * from dreams');
-	// return {
-	// 	dreams: dreams.rows
-	// };
-
+	const dreams = await client.query('SELECT * from dreams');
 	return {
-		dreams: []
-	}
+		dreams: dreams.rows
+	};
+
+
 };
 
 export const prerender = false;
