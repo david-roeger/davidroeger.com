@@ -12,4 +12,4 @@ jobs:
             - name: fetch portainer dev-davidroeger
               uses: sozo-design/curl@v1.0.2
               with:
-                  args: -X POST https://portainer.davidroeger.com/api/stacks/webhooks/22950753-1764-4dd6-bdb6-320f13cdc0be
+                  args: -X POST https://portainer.davidroeger.com/api/stacks/webhooks/adcd5ad1-8fae-4327-af04-a156314e76ff
