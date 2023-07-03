@@ -6,6 +6,7 @@ const client = new pg.Client({
     user: env.SUPABASE_USER,
     password: env.SUPABASE_PASSWORD,
     database: env.SUPABASE_DATABASE,
+    port: parseInt(env.SUPABASE_PORT),
   });
 
 await client.connect();
