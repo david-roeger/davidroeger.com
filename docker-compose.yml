@@ -7,7 +7,6 @@ services:
         restart: unless-stopped
         ports:
             - '2001:3000'
-            - '5432:5432'
         env_file:
             - stack.env
 
