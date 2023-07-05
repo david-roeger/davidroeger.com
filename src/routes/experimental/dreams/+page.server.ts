@@ -9,6 +9,10 @@ console.log('@1@', env.SUPABASE_HOST);
 console.log('@2@', a.SUPABASE_HOST);
 console.log('@3@', process.env.SUPABASE_HOST);
 
+throw new Error(
+	`${env.SUPABASE_HOST}, ${a.SUPABASE_HOST}, ${process.env.SUPABASE_HOST}`
+);
+
 // import client from '$lib/Utils/Supabase/client';
 
 export const load: PageServerLoad = async () => {
