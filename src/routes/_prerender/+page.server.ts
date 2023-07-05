@@ -8,7 +8,7 @@ import { _handler } from '$routes/_api/projects/+server';
 import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ url }) => {
-	console.info('_prerender: +page.ts // load');
+	console.info('_prerender: +page.ts // load ');
 
 	const projectUrl = new URL('/_api/projects', url.href);
 	const projectResponse = await _handler({ url: projectUrl });
