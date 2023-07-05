@@ -21,7 +21,7 @@ jobs:
             - name: Build and push
               uses: docker/build-push-action@v4
               env:
-                  SUPABASE_HOST: ${{ secrets.SUPABASE_HOST }}
+                  SUPABASE_HOST_ARG: ${{ secrets.SUPABASE_HOST }}
               with:
                   context: .
                   file: ./Dockerfile
