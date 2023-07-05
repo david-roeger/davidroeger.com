@@ -7,6 +7,7 @@
 	import { page } from '$app/stores';
 
 	import Head from '$lib/Components/Head/Head.svelte';
+
 	import Logo from '$lib/Components/Logo/Logo.svelte';
 	import Displace from '$lib/Components/Displace/Displace.svelte';
 	import { debounce, limit, mapToRange } from '$lib/Utils';
