@@ -27,6 +27,9 @@ services:
         links:
             - db
 
+volumes:
+    db:
+
 networks:
     default:
         external: true
