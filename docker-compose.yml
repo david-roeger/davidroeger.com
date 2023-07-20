@@ -12,9 +12,7 @@ services:
             - db:/var/lib/posgresql/data
             - ./setup.sql:/docker-entrypoint-initdb.d/create_tables.sql
     app:
-        build:
-            context: ./
-            target: development
+        build: ./
         pull_policy: build
         restart: unless-stopped
         env_file:
