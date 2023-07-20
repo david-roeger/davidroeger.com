@@ -1,16 +1,20 @@
 import pg from 'pg';
 import { env } from '$env/dynamic/private';
 import { SUPABASE_HOST } from '$env/static/private';
+import { building } from '$app/environment';
 
-// console.log('@@@ host', SUPABASE_HOST);
-// const client = new pg.Client({
-// 	host: env.SUPABASE_HOST,
-// 	user: env.SUPABASE_USER,
-// 	password: env.SUPABASE_PASSWORD,
-// 	database: env.SUPABASE_DATABASE,
-// 	port: parseInt(env.SUPABASE_PORT)
-// });
+console.log('@@@ host', SUPABASE_HOST);
 
-// await client.connect();
+const client = !building
+	? new pg.Pool({
+			host: env.SUPABASE_HOST,
+			user: env.SUPABASE_USER,
+			password: env.SUPABASE_PASSWORD,
+			database: env.SUPABASE_DATABASE,
+			port: parseInt(env.SUPABASE_PORT)
+	  })
+	: ({ connect: async () => {}, query: async () => {} } as pg.Pool);
 
-// export default client;
+await client.connect();
+
+export default client;

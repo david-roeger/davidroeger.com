@@ -1,31 +1,19 @@
 console.info('experimental/dreams: +page.server.ts');
+import { redirect } from '@sveltejs/kit';
 
 import type { PageServerLoad } from './$types';
 
-import { env } from '$env/dynamic/private';
-import { SUPABASE_HOST } from '$env/static/private';
-import * as t from '$env/static/private';
+import client from '$lib/Utils/Supabase/client';
 
-console.log('@1@', env.SUPABASE_HOST);
-console.log('@2@', SUPABASE_HOST);
-console.log('@3@', process.env.SUPABASE_HOST);
-
-throw new Error(
-	JSON.stringify({
-		DP: env.SUPABASE_HOST,
-		SP: SUPABASE_HOST,
-		SPM: SUPABASE_HOST,
-		P: process.env.SUPABASE_HOST
-	})
-);
-
-// import client from '$lib/Utils/Supabase/client';
-
-export const load: PageServerLoad = async () => {
+export const load: PageServerLoad = async ({ locals }) => {
 	console.info('experimental/dreams: +page.server.ts // load');
 
-	// const dreams = await client.query('SELECT * from dreams');
+	const dreams = await client.query('SELECT * from dreams');
+
+	const session = await locals.auth.validate();
+	if (!session) throw redirect(302, '/experimental/dreams/login');
 	return {
+		user: session.user,
 		dreams: []
 	};
 };
