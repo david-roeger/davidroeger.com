@@ -9,7 +9,7 @@ export const load: PageServerLoad = async ({ locals }) => {
 	console.info('experimental/dreams: +page.server.ts // load');
 
 	const dreams = await client.query('SELECT * from dreams');
-
+	console.log(dreams);
 	const session = await locals.auth.validate();
 	if (!session) throw redirect(302, '/experimental/dreams/login');
 	return {

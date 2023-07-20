@@ -6,7 +6,7 @@ import type { PageLoad } from './$types';
 export const load: PageLoad = async ({ fetch, data }) => {
 	console.info('experimental/dreams: +page.ts // load');
 
-	const { dreams } = data;
+	const { dreams, user } = data;
 	console.log(dreams);
 	// const { dreams = [], error: err, status } = await getDreams(supabaseClient);
 	// if (err) {
@@ -19,6 +19,7 @@ export const load: PageLoad = async ({ fetch, data }) => {
 
 	if (dreamsWithoutEmoji.length === 0) {
 		return {
+			user,
 			dreams,
 			emojiMap: {}
 		};
@@ -36,6 +37,7 @@ export const load: PageLoad = async ({ fetch, data }) => {
 			emojiMap[dream.id] = emojis[index];
 		});
 		return {
+			user,
 			dreams,
 			emojiMap
 		};

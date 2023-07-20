@@ -10,7 +10,7 @@
 	console.info('experimental/dreams:  +page.svelte');
 
 	export let data: PageData;
-
+	$: console.log('data', data.user);
 	$: dreams = data.dreams as {
 		id: number;
 		emoji?: string;

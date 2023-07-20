@@ -1,11 +1,25 @@
 /// <reference types="@sveltejs/kit" />
+/// <reference types="lucia" />
+
 declare global {
 	// eslint-disable-next-line no-var
 	var __BUILD_TIME__: string;
+	namespace Lucia {
+		type Auth = import('$utils/Lucia/lucia').Auth;
+		type DatabaseUserAttributes = {
+			name: string;
+			role: 'admin' | 'user';
+		};
+		type DatabaseSessionAttributes = {};
+	}
 	declare namespace App {
 		interface PageData {
 			contactForm: import('$lib/Slices/ContactForm/constants').ContactForm;
 		}
+		interface Locals {
+			auth: import('lucia').AuthRequest;
+		}
+		// src/app.d.ts
 	}
 
 	declare module '*.svg' {
