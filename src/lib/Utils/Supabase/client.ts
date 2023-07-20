@@ -1,9 +1,6 @@
 import pg from 'pg';
 import { env } from '$env/dynamic/private';
-import { SUPABASE_HOST } from '$env/static/private';
 import { building } from '$app/environment';
-
-console.log('@@@ host', SUPABASE_HOST);
 
 const client = !building
 	? new pg.Pool({
