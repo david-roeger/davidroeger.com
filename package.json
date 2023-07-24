@@ -48,7 +48,7 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"@lucia-auth/adapter-postgresql": "^2.0.0-beta.6",
+		"@lucia-auth/adapter-postgresql": "^2.0.0-beta.8",
 		"@tanstack/svelte-query": "^4.29.19",
 		"bezier-easing": "^2.1.0",
 		"focus-trap": "^7.4.3",
