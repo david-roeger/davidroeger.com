@@ -281,6 +281,10 @@
 		}
 	};
 
+	export const setValue = (value: string) => {
+		$activeValue = value;
+	};
+
 	let closePopper: Writable<() => void | undefined>;
 </script>
 
