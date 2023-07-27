@@ -129,7 +129,7 @@
 		<Displace class="grrrid-child grrrid-child-4" text="D" />
 		<Displace
 			aria-hidden="true"
-			class="grrrid-child grrrid-child-5 select-none"
+			class="select-none grrrid-child grrrid-child-5"
 			text="::"
 			split={false}
 		/>

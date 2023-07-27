@@ -93,18 +93,18 @@
 	novalidate
 	action="/contact"
 	method="POST"
-	class="grid custom-grid border-mauve-6 {borderTop
-		? 'border-t'
-		: ''} {borderBottom ? 'border-b' : ''} {c}"
+	class="grid custom-grid border-mauve-6 {c}"
+	class:border-t={borderTop}
+	class:border-b={borderBottom}
 >
 	<div class="flex flex-col">
-		<div class="border-mauve-6 border-b">
+		<div class="border-b border-mauve-6">
 			<div class="h-12" />
 		</div>
-		<div class="grow border-mauve-6 border-b sm:hidden">
+		<div class="border-b grow border-mauve-6 sm:hidden">
 			<div class="" />
 		</div>
-		<div class="border-mauve-6 border-b sm:hidden">
+		<div class="border-b border-mauve-6 sm:hidden">
 			<div class="h-[377px] sm:h-0" />
 		</div>
 		<div class="sm:hidden"><div class="h-[58px]" /></div>
@@ -114,14 +114,14 @@
 		class="border-mauve-6 border-x bg-white/[.85] flex flex-col space-y-2 sm:flex-row sm:space-y-0 relative"
 	>
 		<div
-			class="flex flex-col border-mauve-6 border-b space-y-2 sm:flex-1 sm:border-b-0"
+			class="flex flex-col border-b border-mauve-6 space-y-2 sm:flex-1 sm:border-b-0"
 		>
-			<div class="border-mauve-6 border-b flex">
-				<h2 class="text-2xl p-2">
+			<div class="flex border-b border-mauve-6">
+				<h2 class="p-2 text-2xl">
 					<slot name="headline">Kontakt</slot>
 				</h2>
 			</div>
-			<p class="max-w-xs sm:max-w-none lg:max-w-xs p-2 pt-0">
+			<p class="max-w-xs p-2 pt-0 sm:max-w-none lg:max-w-xs">
 				<slot>
 					Lorem ipsum dolor sit amet, consectetur adipisicing elit.
 					Facilis vero aut sint officia quos omnis corrupti iusto et
@@ -132,11 +132,11 @@
 				</slot>
 			</p>
 		</div>
-		<div class="hidden sm:block h-full border-r border-mauve-6" />
-		<div class="flex flex-col space-y-2 sm:flex-1 relative">
+		<div class="hidden h-full border-r sm:block border-mauve-6" />
+		<div class="relative flex flex-col space-y-2 sm:flex-1">
 			<fieldset
 				disabled={$submitting}
-				class="flex flex-col border-mauve-6 border-b space-y-2 p-2
+				class="flex flex-col border-b border-mauve-6 space-y-2 p-2
 					pt-0 sm:pt-2"
 			>
 				<input
@@ -146,7 +146,7 @@
 					value={$page.url.toString()}
 				/>
 				<div
-					class="flex flex-col items-start group max-w-xs sm:max-w-none lg:max-w-xs"
+					class="flex flex-col items-start max-w-xs group sm:max-w-none lg:max-w-xs"
 				>
 					<label
 						for="name"
@@ -179,7 +179,7 @@
 						data-invalid={$errors.name}
 						{...$constraints.name}
 					/>
-					<p class="text-xs h-4">
+					<p class="h-4 text-xs">
 						{#if $errors.name}
 							{$errors.name[0]}
 						{/if}
@@ -187,7 +187,7 @@
 				</div>
 
 				<div
-					class="flex flex-col items-start group max-w-xs sm:max-w-none lg:max-w-xs"
+					class="flex flex-col items-start max-w-xs group sm:max-w-none lg:max-w-xs"
 				>
 					<label
 						for="email"
@@ -221,7 +221,7 @@
 						{...$constraints.email}
 					/>
 
-					<p class="text-xs h-4">
+					<p class="h-4 text-xs">
 						{#if $errors.email}
 							{$errors.email[0]}
 						{/if}
@@ -229,7 +229,7 @@
 				</div>
 
 				<div
-					class="flex flex-col items-start group max-w-xs sm:max-w-none lg:max-w-xs"
+					class="flex flex-col items-start max-w-xs group sm:max-w-none lg:max-w-xs"
 				>
 					<label
 						for="message"
@@ -261,7 +261,7 @@
 						{...$constraints.message}
 					/>
 
-					<p class="text-xs h-4">
+					<p class="h-4 text-xs">
 						{#if $errors.message}
 							{$errors.message[0]}
 						{/if}
@@ -282,12 +282,12 @@
 						class="grow grid grid-cols-[minmax(0,_1fr)_auto_minmax(0,_1fr)] place-items-start"
 					>
 						{#if $delayed}
-							<span class="-ml-2 px-1 bg-white rounded-full">
+							<span class="px-1 -ml-2 bg-white rounded-full">
 								🕸
 							</span>
 							<span class="col-start-2">Submitting...</span>
 						{:else}
-							<span class="-ml-2 px-1 bg-white rounded-full">
+							<span class="px-1 -ml-2 bg-white rounded-full">
 								💌
 							</span>
 							<span>Send</span>
@@ -297,10 +297,10 @@
 			</div>
 			{#if $delayed}
 				<div
-					class="absolute inset-0 bg-white/50 icon-mauve-12 flex justify-center items-center cursor-wait"
+					class="absolute inset-0 flex items-center justify-center cursor-wait bg-white/50 icon-mauve-12"
 				>
 					{#each getLoadingEmojis() as emoji}
-						<p class="text-4xl animate-loading-1 m-4">
+						<p class="m-4 text-4xl animate-loading-1">
 							{emoji}
 						</p>
 					{/each}
@@ -310,11 +310,11 @@
 	</div>
 
 	<div class="flex flex-col grid-cols-2">
-		<div class="border-mauve-6 border-b sm:hidden">
+		<div class="border-b border-mauve-6 sm:hidden">
 			<div class="h-12 sm:h-0" />
 		</div>
-		<div class="grow border-mauve-6 border-b" />
-		<div class="border-mauve-6 border-b sm:hidden">
+		<div class="border-b grow border-mauve-6" />
+		<div class="border-b border-mauve-6 sm:hidden">
 			<div class="h-[377px] sm:h-0" />
 		</div>
 		<div class="h-[58px]" />

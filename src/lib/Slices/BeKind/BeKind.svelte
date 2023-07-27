@@ -66,5 +66,5 @@
 			<Flower6 class="w-full h-full" fill="#D7F2B0" stroke="#5D770D" />
 		</AccessibleIcon>
 	</span>
-	<span class="w-10 bg-mauve-3 h-full border-x border-mauve-6" />
+	<span class="w-10 h-full bg-mauve-3 border-x border-mauve-6" />
 </Marquee>

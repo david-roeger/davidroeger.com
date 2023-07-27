@@ -23,13 +23,13 @@
 		out:slide={{ duration: 400 }}
 		class="flex mr-0 border-b border-mauve-6 h-[41px] {c}"
 	>
-		<div class="flex-1 relative">
+		<div class="relative flex-1">
 			<div
 				style:--count={count + 1}
 				style:--width={contentWidth}
-				class="absolute left-0 right-0 overflow-hidden flex justify-start items-center"
+				class="absolute left-0 right-0 flex items-center justify-start overflow-hidden"
 			>
-				<div class="w-fit-content flex">
+				<div class="flex w-fit-content">
 					<svelte:element
 						this={tag}
 						{href}

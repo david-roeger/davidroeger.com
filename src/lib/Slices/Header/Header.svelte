@@ -64,7 +64,7 @@
 		<li class="flex-1">
 			<ul
 				role="menubar"
-				class="flex flex-wrap justify-end m-1 items-center"
+				class="flex flex-wrap items-center justify-end m-1"
 			>
 				<li role="none" class="m-1 list-none">
 					<NavLink

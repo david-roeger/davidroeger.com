@@ -14,7 +14,7 @@
 	{#each data.projectLinks as projectLink}
 		<!-- content here -->
 		<p>
-			<a class="focus:outline-none underline" href={projectLink}>
+			<a class="underline focus:outline-none" href={projectLink}>
 				{projectLink}
 			</a>
 		</p>

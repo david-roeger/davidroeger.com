@@ -65,7 +65,7 @@
 	};
 </script>
 
-<div class="flex p-2 space-y-2 flex-col">
+<div class="flex flex-col p-2 space-y-2">
 	<Button on:click={add}>Default</Button>
 	<Button on:click={addPrio}>Priority</Button>
 	<Button on:click={addProgress}>Progress</Button>

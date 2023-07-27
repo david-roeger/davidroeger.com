@@ -10,7 +10,7 @@
 	] = [undefined, undefined, undefined];
 </script>
 
-<div class="flex items-center w-full pt-2 pl-2 space-x-1 text-xs text-mauve-11">
+<div class="flex items-center w-full pt-2 pl-2 text-xs space-x-1 text-mauve-11">
 	<div>
 		<slot name="preline" />
 	</div>

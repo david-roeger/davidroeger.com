@@ -136,7 +136,7 @@
 >
 	<Tags.List
 		label="Filter Projects"
-		class="flex flex-wrap p-1 transition-all border-b border-mauve-6 ocus:outline-none ring-mauve-6 ring-inset focus:ring-1"
+		class="flex flex-wrap p-1 border-b transition-all border-mauve-6 ocus:outline-none ring-mauve-6 ring-inset focus:ring-1"
 	>
 		{#if $tags.size}
 			<div in:slideLeft={{}} out:slideLeft={{ easing: reversedEasing }}>
@@ -201,7 +201,7 @@
 						</AccessibleIcon>
 					</Gallery.Previous>
 					<Gallery.Next
-						class="absolute top-0 right-0 z-10 block p-1 text-xs transform -translate-x-2 -translate-y-1/2 bg-white border rounded-full cursor-e-resize lg:translate-x-0 lg:top-1/2 lg:right-2 touch-manipulation focus:outline-none ring-mauve-12 focus:ring-1"
+						class="absolute top-0 right-0 z-10 block p-1 text-xs bg-white border rounded-full transform -translate-x-2 -translate-y-1/2 cursor-e-resize lg:translate-x-0 lg:top-1/2 lg:right-2 touch-manipulation focus:outline-none ring-mauve-12 focus:ring-1"
 					>
 						<AccessibleIcon label="Go to next">
 							<East />

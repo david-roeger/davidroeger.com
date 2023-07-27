@@ -82,10 +82,10 @@
 		</span>
 	</p>
 
-	<div class="flex p-2 space-x-2 border-t border-mauve-6">
+	<div class="flex p-2 border-t space-x-2 border-mauve-6">
 		<Tabs.List
 			ariaLabel="My Favorite Artists and Tracks on Spotify"
-			class="w-full flex space-x-2"
+			class="flex w-full space-x-2"
 		>
 			<Tabs.Trigger
 				value="tracks"
@@ -94,7 +94,7 @@
 					? 'bg-purple-5'
 					: 'bg-white'}"
 			>
-				<div class=" px-4 py-2">
+				<div class="px-4 py-2 ">
 					<Headline as="h2" unstyled id="top_tracks" type="secondary">
 						Tracks
 					</Headline>
@@ -189,7 +189,7 @@
 								class="relative w-6 h-6 p-1 bg-white border rounded-full b border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 before:absolute before:inset-0 before:block before:m-1 before:rounded-full group-hover:before:bg-mauve-5 before:transition-colors"
 							>
 								<RadioGroup.Indicator
-									class="block absolute inset-0 m-1 rounded-full bg-plum-5"
+									class="absolute inset-0 block m-1 rounded-full bg-plum-5"
 								/>
 							</RadioGroup.Item>
 							<label

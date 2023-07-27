@@ -244,7 +244,7 @@
 		>
 			<a
 				href="#content"
-				class="absolute -top-full left-2 px-4 py-2 focus:top-2 z-50 bg-white border focus:outline-none ring-mauve-12 focus:ring-1"
+				class="absolute z-50 px-4 py-2 bg-white border -top-full left-2 focus:top-2 focus:outline-none ring-mauve-12 focus:ring-1"
 			>
 				Skip to content
 			</a>
@@ -252,7 +252,7 @@
 
 			<main
 				id="content"
-				class="z-10 flex flex-col xl:max-w-7xl xl:border-r border-mauve-6 mb-auto"
+				class="z-10 flex flex-col mb-auto xl:max-w-7xl xl:border-r border-mauve-6"
 			>
 				<BreakpointProvider>
 					<slot />
@@ -263,7 +263,7 @@
 
 			{#if showBttButton}
 				<div
-					class="sticky p-2 bottom-0 left-0 z-30 overflow-hidden pointer-events-none"
+					class="sticky bottom-0 left-0 z-30 p-2 overflow-hidden pointer-events-none"
 					in:slideUp={{}}
 					out:slideUp={{ easing: reversedEasing }}
 				>

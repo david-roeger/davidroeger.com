@@ -225,13 +225,13 @@
 			<ul
 				in:slide={{ duration: 400 }}
 				out:slide={{ duration: 400 }}
-				class="flex items-center p-2 space-x-2 overflow-x-hidden bg-white border-b border-mauve-12"
+				class="flex items-center p-2 overflow-x-hidden bg-white border-b space-x-2 border-mauve-12"
 				aria-hidden
 			>
 				{#each notifications as notification (notification.id)}
 					<li transition:fly={{ y: -4 }}>
 						<span
-							class="grid w-1 h-1 grid-cols-1 grid-rows-1 place-items-center"
+							class="w-1 h-1 grid grid-cols-1 grid-rows-1 place-items-center"
 						>
 							<span
 								class="col-start-1 row-start-1 inline-flex rounded-full h-full w-full bg-mauve-12 {notification.priority

@@ -279,7 +279,7 @@
 <section bind:this={section}>
 	{#if mediaArray.length}
 		<Dialog.Root
-			class="flex p-1 border-b mb-32 border-mauve-6"
+			class="flex p-1 mb-32 border-b border-mauve-6"
 			defaultOpen={defaultIndex !== undefined}
 			bind:setClose
 			on:openChange={async (e) => {
@@ -292,7 +292,7 @@
 				<div class="flex flex-col flex-1">
 					{#each nestedMedia as medium (medium.src)}
 						{@const index = mediaArray.indexOf(medium)}
-						<div class="m-1 flex">
+						<div class="flex m-1">
 							<Dialog.Trigger
 								tabindex={0}
 								title="Open Overlay"
@@ -386,14 +386,14 @@
 											style:height="{activeMedia.targetHeight}px"
 											style:transform="translateX({$offsetX}px)
 											translateY({$offsetY}px) scale({$scale})"
-											class="origin-top-left pointer-events-auto"
+											class="pointer-events-auto origin-top-left"
 										>
 											<Media
 												media={activeMedia.media}
 												src="/assets/projects/{assetPath}/{activeMedia
 													.media.src}"
 												alt=""
-												class="border-mauve-6 w-full h-full block"
+												class="block w-full h-full border-mauve-6"
 											/>
 										</div>
 									</div>
@@ -403,10 +403,10 @@
 					{/key}
 
 					<div
-						class="absolute p-2 transform left-0 top-1/2 -translate-y-1/2"
+						class="absolute left-0 p-2 transform top-1/2 -translate-y-1/2"
 					>
 						<button
-							class="z-10 block p-1 text-xs bg-white border rounded-full cursor-w-resize touch-manipulation focus:outline-none ring-mauve-12 focus:ring-1 pointer-events-auto"
+							class="z-10 block p-1 text-xs bg-white border rounded-full pointer-events-auto cursor-w-resize touch-manipulation focus:outline-none ring-mauve-12 focus:ring-1"
 							style="opacity: {$opacity};"
 							on:click={() => {
 								if (!enabled) return;
@@ -426,11 +426,11 @@
 					</div>
 
 					<div
-						class="absolute p-2 transform right-0 top-1/2 -translate-y-1/2"
+						class="absolute right-0 p-2 transform top-1/2 -translate-y-1/2"
 					>
 						<button
 							id="lightbox-next"
-							class="z-10 block p-1 text-xs bg-white border rounded-full cursor-e-resize touch-manipulation focus:outline-none ring-mauve-12 focus:ring-1 pointer-events-auto"
+							class="z-10 block p-1 text-xs bg-white border rounded-full pointer-events-auto cursor-e-resize touch-manipulation focus:outline-none ring-mauve-12 focus:ring-1"
 							style="opacity: {$opacity};"
 							on:click={() => {
 								if (!enabled) return;
