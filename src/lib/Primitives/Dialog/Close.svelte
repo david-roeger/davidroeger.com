@@ -1,7 +1,7 @@
 <script lang="ts">
 	let c = '';
 	export { c as class };
-	let t = '';
+	let t: 'button' | 'reset' | 'submit' = 'button';
 	export { t as type };
 	import { getContext } from 'svelte';
 	import type { RootContext } from './types';

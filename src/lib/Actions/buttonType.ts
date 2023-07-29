@@ -3,7 +3,7 @@ import { hasParentOfType } from '$lib/Utils';
 
 export const buttonType = (
 	button: HTMLButtonElement,
-	type = ''
+	type: 'button' | 'reset' | 'submit' = 'button'
 ): ActionReturnType => {
 	const update = (button: HTMLButtonElement) => {
 		if (type) {
