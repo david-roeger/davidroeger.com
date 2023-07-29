@@ -56,7 +56,7 @@ export interface ProjectMetaData extends ProjectFrontMatter {
 export interface Dream {
 	id: number;
 	text: string;
-	emoji?: Emoji.native;
+	emoji?: string;
 	created_at: string;
 	updated_at: string;
 }

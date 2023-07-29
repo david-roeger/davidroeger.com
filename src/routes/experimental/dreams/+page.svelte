@@ -1,118 +1,179 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import AccessibleIcon from '$lib/Components/AccessibleIcon/AccessibleIcon.svelte';
-	import Dialog from '$lib/Components/Dialog/Dialog.svelte';
-	import Head from '$lib/Components/Head/Head.svelte';
 	import Headline from '$lib/Components/Headline/Headline.svelte';
-	import * as VisuallyHidden from '$lib/Primitives/VisuallyHidden';
+	import AddDreamForm from '$lib/Slices/AddDreamForm/AddDreamForm.svelte';
 	import type { PageData } from './$types';
+
+	import * as VisuallyHidden from '$lib/Primitives/VisuallyHidden';
+	import { createQuery, keepPreviousData } from '@tanstack/svelte-query';
+	import { DREAMS_KEYS } from './constants';
+	import type { Dream } from '$lib/types';
+	import { derived, writable } from 'svelte/store';
+	import { replaceStateWithQuery } from '$lib/Utils';
+	import type { Pageable } from '$components/Pagination/types';
+	import Pagination from '$components/Pagination/Pagination.svelte';
 
 	console.info('experimental/dreams:  +page.svelte');
 
 	export let data: PageData;
-	$: console.log('data', data.user);
-	$: dreams = data.dreams as {
-		id: number;
-		emoji?: string;
-		created_at: string;
-		updated_at: string;
-		text: string;
-	}[];
+
+	$: user = data.user;
+
+	const queryFn = async ({ size, page }: { size: number; page: number }) =>
+		(await fetch(`/_api/dreams?size=${size}&page=${page}`))
+			.json()
+			.then((data) => data as Pageable<Dream>);
+
+	const o = writable({
+		size: data.size,
+		page: data.page
+	});
+
+	$: $o = {
+		size: data.size,
+		page: data.page
+	};
+
+	const query = createQuery(
+		derived(o, ($o) => ({
+			queryKey: DREAMS_KEYS.page($o.size, $o.page),
+			queryFn: () => queryFn({ size: $o.size, page: data.page }),
+			placeholderData: keepPreviousData
+		}))
+	);
 
 	const formatDate = (date: string) => {
 		const parsed = new Date(date);
 		return parsed.toLocaleDateString('en-GB');
 	};
+
+	const BOUNDARY_COUNT = 1;
+	const SIBLING_COUNT = 1;
+
+	const range = (start: number, end: number) => {
+		const length = end - start + 1;
+		return Array.from({ length }, (_, i) => start + i);
+	};
+
+	const getInRange = (
+		current: number,
+		last: number,
+		boundaryCount: number,
+		siblingCount: number
+	) => {
+		const startPages = range(1, Math.min(boundaryCount, last));
+		const endPages = range(
+			Math.max(last - boundaryCount + 1, boundaryCount + 1),
+			last
+		);
+
+		const siblingsStart = Math.max(
+			Math.min(
+				// Natural start
+				current - siblingCount,
+				// Lower boundary when page is high
+				last - boundaryCount - siblingCount * 2 - 1
+			),
+			// Greater than startPages
+			boundaryCount + 2
+		);
+
+		const siblingsEnd = Math.min(
+			Math.max(
+				// Natural end
+				current + siblingCount,
+				// Upper boundary when page is low
+				boundaryCount + siblingCount * 2 + 2
+			),
+			// Less than endPages
+			endPages.length > 0 ? endPages[0] - 2 : last - 1
+		);
+
+		// Basic list of items to render
+		// e.g. itemList = ['first', 'previous', 1, 'ellipsis', 4, 5, 6, 'ellipsis', 10, 'next', 'last']
+		const itemList = [
+			...startPages,
+
+			// Start ellipsis
+			// eslint-disable-next-line no-nested-ternary
+			...(siblingsStart > boundaryCount + 2
+				? [-1]
+				: boundaryCount + 1 < last - boundaryCount
+				? [boundaryCount + 1]
+				: []),
+
+			// Sibling pages
+			...range(siblingsStart, siblingsEnd),
+
+			// End ellipsis
+			// eslint-disable-next-line no-nested-ternary
+			...(siblingsEnd < last - boundaryCount - 1
+				? [-2]
+				: last - boundaryCount > boundaryCount
+				? [last - boundaryCount]
+				: []),
+
+			...endPages
+		];
+
+		return itemList;
+	};
+
+	$: IN_RANGE = $query.data
+		? getInRange(data.page, $query.data.last, BOUNDARY_COUNT, SIBLING_COUNT)
+		: [];
 </script>
 
 <div class="border-b xl:max-w-7xl border-mauve-6">
 	<h3><VisuallyHidden.Root>Sub Menu</VisuallyHidden.Root></h3>
+
+	<!--div class="flex p-2 space-x-2 border-t border-mauve-6">
+		<a
+			href="/experimental/dreams?page={pagable.previous}"
+			class="bg-white border rounded-full border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1"
+		>
+			<div class="p-2">
+				<AccessibleIcon label="Go to previous">
+					<West />
+				</AccessibleIcon>
+			</div>
+		</a>
+
+		{#each IN_IN_RANGE as i (i)}
+			<a
+				href={i >= 0 ? '/experimental/dreams?page=' + i : undefined}
+				class="flex-grow border border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 bg-white aria-current-page:bg-purple-5"
+				aria-current={pagable.current === i ? 'page' : undefined}
+				aria-label={pagable.current === i ? `Page ${i}` : undefined}
+			>
+				<div class="px-4 py-2">
+					<Headline as="h2" unstyled type="secondary">
+						{#if pagable.current !== i && i >= 0}
+							<VisuallyHidden.Root>Page</VisuallyHidden.Root>
+						{/if}
+						{i < 0 ? '...' : i}
+					</Headline>
+				</div>
+			</a>
+		{/each}
+
+		<a
+			href="/experimental/dreams?page={pagable.next}"
+			class="bg-white border rounded-full border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1"
+		>
+			<div class="p-2">
+				<AccessibleIcon label="Go to previous">
+					<East />
+				</AccessibleIcon>
+			</div>
+		</a>
+	</div-->
 	<ul class="flex flex-wrap justify-end">
-		<!-- {#if data.profile}
-			<li class="w-auto p-2 list-none mr-auto">
-				<Dialog
-					disabled={$insertDreamFormState === FORM_STATE.SUBMITTING ||
-						!data.profile}
-					trigger="🧿 New Dream"
-					triggerClass="bg-white hover:bg-blue-5"
-					title="Title"
-					description="description"
-					bind:setClose={setInsertDreamDialogClose}
-				>
-					<form
-						method="POST"
-						action="/experimental/dreams/actions?/insert"
-						class="bg-white/[.85] flex flex-col"
-						use:insertDreamFormEnhance
-					>
-						<div
-							class="flex flex-col items-start group max-w-xs sm:max-w-none lg:max-w-xs"
-						>
-							<p class="text-xs h-4">
-								{#if $insertDreamForm && 'invalidValues' in $insertDreamForm && $insertDreamForm.invalidValues?.default}
-									{$insertDreamForm.invalidValues.default}
-								{/if}
-							</p>
-						</div>
-
-						<input
-							type="hidden"
-							name="createdBy"
-							value={data.session?.user.id}
-						/>
-						<div
-							class="flex flex-col items-start group max-w-xs sm:max-w-none lg:max-w-xs"
-						>
-							<label
-								for="text"
-								class="border-mauve-12 rounded-none border border-b-0 text-xs ring-mauve-12 group-focus-within:ring-1 px-4 py-1"
-							>
-								Wovon träumst du nachts?
-							</label>
-							<textarea
-								name="text"
-								id="text"
-								class="py-2 px-4 border-mauve-12 rounded-none resize-none border w-full group-focus-within:outline-none ring-mauve-12 group-focus-within:ring-1 bg-gradient-to-r from-transparent"
-								placeholder="Ganz viele Schafe..."
-								value={insertDreamText}
-								disabled={$insertDreamFormState ===
-									FORM_STATE.SUBMITTING}
-							/>
-
-							<p class="text-xs h-4">
-								{#if $insertDreamForm && 'invalidValues' in $insertDreamForm && $insertDreamForm.invalidValues?.text}
-									{$insertDreamForm.invalidValues.text}
-								{/if}
-							</p>
-						</div>
-						<div
-							class="flex flex-col items-start group max-w-xs sm:max-w-none lg:max-w-xs"
-						>
-							<EmojiPicker
-								name="emoji"
-								defaultValue={insertDreamEmoji || undefined}
-								disabled={$insertDreamFormState ===
-									FORM_STATE.SUBMITTING}
-							/>
-							<p class="text-xs h-4">
-								{#if $insertDreamForm && 'invalidValues' in $insertDreamForm && $insertDreamForm.invalidValues?.emoji}
-									{$insertDreamForm.invalidValues.emoji}
-								{/if}
-							</p>
-						</div>
-
-						<Button
-							class="block bg-white hover:bg-green-5"
-							disabled={$insertDreamFormState ===
-								FORM_STATE.SUBMITTING || !data.profile}
-							type="submit"
-						>
-							Submit
-						</Button>
-					</form>
-				</Dialog>
+		{#if user}
+			<li class="w-auto p-2 mr-auto list-none">
+				<AddDreamForm {user} />
 			</li>
-		{/if} -->
+		{/if}
 		<li>
 			<!-- <ul class="flex flex-wrap justify-end p-1">
 				{#if data.profile}
@@ -149,9 +210,9 @@
 								use:loginFormEnhance
 							>
 								<div
-									class="flex flex-col items-start group max-w-xs sm:max-w-none lg:max-w-xs"
+									class="flex flex-col items-start max-w-xs group sm:max-w-none lg:max-w-xs"
 								>
-									<p class="text-xs h-4">
+									<p class="h-4 text-xs">
 										{#if $loginForm && 'invalidValues' in $loginForm && $loginForm.invalidValues?.default}
 											{$loginForm.invalidValues.default}
 										{/if}
@@ -159,17 +220,17 @@
 								</div>
 
 								<div
-									class="flex flex-col items-start group max-w-xs sm:max-w-none lg:max-w-xs"
+									class="flex flex-col items-start max-w-xs group sm:max-w-none lg:max-w-xs"
 								>
 									<label
 										for="email"
-										class="border-mauve-12 rounded-none border border-b-0 text-xs ring-mauve-12 group-focus-within:ring-1 px-4 py-1"
+										class="px-4 py-1 text-xs border border-b-0 rounded-none border-mauve-12 ring-mauve-12 group-focus-within:ring-1"
 									>
 										E-Mail*
 									</label>
 									<input
 										id="email"
-										class="py-2 px-4 border-mauve-12 rounded-none border w-full group-focus-within:outline-none ring-mauve-12 group-focus-within:ring-1 bg-gradient-to-r from-transparent"
+										class="w-full px-4 py-2 border rounded-none border-mauve-12 group-focus-within:outline-none ring-mauve-12 group-focus-within:ring-1 bg-gradient-to-r from-transparent"
 										name="email"
 										autocomplete="email"
 										enterkeyhint="send"
@@ -180,7 +241,7 @@
 											FORM_STATE.SUBMITTING}
 									/>
 
-									<p class="text-xs h-4">
+									<p class="h-4 text-xs">
 										{#if $loginForm && 'invalidValues' in $loginForm && $loginForm.invalidValues?.email}
 											{$loginForm.invalidValues.email}
 										{/if}
@@ -188,17 +249,17 @@
 								</div>
 
 								<div
-									class="flex flex-col items-start group max-w-xs sm:max-w-none lg:max-w-xs"
+									class="flex flex-col items-start max-w-xs group sm:max-w-none lg:max-w-xs"
 								>
 									<label
 										for="password"
-										class="border-mauve-12 rounded-none border border-b-0 text-xs ring-mauve-12 group-focus-within:ring-1 px-4 py-1"
+										class="px-4 py-1 text-xs border border-b-0 rounded-none border-mauve-12 ring-mauve-12 group-focus-within:ring-1"
 									>
 										Password*
 									</label>
 									<input
 										id="password"
-										class="py-2 px-4 border-mauve-12 rounded-none border w-full group-focus-within:outline-none ring-mauve-12 group-focus-within:ring-1 bg-gradient-to-r from-transparent"
+										class="w-full px-4 py-2 border rounded-none border-mauve-12 group-focus-within:outline-none ring-mauve-12 group-focus-within:ring-1 bg-gradient-to-r from-transparent"
 										name="password"
 										autocomplete="password"
 										enterkeyhint="send"
@@ -209,7 +270,7 @@
 										value={loginFormPassword}
 									/>
 
-									<p class="text-xs h-4">
+									<p class="h-4 text-xs">
 										{#if $loginForm && 'invalidValues' in $loginForm && $loginForm.invalidValues?.password}
 											{$loginForm.invalidValues.password}
 										{/if}
@@ -235,43 +296,64 @@
 	<span>Meine Träume 3</span>
 </Headline>
 
+{#if $query.data}
+	<Pagination
+		currentPage={data.page}
+		isFetching={$query.isFetching}
+		isPlaceholderData={$query.isPlaceholderData}
+		isLoading={$query.isLoading}
+		pagable={$query.data}
+		getHref={(i) => {
+			return `/experimental/dreams?page=${i}`;
+		}}
+		onItemClick={(i) => {
+			data.page = i;
+			replaceStateWithQuery({ page: i.toString() });
+		}}
+		onItemPreload={(i) => {
+			data.queryClient.prefetchQuery({
+				queryKey: DREAMS_KEYS.page(data.size, i),
+				queryFn: () => queryFn({ size: data.size, page: i })
+			});
+		}}
+	/>
+{/if}
 <ul
 	class="mb-32 grid grid-cols-1 p-1 border-b md:grid-cols-2 lg:grid-cols-3 border-mauve-6 grid-rows-[masonry]"
 >
-	{#each dreams as dream (dream.id)}
-		{@const active = $page.url.hash === `#${dream.id.toString()}`}
-		<li
-			class="flex flex-col m-1 border border-mauve-6 scroll-m-2 {active
-				? 'ring-1 ring-mauve-6'
-				: ''}"
-			id={dream.id.toString()}
-		>
-			<div class="flex bg-white">
-				<span
-					class="w-10 p-2 text-center border-b border-mauve-6 group"
-				>
+	{#if $query.data}
+		{#each $query.data.rows as dream (dream.id)}
+			{@const active = $page.url.hash === `#${dream.id.toString()}`}
+			<li
+				class="flex flex-col m-1 border border-mauve-6 scroll-m-2 {active
+					? 'ring-1 ring-mauve-6'
+					: ''}"
+				id={dream.id.toString()}
+			>
+				<div class="flex bg-white">
 					<span
-						class="block transition-transform group-hover:animate-cool-wiggle"
+						class="w-10 p-2 text-center border-b border-mauve-6 group"
 					>
-						{dream.emoji
-							? dream.emoji
-							: data?.emojiMap?.[dream.id] ?? ''}
+						<span
+							class="block transition-transform group-hover:animate-cool-wiggle"
+						>
+							{dream.emoji}
+						</span>
 					</span>
-				</span>
 
-				<Headline
-					as="h2"
-					type="quaternary"
-					containerClass="grow border-l flex"
-				>
-					{formatDate(dream.created_at)}
-					<span class="text-mauve-11">
-						({formatDate(dream.updated_at)})
-					</span>
-				</Headline>
+					<Headline
+						as="h2"
+						type="quaternary"
+						containerClass="grow border-l flex"
+					>
+						{formatDate(dream.created_at)}
+						<span class="text-mauve-11">
+							({formatDate(dream.updated_at)})
+						</span>
+					</Headline>
 
-				<!-- edit dialog-->
-				<!-- {#if data.profile}
+					<!-- edit dialog-->
+					<!-- {#if data.profile}
 					<Dialog
 						disabled={$editDreamFormState ===
 							FORM_STATE.SUBMITTING || !data.profile}
@@ -295,9 +377,9 @@
 							use:editDreamFormEnhance
 						>
 							<div
-								class="flex flex-col items-start group max-w-xs sm:max-w-none lg:max-w-xs"
+								class="flex flex-col items-start max-w-xs group sm:max-w-none lg:max-w-xs"
 							>
-								<p class="text-xs h-4">
+								<p class="h-4 text-xs">
 									{#if $editDreamForm && 'invalidValues' in $editDreamForm && $editDreamForm.invalidValues?.default && editDreamId === dream.id}
 										{$editDreamForm.invalidValues.default}
 									{/if}
@@ -310,18 +392,18 @@
 								value={dream.id}
 							/>
 							<div
-								class="flex flex-col items-start group max-w-xs sm:max-w-none lg:max-w-xs"
+								class="flex flex-col items-start max-w-xs group sm:max-w-none lg:max-w-xs"
 							>
 								<label
 									for="text"
-									class="border-mauve-12 rounded-none border border-b-0 text-xs ring-mauve-12 group-focus-within:ring-1 px-4 py-1"
+									class="px-4 py-1 text-xs border border-b-0 rounded-none border-mauve-12 ring-mauve-12 group-focus-within:ring-1"
 								>
 									Wovon träumst du nachts?
 								</label>
 								<textarea
 									name="text"
 									id="text"
-									class="py-2 px-4 border-mauve-12 rounded-none resize-none border w-full group-focus-within:outline-none ring-mauve-12 group-focus-within:ring-1 bg-gradient-to-r from-transparent"
+									class="w-full px-4 py-2 border rounded-none resize-none border-mauve-12 group-focus-within:outline-none ring-mauve-12 group-focus-within:ring-1 bg-gradient-to-r from-transparent"
 									placeholder="Ganz viele Schafe..."
 									value={editDreamId === dream.id
 										? editDreamText
@@ -330,14 +412,14 @@
 										FORM_STATE.SUBMITTING}
 								/>
 
-								<p class="text-xs h-4">
+								<p class="h-4 text-xs">
 									{#if $editDreamForm && 'invalidValues' in $editDreamForm && $editDreamForm.invalidValues?.text && editDreamId === dream.id}
 										{$editDreamForm.invalidValues.text}
 									{/if}
 								</p>
 							</div>
 							<div
-								class="flex flex-col items-start group max-w-xs sm:max-w-none lg:max-w-xs"
+								class="flex flex-col items-start max-w-xs group sm:max-w-none lg:max-w-xs"
 							>
 								<EmojiPicker
 									name="emoji"
@@ -349,7 +431,7 @@
 									disabled={$editDreamFormState ===
 										FORM_STATE.SUBMITTING}
 								/>
-								<p class="text-xs h-4">
+								<p class="h-4 text-xs">
 									{#if $editDreamForm && 'invalidValues' in $editDreamForm && $editDreamForm.invalidValues?.emoji && editDreamId === dream.id}
 										{$editDreamForm.invalidValues.emoji}
 									{/if}
@@ -368,8 +450,8 @@
 					</Dialog>
 				{/if} -->
 
-				<!-- remove dialog-->
-				<!-- {#if data.profile}
+					<!-- remove dialog-->
+					<!-- {#if data.profile}
 					<Dialog
 						disabled={$removeDreamFormState ===
 							FORM_STATE.SUBMITTING || !data.profile}
@@ -391,9 +473,9 @@
 							use:removeDreamFormEnhance
 						>
 							<div
-								class="flex flex-col items-start group max-w-xs sm:max-w-none lg:max-w-xs"
+								class="flex flex-col items-start max-w-xs group sm:max-w-none lg:max-w-xs"
 							>
-								<p class="text-xs h-4">
+								<p class="h-4 text-xs">
 									{#if $removeDreamForm && 'invalidValues' in $removeDreamForm && $removeDreamForm.invalidValues?.default && removeDreamId === dream.id}
 										{$removeDreamForm.invalidValues.default}
 									{/if}
@@ -406,7 +488,7 @@
 								value={dream.id}
 							/>
 							<div
-								class="flex flex-col items-start group max-w-xs sm:max-w-none lg:max-w-xs"
+								class="flex flex-col items-start max-w-xs group sm:max-w-none lg:max-w-xs"
 							>
 								<Close
 									class="block px-4 py-2 transition-colors bg-white border border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 hover:bg-green-5"
@@ -425,12 +507,13 @@
 						</form>
 					</Dialog>
 				{/if} -->
-			</div>
-			<div class="p-2 bg-white/[.85] grow">
-				<p class="whitespace-pre-line">{dream.text}</p>
-			</div>
-		</li>
-	{:else}
-		<li>No dreams yet recorded 😴</li>
-	{/each}
+				</div>
+				<div class="p-2 bg-white/[.85] grow">
+					<p class="whitespace-pre-line">{dream.text}</p>
+				</div>
+			</li>
+		{:else}
+			<li>No dreams yet recorded 😴</li>
+		{/each}
+	{/if}
 </ul>

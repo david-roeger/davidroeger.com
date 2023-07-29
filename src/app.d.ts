@@ -15,6 +15,7 @@ declare global {
 	declare namespace App {
 		interface PageData {
 			contactForm: import('$lib/Slices/ContactForm/constants').ContactForm;
+			addDreamForm: import('$lib/Slices/AddDreamForm/constants').AddDreamForm;
 		}
 		interface Locals {
 			auth: import('lucia').AuthRequest;

@@ -2,8 +2,7 @@ import { lucia } from 'lucia';
 import { sveltekit } from 'lucia/middleware';
 import { pg } from '@lucia-auth/adapter-postgresql';
 
-import { env } from '$env/dynamic/private';
-import client from '../Supabase/client';
+import client from '../Db/client';
 
 // expect error
 export const auth = lucia({

@@ -1,3 +1,5 @@
+import { page } from '$app/stores';
+
 export const DEBUG_LEVEL = {
 	CACHE: true,
 	PAGE: true

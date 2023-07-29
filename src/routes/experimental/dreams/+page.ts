@@ -1,47 +1,58 @@
 console.info('experimental/dreams: +page.ts');
 
-import { error } from '@sveltejs/kit';
+import * as z from 'zod';
+
+import type { Pageable } from '$components/Pagination/types';
+import type { Dream } from '$lib/types';
+
+import {
+	DREAMS_DEFAULT_PAGE,
+	DREAMS_DEFAULT_SIZE,
+	DREAMS_KEYS
+} from './constants';
+
 import type { PageLoad } from './$types';
 
-export const load: PageLoad = async ({ fetch, data }) => {
+const safeUrlParam = (url: URL, key: string) => {
+	const value = url.searchParams.get(key);
+	if (value === null) return undefined;
+	return value;
+};
+
+const ensurePositiveInteger = (d: number) => {
+	return z.coerce
+		.number()
+		.min(1)
+		.transform((v) => v ?? d)
+		.catch(d)
+		.default(d);
+};
+
+export const load: PageLoad = async ({ fetch, data, url, parent }) => {
 	console.info('experimental/dreams: +page.ts // load');
 
-	const { dreams, user } = data;
-	console.log(dreams);
-	// const { dreams = [], error: err, status } = await getDreams(supabaseClient);
-	// if (err) {
-	// 	throw error(status ?? 500, err.message);
-	// }
-
-	const dreamsWithoutEmoji = dreams.filter(
-		(dream) => !dream.emoji || dream.emoji === ''
+	const { queryClient } = await parent();
+	const { user } = data;
+	const size = ensurePositiveInteger(DREAMS_DEFAULT_SIZE).parse(
+		safeUrlParam(url, 'size')
+	);
+	const page = ensurePositiveInteger(DREAMS_DEFAULT_PAGE).parse(
+		safeUrlParam(url, 'page')
 	);
 
-	if (dreamsWithoutEmoji.length === 0) {
-		return {
-			user,
-			dreams,
-			emojiMap: {}
-		};
-	}
+	const queryFn = async () =>
+		(await fetch(`/_api/dreams?size=${size}&page=${page}`))
+			.json()
+			.then((data) => data as Pageable<Dream>);
 
-	const res: Response = await fetch(
-		`/_api/emojis.json?limit=${dreamsWithoutEmoji.length}`
-	);
+	await queryClient.prefetchQuery({
+		queryKey: DREAMS_KEYS.page(size, page),
+		queryFn
+	});
 
-	if (res.ok) {
-		const emojis = await res.json();
-		console.log(emojis);
-		const emojiMap: Record<string, string> = {};
-		dreamsWithoutEmoji.forEach((dream, index) => {
-			emojiMap[dream.id] = emojis[index];
-		});
-		return {
-			user,
-			dreams,
-			emojiMap
-		};
-	}
-
-	throw error(404, 'No Emojis found');
+	return {
+		size,
+		page,
+		user
+	};
 };

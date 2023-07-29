@@ -8,6 +8,7 @@
 	import * as VisuallyHidden from '$primitives/VisuallyHidden';
 
 	import { page } from '$app/stores';
+	import { afterNavigate, beforeNavigate } from '$app/navigation';
 
 	const projectsRegex = /^\/projects/;
 	const aboutRegex = /^\/about/;
@@ -35,6 +36,16 @@
 		}
 		return '';
 	};
+
+	let spin = false;
+
+	beforeNavigate(() => {
+		spin = true;
+	});
+
+	afterNavigate(() => {
+		spin = false;
+	});
 </script>
 
 <div class="flex border-r sm:border-l border-mauve-6" />
@@ -50,12 +61,17 @@
 							? 'sad'
 							: 'happy'} smiley with four eyes - Go to Main Page"
 					>
-						<Logo
-							container={true}
-							animated={true}
-							smile={$page.error ? false : true}
-							class="w-auto h-full"
-						/>
+						<div
+							class:animate-spin={spin}
+							class="animate-spin duration-1000 transition-transform"
+						>
+							<Logo
+								container={true}
+								animated={true}
+								smile={$page.error ? false : true}
+								class="w-auto h-full"
+							/>
+						</div>
 					</AccessibleIcon>
 				</slot>
 			</NavLink>
