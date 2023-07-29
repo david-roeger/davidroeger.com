@@ -10,7 +10,7 @@ export const load: LayoutLoad = async ({ data }) => {
 		defaultOptions: {
 			queries: {
 				enabled: browser,
-				cacheTime: Infinity,
+				gcTime: Infinity,
 				staleTime: 1000 * 60 * 5, // 5 minutes
 				refetchOnWindowFocus: false
 			}
