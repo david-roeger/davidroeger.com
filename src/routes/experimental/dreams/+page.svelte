@@ -299,9 +299,7 @@
 {#if $query.data}
 	<Pagination
 		currentPage={data.page}
-		isFetching={$query.isFetching}
-		isPlaceholderData={$query.isPlaceholderData}
-		isLoading={$query.isLoading}
+		isLoading={$query.isFetching}
 		pagable={$query.data}
 		getHref={(i) => {
 			return `/experimental/dreams?page=${i}`;

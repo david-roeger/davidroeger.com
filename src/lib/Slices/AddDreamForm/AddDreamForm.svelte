@@ -15,11 +15,14 @@
 	import EmojiPicker from '$lib/Components/EmojiPicker/EmojiPicker.svelte';
 	import Dialog from '$lib/Components/Dialog/Dialog.svelte';
 	import type { User } from 'lucia';
+	import { useQueryClient } from '@tanstack/svelte-query';
+	import { DREAMS_KEYS } from '$routes/experimental/dreams/constants';
 
 	export let user: User;
 
 	let c = '';
 	export { c as class };
+	const queryClient = useQueryClient();
 
 	$: unsuccessfulSubmitted = $page.status !== 200;
 
@@ -49,6 +52,7 @@
 				};
 
 				setEmojiValue(DEFAULT_DREAM_FORM.emoji);
+				queryClient.invalidateQueries({ queryKey: DREAMS_KEYS.all() });
 			}
 		},
 		onUpdate: (event) => {

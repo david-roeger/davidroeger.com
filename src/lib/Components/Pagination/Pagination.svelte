@@ -9,9 +9,7 @@
 
 	export let currentPage: number;
 	export let pagable: Pageable<unknown>;
-	export let isFetching: boolean;
 	export let isLoading: boolean;
-	export let isPlaceholderData: boolean;
 	export let boundaryCount = 1;
 	export let siblingCount = 1;
 
@@ -110,7 +108,7 @@
 				onItemPreload(pagable.previous);
 			}
 		}}
-		disabled={!pagable || !pagable.hasPrevious || isFetching}
+		disabled={!pagable || !pagable.hasPrevious || isLoading}
 		class="p-2 bg-white border rounded-full border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 disabled:cursor-not-allowed disabled:bg-white disabled:border-mauve-11 disabled:ring-mauve-11 disabled:text-mauve-11"
 	>
 		<AccessibleIcon label="Go to previous">
@@ -137,7 +135,7 @@
 					<VisuallyHidden.Root>Page</VisuallyHidden.Root>
 				{/if}
 				{i}
-				{#if currentPage === i && (isLoading || isPlaceholderData)}
+				{#if currentPage === i && isLoading}
 					<span class="block animate-loading-1">😛</span>
 				{/if}
 			</button>
@@ -162,7 +160,7 @@
 				onItemPreload(pagable.next);
 			}
 		}}
-		disabled={!pagable || !pagable.hasNext || isFetching}
+		disabled={!pagable || !pagable.hasNext || isLoading}
 		class="p-2 bg-white border rounded-full border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 disabled:cursor-not-allowed disabled:bg-white disabled:border-mauve-11 disabled:ring-mauve-11 disabled:text-mauve-11"
 	>
 		<AccessibleIcon label="Go to previous">
