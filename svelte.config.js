@@ -41,7 +41,6 @@ const config = {
 			}
 		},
 		alias: {
-			$lib: 'src/lib',
 			'$routes/*': 'src/routes/*',
 			$actions: 'src/lib/Actions',
 			'$assets/*': 'src/lib/Assets/*',
@@ -49,7 +48,8 @@ const config = {
 			'$primitives/*': 'src/lib/Primitives/*',
 			'$provider/*': 'src/lib/Provider/*',
 			'$slices/*': 'src/lib/Slices/*',
-			$utils: 'src/lib/Utils'
+			$utils: 'src/lib/Utils',
+			$lib: 'src/lib'
 		},
 
 		prerender: {
