@@ -239,6 +239,19 @@ module.exports = {
 				}
 			});
 			addUtilities(iconColorUtilities);
+		}),
+		plugin(function ({ matchVariant }) {
+			matchVariant(
+				'aria-current',
+				(value) => {
+					return `&[aria-current="${value}"]`;
+				},
+				{
+					values: {
+						page: 'page'
+					}
+				}
+			);
 		})
 	]
 };
