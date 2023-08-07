@@ -12,27 +12,14 @@ import {
 } from './constants';
 
 import type { PageLoad } from './$types';
-
-const safeUrlParam = (url: URL, key: string) => {
-	const value = url.searchParams.get(key);
-	if (value === null) return undefined;
-	return value;
-};
-
-const ensurePositiveInteger = (d: number) => {
-	return z.coerce
-		.number()
-		.min(1)
-		.transform((v) => v ?? d)
-		.catch(d)
-		.default(d);
-};
+import { ensurePositiveInteger, safeUrlParam } from '$utils/Url';
 
 export const load: PageLoad = async ({ fetch, data, url, parent }) => {
 	console.info('experimental/dreams: +page.ts // load');
 
 	const { queryClient } = await parent();
 	const { user } = data;
+
 	const size = ensurePositiveInteger(DREAMS_DEFAULT_SIZE).parse(
 		safeUrlParam(url, 'size')
 	);

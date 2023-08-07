@@ -9,7 +9,7 @@
 	import { DREAMS_KEYS } from './constants';
 	import type { Dream } from '$lib/types';
 	import { derived, writable } from 'svelte/store';
-	import { replaceStateWithQuery } from '$lib/Utils';
+	import { getLoadingEmojis, replaceStateWithQuery } from '$lib/Utils';
 	import type { Pageable } from '$components/Pagination/types';
 	import Pagination from '$components/Pagination/Pagination.svelte';
 
@@ -316,42 +316,43 @@
 		}}
 	/>
 {/if}
-<ul
-	class="mb-32 grid grid-cols-1 p-1 border-b md:grid-cols-2 lg:grid-cols-3 border-mauve-6 grid-rows-[masonry]"
->
-	{#if $query.data}
-		{#each $query.data.rows as dream (dream.id)}
-			{@const active = $page.url.hash === `#${dream.id.toString()}`}
-			<li
-				class="flex flex-col m-1 border border-mauve-6 scroll-m-2 {active
-					? 'ring-1 ring-mauve-6'
-					: ''}"
-				id={dream.id.toString()}
-			>
-				<div class="flex bg-white">
-					<span
-						class="w-10 p-2 text-center border-b border-mauve-6 group"
-					>
+<div class="relative mb-32 border-y border-mauve-6">
+	<ul
+		class="grid grid-cols-1 p-1 md:grid-cols-2 lg:grid-cols-3 grid-rows-[masonry]"
+	>
+		{#if $query.data}
+			{#each $query.data.rows as dream (dream.id)}
+				{@const active = $page.url.hash === `#${dream.id.toString()}`}
+				<li
+					class="flex flex-col m-1 border border-mauve-6 scroll-m-2 {active
+						? 'ring-1 ring-mauve-6'
+						: ''}"
+					id={dream.id.toString()}
+				>
+					<div class="flex bg-white">
 						<span
-							class="block transition-transform group-hover:animate-cool-wiggle"
+							class="w-10 p-2 text-center border-b border-mauve-6 group"
 						>
-							{dream.emoji}
+							<span
+								class="block transition-transform group-hover:animate-cool-wiggle"
+							>
+								{dream.emoji}
+							</span>
 						</span>
-					</span>
 
-					<Headline
-						as="h2"
-						type="quaternary"
-						containerClass="grow border-l flex"
-					>
-						{formatDate(dream.created_at)}
-						<span class="text-mauve-11">
-							({formatDate(dream.updated_at)})
-						</span>
-					</Headline>
+						<Headline
+							as="h2"
+							type="quaternary"
+							containerClass="grow border-l flex"
+						>
+							{formatDate(dream.created_at)}
+							<span class="text-mauve-11">
+								({formatDate(dream.updated_at)})
+							</span>
+						</Headline>
 
-					<!-- edit dialog-->
-					<!-- {#if data.profile}
+						<!-- edit dialog-->
+						<!-- {#if data.profile}
 					<Dialog
 						disabled={$editDreamFormState ===
 							FORM_STATE.SUBMITTING || !data.profile}
@@ -448,8 +449,8 @@
 					</Dialog>
 				{/if} -->
 
-					<!-- remove dialog-->
-					<!-- {#if data.profile}
+						<!-- remove dialog-->
+						<!-- {#if data.profile}
 					<Dialog
 						disabled={$removeDreamFormState ===
 							FORM_STATE.SUBMITTING || !data.profile}
@@ -505,13 +506,26 @@
 						</form>
 					</Dialog>
 				{/if} -->
-				</div>
-				<div class="p-2 bg-white/[.85] grow">
-					<p class="whitespace-pre-line">{dream.text}</p>
-				</div>
-			</li>
-		{:else}
-			<li>No dreams yet recorded 😴</li>
-		{/each}
+					</div>
+					<div class="p-2 bg-white/[.85] grow">
+						<p class="whitespace-pre-line">{dream.text}</p>
+					</div>
+				</li>
+			{:else}
+				<li>No dreams yet recorded 😴</li>
+			{/each}
+		{/if}
+	</ul>
+
+	{#if $query.isFetching && $query.isPlaceholderData}
+		<div
+			class="absolute inset-0 flex items-center justify-center cursor-wait bg-white/50 icon-mauve-12"
+		>
+			{#each getLoadingEmojis() as emoji}
+				<p class="m-4 text-4xl animate-loading-1">
+					{emoji}
+				</p>
+			{/each}
+		</div>
 	{/if}
-</ul>
+</div>

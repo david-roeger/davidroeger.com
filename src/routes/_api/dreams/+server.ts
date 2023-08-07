@@ -11,25 +11,9 @@ import {
 	DREAMS_DEFAULT_SIZE
 } from '$routes/experimental/dreams/constants';
 import type { Pageable } from '$components/Pagination/types';
+import { ensurePositiveInteger, safeUrlParam } from '$utils/Url';
 
-const safeUrlParam = (url: URL, key: string) => {
-	const value = url.searchParams.get(key);
-	if (value === null) return undefined;
-	return value;
-};
-
-const ensurePositiveInteger = (d: number) => {
-	return z.coerce
-		.number()
-		.min(1)
-		.transform((v) => v ?? d)
-		.catch(d)
-		.default(d);
-};
-
-const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 export const GET: RequestHandler = async ({ url }) => {
-	await sleep(1000);
 	const size = ensurePositiveInteger(DREAMS_DEFAULT_SIZE).parse(
 		safeUrlParam(url, 'size')
 	);
@@ -53,7 +37,7 @@ export const GET: RequestHandler = async ({ url }) => {
 
 	const hasPrevious = page > 1;
 	const hasNext = offset + size < t;
-	const last = Math.ceil(t / size);
+	const last = Math.max(Math.ceil(t / size), 1);
 	const previous = Math.max(Math.min(page - 1, last), 1);
 	const next = Math.min(page + 1, last);
 

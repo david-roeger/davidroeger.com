@@ -1,5 +1,3 @@
-import { page } from '$app/stores';
-
 export const DEBUG_LEVEL = {
 	CACHE: true,
 	PAGE: true
@@ -133,8 +131,12 @@ export function debounce<F extends (...args: Parameters<F>) => ReturnType<F>>(
 
 /**
  * Write Query Params to URL
+ *
+ * 🚨 this doesn't update the page store from sveltekit
  * @param values key value pairs containing to new Query Params
+ * @attention this will replace the current state
  */
+
 export const replaceStateWithQuery = (values: Record<string, string>): void => {
 	const url = new URL(window.location.toString());
 	for (const [key, value] of Object.entries(values)) {
