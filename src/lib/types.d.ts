@@ -8,11 +8,6 @@ export interface ActionReturnType {
 	destroy?: () => void;
 }
 
-export type GetReturnType = Promise<{
-	status: number;
-	body?: T;
-}>;
-
 export interface Media {
 	src: string;
 	width: number;

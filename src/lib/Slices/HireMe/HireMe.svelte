@@ -1,10 +1,10 @@
 <script lang="ts">
-	import { Image } from '$lib/Primitives/Image';
+	import { Image } from '$primitives/Image';
 
 	import smile from '$assets/me/smile.png?w=40;80;120;160&format=webp;png&as=picture&imageTools';
 	import serious from '$assets/me/serious.png?w=40;80;120;160&format=webp;png&as=picture&imageTools';
 
-	import { Marquee } from '$lib/Components/Marquee';
+	import { Marquee } from '$components/Marquee';
 
 	let c = '';
 	export { c as class };

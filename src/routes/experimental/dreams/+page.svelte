@@ -1,20 +1,29 @@
 <script lang="ts">
-	import { page } from '$app/stores';
-	import Headline from '$lib/Components/Headline/Headline.svelte';
-	import AddDreamForm from '$lib/Slices/AddDreamForm/AddDreamForm.svelte';
-	import type { PageData } from './$types';
+	logger.page('experimental/dreams:  +page.svelte');
+	// ----------------------------------------------------------------
 
-	import * as VisuallyHidden from '$lib/Primitives/VisuallyHidden';
-	import { createQuery, keepPreviousData } from '@tanstack/svelte-query';
-	import { DREAMS_KEYS } from './constants';
-	import type { Dream } from '$lib/types';
 	import { derived, writable } from 'svelte/store';
-	import { getLoadingEmojis, replaceStateWithQuery } from '$lib/Utils';
+
+	import { createQuery, keepPreviousData } from '@tanstack/svelte-query';
+
+	import { page } from '$app/stores';
+
+	import * as VisuallyHidden from '$primitives/VisuallyHidden';
+
+	import Headline from '$components/Headline/Headline.svelte';
 	import type { Pageable } from '$components/Pagination/types';
 	import Pagination from '$components/Pagination/Pagination.svelte';
 
-	console.info('experimental/dreams:  +page.svelte');
+	import AddDreamForm from '$slices/AddDreamForm/AddDreamForm.svelte';
 
+	import { getLoadingEmojis, replaceStateWithQuery, logger } from '$utils';
+
+	import type { Dream } from '$types';
+
+	import { DREAMS_KEYS } from './constants';
+
+	// ----------------------------------------------------------------
+	import type { PageData } from './$types';
 	export let data: PageData;
 
 	$: user = data.user;

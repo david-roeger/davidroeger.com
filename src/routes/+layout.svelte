@@ -1,27 +1,31 @@
 <script lang="ts">
-	console.info('index: +layout.svelte');
+	logger.page('index: +layout.svelte');
+	// ----------------------------------------------------------------
 
 	import '../app.css';
 
 	import { onMount } from 'svelte';
 	import BezierEasing from 'bezier-easing';
 
+	import { QueryClientProvider } from '@tanstack/svelte-query';
+
+	import { page } from '$app/stores';
+
 	import BreakpointProvider from '$provider/BreakpointProvider';
 	import NotificationProvider from '$provider/NotificationProvider';
 
-	import { Header } from '$slices/Header';
-	import { Footer } from '$slices/Footer';
-
-	import { AccessibleIcon } from '$components/AccessibleIcon';
 	import North from '$assets/Icons/24/north.svg?component';
 
-	import { page } from '$app/stores';
-	import DefaultHead from '$components/Head/DefaultHead.svelte';
-	import { mapToRange } from '$utils';
-
-	import { QueryClientProvider } from '@tanstack/svelte-query';
-	import type { LayoutData } from './$types';
+	import { Header } from '$slices/Header';
+	import { Footer } from '$slices/Footer';
 	import { HireMe } from '$slices/HireMe';
+
+	import { AccessibleIcon } from '$components/AccessibleIcon';
+	import DefaultHead from '$components/Head/DefaultHead.svelte';
+
+	import { logger, mapToRange } from '$utils';
+
+	import type { LayoutData } from './$types';
 
 	export let data: LayoutData;
 

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { debounce } from '$lib/Utils';
+	import { debounce } from '$utils';
 
 	import { onMount, setContext } from 'svelte';
 	import { writable } from 'svelte/store';

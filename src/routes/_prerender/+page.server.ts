@@ -1,14 +1,19 @@
-console.info('_prerender: +page.ts');
+logger.page('_prerender: +page.ts');
+// ----------------------------------------------------------------
 
 import { error } from '@sveltejs/kit';
 
-import type { ProjectMetaData } from '$lib/types';
+import type { ProjectMetaData } from '$types';
+
+import { logger } from '$utils';
 
 import { _handler } from '$routes/_api/projects/+server';
+
 import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ url }) => {
-	console.info('_prerender: +page.ts // load');
+	logger.page('_prerender: +page.ts // load');
+	// ----------------------------------------------------------------
 
 	const projectUrl = new URL('/_api/projects', url.href);
 	const projectResponse = await _handler({ url: projectUrl });

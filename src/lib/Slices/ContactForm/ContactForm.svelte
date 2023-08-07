@@ -2,16 +2,16 @@
 	import { superForm } from 'sveltekit-superforms/client';
 
 	import { page } from '$app/stores';
-	import Button from '$lib/Components/Button/Button.svelte';
+	import Button from '$components/Button/Button.svelte';
 
 	import { getContext } from 'svelte';
-	import type { NotificationContext } from '$lib/Provider/NotificationProvider/types';
+	import type { NotificationContext } from '$provider/NotificationProvider/types';
 	import {
 		COLOR_CLASSES,
 		contactFormSchema,
 		type ContactFormSchema
 	} from './constants';
-	import { getLoadingEmojis } from '$lib/Utils';
+	import { getLoadingEmojis } from '$utils';
 
 	export let variant:
 		| 'default'

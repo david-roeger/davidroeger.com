@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { adjustScale, mapToRange } from '$lib/Utils';
+	import { adjustScale, mapToRange } from '$utils';
 
 	export let score: number;
 	export let min = 0;

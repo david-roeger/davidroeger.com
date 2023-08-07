@@ -1,7 +1,7 @@
 <script lang="ts">
 	import * as Dialog from '$primitives/Dialog';
-	import type { BreakpointContext } from '$lib/Provider/BreakpointProvider/types';
-	import type { Media as MediaType } from '$lib/types';
+	import type { BreakpointContext } from '$provider/BreakpointProvider/types';
+	import type { Media as MediaType } from '$types';
 	import { debounce, mapToRange } from '$utils';
 	import BezierEasing from 'bezier-easing';
 

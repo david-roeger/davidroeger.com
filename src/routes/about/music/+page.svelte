@@ -1,20 +1,25 @@
 <script lang="ts">
-	console.info('about/music: +page.svelte');
-
-	import type { PageData } from './$types';
-	export let data: PageData;
-
-	import { Headline } from '$components/Headline';
-	import { TopTracks, TopArtists, LastTrack } from '$slices/Music';
+	logger.page('about/music: +page.svelte');
+	// ----------------------------------------------------------------
 
 	import * as Tabs from '$primitives/Tabs';
-	import Link from '$components/Link/Link.svelte';
 	import * as Popper from '$primitives/Popper';
-	import { AccessibleIcon } from '$components/AccessibleIcon';
 	import * as RadioGroup from '$primitives/RadioGroup';
+
+	import { Headline } from '$components/Headline';
+	import { Link } from '$components/Link';
+	import { AccessibleIcon } from '$components/AccessibleIcon';
+
+	import { TopTracks, TopArtists, LastTrack } from '$slices/Music';
+
 	import Filter from '$assets/Icons/24/filter.svg?component';
 	import Close from '$assets/Icons/24/close.svg?component';
-	import { toBase64 } from '$lib/Utils';
+
+	import { preload } from '$actions/preload';
+
+	import { toBase64, logger } from '$utils';
+	import { queryParam } from '$utils/Store/queryParam';
+
 	import {
 		type S,
 		timeRanges,
@@ -25,8 +30,10 @@
 		type Tab,
 		MUSIC_KEYS
 	} from './constants';
-	import { queryParam } from '$lib/Utils/Store/queryParam';
-	import { preload } from '$lib/Actions/preload';
+	// ----------------------------------------------------------------
+
+	import type { PageData } from './$types';
+	export let data: PageData;
 
 	const queryStore = queryParam('s', {
 		// base64 encode string
@@ -94,7 +101,7 @@
 					? 'bg-purple-5'
 					: 'bg-white'}"
 			>
-				<div class="px-4 py-2 ">
+				<div class="px-4 py-2">
 					<Headline as="h2" unstyled id="top_tracks" type="secondary">
 						Tracks
 					</Headline>

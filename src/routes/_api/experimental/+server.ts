@@ -1,10 +1,15 @@
-console.info('_api/experimental: +server.ts');
+logger.page('_api/experimental: +server.ts');
+// ----------------------------------------------------------------
 
 import { error, json } from '@sveltejs/kit';
+
+import { logger } from '$utils';
+
 import type { RequestHandler } from './$types';
 
 export const _handler = async ({ url }: { url: URL }) => {
-	console.info('_api/experimental: +server.ts // GET // handler');
+	logger.page('_api/experimental: +server.ts // GET // handler');
+	// ----------------------------------------------------------------
 
 	const nested = import.meta.glob('../../experimental/*/+page.svelte');
 	const limit = Number(url.searchParams.get('limit') ?? Infinity);
@@ -33,6 +38,8 @@ export const _handler = async ({ url }: { url: URL }) => {
 };
 
 export const GET: RequestHandler = async ({ url }) => {
-	console.info('_api/experimental: +server.ts // GET');
+	logger.page('_api/experimental: +server.ts // GET');
+	// ----------------------------------------------------------------
+
 	return _handler({ url });
 };

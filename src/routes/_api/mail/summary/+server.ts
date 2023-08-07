@@ -1,14 +1,18 @@
-console.info('_api/mail/summary: +server.ts');
+logger.page('_api/mail/summary: +server.ts');
+// ----------------------------------------------------------------
 
 import { error, json } from '@sveltejs/kit';
 
+import { env } from '$env/dynamic/private';
+
+import { logger } from '$utils';
+
 import type { RequestHandler } from './$types';
 
-import { env } from '$env/dynamic/private';
 import { authorize, sendMailWrapper } from '../utils';
 
 export const POST: RequestHandler = async ({ url, request }) => {
-	console.info('_api/mail/summary: +server.ts // POST');
+	logger.page('_api/mail/summary: +server.ts // POST');
 
 	authorize(url);
 
@@ -56,6 +60,7 @@ export const POST: RequestHandler = async ({ url, request }) => {
 
 		return json({ id: response.messageId });
 	} catch (e) {
+		logger.error(e);
 		throw error(500);
 	}
 };

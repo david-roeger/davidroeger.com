@@ -3,17 +3,17 @@
 	import SuperDebug from 'sveltekit-superforms/client/SuperDebug.svelte';
 
 	import { page } from '$app/stores';
-	import Button from '$lib/Components/Button/Button.svelte';
+	import Button from '$components/Button/Button.svelte';
 
 	import { getContext } from 'svelte';
-	import type { NotificationContext } from '$lib/Provider/NotificationProvider/types';
+	import type { NotificationContext } from '$provider/NotificationProvider/types';
 	import {
 		addDreamFormSchema,
 		DEFAULT_DREAM_FORM,
 		type AddDreamFormSchema
 	} from './constants';
-	import EmojiPicker from '$lib/Components/EmojiPicker/EmojiPicker.svelte';
-	import Dialog from '$lib/Components/Dialog/Dialog.svelte';
+	import EmojiPicker from '$components/EmojiPicker/EmojiPicker.svelte';
+	import Dialog from '$components/Dialog/Dialog.svelte';
 	import type { User } from 'lucia';
 	import { useQueryClient } from '@tanstack/svelte-query';
 	import { DREAMS_KEYS } from '$routes/experimental/dreams/constants';

@@ -1,7 +1,7 @@
 import { page } from '$app/stores';
 import { readable, writable } from 'svelte/store';
 import { tick } from 'svelte';
-import type { ActionReturnType } from '$lib/types';
+import type { ActionReturnType } from '$types';
 import type { ActionResult } from '@sveltejs/kit';
 import { invalidateAll } from '$app/navigation';
 import { applyAction, deserialize } from '$app/forms';

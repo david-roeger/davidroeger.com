@@ -1,10 +1,18 @@
+logger.page('index: +layout.server.ts');
+// ----------------------------------------------------------------
+
 import { superValidate } from 'sveltekit-superforms/server';
-import { contactFormSchema } from '$lib/Slices/ContactForm/constants';
+
+import { contactFormSchema } from '$slices/ContactForm/constants';
+import { addDreamFormSchema } from '$slices/AddDreamForm/constants';
+
+import { logger } from '$utils';
+
 import type { LayoutServerLoad } from './$types';
-import { addDreamFormSchema } from '$lib/Slices/AddDreamForm/constants';
 
 export const load: LayoutServerLoad = async () => {
-	console.info('contact: +page.server.ts // load');
+	logger.page('index: +layout.server.ts // load');
+	// ----------------------------------------------------------------
 
 	const contactForm = await superValidate(contactFormSchema, {
 		id: 'contactForm'

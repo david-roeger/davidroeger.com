@@ -1,19 +1,25 @@
-console.info('_api/music: +server.ts');
+logger.page('_api/music: +server.ts');
+// ----------------------------------------------------------------
 
-import z from 'zod';
 import { error, json } from '@sveltejs/kit';
 
-import { baseRequest, getTopArtists, getTopTracks } from './utils';
+import z from 'zod';
+
+import { env } from '$env/dynamic/private';
 
 import type {
 	CurrentTrack,
 	LastTrack,
 	RecentTrack
-} from '$lib/Components/Music/types';
+} from '$components/Music/types';
+
+import { rangeSchema as baseRangeSchema } from '$routes/about/music/constants';
+
+import { logger } from '$utils';
 
 import type { RequestHandler } from './$types';
-import { env } from '$env/dynamic/private';
-import { rangeSchema as baseRangeSchema } from '$routes/about/music/constants';
+
+import { baseRequest, getTopArtists, getTopTracks } from './utils';
 
 const getAccessToken = async ({
 	clientId,
@@ -24,7 +30,8 @@ const getAccessToken = async ({
 	clientSecret: string;
 	refreshToken: string;
 }): Promise<string> => {
-	console.info('_api/music: +server.ts // GET // getAccessToken');
+	logger.page('_api/music: +server.ts // GET // getAccessToken');
+	// ----------------------------------------------------------------
 
 	const response = await fetch('https://accounts.spotify.com/api/token', {
 		method: 'POST',
@@ -57,7 +64,8 @@ const getAccessToken = async ({
 const getCurrentTrack = async (
 	accessToken: string
 ): Promise<CurrentTrack | false> => {
-	console.info('_api/music: +server.ts // GET // getCurrentTrack');
+	logger.page('_api/music: +server.ts // GET // getCurrentTrack');
+	// ----------------------------------------------------------------
 
 	const response = await baseRequest(
 		accessToken,
@@ -87,7 +95,8 @@ const getCurrentTrack = async (
 };
 
 const getRecentTrack = async (accessToken: string): Promise<RecentTrack> => {
-	console.info('_api/music: +server.ts // GET // getRecentTrack');
+	logger.page('_api/music: +server.ts // GET // getRecentTrack');
+	// ----------------------------------------------------------------
 
 	const response = await baseRequest(
 		accessToken,
@@ -109,6 +118,7 @@ const getRecentTrack = async (accessToken: string): Promise<RecentTrack> => {
 
 const getLastTrack = async (accessToken: string): Promise<LastTrack> => {
 	const current = await getCurrentTrack(accessToken);
+
 	if (current !== false) return current;
 	return await getRecentTrack(accessToken);
 };
@@ -123,7 +133,8 @@ const rangeSchema = baseRangeSchema.transform((val) => {
 });
 
 export const GET: RequestHandler = async ({ url }) => {
-	console.info('_api/music: +server.ts // GET');
+	logger.page('_api/music: +server.ts // GET');
+	// ----------------------------------------------------------------
 
 	const type = url.searchParams.get('type');
 	const range = url.searchParams.get('range');
@@ -167,7 +178,8 @@ export const GET: RequestHandler = async ({ url }) => {
 				return json(topArtists);
 			}
 		}
-	} catch {
+	} catch (e) {
+		logger.error(e);
 		throw error(500, "Couldn't load music data");
 	}
 

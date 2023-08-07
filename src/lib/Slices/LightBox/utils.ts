@@ -1,4 +1,4 @@
-import type { Media } from '$lib/types';
+import type { Media } from '$types';
 
 export const createNestedMediaArray = (md: boolean, mediaArray: Media[]) => {
 	const array: Media[][] = [];

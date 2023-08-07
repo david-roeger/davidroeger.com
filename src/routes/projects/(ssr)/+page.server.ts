@@ -1,13 +1,16 @@
-console.info('projects/(ssr): +page.server.ts');
+logger.page('projects/(ssr): +page.server.ts');
+// ----------------------------------------------------------------
 
-import type { ProjectMetaData } from '$lib/types';
+import type { ProjectMetaData } from '$types';
 
 import { error } from '@sveltejs/kit';
 
 import type { PageServerLoad } from './$types';
+import { logger } from '$utils';
 
 export const load: PageServerLoad = async ({ fetch }) => {
-	console.info('projects/(ssr): +page.server.ts // load');
+	logger.page('projects/(ssr): +page.server.ts // load');
+	// ----------------------------------------------------------------
 
 	const projectResponse = await fetch('/_api/projects');
 

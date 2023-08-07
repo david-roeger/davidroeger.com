@@ -1,6 +1,10 @@
-console.info('about/music: +page.ts');
+logger.page('about/music: +page.ts');
+// ----------------------------------------------------------------
+
+import { logger } from '$utils';
 
 import type { PageLoad } from './$types';
+
 import { MUSIC_KEYS, createStateFromParam } from './constants';
 
 const constructParams = (type: string, range?: string) => {
@@ -11,7 +15,8 @@ const constructParams = (type: string, range?: string) => {
 };
 
 export const load: PageLoad = async ({ parent, url, fetch }) => {
-	console.info('about/music: +page.ts // load');
+	logger.page('about/music: +page.ts // load');
+	// ----------------------------------------------------------------
 
 	const { queryClient } = await parent();
 

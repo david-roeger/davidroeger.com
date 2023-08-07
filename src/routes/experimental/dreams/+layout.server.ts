@@ -1,8 +1,13 @@
-console.info('experimental/dreams: +layout.server.ts');
+logger.page('experimental/dreams: +layout.server.ts');
+// ----------------------------------------------------------------
+
+import { logger } from '$utils';
+
 import type { LayoutServerLoad } from './$types';
 
 export const load = (async () => {
-	console.info('experimental/dreams: +layout.server.ts // load');
+	logger.page('experimental/dreams: +layout.server.ts // load');
+	// ----------------------------------------------------------------
 
 	return {};
 }) satisfies LayoutServerLoad;

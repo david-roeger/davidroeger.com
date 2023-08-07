@@ -1,5 +1,5 @@
 import { tick } from 'svelte';
-import type { ActionReturnType } from '$lib/types';
+import type { ActionReturnType } from '$types';
 /**
  * Usage: <div use:portal> or <div use:portal={Element | CSS Selector}>
  *

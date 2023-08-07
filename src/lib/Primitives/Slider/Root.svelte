@@ -21,7 +21,7 @@
 	import { writable } from 'svelte/store';
 	import { createEventDispatcher } from 'svelte';
 	import type { RootContext, Direction, Size, Value } from './types';
-	import { limit } from '$lib/Utils';
+	import { limit } from '$utils';
 	import {
 		getDecimalCount,
 		hasMinStepsBetweenValues,

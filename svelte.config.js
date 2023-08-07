@@ -43,12 +43,15 @@ const config = {
 		alias: {
 			'$routes/*': 'src/routes/*',
 			$actions: 'src/lib/Actions',
+			'$actions/*': 'src/lib/Actions/*',
 			'$assets/*': 'src/lib/Assets/*',
 			'$components/*': 'src/lib/Components/*',
 			'$primitives/*': 'src/lib/Primitives/*',
 			'$provider/*': 'src/lib/Provider/*',
 			'$slices/*': 'src/lib/Slices/*',
+			$types: 'src/lib/types.d.ts',
 			$utils: 'src/lib/Utils',
+			'$utils/*': 'src/lib/Utils/*',
 			$lib: 'src/lib'
 		},
 

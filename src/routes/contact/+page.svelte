@@ -1,8 +1,12 @@
 <script lang="ts">
-	import Headline from '$lib/Components/Headline/Headline.svelte';
-	import ContactForm from '$lib/Slices/ContactForm/ContactForm.svelte';
+	logger.page('contact: +page.svelte');
+	// ----------------------------------------------------------------
 
-	console.info('contact: +page.svelte');
+	import Headline from '$components/Headline/Headline.svelte';
+
+	import ContactForm from '$slices/ContactForm/ContactForm.svelte';
+
+	import { logger } from '$utils';
 </script>
 
 <section class="mb-32">

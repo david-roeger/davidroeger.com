@@ -1,6 +1,10 @@
 <script lang="ts">
-	console.info('projects: +layout.svelte');
+	logger.page('projects: +layout.svelte');
+	// ----------------------------------------------------------------
+
 	import { Background } from '$components/Background';
+
+	import { logger } from '$utils';
 </script>
 
 <Background

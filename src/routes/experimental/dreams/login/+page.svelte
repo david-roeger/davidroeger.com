@@ -1,7 +1,10 @@
-<!-- routes/login/+page.svelte -->
 <script lang="ts">
+	logger.page('experimental/dreams/login:  +page.svelte');
+	// ----------------------------------------------------------------
+
 	import { enhance } from '$app/forms';
-	console.info('experimental/dreams/login:  +page.svelte');
+
+	import { logger } from '$utils';
 </script>
 
 <h1>Sign in</h1>
@@ -14,4 +17,4 @@
 	<br />
 	<input type="submit" />
 </form>
-<a href="/signup">Create an account</a>
+<a href="/experimental/dreams/signup">Create an account</a>

@@ -1,7 +1,11 @@
-console.info('_api/projects: +server.ts');
+logger.page('_api/projects: +server.ts');
+// ----------------------------------------------------------------
 
-import type { ProjectFrontMatter } from '$lib/types';
 import { error, json } from '@sveltejs/kit';
+
+import type { ProjectFrontMatter } from '$types';
+
+import { logger } from '$utils';
 
 import type { RequestHandler } from './$types';
 
@@ -10,7 +14,8 @@ type Project = {
 };
 
 export const _handler = async ({ url }: { url: URL }) => {
-	console.info('_api/projects: +server.ts // GET // handler');
+	logger.page('_api/projects: +server.ts // GET // handler');
+	// ----------------------------------------------------------------
 
 	const modules = import.meta.glob(
 		'../../projects/content/*.{md,svx,svelte.md}'
@@ -41,6 +46,8 @@ export const _handler = async ({ url }: { url: URL }) => {
 };
 
 export const GET: RequestHandler = async ({ url }) => {
-	console.info('_api/projects: +server.ts // GET');
+	logger.page('_api/projects: +server.ts // GET');
+	// ----------------------------------------------------------------
+
 	return _handler({ url });
 };

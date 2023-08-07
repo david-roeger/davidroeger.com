@@ -1,4 +1,7 @@
 <script lang="ts">
+	logger.page('index: +page.svelte');
+	// ----------------------------------------------------------------
+
 	import { onMount } from 'svelte';
 	import { spring } from 'svelte/motion';
 
@@ -6,14 +9,13 @@
 
 	import { page } from '$app/stores';
 
-	import Head from '$lib/Components/Head/Head.svelte';
+	import Head from '$components/Head/Head.svelte';
+	import Logo from '$components/Logo/Logo.svelte';
+	import Displace from '$components/Displace/Displace.svelte';
 
-	import Logo from '$lib/Components/Logo/Logo.svelte';
-	import Displace from '$lib/Components/Displace/Displace.svelte';
-	import { debounce, limit, mapToRange } from '$lib/Utils';
-	import HireMe from '$lib/Slices/HireMe/HireMe.svelte';
+	import HireMe from '$slices/HireMe/HireMe.svelte';
 
-	console.info('index: +page.svelte');
+	import { debounce, limit, logger, mapToRange } from '$utils';
 
 	const easing = BezierEasing(0.4, 0, 0.2, 1);
 

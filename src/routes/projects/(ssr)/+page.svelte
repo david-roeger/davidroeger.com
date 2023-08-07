@@ -1,33 +1,37 @@
 <script lang="ts">
-	console.info('projects: +page.svelte');
-
-	import { page } from '$app/stores';
-	import { mapToRange, replaceStateWithQuery } from '$lib/Utils';
+	logger.page('projects: +page.svelte');
+	// ----------------------------------------------------------------
 
 	import { writable } from 'svelte/store';
 
+	import BezierEasing from 'bezier-easing';
+
+	import { page } from '$app/stores';
+	import { browser, building } from '$app/environment';
+
+	import { mapToRange, replaceStateWithQuery, logger } from '$utils';
+
 	import * as Tags from '$primitives/Tags';
 	import * as Gallery from '$primitives/Gallery';
-	import type { ProjectMetaData, ProjectsMediaData } from '$lib/types';
+
 	import Headline from '$components/Headline/Headline.svelte';
 	import { Media } from '$components/Media';
+	import Head from '$components/Head/Head.svelte';
+	import { AccessibleIcon } from '$components/AccessibleIcon';
+
 	import East from '$assets/Icons/24/east.svg?component';
 	import West from '$assets/Icons/24/west.svg?component';
 	import Close16 from '$assets/Icons/16/close.svg?component';
 	import East16 from '$assets/Icons/16/east.svg?component';
-
-	import { AccessibleIcon } from '$components/AccessibleIcon';
-
-	import BezierEasing from 'bezier-easing';
-
 	import pmd from '$assets/projectsMediaData.json';
-	import Head from '$components/Head/Head.svelte';
-	import type { PageData } from './$types';
-	import { browser, building } from '$app/environment';
 
-	const projectsMediaData: ProjectsMediaData = { ...pmd };
+	import type { ProjectMetaData, ProjectsMediaData } from '$types';
+	// ----------------------------------------------------------------
 
 	export let data: PageData;
+	import type { PageData } from './$types';
+
+	const projectsMediaData: ProjectsMediaData = { ...pmd };
 
 	const projects = data.projects;
 	const experimental = data.experimental;

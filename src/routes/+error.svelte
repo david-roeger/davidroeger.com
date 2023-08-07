@@ -1,16 +1,17 @@
 <script lang="ts">
-	import { logger } from '$lib/Utils';
 	logger.page('error: +error.svelte');
-
 	// ----------------------------------------------------------------
 
 	import { page } from '$app/stores';
 
+	import East from '$assets/Icons/24/east.svg?component';
+
 	import Headline from '$components/Headline/Headline.svelte';
 	import NavLink from '$components/NavLink/NavLink.svelte';
-	import East from '$assets/Icons/24/east.svg?component';
 	import { Background } from '$components/Background';
 	import Head from '$components/Head/Head.svelte';
+
+	import { logger } from '$utils';
 
 	$: error = $page.error?.message ?? '';
 	$: status = $page.status;

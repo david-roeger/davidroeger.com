@@ -1,12 +1,15 @@
-console.info('about: +page.ts');
+logger.page('about: +page.ts');
+// ----------------------------------------------------------------
 
 import { error } from '@sveltejs/kit';
 
 import type { Resume } from '$lib/resume';
 import type { PageLoad } from './$types';
+import { logger } from '$utils';
 
 export const load: PageLoad = async ({ fetch }) => {
-	console.info('about: +page.ts // load');
+	logger.page('about: +page.ts // load');
+	// ----------------------------------------------------------------
 
 	const resumeResponse = await fetch('/_api/resume');
 	if (!resumeResponse.ok) {

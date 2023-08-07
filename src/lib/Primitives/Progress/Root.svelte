@@ -11,7 +11,7 @@
 
 	import { setContext } from 'svelte';
 	import type { RootContext } from './types';
-	import { limit } from '$lib/Utils';
+	import { limit } from '$utils';
 	import { writable } from 'svelte/store';
 
 	const valuePercentage = (value: number, min: number, max: number) => {

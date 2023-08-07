@@ -1,8 +1,12 @@
 <script lang="ts">
-	import type { PageData } from './$types';
+	logger.page('_prerender: +page.svelte');
+	// ----------------------------------------------------------------
+
 	import { Headline } from '$components/Headline';
 
-	console.info('_prerender: +page.svelte');
+	import { logger } from '$utils';
+
+	import type { PageData } from './$types';
 
 	export let data: PageData;
 </script>

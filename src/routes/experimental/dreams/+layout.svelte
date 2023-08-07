@@ -1,7 +1,10 @@
 <script lang="ts">
-	import Head from '$lib/Components/Head/Head.svelte';
+	logger.page('experimental/dreams:  +layout.svelte');
+	// ----------------------------------------------------------------
 
-	console.info('experimental/dreams:  +layout.svelte');
+	import Head from '$components/Head/Head.svelte';
+
+	import { logger } from '$utils';
 </script>
 
 <Head

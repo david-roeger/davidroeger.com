@@ -1,4 +1,4 @@
-import type { ActionReturnType } from '$lib/types';
+import type { ActionReturnType } from '$types';
 
 export const preload = (
 	node: HTMLButtonElement | HTMLElement,

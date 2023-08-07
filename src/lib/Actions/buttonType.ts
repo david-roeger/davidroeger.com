@@ -1,5 +1,5 @@
-import type { ActionReturnType } from '$lib/types';
-import { hasParentOfType } from '$lib/Utils';
+import type { ActionReturnType } from '$types';
+import { hasParentOfType } from '$utils';
 
 export const buttonType = (
 	button: HTMLButtonElement,

@@ -1,28 +1,33 @@
 <script lang="ts">
-	console.info('projects/(ssg)/[slug]/[[gallery]]: +page.svelte');
+	logger.page('projects/(ssg)/[slug]/[[gallery]]: +page.svelte');
+	// ----------------------------------------------------------------
 
-	import type { PageData } from './$types';
+	import { goto } from '$app/navigation';
 
-	export let data: PageData;
-	console.info(
-		`projects/(ssg)/[slug]/[[gallery]]: +page.svelte // ${data.project.slug} / ${data.gallery}`
-	);
-
+	import Head from '$components/Head/Head.svelte';
+	import Headline from '$components/Headline/Headline.svelte';
 	import AccessibleIcon from '$components/AccessibleIcon/AccessibleIcon.svelte';
+
+	import ContactForm from '$slices/ContactForm/ContactForm.svelte';
+	import LightBox from '$slices/LightBox/LightBox.svelte';
 
 	import TagIcon from '$assets/Icons/24/tag.svg?component';
 	import LinkIcon from '$assets/Icons/24/link.svg?component';
 	import GithubIcon from '$assets/Icons/24/github.svg?component';
-
-	import Headline from '$components/Headline/Headline.svelte';
-
 	import pmd from '$assets/projectsMediaData.json';
-	import Head from '$components/Head/Head.svelte';
-	import type { Media as MediaType, ProjectsMediaData } from '$lib/types';
 
-	import ContactForm from '$lib/Slices/ContactForm/ContactForm.svelte';
-	import { goto } from '$app/navigation';
-	import LightBox from '$lib/Slices/LightBox/LightBox.svelte';
+	import { logger } from '$utils';
+
+	import type { Media as MediaType, ProjectsMediaData } from '$types';
+	// ----------------------------------------------------------------
+
+	import type { PageData } from './$types';
+
+	export let data: PageData;
+
+	logger.page(
+		`projects/(ssg)/[slug]/[[gallery]]: +page.svelte // ${data.project.slug} / ${data.gallery}`
+	);
 
 	const projectsMediaData: ProjectsMediaData = { ...pmd };
 

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import * as Progress from '$primitives/Progress';
-	import type { Tweened } from '$lib/Utils/Store/pausibleTween';
+	import type { Tweened } from '$utils/Store/pausibleTween';
 
 	export let min: number;
 	export let max: number;

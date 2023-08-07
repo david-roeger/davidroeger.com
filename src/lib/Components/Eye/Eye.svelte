@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { makeNoise2D } from 'open-simplex-noise';
 
-	import { mapToRange } from '$lib/Utils';
+	import { mapToRange } from '$utils';
 	import { onMount } from 'svelte';
 	import Svg from './Svg.svelte';
 
@@ -157,7 +157,7 @@
 	});
 </script>
 
-<div class="border-black ">
+<div class="border-black">
 	<div class="sticky top-0 transition-all" style="height: {windowHeight}px;">
 		<Svg viewBox={{ x: 72, y: 32 }}>
 			<svg mask="url(#mask)">

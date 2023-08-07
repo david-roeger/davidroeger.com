@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Image } from '$lib/Primitives/Image';
+	import { Image } from '$primitives/Image';
 
 	import {
 		Flower1,
@@ -8,10 +8,10 @@
 		Flower4,
 		Flower5,
 		Flower6
-	} from '$lib/Components/SvelteIcons';
+	} from '$components/SvelteIcons';
 
-	import { Marquee } from '$lib/Components/Marquee';
-	import AccessibleIcon from '$lib/Components/AccessibleIcon/AccessibleIcon.svelte';
+	import { Marquee } from '$components/Marquee';
+	import AccessibleIcon from '$components/AccessibleIcon/AccessibleIcon.svelte';
 
 	let c = '';
 	export { c as class };

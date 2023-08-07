@@ -1,14 +1,20 @@
-console.info('projects/(ssg)/[slug]/[[gallery]]: +page.server.ts');
+logger.page('projects/(ssg)/[slug]/[[gallery]]: +page.server.ts');
+// ----------------------------------------------------------------
 
-import type { ProjectMetaData } from '$lib/types';
 import { error, redirect } from '@sveltejs/kit';
+
+import { logger } from '$utils';
+
+import type { ProjectMetaData } from '$types';
 
 import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ fetch, params }) => {
-	console.info('projects/(ssg)/[slug]/[[gallery]]: +page.server.ts // load');
+	logger.page('projects/(ssg)/[slug]/[[gallery]]: +page.server.ts // load');
+	// ----------------------------------------------------------------
+
 	const { slug, gallery } = params;
-	console.info(
+	logger.page(
 		`projects/(ssg)/[slug]/[[gallery]]: +page.server.ts // load (${slug} / ${gallery})`
 	);
 

@@ -1,7 +1,10 @@
-console.info('contact: +page.server.ts');
+logger.page('contact: +page.server.ts');
+// ----------------------------------------------------------------
 
 import { fail } from '@sveltejs/kit';
-import type { Actions } from './$types';
+
+import { message, superValidate } from 'sveltekit-superforms/server';
+
 import { env } from '$env/dynamic/private';
 
 import {
@@ -9,15 +12,19 @@ import {
 	type ZodContactForm,
 	type ContactFormMessage,
 	DEFAULT_CONTACT_FORM
-} from '$lib/Slices/ContactForm/constants';
-import { message, superValidate } from 'sveltekit-superforms/server';
+} from '$slices/ContactForm/constants';
+
+import { logger } from '$utils';
+
+import type { Actions } from './$types';
 
 // TODO: this needs to be manually typed for now
 // At least I think so
 // https://github.com/sveltejs/kit/issues/7004
 export const actions: Actions = {
 	default: async ({ fetch, request, url: pageUrl }) => {
-		console.info('contact: +page.server.ts // Action // default');
+		logger.page('contact: +page.server.ts // Action // default');
+		// ----------------------------------------------------------------
 
 		const contactForm = await superValidate<
 			ZodContactForm,
@@ -32,13 +39,8 @@ export const actions: Actions = {
 			return fail(400, { contactForm });
 		}
 
-		console.info(request.url);
+		logger.page(request.url);
 		try {
-			console.log(
-				'contact: +page.server.ts // Action // default // try',
-				contactForm.data
-			);
-
 			const meResponse = await fetch(
 				`/_api/mail/me?secret=${env.MAIL_SECRET}`,
 				{
@@ -56,16 +58,10 @@ export const actions: Actions = {
 			);
 
 			if (meResponse.ok) {
-				console.info(
-					'contact: +page.server.ts // Action // default // try // meResponse.ok'
-				);
 				const { name, email } = contactForm.data;
 
 				contactForm.data = DEFAULT_CONTACT_FORM;
 				if (summaryResponse.ok) {
-					console.info(
-						'contact: +page.server.ts // Action // default // try // meResponse.ok // summaryResponse.ok'
-					);
 					return message(contactForm, {
 						type: 'green',
 						html: `<h3>Thanks for your message ${name}!</h3><p class="text-xs">An auto-reply has been sent to <b><em>${email}</em></b></p>`
@@ -77,8 +73,8 @@ export const actions: Actions = {
 					html: `<h3>Thanks for your message ${name}!</h3><p class="text-xs">An auto-reply has been sent to <b><em>${email}</em></b>, but could not be delivered. Please check if the entered E-Mail address is correct</p>`
 				});
 			}
-		} catch (error) {
-			console.error(error);
+		} catch (e) {
+			logger.error(e);
 		}
 
 		return message(

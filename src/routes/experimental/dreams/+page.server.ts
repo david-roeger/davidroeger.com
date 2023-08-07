@@ -1,18 +1,24 @@
-console.info('experimental/dreams: +page.server.ts');
+logger.page('experimental/dreams: +page.server.ts');
+// ----------------------------------------------------------------
+
 import { error, fail, redirect } from '@sveltejs/kit';
 
-import type { Actions, PageServerLoad } from './$types';
-
-import client from '$lib/Utils/Db/client';
 import { message, superValidate } from 'sveltekit-superforms/server';
+
 import {
 	addDreamFormSchema,
 	type AddDreamFormMessage,
 	type ZodAddDreamForm
-} from '$lib/Slices/AddDreamForm/constants';
+} from '$slices/AddDreamForm/constants';
+
+import { logger } from '$utils';
+import client from '$utils/Db/client';
+
+import type { Actions, PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ locals }) => {
-	console.info('experimental/dreams: +page.server.ts // load');
+	logger.page('experimental/dreams: +page.server.ts // load');
+	// ----------------------------------------------------------------
 
 	const session = await locals.auth.validate();
 	if (!session) throw redirect(302, '/experimental/dreams/login');
@@ -24,7 +30,8 @@ export const load: PageServerLoad = async ({ locals }) => {
 
 export const actions: Actions = {
 	add: async ({ request, locals }) => {
-		console.info('contact: +page.server.ts // Action // add');
+		logger.page('contact: +page.server.ts // Action // add');
+		// ----------------------------------------------------------------
 
 		const addDreamForm = await superValidate<
 			ZodAddDreamForm,
@@ -80,8 +87,8 @@ export const actions: Actions = {
 				type: 'green',
 				html: `<h3>Thanks for your message!</h3>`
 			});
-		} catch (error) {
-			console.error(error);
+		} catch (e) {
+			logger.error(e);
 		}
 
 		return message(

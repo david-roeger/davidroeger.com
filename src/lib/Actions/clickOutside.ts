@@ -1,4 +1,4 @@
-import type { ActionReturnType } from '$lib/types';
+import type { ActionReturnType } from '$types';
 
 export function clickOutside(
 	node: HTMLElement,

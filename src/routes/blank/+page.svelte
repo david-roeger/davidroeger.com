@@ -1,10 +1,15 @@
 <script lang="ts">
-	console.info('blank: +page.svelte');
+	logger.page('blank: +page.svelte');
+	// ----------------------------------------------------------------
+
+	import { getContext } from 'svelte';
 
 	import EmojiPicker from '$components/EmojiPicker';
-	import Button from '$lib/Components/Button/Button.svelte';
-	import type { NotificationContext } from '$lib/Provider/NotificationProvider/types';
-	import { getContext } from 'svelte';
+	import Button from '$components/Button/Button.svelte';
+
+	import type { NotificationContext } from '$provider/NotificationProvider/types';
+
+	import { logger } from '$utils';
 
 	const notificationContext: NotificationContext = getContext('notification');
 

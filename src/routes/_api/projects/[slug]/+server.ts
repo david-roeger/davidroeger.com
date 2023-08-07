@@ -1,9 +1,11 @@
-console.info('_api/projects/[slug]: +server.ts');
+logger.page('_api/projects/[slug]: +server.ts');
+// ----------------------------------------------------------------
 
-import type { ProjectFrontMatter } from '$lib/types';
+import type { ProjectFrontMatter } from '$types';
 import { error, json } from '@sveltejs/kit';
 
 import type { RequestEvent, RequestHandler } from './$types';
+import { logger } from '$utils';
 
 export type RouteParams = RequestEvent['params'];
 
@@ -13,17 +15,15 @@ type ProjectEntry = {
 };
 
 export const GET: RequestHandler = async ({ params }) => {
-	console.info('_api/projects/[slug]: +server.ts // GET');
-	console.info('_api/projects/[slug]: +server.ts // GET // handler');
+	logger.page('_api/projects/[slug]: +server.ts // GET');
+	// ----------------------------------------------------------------
 
 	const modules = import.meta.glob(
 		`../../../projects/content/*.{md,svx,svelte.md}`
 	);
 	const { slug: urlSlug } = params;
 
-	console.info(
-		`_api/projects/[slug]: +server.ts // GET // handler (${urlSlug})`
-	);
+	logger.page(`_api/projects/[slug]: +server.ts // GET (${urlSlug})`);
 
 	for (const [, resolver] of Object.entries(
 		modules as Record<string, () => Promise<ProjectEntry>>

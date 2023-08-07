@@ -12,7 +12,7 @@
 	export { c as class };
 
 	import { spring } from 'svelte/motion';
-	import { mapToRange, limit } from '$lib/Utils';
+	import { mapToRange, limit } from '$utils';
 
 	let angle = spring(0, {
 		stiffness: 0.1,

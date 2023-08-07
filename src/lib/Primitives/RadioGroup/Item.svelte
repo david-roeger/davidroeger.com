@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { buttonType } from '$actions';
 
-	import { hasParentOfType } from '$lib/Utils';
+	import { hasParentOfType } from '$utils';
 
 	export let value: string;
 	export let id: string | undefined = undefined;

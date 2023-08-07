@@ -1,9 +1,12 @@
-console.info('experimental: +page.ts');
-
+logger.page('experimental: +page.ts');
+// ----------------------------------------------------------------
 import { redirect } from '@sveltejs/kit';
 
+import { logger } from '$utils';
+
 export const load = async () => {
-	console.info('experimental: +page.ts // load');
+	logger.page('experimental: +page.ts // load');
+	// ----------------------------------------------------------------
 
 	throw redirect(302, '/projects#experimental');
 };

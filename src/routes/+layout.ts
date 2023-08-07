@@ -1,11 +1,18 @@
-console.info('index: +layout.ts');
+logger.page('index: +layout.ts');
+// ----------------------------------------------------------------
+
+import { QueryClient } from '@tanstack/svelte-query';
 
 import { browser } from '$app/environment';
-import { QueryClient } from '@tanstack/svelte-query';
+
+import { logger } from '$utils';
+
 import type { LayoutLoad } from './$types';
 
 export const load: LayoutLoad = async ({ data }) => {
-	console.info('index: +layout.ts // load');
+	logger.page('index: +layout.ts // load');
+	// ----------------------------------------------------------------
+
 	const queryClient = new QueryClient({
 		defaultOptions: {
 			queries: {

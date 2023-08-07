@@ -1,5 +1,8 @@
 <script lang="ts">
-	console.info('projects/(ssr): +layout.svelte');
+	logger.page('projects/(ssr): +layout.svelte');
+	// ----------------------------------------------------------------
+
+	import { logger } from '$utils';
 </script>
 
 <slot />

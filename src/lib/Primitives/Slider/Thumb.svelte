@@ -3,7 +3,7 @@
 </script>
 
 <script lang="ts">
-	import { hasParentOfType, limit } from '$lib/Utils';
+	import { hasParentOfType, limit } from '$utils';
 
 	import { writable } from 'svelte/store';
 

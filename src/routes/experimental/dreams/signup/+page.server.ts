@@ -1,13 +1,19 @@
-console.info('experimental/dream/signup: +layout.server.ts');
+logger.page('experimental/dream/signup: +layout.server.ts');
+// ----------------------------------------------------------------
+
 import { fail, redirect } from '@sveltejs/kit';
+
 import { LuciaError } from 'lucia';
 
 import { auth } from '$utils/Lucia/lucia';
+import { logger } from '$utils';
 
 import type { PageServerLoad, Actions } from './$types';
 
 export const load: PageServerLoad = async ({ locals }) => {
-	console.info('experimental/dream/signup: +layout.server.ts // load');
+	logger.page('experimental/dream/signup: +layout.server.ts // load');
+	// ----------------------------------------------------------------
+
 	const session = await locals.auth.validate();
 	if (session) throw redirect(302, '/experimental/dreams');
 	return {};
@@ -15,7 +21,7 @@ export const load: PageServerLoad = async ({ locals }) => {
 
 export const actions: Actions = {
 	default: async ({ request, locals }) => {
-		console.info(
+		logger.page(
 			'experimental/dream/signup: +layout.server.ts // Action // default'
 		);
 
@@ -65,12 +71,11 @@ export const actions: Actions = {
 			// this part depends on the database you're using
 			// check for unique constraint error in user table
 			if (e instanceof LuciaError) {
-				console.log(e);
 				return fail(400, {
 					message: e.message
 				});
 			}
-			console.log(e);
+			logger.error(e);
 			return fail(500, {
 				message: 'An unknown error occurred'
 			});

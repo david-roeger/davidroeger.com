@@ -1,8 +1,11 @@
 <script lang="ts">
-	console.info('about: +layout.svelte');
+	logger.page('about: +layout.svelte');
+	// ----------------------------------------------------------------
 
 	import { Background } from '$components/Background';
 	import Head from '$components/Head/Head.svelte';
+
+	import { logger } from '$utils';
 </script>
 
 <Head

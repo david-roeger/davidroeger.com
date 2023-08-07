@@ -2,6 +2,7 @@ import type { Handle } from '@sveltejs/kit';
 import { JSDOM } from 'jsdom';
 
 import { auth } from '$utils/Lucia/lucia';
+import { logger } from '$utils';
 
 const collectPortals = (html: string) => {
 	const dom = new JSDOM(html);
@@ -31,7 +32,7 @@ const portalHandle = async ({ event, resolve }: Parameters<Handle>[0]) => {
 export const handle: Handle = async ({ event, resolve }) => {
 	event.locals.auth = auth.handleRequest(event);
 
-	console.log('@@@ event.locals run');
+	logger.locals(event.request.url);
 
 	const result = await portalHandle({ event, resolve });
 	return result.portals;

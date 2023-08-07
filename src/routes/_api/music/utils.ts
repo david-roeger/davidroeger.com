@@ -1,6 +1,6 @@
 import { error } from '@sveltejs/kit';
 
-import type { TopArtist, TopTrack } from '$lib/Components/Music/types';
+import type { TopArtist, TopTrack } from '$components/Music/types';
 
 export const baseRequest = async (
 	accessToken: string,

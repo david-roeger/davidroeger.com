@@ -14,8 +14,8 @@ declare global {
 	}
 	declare namespace App {
 		interface PageData {
-			contactForm: import('$lib/Slices/ContactForm/constants').ContactForm;
-			addDreamForm: import('$lib/Slices/AddDreamForm/constants').AddDreamForm;
+			contactForm: import('$slices/ContactForm/constants').ContactForm;
+			addDreamForm: import('$slices/AddDreamForm/constants').AddDreamForm;
 		}
 		interface Locals {
 			auth: import('lucia').AuthRequest;
@@ -56,7 +56,7 @@ declare global {
 	// Make Typescript happy
 	// https://github.com/JonasKruckenberg/imagetools/issues/160
 	declare module '*&imageTools' {
-		export default import('$lib/Primitives/Image/imageTools').Picture;
+		export default import('$primitives/Image/imageTools').Picture;
 	}
 
 	declare namespace svelteHTML {

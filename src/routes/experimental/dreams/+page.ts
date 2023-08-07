@@ -1,9 +1,14 @@
-console.info('experimental/dreams: +page.ts');
-
-import * as z from 'zod';
+logger.page('experimental/dreams: +page.ts');
+// ----------------------------------------------------------------
 
 import type { Pageable } from '$components/Pagination/types';
-import type { Dream } from '$lib/types';
+
+import { ensurePositiveInteger, safeUrlParam } from '$utils/Url';
+import { logger } from '$utils';
+
+import type { Dream } from '$types';
+
+import type { PageLoad } from './$types';
 
 import {
 	DREAMS_DEFAULT_PAGE,
@@ -11,11 +16,9 @@ import {
 	DREAMS_KEYS
 } from './constants';
 
-import type { PageLoad } from './$types';
-import { ensurePositiveInteger, safeUrlParam } from '$utils/Url';
-
 export const load: PageLoad = async ({ fetch, data, url, parent }) => {
-	console.info('experimental/dreams: +page.ts // load');
+	logger.page('experimental/dreams: +page.ts // load');
+	// ----------------------------------------------------------------
 
 	const { queryClient } = await parent();
 	const { user } = data;

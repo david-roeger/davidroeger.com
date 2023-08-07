@@ -1,4 +1,4 @@
-import type { Media } from '$lib/types';
+import type { Media } from '$types';
 
 export interface MediaSize {
 	width: number;

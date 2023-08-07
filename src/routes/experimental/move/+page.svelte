@@ -1,17 +1,21 @@
 <script lang="ts">
-	console.info('experimental/move:  +page.svelte');
+	logger.page('experimental/move:  +page.svelte');
+	// ----------------------------------------------------------------
+
+	import { onMount } from 'svelte';
+	import { writable } from 'svelte/store';
 
 	import * as Slider from '$primitives/Slider';
+	import * as Accordion from '$primitives/Accordion';
+
 	import { AccessibleIcon } from '$components/AccessibleIcon';
 
 	import Close from '$assets/Icons/24/close.svg?component';
 	import West from '$assets/Icons/24/west.svg?component';
 	import East from '$assets/Icons/24/east.svg?component';
 	import South from '$assets/Icons/24/south.svg?component';
-	import * as Accordion from '$primitives/Accordion';
 
-	import { onMount } from 'svelte';
-	import { writable } from 'svelte/store';
+	import { logger } from '$utils';
 
 	type ImageData = {
 		img: HTMLImageElement;

@@ -1,21 +1,22 @@
-console.info('_api/mail/me: +server.ts');
-import { env } from '$env/dynamic/private';
+logger.page('_api/mail/me: +server.ts');
+// ----------------------------------------------------------------
 
 import { error, json } from '@sveltejs/kit';
+
+import { env } from '$env/dynamic/private';
+
+import { logger } from '$utils';
 
 import type { RequestHandler } from './$types';
 
 import { authorize, createHtmlBlock, sendMailWrapper } from '../utils';
 
 export const POST: RequestHandler = async ({ url, request }) => {
-	console.info('_api/mail/me: +server.ts // POST');
+	logger.page('_api/mail/me: +server.ts // POST');
+	// ----------------------------------------------------------------
+
 	// get secret from url params
 	authorize(url);
-	console.info(
-		'_api/mail/me: +server.ts // POST // authorized',
-		env.MAIL_SERVER,
-		env.MAIL_PASSWORD
-	);
 	const body: { [key: string]: unknown } = await request.json();
 	const { subject: subjectUnknown, ...unkownRest } = body;
 	const subjectString: string | undefined =
@@ -45,6 +46,7 @@ export const POST: RequestHandler = async ({ url, request }) => {
 
 		return json({ id: response.messageId });
 	} catch (e) {
+		logger.error(e);
 		throw error(500);
 	}
 };

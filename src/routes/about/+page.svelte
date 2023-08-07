@@ -1,7 +1,10 @@
 <script lang="ts">
-	console.info('about: +page.svelte');
+	logger.page('about: +page.svelte');
+	// ----------------------------------------------------------------
 
 	import { Headline } from '$components/Headline';
+
+	import { logger } from '$utils';
 
 	import type { PageData } from './$types';
 

@@ -1,6 +1,10 @@
 <script lang="ts">
+	logger.page('experimental/dreams/signup:  +page.svelte');
+	// ----------------------------------------------------------------
+
 	import { enhance } from '$app/forms';
-	console.info('experimental/dreams/signup:  +page.svelte');
+
+	import { logger } from '$utils';
 </script>
 
 <h1>Sign up</h1>

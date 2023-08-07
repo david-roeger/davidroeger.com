@@ -13,7 +13,7 @@
 	import { writable } from 'svelte/store';
 	import { createEventDispatcher } from 'svelte';
 	import type { RootContext } from './types';
-	import { debounce } from '$lib/Utils';
+	import { debounce } from '$utils';
 
 	id++;
 	const rootContext: RootContext = {

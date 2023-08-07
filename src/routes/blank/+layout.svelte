@@ -1,6 +1,10 @@
 <script lang="ts">
-	console.info('blank: +layout.svelte');
+	logger.page('blank: +layout.svelte');
+	// ----------------------------------------------------------------
+
 	import Head from '$components/Head/Head.svelte';
+
+	import { logger } from '$utils';
 </script>
 
 <Head />

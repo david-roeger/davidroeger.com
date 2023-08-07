@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Media } from '$lib/types';
+	import type { Media } from '$types';
 	export let media: Media | undefined = undefined;
 	export let src = 'src';
 	export let loading: 'lazy' | undefined = undefined;

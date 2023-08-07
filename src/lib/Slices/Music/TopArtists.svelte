@@ -10,7 +10,7 @@
 		Image
 	} from '$components/Music/types';
 	import { MUSIC_KEYS, type Range } from '$routes/about/music/constants';
-	import { Score } from '$lib/Components/Score';
+	import { Score } from '$components/Score';
 	export let range: Range;
 
 	let c = '';

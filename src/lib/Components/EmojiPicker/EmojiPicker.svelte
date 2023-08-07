@@ -23,7 +23,7 @@
 	import { Headline } from '$components/Headline';
 	import { Button } from '$components/Button';
 
-	import { hasParentOfType } from '$lib/Utils';
+	import { hasParentOfType } from '$utils';
 	import { emojiData } from './store';
 
 	id++;

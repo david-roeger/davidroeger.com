@@ -1,11 +1,17 @@
-console.info('_api/emojiData: +server.ts');
+logger.page('_api/emojiData: +server.ts');
+// ----------------------------------------------------------------
+
+import { error, json } from '@sveltejs/kit';
 
 import type { EmojiData } from '$components/EmojiPicker/types';
-import { error, json } from '@sveltejs/kit';
+
+import { logger } from '$utils';
+
 import type { RequestHandler } from './$types';
 
 export const GET: RequestHandler = async () => {
-	console.info('_api/emojiData: +server.ts // GET');
+	logger.page('_api/emojiData: +server.ts // GET');
+	// ----------------------------------------------------------------
 
 	try {
 		const response = await fetch(
@@ -16,7 +22,8 @@ export const GET: RequestHandler = async () => {
 			return json(emojiData);
 		}
 		throw error(500);
-	} catch (err) {
+	} catch (e) {
+		logger.error(e);
 		throw error(500);
 	}
 };

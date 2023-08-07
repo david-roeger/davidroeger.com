@@ -1,4 +1,4 @@
-import { fromBase64 } from '$lib/Utils';
+import { fromBase64 } from '$utils';
 import { z } from 'zod';
 
 export const tabSchema = z.enum(['tracks', 'artists']);
