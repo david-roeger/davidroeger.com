@@ -78,12 +78,11 @@ const getCurrentTrack = async (
 
 	const body = await response.json();
 	if (response.ok) {
+		if (body.currently_playing_type !== 'track') {
+			return false;
+		}
 		const { item } = body;
 		if (item) {
-			if (body.currently_playing_type !== 'track') {
-				return false;
-			}
-
 			return item as CurrentTrack;
 		}
 
@@ -118,9 +117,9 @@ const getRecentTrack = async (accessToken: string): Promise<RecentTrack> => {
 
 const getLastTrack = async (accessToken: string): Promise<LastTrack> => {
 	const current = await getCurrentTrack(accessToken);
-
 	if (current !== false) return current;
-	return await getRecentTrack(accessToken);
+	const recent = await getRecentTrack(accessToken);
+	return recent;
 };
 
 const typeSchema = z.enum(['lastTrack', 'tracks', 'artists']);
