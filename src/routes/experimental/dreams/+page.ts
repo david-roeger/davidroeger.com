@@ -31,9 +31,13 @@ export const load: PageLoad = async ({ fetch, data, url, parent }) => {
 	);
 
 	const queryFn = async () =>
-		(await fetch(`/_api/dreams?size=${size}&page=${page}`))
-			.json()
-			.then((data) => data as Pageable<Dream>);
+		await fetch(`/_api/dreams?size=${size}&page=${page}`).then(
+			async (res) => {
+				const data = await res.json();
+				if (!res.ok) throw data;
+				return data as Pageable<Dream>;
+			}
+		);
 
 	await queryClient.prefetchQuery({
 		queryKey: DREAMS_KEYS.page(size, page),

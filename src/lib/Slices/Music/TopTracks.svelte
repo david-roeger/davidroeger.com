@@ -39,9 +39,13 @@
 	};
 
 	const queryFn = async () =>
-		(await fetch(`/_api/music?type=tracks&range=${range}`))
-			.json()
-			.then((data) => data as TopTrackType[]);
+		await fetch(`/_api/music?type=tracks&range=${range}`).then(
+			async (res) => {
+				const data = await res.json();
+				if (!res.ok) throw data;
+				return data as TopTrackType[];
+			}
+		);
 
 	$: query = createQuery({
 		queryKey: MUSIC_KEYS.range('tracks', range),

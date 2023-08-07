@@ -39,9 +39,11 @@
 	};
 
 	const queryFn = async () =>
-		(await fetch('/_api/music?type=lastTrack'))
-			.json()
-			.then((data) => data as LastTrackType);
+		await fetch('/_api/music?type=lastTrack').then(async (res) => {
+			const data = await res.json();
+			if (!res.ok) throw data;
+			return data as LastTrackType;
+		});
 
 	const query = createQuery({
 		queryKey: MUSIC_KEYS.type('lastTrack'),

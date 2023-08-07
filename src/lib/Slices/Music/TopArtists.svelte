@@ -38,9 +38,13 @@
 	};
 
 	const queryFn = async () =>
-		(await fetch(`/_api/music?type=artists&range=${range}`))
-			.json()
-			.then((data) => data as TopArtistType[]);
+		await fetch(`/_api/music?type=artists&range=${range}`).then(
+			async (res) => {
+				const data = await res.json();
+				if (!res.ok) throw data;
+				return data as TopArtistType[];
+			}
+		);
 
 	$: query = createQuery({
 		queryKey: MUSIC_KEYS.range('artists', range),

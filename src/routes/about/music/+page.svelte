@@ -42,12 +42,12 @@
 		decode: (value: string | null) => createStateFromParam(value)
 	});
 
-	const queryFn = (tab: Tab, range: Range) => async () => {
-		const data = (
-			await fetch(`/_api/music?type=${tab}&range=${range}`)
-		).json();
-		return data;
-	};
+	const queryFn = (tab: Tab, range: Range) =>
+		fetch(`/_api/music?type=${tab}&range=${range}`).then(async (res) => {
+			const data = await res.json();
+			if (!res.ok) throw data;
+			return data;
+		});
 
 	$: store = $queryStore ?? data.initalState;
 </script>

@@ -29,9 +29,13 @@
 	$: user = data.user;
 
 	const queryFn = async ({ size, page }: { size: number; page: number }) =>
-		(await fetch(`/_api/dreams?size=${size}&page=${page}`))
-			.json()
-			.then((data) => data as Pageable<Dream>);
+		await fetch(`/_api/dreams?size=${size}&page=${page}`).then(
+			async (res) => {
+				const data = await res.json();
+				if (!res.ok) throw data;
+				return data as Pageable<Dream>;
+			}
+		);
 
 	const o = writable({
 		size: data.size,

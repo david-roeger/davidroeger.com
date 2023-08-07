@@ -26,6 +26,7 @@ export const getTop = async <T>(
 	);
 
 	const body = await response.json();
+
 	if (response.ok) {
 		const { items } = body;
 		if (items) {

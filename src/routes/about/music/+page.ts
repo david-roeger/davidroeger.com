@@ -33,12 +33,22 @@ export const load: PageLoad = async ({ parent, url, fetch }) => {
 
 	const lastTrackQuery = queryClient.prefetchQuery({
 		queryKey: MUSIC_KEYS.type('lastTrack'),
-		queryFn: async () => (await lastTrackQueryFunction()).json()
+		queryFn: async () =>
+			await lastTrackQueryFunction().then(async (res) => {
+				const data = await res.json();
+				if (!res.ok) throw data;
+				return data;
+			})
 	});
 
 	const initalTabQuery = queryClient.prefetchQuery({
 		queryKey: MUSIC_KEYS.range(state.tab, state.range),
-		queryFn: async () => (await intitalTabQueryFunction()).json()
+		queryFn: async () =>
+			await intitalTabQueryFunction().then(async (res) => {
+				const data = await res.json();
+				if (!res.ok) throw data;
+				return data;
+			})
 	});
 
 	await Promise.all([lastTrackQuery, initalTabQuery]);
