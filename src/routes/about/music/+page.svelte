@@ -179,14 +179,14 @@
 										'tracks',
 										range.value
 									),
-									queryFn: queryFn('tracks', range.value)
+									queryFn: () => queryFn('tracks', range.value)
 								});
 								data.queryClient.prefetchQuery({
 									queryKey: MUSIC_KEYS.range(
 										'artists',
 										range.value
 									),
-									queryFn: queryFn('artists', range.value)
+									queryFn: () => queryFn('artists', range.value)
 								});
 							}}
 						>

@@ -4,8 +4,8 @@
 
 	import { getContext } from 'svelte';
 
-	import EmojiPicker from '$components/EmojiPicker';
-	import Button from '$components/Button/Button.svelte';
+	import {EmojiPicker} from '$components/EmojiPicker';
+	import {Button} from '$components/Button';
 
 	import type { NotificationContext } from '$provider/NotificationProvider/types';
 

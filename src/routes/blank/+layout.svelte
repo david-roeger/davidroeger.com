@@ -2,7 +2,7 @@
 	logger.page('blank: +layout.svelte');
 	// ----------------------------------------------------------------
 
-	import Head from '$components/Head/Head.svelte';
+	import {Head} from '$components/Head';
 
 	import { logger } from '$utils';
 </script>

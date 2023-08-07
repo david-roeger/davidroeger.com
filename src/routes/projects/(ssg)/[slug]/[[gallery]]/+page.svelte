@@ -4,12 +4,12 @@
 
 	import { goto } from '$app/navigation';
 
-	import Head from '$components/Head/Head.svelte';
-	import Headline from '$components/Headline/Headline.svelte';
-	import AccessibleIcon from '$components/AccessibleIcon/AccessibleIcon.svelte';
+	import {Head} from '$components/Head';
+	import {Headline} from '$components/Headline';
+	import {AccessibleIcon} from '$components/AccessibleIcon';
 
-	import ContactForm from '$slices/ContactForm/ContactForm.svelte';
-	import LightBox from '$slices/LightBox/LightBox.svelte';
+	import {ContactForm} from '$slices/ContactForm';
+	import {LightBox} from '$slices/LightBox';
 
 	import TagIcon from '$assets/Icons/24/tag.svg?component';
 	import LinkIcon from '$assets/Icons/24/link.svg?component';

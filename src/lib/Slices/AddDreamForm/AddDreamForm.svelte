@@ -1,22 +1,27 @@
 <script lang="ts">
+	import { getContext } from 'svelte';
+
 	import { superForm } from 'sveltekit-superforms/client';
 	import SuperDebug from 'sveltekit-superforms/client/SuperDebug.svelte';
+	import type { User } from 'lucia';
+	import { useQueryClient } from '@tanstack/svelte-query';
 
 	import { page } from '$app/stores';
-	import Button from '$components/Button/Button.svelte';
 
-	import { getContext } from 'svelte';
+	import { DREAMS_KEYS } from '$routes/experimental/dreams/constants';
+
+	import {Button} from '$components/Button';
+	import {EmojiPicker} from '$components/EmojiPicker';
+	import {Dialog} from '$components/Dialog';
+
 	import type { NotificationContext } from '$provider/NotificationProvider/types';
+
+
 	import {
 		addDreamFormSchema,
 		DEFAULT_DREAM_FORM,
 		type AddDreamFormSchema
 	} from './constants';
-	import EmojiPicker from '$components/EmojiPicker/EmojiPicker.svelte';
-	import Dialog from '$components/Dialog/Dialog.svelte';
-	import type { User } from 'lucia';
-	import { useQueryClient } from '@tanstack/svelte-query';
-	import { DREAMS_KEYS } from '$routes/experimental/dreams/constants';
 
 	export let user: User;
 

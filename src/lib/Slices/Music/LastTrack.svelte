@@ -6,7 +6,7 @@
 	import { AccessibleIcon } from '$components/AccessibleIcon';
 	import Album from '$assets/Icons/24/album.svg?component';
 	import Artist from '$assets/Icons/24/artist.svg?component';
-	import Wave from '$components/Wave/Wave.svelte';
+	import {Wave} from '$components/Wave';
 	import type {
 		LastTrack as LastTrackType,
 		Image

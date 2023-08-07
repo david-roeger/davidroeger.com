@@ -1,6 +1,6 @@
 // ----------------------------------------------------------------
 
-import { json } from '@sveltejs/kit';
+import { error, json } from '@sveltejs/kit';
 
 import client from '$utils/Db/client';
 
@@ -13,7 +13,10 @@ import type { Pageable } from '$components/Pagination/types';
 import { ensurePositiveInteger, safeUrlParam } from '$utils/Url';
 import type { Dream } from '$types';
 
-export const GET: RequestHandler = async ({ url }) => {
+export const GET: RequestHandler = async ({ url, locals }) => {
+	const session = await locals.auth.validate();
+	if (!session) throw error(401, 'Unauthorized');
+
 	const size = ensurePositiveInteger(DREAMS_DEFAULT_SIZE).parse(
 		safeUrlParam(url, 'size')
 	);
@@ -25,8 +28,8 @@ export const GET: RequestHandler = async ({ url }) => {
 
 	const offset = (page - 1) * size;
 	const dreams = client.query(
-		'SELECT * from dreams ORDER BY created_at DESC LIMIT $1 OFFSET $2',
-		[size, offset]
+		'SELECT * from dreams WHERE created_by = $3 ORDER BY created_at DESC LIMIT $1 OFFSET $2',
+		[size, offset, session.user.userId]
 	);
 
 	const [totalResult, totalDreams] = await Promise.all([total, dreams]);

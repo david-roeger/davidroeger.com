@@ -1,5 +1,5 @@
 <script lang="ts">
-	import AccessibleIcon from '$components/AccessibleIcon/AccessibleIcon.svelte';
+	import {AccessibleIcon} from '$components/AccessibleIcon';
 	import Close16 from '$assets/Icons/24/close.svg?component';
 	import { slide } from 'svelte/transition';
 

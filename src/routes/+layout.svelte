@@ -11,8 +11,8 @@
 
 	import { page } from '$app/stores';
 
-	import BreakpointProvider from '$provider/BreakpointProvider';
-	import NotificationProvider from '$provider/NotificationProvider';
+	import {BreakpointProvider} from '$provider/BreakpointProvider';
+	import {NotificationProvider} from '$provider/NotificationProvider';
 
 	import North from '$assets/Icons/24/north.svg?component';
 
@@ -21,7 +21,7 @@
 	import { HireMe } from '$slices/HireMe';
 
 	import { AccessibleIcon } from '$components/AccessibleIcon';
-	import DefaultHead from '$components/Head/DefaultHead.svelte';
+	import {DefaultHead} from '$components/Head';
 
 	import { logger, mapToRange } from '$utils';
 

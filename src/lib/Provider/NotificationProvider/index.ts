@@ -1,1 +1,1 @@
-export { default } from './NotificationProvider.svelte';
+export { default as NotificationProvider } from './NotificationProvider.svelte';

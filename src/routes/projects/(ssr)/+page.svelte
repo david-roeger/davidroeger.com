@@ -14,9 +14,9 @@
 	import * as Tags from '$primitives/Tags';
 	import * as Gallery from '$primitives/Gallery';
 
-	import Headline from '$components/Headline/Headline.svelte';
+	import {Headline} from '$components/Headline';
 	import { Media } from '$components/Media';
-	import Head from '$components/Head/Head.svelte';
+	import {Head} from '$components/Head';
 	import { AccessibleIcon } from '$components/AccessibleIcon';
 
 	import East from '$assets/Icons/24/east.svg?component';

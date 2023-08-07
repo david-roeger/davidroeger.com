@@ -10,11 +10,12 @@
 
 	import * as VisuallyHidden from '$primitives/VisuallyHidden';
 
-	import Headline from '$components/Headline/Headline.svelte';
+	import {Headline} from '$components/Headline';
 	import type { Pageable } from '$components/Pagination/types';
-	import Pagination from '$components/Pagination/Pagination.svelte';
+	import {Pagination} from '$components/Pagination';
+	import {Button} from '$components/Button';
 
-	import AddDreamForm from '$slices/AddDreamForm/AddDreamForm.svelte';
+	import {AddDreamForm} from '$slices/AddDreamForm';
 
 	import { getLoadingEmojis, replaceStateWithQuery, logger } from '$utils';
 
@@ -188,26 +189,21 @@
 			</li>
 		{/if}
 		<li>
-			<!-- <ul class="flex flex-wrap justify-end p-1">
-				{#if data.profile}
+			<ul class="flex flex-wrap justify-end p-1">
+				{#if user}
 					<li class="p-1 list-none">
-						<form
-							method="POST"
-							action="/experimental/dreams/logout"
-							class="bg-white/[.85] flex flex-col"
-							use:logoutFormEnhance
-						>
+						<form action="/experimental/dreams/logout" method="post">
 							<Button
-								type="submit"
-								variant="rounded"
-								class="block bg-white hover:bg-blue-5"
-							>
-								🔒 Logout
-							</Button>
+							type="submit"
+							variant="rounded"
+							class="block bg-white hover:bg-blue-5"
+						>
+							🔒 Logout
+						</Button>
 						</form>
 					</li>
 				{:else}
-					<li class="p-1 list-none">
+					<!--li class="p-1 list-none">
 						<Dialog
 							trigger="🔓 Login"
 							triggerClass="bg-white hover:bg-blue-5"
@@ -298,10 +294,11 @@
 								</button>
 							</form>
 						</Dialog>
-					</li>
+					</li-->
 				{/if}
-			</ul> -->
+			</ul>
 		</li>
+		
 	</ul>
 </div>
 
@@ -525,7 +522,7 @@
 					</div>
 				</li>
 			{:else}
-				<li>No dreams yet recorded 😴</li>
+				<li>No dreams recorded yet 😴</li>
 			{/each}
 		{/if}
 	</ul>

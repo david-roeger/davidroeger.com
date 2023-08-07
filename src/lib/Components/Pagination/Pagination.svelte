@@ -1,11 +1,16 @@
 <script lang="ts">
-	import type { Pageable } from './types';
-	import AccessibleIcon from '$components/AccessibleIcon/AccessibleIcon.svelte';
+	import { useQueryClient } from '@tanstack/svelte-query';
+
 	import * as VisuallyHidden from '$primitives/VisuallyHidden';
+
+	import {AccessibleIcon} from '$components/AccessibleIcon';
+
 	import East from '$assets/Icons/24/east.svg?component';
 	import West from '$assets/Icons/24/west.svg?component';
+
 	import { preload } from '$actions/preload';
-	import { useQueryClient } from '@tanstack/svelte-query';
+	
+	import type { Pageable } from './types';
 
 	export let currentPage: number;
 	export let pagable: Pageable<unknown>;

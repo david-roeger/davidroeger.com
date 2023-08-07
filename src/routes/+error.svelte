@@ -4,12 +4,12 @@
 
 	import { page } from '$app/stores';
 
-	import East from '$assets/Icons/24/east.svg?component';
-
-	import Headline from '$components/Headline/Headline.svelte';
-	import NavLink from '$components/NavLink/NavLink.svelte';
+	import {Headline} from '$components/Headline';
+	import {NavLink} from '$components/NavLink';
 	import { Background } from '$components/Background';
-	import Head from '$components/Head/Head.svelte';
+	import {Head} from '$components/Head';
+
+	import East from '$assets/Icons/24/east.svg?component';
 
 	import { logger } from '$utils';
 

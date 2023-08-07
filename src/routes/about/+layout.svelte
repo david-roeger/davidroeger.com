@@ -3,7 +3,7 @@
 	// ----------------------------------------------------------------
 
 	import { Background } from '$components/Background';
-	import Head from '$components/Head/Head.svelte';
+	import {Head} from '$components/Head';
 
 	import { logger } from '$utils';
 </script>

@@ -1,1 +1,1 @@
-export { default as Image } from './Pagination.svelte';
+export { default as Pagination } from './Pagination.svelte';

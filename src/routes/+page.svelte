@@ -9,11 +9,11 @@
 
 	import { page } from '$app/stores';
 
-	import Head from '$components/Head/Head.svelte';
-	import Logo from '$components/Logo/Logo.svelte';
-	import Displace from '$components/Displace/Displace.svelte';
+	import {Head} from '$components/Head';
+	import {Logo} from '$components/Logo';
+	import {Displace} from '$components/Displace';
 
-	import HireMe from '$slices/HireMe/HireMe.svelte';
+	import {HireMe} from '$slices/HireMe';
 
 	import { debounce, limit, logger, mapToRange } from '$utils';
 
