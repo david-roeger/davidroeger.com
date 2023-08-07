@@ -1,4 +1,5 @@
 import { env } from '$env/dynamic/private';
+import { logger } from '$utils';
 import { error } from '@sveltejs/kit';
 import nodemailer from 'nodemailer';
 import type Mail from 'nodemailer/lib/mailer';
@@ -31,7 +32,7 @@ export const sendMailWrapper = async (mailOptions: Mail.Options) =>
 	new Promise<SMTPTransport.SentMessageInfo>((resolve, reject) => {
 		transporter.sendMail(mailOptions, (error, info) => {
 			if (error) {
-				console.error(error);
+				logger.error(error);
 				reject(error);
 			} else {
 				resolve(info);
