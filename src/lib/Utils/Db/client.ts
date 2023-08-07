@@ -9,7 +9,7 @@ if (!building) {
 		user: env.POSTGRES_USER,
 		password: env.POSTGRES_PASSWORD,
 		database: env.POSTGRES_DB,
-		port: parseInt(env.DB_PORT)
+		port: parseInt(env.DB_INTERNAL_PORT)
 	});
 
 	await client.connect();
