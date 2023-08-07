@@ -21,10 +21,8 @@ export const _handler = async ({ url }: { url: URL }) => {
 	const projects = [];
 
 	for (const [path] of Object.entries(nested)) {
-		console.log(path);
 		const slug =
 			path.match(/\.\.\/\.\.\/experimental\/(.*?)\//i)?.[1] ?? undefined;
-		console.log(slug);
 		if (!slug) {
 			continue;
 		}
