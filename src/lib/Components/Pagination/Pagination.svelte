@@ -3,13 +3,13 @@
 
 	import * as VisuallyHidden from '$primitives/VisuallyHidden';
 
-	import {AccessibleIcon} from '$components/AccessibleIcon';
+	import { AccessibleIcon } from '$components/AccessibleIcon';
 
 	import East from '$assets/Icons/24/east.svg?component';
 	import West from '$assets/Icons/24/west.svg?component';
 
 	import { preload } from '$actions/preload';
-	
+
 	import type { Pageable } from './types';
 
 	export let currentPage: number;

@@ -4,13 +4,17 @@
 	import * as Music from '$components/Music';
 	import { Link } from '$components/Link';
 	import { AccessibleIcon } from '$components/AccessibleIcon';
-	import Album from '$assets/Icons/24/album.svg?component';
-	import Artist from '$assets/Icons/24/artist.svg?component';
 	import type {
 		TopTrack as TopTrackType,
 		Image
 	} from '$components/Music/types';
+	import { MiniPlayer } from '$components/MiniPlayer';
+
+	import Album from '$assets/Icons/24/album.svg?component';
+	import Artist from '$assets/Icons/24/artist.svg?component';
+
 	import { MUSIC_KEYS, type Range } from '$routes/about/music/constants';
+	import Mp from '$components/MiniPlayer/Mp.svelte';
 
 	export let range: Range;
 
@@ -79,21 +83,68 @@
 				<Music.Row class="flex">
 					{#if track.album.images.length}
 						<Music.Atom>
-							<Link
-								href={track.external_urls.spotify}
-								type="ghost"
-							>
-								<Music.Image
-									url={getImageUrl(track.album.images)}
-									alt="{track.album.name} Album Cover"
-								/>
-							</Link>
+							{#if track.preview_url}
+								<Mp
+									previewImage={getImageUrl(
+										track.album.images
+									)}
+									externalUrl={track.external_urls.spotify}
+									src={track.preview_url}
+									title={track.name}
+									artist={track.artists
+										.map((artist) => artist.name)
+										.join(', ')}
+									album={track.album.name}
+									artwork={track.album.images.map(
+										(image) => ({
+											src: image.url,
+											sizes: `${image.width}x${image.height}`,
+											type: 'image/jpeg'
+										})
+									)}
+								>
+									<Music.Image
+										url={getImageUrl(track.album.images)}
+										alt="{track.album.name} Album Cover"
+									/>
+								</Mp>
+							{:else}
+								<Link
+									href={track.external_urls.spotify}
+									type="ghost"
+								>
+									<Music.Image
+										url={getImageUrl(track.album.images)}
+										alt="{track.album.name} Album Cover"
+									/>
+								</Link>
+							{/if}
 						</Music.Atom>
 					{:else}
 						<Music.Atom>
-							<div
-								class="h-[68px] md:h-[92px] w-[68px] md:w-[92px] bg-purple-3"
-							/>
+							{#if track.preview_url}
+								<Mp
+									previewImage={getImageUrl(
+										track.album.images
+									)}
+									externalUrl={track.external_urls.spotify}
+									src={track.preview_url}
+									title={track.name}
+									artist={track.artists
+										.map((artist) => artist.name)
+										.join(', ')}
+									album={track.album.name}
+									artwork={[]}
+								>
+									<div
+										class="h-[68px] md:h-[92px] w-[68px] md:w-[92px] bg-purple-3"
+									/>
+								</Mp>
+							{:else}
+								<div
+									class="h-[68px] md:h-[92px] w-[68px] md:w-[92px] bg-purple-3"
+								/>
+							{/if}
 						</Music.Atom>
 					{/if}
 					<Music.Atom class="flex-1 min-w-0 border-l border-mauve-6">

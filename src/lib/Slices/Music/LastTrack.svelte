@@ -6,17 +6,21 @@
 	import { AccessibleIcon } from '$components/AccessibleIcon';
 	import Album from '$assets/Icons/24/album.svg?component';
 	import Artist from '$assets/Icons/24/artist.svg?component';
-	import {Wave} from '$components/Wave';
+	import { Wave } from '$components/Wave';
 	import type {
 		LastTrack as LastTrackType,
 		Image
 	} from '$components/Music/types';
-	import { onMount } from 'svelte';
+	import { getContext, onDestroy, onMount } from 'svelte';
 	import { MUSIC_KEYS } from '$routes/about/music/constants';
+	import type { MiniPlayerContext } from '$provider/MiniPlayerProvider/types';
 
 	let c = '';
 	export { c as class };
 	export let labelledby: string | undefined = undefined;
+
+	const { registerPlayer, playPlayer, removePlayer } =
+		getContext<MiniPlayerContext>('miniPlayer');
 
 	const getImageUrl = (images: Image[]): string => {
 		if (images.length === 0) return '';
@@ -49,6 +53,39 @@
 		queryKey: MUSIC_KEYS.type('lastTrack'),
 		queryFn,
 		refetchInterval: 1000 * 30 // 30 seconds
+	});
+
+	let id: string | undefined = undefined;
+	const context = 'tracks';
+	onMount(() => {
+		if ($query.data && $query.data.preview_url) {
+			id = registerPlayer({
+				context,
+				src: $query.data.preview_url,
+				previewImage: getImageUrl($query.data.album.images),
+				externalUrl: $query.data.external_urls.spotify,
+				metaData: {
+					title: $query.data.name,
+					artist: $query.data.artists
+						.map((artist) => artist.name)
+						.join(', '),
+					album: $query.data.album.name,
+					artwork: $query.data.album.images.map((image) => ({
+						src: image.url,
+						sizes: `${image.width}x${image.height}`,
+						type: 'image/jpeg'
+					}))
+				}
+			});
+
+			console.log(id);
+		}
+	});
+
+	onDestroy(() => {
+		if (id) {
+			removePlayer({ id, context });
+		}
 	});
 </script>
 

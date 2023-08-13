@@ -1,6 +1,6 @@
 export const DEBUG_LEVEL = {
 	CACHE: false,
-	PAGE: false,
+	PAGE: true,
 	LOCALS: true,
 	ERROR: true
 };
