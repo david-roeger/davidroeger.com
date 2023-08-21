@@ -12,7 +12,7 @@ interface EmojiCategory {
 	emojis: string[];
 }
 
-interface EmojValue {
+export interface EmojiValue {
 	id: string;
 	name: string;
 	keywords: string[];

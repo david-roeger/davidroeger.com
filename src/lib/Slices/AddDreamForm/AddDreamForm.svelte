@@ -117,7 +117,6 @@
 	// let setEmojiValue: (value: string) => void = () => {};
 	// $: setEmojiValue($form.emoji);
 
-	$: console.log('form', $form);
 	let setEmojiValue: (e: string) => void;
 </script>
 

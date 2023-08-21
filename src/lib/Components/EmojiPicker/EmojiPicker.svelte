@@ -15,7 +15,7 @@
 
 	import { derived, writable } from 'svelte/store';
 	import { createEventDispatcher } from 'svelte';
-	import type { RootContext, EmojiData } from './types';
+	import type { RootContext, EmojiData, EmojiValue } from './types';
 	import type { Writable } from 'svelte/store';
 
 	import { createQuery, keepPreviousData } from '@tanstack/svelte-query';
@@ -60,7 +60,12 @@
 		queryFn: () =>
 			fetch(`/_api/emoji/index.json`).then((res) => {
 				if (res.ok) {
-					return res.json() as Promise<EmojiData>;
+					return res.json() as Promise<
+						{
+							keys: string[];
+							records: Fuse.FuseIndexRecords;
+						}[]
+					>;
 				} else {
 					throw new Error(res.statusText);
 				}
@@ -92,19 +97,33 @@
 				return new Fuse(
 					Object.values($dataQuery.data.emojis),
 					fuseOptions,
-					Fuse.parseIndex<EmojiData['emojis']>($indexQuery.data)
+					Fuse.parseIndex($indexQuery.data)
 				);
 			} else {
 				return undefined;
 			}
 		}
 	);
-	const searchedQuery = createQuery(
-		derived([search, fuse], ([$search, $fuse]) => ({
+	const searchedQuery = createQuery<Fuse.FuseResult<EmojiValue>[]>(
+		derived([search, fuse, dataQuery], ([$search, $fuse, $dataQuery]) => ({
 			queryKey: EMOJI_KEYS.search($search),
 			queryFn: () => {
 				if (!$fuse) {
 					throw new Error('Fuse is not defined');
+				}
+
+				if (!$search) {
+					if ($dataQuery.data) {
+						return Object.values($dataQuery.data.emojis).map(
+							(emoji, idx) => ({
+								item: emoji,
+								refIndex: idx,
+								score: 1
+							})
+						);
+					}
+
+					throw new Error('No data');
 				}
 
 				return $fuse.search($search);
@@ -152,12 +171,11 @@
 	const emojisPerRow = 7;
 
 	const handleKeyDown = (e: KeyboardEvent) => {
-		let categoryElements: HTMLDivElement[] = [];
-		let emojiElements: HTMLDivElement[][] = [];
-
-		categoryElements = Array.from(
+		const categoryElements: HTMLDivElement[] = Array.from(
 			container.querySelectorAll(':scope div[data-state]')
 		);
+
+		const emojiElements: HTMLDivElement[][] = [];
 		categoryElements.forEach((categoryElement, index) => {
 			emojiElements[index] = Array.from(
 				categoryElement.querySelectorAll(':scope button[data-state]')
@@ -338,6 +356,10 @@
 			$search = (e.target as HTMLInputElement).value;
 		}
 	}
+
+	$: searchedQueryLoading =
+		($searchedQuery.isFetching && $searchedQuery.isPlaceholderData) ||
+		($search && $searchedQuery.isPending && !$searchedQuery.isFetching);
 </script>
 
 {#if renderInput}
@@ -375,33 +397,43 @@
 				bind:this={container}
 				class="relative w-full max-w-[282px] max-h-[360px] overflow-auto"
 			>
-				<Headline as="h2" type="tertiary" class="border-b-0 ">
-					Choose an emoji:
-				</Headline>
+				<h2>
+					<VisuallyHidden.Root>Choose an emoji:</VisuallyHidden.Root>
+				</h2>
 
 				{#if $dataQuery.data}
-					<div
-						class="z-10 border-b border-mauve-6 p-2 top-0 bg-white/[.85]"
+					<label
+						class="z-10 pl-2 border-b border-mauve-12 ring-mauve-12 ring-inset focus-within:ring-1 top-0 bg-white/[.85] group flex items-center space-x-2"
 						class:sticky={$search !== ''}
 					>
-						<AccessibleIcon label="Remove player">
+						<AccessibleIcon
+							label={searchedQueryLoading ? 'loading' : ''}
+						>
 							<Spinner
-								class={($searchedQuery.isFetching &&
-									$searchedQuery.isPlaceholderData) ||
-								($search &&
-									$searchedQuery.isPending &&
-									!$searchedQuery.isFetching)
+								class={searchedQueryLoading
 									? 'animate-loading-1'
 									: ''}
 							/>
 						</AccessibleIcon>
 						<input
+							id="search"
+							class="py-2 pr-4 bg-transparent rounded-none w-full focus:outline-none"
+							autocomplete="name"
+							enterkeyhint="search"
+							placeholder="Search"
+							type="search"
 							on:change={updateSearch}
-							on:input={debounce(updateSearch, 200)}
-							on:keydown|stopPropagation
-							type="text"
+							on:input={debounce(updateSearch, 50)}
+							on:keydown|stopPropagation={(e) => {
+								if (e.key === 'Enter') {
+									e.preventDefault();
+								}
+							}}
 						/>
-					</div>
+						<!-- on:change={updateSearchAndFocus}
+						on:input={debounce(updateSearch, 200)}
+						on:keydown|stopPropagation -->
+					</label>
 					{#if $search !== ''}
 						{#if $searchedQuery.data}
 							<div class="relative" data-state={0}>
@@ -421,7 +453,7 @@
 											data-emoji={$dataQuery.data.emojis[
 												result.item.id
 											].skins[0].native}
-											class="m-0.5 w-[34px] flex justify-center !p-1 rounded-full"
+											class="m-0.5 w-[34px] flex justify-center !p-1 rounded-full scroll-mt-[47px]"
 										>
 											{$dataQuery.data.emojis[
 												result.item.id
@@ -432,7 +464,7 @@
 									{/each}
 								</div>
 							</div>
-						{:else if $dataQuery.isLoading || $dataQuery.isFetching || ($searchedQuery.isPending && !$searchedQuery.isFetching)}
+						{:else if searchedQueryLoading}
 							<p>...loading searched emojis</p>
 						{:else}
 							<p class="p-2 text-sm text-mauve-11">
@@ -467,7 +499,7 @@
 											data-emoji={$dataQuery.data.emojis[
 												emoji
 											].skins[0].native}
-											class="m-0.5 w-[34px] flex justify-center !p-1 rounded-full"
+											class="m-0.5 w-[34px] flex justify-center !p-1 rounded-full scroll-mt-[47px]"
 										>
 											{$dataQuery.data.emojis[emoji]
 												.skins[0].native}
