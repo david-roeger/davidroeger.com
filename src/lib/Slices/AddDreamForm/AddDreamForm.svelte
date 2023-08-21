@@ -2,7 +2,6 @@
 	import { getContext } from 'svelte';
 
 	import { superForm } from 'sveltekit-superforms/client';
-	import SuperDebug from 'sveltekit-superforms/client/SuperDebug.svelte';
 	import type { User } from 'lucia';
 	import { useQueryClient } from '@tanstack/svelte-query';
 
@@ -10,12 +9,11 @@
 
 	import { DREAMS_KEYS } from '$routes/experimental/dreams/constants';
 
-	import {Button} from '$components/Button';
-	import {EmojiPicker} from '$components/EmojiPicker';
-	import {Dialog} from '$components/Dialog';
+	import { Button } from '$components/Button';
+	import { EmojiPicker } from '$components/EmojiPicker';
+	import { Dialog } from '$components/Dialog';
 
 	import type { NotificationContext } from '$provider/NotificationProvider/types';
-
 
 	import {
 		addDreamFormSchema,
@@ -229,7 +227,6 @@
 			{/if}
 		</Button>
 	</form>
-	<SuperDebug data={$form} />
 </Dialog>
 
 <!-- <form
