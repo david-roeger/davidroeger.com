@@ -4,7 +4,7 @@ logger.page('experimental/dreams: +page.ts');
 import type { Pageable } from '$components/Pagination/types';
 
 import { ensurePositiveInteger, safeUrlParam } from '$utils/Url';
-import { logger } from '$utils';
+import { logger } from '$utils/logger';
 
 import type { Dream } from '$types';
 

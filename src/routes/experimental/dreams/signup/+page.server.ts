@@ -6,7 +6,7 @@ import { fail, redirect } from '@sveltejs/kit';
 import { LuciaError } from 'lucia';
 
 import { auth } from '$utils/Lucia/lucia';
-import { logger } from '$utils';
+import { logger } from '$utils/logger';
 
 import type { PageServerLoad, Actions } from './$types';
 

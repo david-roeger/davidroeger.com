@@ -4,19 +4,19 @@
 
 	import { goto } from '$app/navigation';
 
-	import {Head} from '$components/Head';
-	import {Headline} from '$components/Headline';
-	import {AccessibleIcon} from '$components/AccessibleIcon';
+	import { Head } from '$components/Head';
+	import { Headline } from '$components/Headline';
+	import { AccessibleIcon } from '$components/AccessibleIcon';
 
-	import {ContactForm} from '$slices/ContactForm';
-	import {LightBox} from '$slices/LightBox';
+	import { ContactForm } from '$slices/ContactForm';
+	import { LightBox } from '$slices/LightBox';
 
 	import TagIcon from '$assets/Icons/24/tag.svg?component';
 	import LinkIcon from '$assets/Icons/24/link.svg?component';
 	import GithubIcon from '$assets/Icons/24/github.svg?component';
 	import pmd from '$assets/projectsMediaData.json';
 
-	import { logger } from '$utils';
+	import { logger } from '$utils/logger';
 
 	import type { Media as MediaType, ProjectsMediaData } from '$types';
 	// ----------------------------------------------------------------

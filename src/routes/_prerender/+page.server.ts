@@ -5,7 +5,7 @@ import { error } from '@sveltejs/kit';
 
 import type { ProjectMetaData } from '$types';
 
-import { logger } from '$utils';
+import { logger } from '$utils/logger';
 
 import { _handler } from '$routes/_api/projects/+server';
 

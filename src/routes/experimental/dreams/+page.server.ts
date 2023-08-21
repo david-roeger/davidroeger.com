@@ -11,7 +11,7 @@ import {
 	type ZodAddDreamForm
 } from '$slices/AddDreamForm/constants';
 
-import { logger } from '$utils';
+import { logger } from '$utils/logger';
 import client from '$utils/Db/client';
 
 import type { Actions, PageServerLoad } from './$types';

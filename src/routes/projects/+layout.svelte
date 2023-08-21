@@ -4,7 +4,7 @@
 
 	import { Background } from '$components/Background';
 
-	import { logger } from '$utils';
+	import { logger } from '$utils/logger';
 </script>
 
 <Background

@@ -4,12 +4,12 @@
 
 	import { getContext } from 'svelte';
 
-	import {EmojiPicker} from '$components/EmojiPicker';
-	import {Button} from '$components/Button';
+	import { EmojiPicker } from '$components/EmojiPicker';
+	import { Button } from '$components/Button';
 
 	import type { NotificationContext } from '$provider/NotificationProvider/types';
 
-	import { logger } from '$utils';
+	import { logger } from '$utils/logger';
 
 	const notificationContext: NotificationContext = getContext('notification');
 

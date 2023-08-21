@@ -1,7 +1,7 @@
 logger.page('about/music: +page.ts');
 // ----------------------------------------------------------------
 
-import { logger } from '$utils';
+import { logger } from '$utils/logger';
 
 import type { PageLoad } from './$types';
 

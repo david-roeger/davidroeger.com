@@ -23,7 +23,8 @@
 	import { AccessibleIcon } from '$components/AccessibleIcon';
 	import { DefaultHead } from '$components/Head';
 
-	import { logger, mapToRange } from '$utils';
+	import { mapToRange } from '$utils';
+	import { logger } from '$utils/logger';
 
 	import type { LayoutData } from './$types';
 	import MiniPlayerProvider from '$provider/MiniPlayerProvider/MiniPlayerProvider.svelte';

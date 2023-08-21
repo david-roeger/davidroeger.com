@@ -2,9 +2,9 @@
 	logger.page('experimental/dreams:  +layout.svelte');
 	// ----------------------------------------------------------------
 
-	import {Head} from '$components/Head';
+	import { Head } from '$components/Head';
 
-	import { logger } from '$utils';
+	import { logger } from '$utils/logger';
 </script>
 
 <Head

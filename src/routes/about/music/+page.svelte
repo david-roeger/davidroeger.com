@@ -17,7 +17,8 @@
 
 	import { preload } from '$actions/preload';
 
-	import { toBase64, logger } from '$utils';
+	import { toBase64 } from '$utils';
+	import { logger } from '$utils/logger';
 	import { queryParam } from '$utils/Store/queryParam';
 
 	import {
@@ -179,14 +180,16 @@
 										'tracks',
 										range.value
 									),
-									queryFn: () => queryFn('tracks', range.value)
+									queryFn: () =>
+										queryFn('tracks', range.value)
 								});
 								data.queryClient.prefetchQuery({
 									queryKey: MUSIC_KEYS.range(
 										'artists',
 										range.value
 									),
-									queryFn: () => queryFn('artists', range.value)
+									queryFn: () =>
+										queryFn('artists', range.value)
 								});
 							}}
 						>

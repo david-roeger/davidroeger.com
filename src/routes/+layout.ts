@@ -5,7 +5,7 @@ import { QueryClient } from '@tanstack/svelte-query';
 
 import { browser } from '$app/environment';
 
-import { logger } from '$utils';
+import { logger } from '$utils/logger';
 
 import type { LayoutLoad } from './$types';
 

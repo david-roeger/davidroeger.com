@@ -15,7 +15,7 @@ import type {
 
 import { rangeSchema as baseRangeSchema } from '$routes/about/music/constants';
 
-import { logger } from '$utils';
+import { logger } from '$utils/logger';
 
 import type { RequestHandler } from './$types';
 

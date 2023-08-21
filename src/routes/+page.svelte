@@ -9,13 +9,14 @@
 
 	import { page } from '$app/stores';
 
-	import {Head} from '$components/Head';
-	import {Logo} from '$components/Logo';
-	import {Displace} from '$components/Displace';
+	import { Head } from '$components/Head';
+	import { Logo } from '$components/Logo';
+	import { Displace } from '$components/Displace';
 
-	import {HireMe} from '$slices/HireMe';
+	import { HireMe } from '$slices/HireMe';
 
-	import { debounce, limit, logger, mapToRange } from '$utils';
+	import { debounce, limit, mapToRange } from '$utils';
+	import { logger } from '$utils/logger';
 
 	const easing = BezierEasing(0.4, 0, 0.2, 1);
 

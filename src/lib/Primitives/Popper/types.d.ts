@@ -32,7 +32,7 @@ export interface RootContext {
 }
 
 export type Axis = 'x' | 'y';
-export type Side = typeof SIDE_OPTIONS[number];
-export type Align = typeof ALIGN_OPTIONS[number];
+export type Side = (typeof SIDE_OPTIONS)[number];
+export type Align = (typeof ALIGN_OPTIONS)[number];
 export type Point = { x: number; y: number };
 export type Size = { width: number; height: number };

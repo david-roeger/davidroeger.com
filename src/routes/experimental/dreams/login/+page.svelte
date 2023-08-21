@@ -4,7 +4,7 @@
 
 	import { enhance } from '$app/forms';
 
-	import { logger } from '$utils';
+	import { logger } from '$utils/logger';
 </script>
 
 <h1>Sign in</h1>

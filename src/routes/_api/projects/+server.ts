@@ -5,7 +5,7 @@ import { error, json } from '@sveltejs/kit';
 
 import type { ProjectFrontMatter } from '$types';
 
-import { logger } from '$utils';
+import { logger } from '$utils/logger';
 
 import type { RequestHandler } from './$types';
 

@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { useQueryClient } from '@tanstack/svelte-query';
-
 	import * as VisuallyHidden from '$primitives/VisuallyHidden';
 
 	import { AccessibleIcon } from '$components/AccessibleIcon';

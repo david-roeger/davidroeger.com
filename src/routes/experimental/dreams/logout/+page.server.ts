@@ -3,7 +3,7 @@ logger.page('experimental/dream/logout: +page.server.ts');
 
 import { redirect } from '@sveltejs/kit';
 
-import { logger } from '$utils';
+import { logger } from '$utils/logger';
 import { auth } from '$utils/Lucia/lucia';
 
 import type { Actions } from './$types';

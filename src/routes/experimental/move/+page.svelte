@@ -15,7 +15,7 @@
 	import East from '$assets/Icons/24/east.svg?component';
 	import South from '$assets/Icons/24/south.svg?component';
 
-	import { logger } from '$utils';
+	import { logger } from '$utils/logger';
 
 	type ImageData = {
 		img: HTMLImageElement;

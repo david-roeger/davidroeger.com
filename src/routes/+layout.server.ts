@@ -6,7 +6,7 @@ import { superValidate } from 'sveltekit-superforms/server';
 import { contactFormSchema } from '$slices/ContactForm/constants';
 import { addDreamFormSchema } from '$slices/AddDreamForm/constants';
 
-import { logger } from '$utils';
+import { logger } from '$utils/logger';
 
 import type { LayoutServerLoad } from './$types';
 
