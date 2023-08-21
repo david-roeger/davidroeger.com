@@ -1919,7 +1919,7 @@
 			"id": "grinning",
 			"name": "Grinning Face",
 			"emoticons": [":D"],
-			"keywords": ["smile", "happy", "joy", ":D"],
+			"keywords": ["smile", "happy", "joy", ":D", "grin"],
 			"skins": [{ "unified": "1f600", "native": "😀" }],
 			"version": 1
 		},
@@ -2015,7 +2015,7 @@
 		"upside_down_face": {
 			"id": "upside_down_face",
 			"name": "Upside-Down Face",
-			"keywords": ["flipped", "silly", "smile"],
+			"keywords": ["upside", "down", "flipped", "silly", "smile"],
 			"skins": [{ "unified": "1f643", "native": "🙃" }],
 			"version": 1
 		},
@@ -2031,6 +2031,7 @@
 			"name": "Winking Face",
 			"emoticons": [";)", ";-)"],
 			"keywords": [
+				"wink",
 				"happy",
 				"mischievous",
 				"secret",
@@ -2085,6 +2086,8 @@
 			"id": "heart_eyes",
 			"name": "Smiling Face with Heart-Eyes",
 			"keywords": [
+				"heart",
+				"eyes",
 				"love",
 				"like",
 				"affection",
@@ -2098,7 +2101,16 @@
 		"star-struck": {
 			"id": "star-struck",
 			"name": "Star-Struck",
-			"keywords": ["grinning", "face", "with", "eyes", "smile", "starry"],
+			"keywords": [
+				"star",
+				"struck",
+				"grinning",
+				"face",
+				"with",
+				"eyes",
+				"smile",
+				"starry"
+			],
 			"skins": [{ "unified": "1f929", "native": "🤩" }],
 			"version": 5
 		},
@@ -2121,7 +2133,14 @@
 		"kissing": {
 			"id": "kissing",
 			"name": "Kissing Face",
-			"keywords": ["love", "like", "3", "valentines", "infatuation"],
+			"keywords": [
+				"love",
+				"like",
+				"3",
+				"valentines",
+				"infatuation",
+				"kiss"
+			],
 			"skins": [{ "unified": "1f617", "native": "😗" }],
 			"version": 1
 		},
@@ -2140,7 +2159,8 @@
 				"like",
 				"affection",
 				"valentines",
-				"infatuation"
+				"infatuation",
+				"kiss"
 			],
 			"skins": [{ "unified": "1f61a", "native": "😚" }],
 			"version": 1
@@ -2148,7 +2168,7 @@
 		"kissing_smiling_eyes": {
 			"id": "kissing_smiling_eyes",
 			"name": "Kissing Face with Smiling Eyes",
-			"keywords": ["affection", "valentines", "infatuation"],
+			"keywords": ["affection", "valentines", "infatuation", "kiss"],
 			"skins": [{ "unified": "1f619", "native": "😙" }],
 			"version": 1
 		},
@@ -2205,7 +2225,8 @@
 				"childish",
 				"playful",
 				"mischievous",
-				"smile"
+				"smile",
+				"wink"
 			],
 			"skins": [{ "unified": "1f61c", "native": "😜" }],
 			"version": 1
@@ -2246,14 +2267,14 @@
 		"money_mouth_face": {
 			"id": "money_mouth_face",
 			"name": "Money-Mouth Face",
-			"keywords": ["rich", "dollar"],
+			"keywords": ["money", "mouth", "rich", "dollar"],
 			"skins": [{ "unified": "1f911", "native": "🤑" }],
 			"version": 1
 		},
 		"hugging_face": {
 			"id": "hugging_face",
 			"name": "Hugging Face",
-			"keywords": ["smile"],
+			"keywords": ["smile", "hug"],
 			"skins": [{ "unified": "1f917", "native": "🤗" }],
 			"version": 1
 		},
@@ -2263,6 +2284,7 @@
 			"keywords": [
 				"smiling",
 				"eyes",
+				"and",
 				"covering",
 				"whoops",
 				"shock",
@@ -2303,7 +2325,7 @@
 		"thinking_face": {
 			"id": "thinking_face",
 			"name": "Thinking Face",
-			"keywords": ["hmmm", "consider"],
+			"keywords": ["hmmm", "think", "consider"],
 			"skins": [{ "unified": "1f914", "native": "🤔" }],
 			"version": 1
 		},
@@ -2317,7 +2339,7 @@
 		"zipper_mouth_face": {
 			"id": "zipper_mouth_face",
 			"name": "Zipper-Mouth Face",
-			"keywords": ["sealed", "secret"],
+			"keywords": ["zipper", "mouth", "sealed", "secret"],
 			"skins": [{ "unified": "1f910", "native": "🤐" }],
 			"version": 1
 		},
@@ -2339,7 +2361,7 @@
 			"id": "neutral_face",
 			"name": "Neutral Face",
 			"emoticons": [":|", ":-|"],
-			"keywords": ["indifference", "meh", ":"],
+			"keywords": ["indifference", "meh", ":", ""],
 			"skins": [{ "unified": "1f610", "native": "😐" }],
 			"version": 1
 		},
@@ -2347,7 +2369,7 @@
 			"id": "expressionless",
 			"name": "Expressionless Face",
 			"emoticons": ["-_-"],
-			"keywords": ["indifferent", "-", "meh", "deadpan"],
+			"keywords": ["indifferent", "-", "", "meh", "deadpan"],
 			"skins": [{ "unified": "1f611", "native": "😑" }],
 			"version": 1
 		},
@@ -2369,15 +2391,13 @@
 			"id": "face_in_clouds",
 			"name": "Face in Clouds",
 			"keywords": ["shower", "steam", "dream"],
-			"skins": [
-				{ "unified": "1f636-200d-1f32b-fe0f", "native": "😶‍🌫️" }
-			],
+			"skins": [{ "unified": "1f636-200d-1f32b-fe0f", "native": "😶‍🌫️" }],
 			"version": 13.1
 		},
 		"smirk": {
 			"id": "smirk",
 			"name": "Smirking Face",
-			"keywords": ["smile", "mean", "prank", "smug", "sarcasm"],
+			"keywords": ["smirk", "smile", "mean", "prank", "smug", "sarcasm"],
 			"skins": [{ "unified": "1f60f", "native": "😏" }],
 			"version": 1
 		},
@@ -2480,7 +2500,7 @@
 		"face_with_head_bandage": {
 			"id": "face_with_head_bandage",
 			"name": "Face with Head-Bandage",
-			"keywords": ["injured", "clumsy", "hurt"],
+			"keywords": ["head", "bandage", "injured", "clumsy", "hurt"],
 			"skins": [{ "unified": "1f915", "native": "🤕" }],
 			"version": 1
 		},
@@ -2580,7 +2600,7 @@
 			"id": "sunglasses",
 			"name": "Smiling Face with Sunglasses",
 			"emoticons": ["8)"],
-			"keywords": ["cool", "smile", "summer", "beach"],
+			"keywords": ["cool", "smile", "summer", "beach", "sunglass"],
 			"skins": [{ "unified": "1f60e", "native": "😎" }],
 			"version": 1
 		},
@@ -2630,7 +2650,7 @@
 		"white_frowning_face": {
 			"id": "white_frowning_face",
 			"name": "Frowning Face",
-			"keywords": ["white", "sad", "upset"],
+			"keywords": ["white", "sad", "upset", "frown"],
 			"skins": [{ "unified": "2639-fe0f", "native": "☹️" }],
 			"version": 1
 		},
@@ -2717,7 +2737,7 @@
 			"id": "cry",
 			"name": "Crying Face",
 			"emoticons": [":'("],
-			"keywords": ["tears", "sad", "depressed", "upset", ":'("],
+			"keywords": ["cry", "tears", "sad", "depressed", "upset", ":'("],
 			"skins": [{ "unified": "1f622", "native": "😢" }],
 			"version": 1
 		},
@@ -2725,14 +2745,14 @@
 			"id": "sob",
 			"name": "Loudly Crying Face",
 			"emoticons": [":'("],
-			"keywords": ["sob", "tears", "sad", "upset", "depressed"],
+			"keywords": ["sob", "cry", "tears", "sad", "upset", "depressed"],
 			"skins": [{ "unified": "1f62d", "native": "😭" }],
 			"version": 1
 		},
 		"scream": {
 			"id": "scream",
 			"name": "Face Screaming in Fear",
-			"keywords": ["munch", "scared", "omg"],
+			"keywords": ["scream", "munch", "scared", "omg"],
 			"skins": [{ "unified": "1f631", "native": "😱" }],
 			"version": 1
 		},
@@ -2937,7 +2957,7 @@
 		"robot_face": {
 			"id": "robot_face",
 			"name": "Robot",
-			"keywords": ["face", "computer", "machine"],
+			"keywords": ["face", "computer", "machine", "bot"],
 			"skins": [{ "unified": "1f916", "native": "🤖" }],
 			"version": 1
 		},
@@ -2966,6 +2986,8 @@
 			"id": "heart_eyes_cat",
 			"name": "Smiling Cat with Heart-Eyes",
 			"keywords": [
+				"heart",
+				"eyes",
 				"animal",
 				"love",
 				"like",
@@ -2986,7 +3008,7 @@
 		"kissing_cat": {
 			"id": "kissing_cat",
 			"name": "Kissing Cat",
-			"keywords": ["animal", "cats"],
+			"keywords": ["animal", "cats", "kiss"],
 			"skins": [{ "unified": "1f63d", "native": "😽" }],
 			"version": 1
 		},
@@ -3007,7 +3029,8 @@
 				"weep",
 				"sad",
 				"cats",
-				"upset"
+				"upset",
+				"cry"
 			],
 			"skins": [{ "unified": "1f63f", "native": "😿" }],
 			"version": 1
@@ -3022,21 +3045,21 @@
 		"see_no_evil": {
 			"id": "see_no_evil",
 			"name": "See-No-Evil Monkey",
-			"keywords": ["animal", "nature", "haha"],
+			"keywords": ["see", "no", "evil", "animal", "nature", "haha"],
 			"skins": [{ "unified": "1f648", "native": "🙈" }],
 			"version": 1
 		},
 		"hear_no_evil": {
 			"id": "hear_no_evil",
 			"name": "Hear-No-Evil Monkey",
-			"keywords": ["animal", "nature"],
+			"keywords": ["hear", "no", "evil", "animal", "nature"],
 			"skins": [{ "unified": "1f649", "native": "🙉" }],
 			"version": 1
 		},
 		"speak_no_evil": {
 			"id": "speak_no_evil",
 			"name": "Speak-No-Evil Monkey",
-			"keywords": ["animal", "nature", "omg"],
+			"keywords": ["speak", "no", "evil", "animal", "nature", "omg"],
 			"skins": [{ "unified": "1f64a", "native": "🙊" }],
 			"version": 1
 		},
@@ -3126,7 +3149,7 @@
 		"two_hearts": {
 			"id": "two_hearts",
 			"name": "Two Hearts",
-			"keywords": ["love", "like", "affection", "valentines"],
+			"keywords": ["love", "like", "affection", "valentines", "heart"],
 			"skins": [{ "unified": "1f495", "native": "💕" }],
 			"version": 1
 		},
@@ -3526,7 +3549,7 @@
 		"v": {
 			"id": "v",
 			"name": "Victory Hand",
-			"keywords": ["fingers", "ohyeah", "peace", "two"],
+			"keywords": ["v", "fingers", "ohyeah", "peace", "two"],
 			"skins": [
 				{ "unified": "270c-fe0f", "native": "✌️" },
 				{ "unified": "270c-1f3fb", "native": "✌🏻" },
@@ -3576,7 +3599,7 @@
 		"i_love_you_hand_sign": {
 			"id": "i_love_you_hand_sign",
 			"name": "Love-You Gesture",
-			"keywords": ["i", "hand", "sign", "fingers"],
+			"keywords": ["i", "love", "you", "hand", "sign", "fingers"],
 			"skins": [
 				{ "unified": "1f91f", "native": "🤟" },
 				{ "unified": "1f91f-1f3fb", "native": "🤟🏻" },
@@ -3618,7 +3641,7 @@
 		"point_left": {
 			"id": "point_left",
 			"name": "Backhand Index Pointing Left",
-			"keywords": ["direction", "fingers"],
+			"keywords": ["point", "direction", "fingers", "hand"],
 			"skins": [
 				{ "unified": "1f448", "native": "👈" },
 				{ "unified": "1f448-1f3fb", "native": "👈🏻" },
@@ -3632,7 +3655,7 @@
 		"point_right": {
 			"id": "point_right",
 			"name": "Backhand Index Pointing Right",
-			"keywords": ["fingers", "direction"],
+			"keywords": ["point", "fingers", "hand", "direction"],
 			"skins": [
 				{ "unified": "1f449", "native": "👉" },
 				{ "unified": "1f449-1f3fb", "native": "👉🏻" },
@@ -3646,7 +3669,7 @@
 		"point_up_2": {
 			"id": "point_up_2",
 			"name": "Backhand Index Pointing Up",
-			"keywords": ["2", "fingers", "direction"],
+			"keywords": ["point", "2", "fingers", "hand", "direction"],
 			"skins": [
 				{ "unified": "1f446", "native": "👆" },
 				{ "unified": "1f446-1f3fb", "native": "👆🏻" },
@@ -3682,7 +3705,7 @@
 		"point_down": {
 			"id": "point_down",
 			"name": "Backhand Index Pointing Down",
-			"keywords": ["fingers", "direction"],
+			"keywords": ["point", "fingers", "hand", "direction"],
 			"skins": [
 				{ "unified": "1f447", "native": "👇" },
 				{ "unified": "1f447-1f3fb", "native": "👇🏻" },
@@ -3696,7 +3719,7 @@
 		"point_up": {
 			"id": "point_up",
 			"name": "Index Pointing Up",
-			"keywords": ["hand", "fingers", "direction"],
+			"keywords": ["point", "hand", "fingers", "direction"],
 			"skins": [
 				{ "unified": "261d-fe0f", "native": "☝️" },
 				{ "unified": "261d-1f3fb", "native": "☝🏻" },
@@ -3799,7 +3822,7 @@
 		"left-facing_fist": {
 			"id": "left-facing_fist",
 			"name": "Left-Facing Fist",
-			"keywords": ["hand", "fistbump"],
+			"keywords": ["left", "facing", "hand", "fistbump"],
 			"skins": [
 				{ "unified": "1f91b", "native": "🤛" },
 				{ "unified": "1f91b-1f3fb", "native": "🤛🏻" },
@@ -3813,7 +3836,7 @@
 		"right-facing_fist": {
 			"id": "right-facing_fist",
 			"name": "Right-Facing Fist",
-			"keywords": ["hand", "fistbump"],
+			"keywords": ["right", "facing", "hand", "fistbump"],
 			"skins": [
 				{ "unified": "1f91c", "native": "🤜" },
 				{ "unified": "1f91c-1f3fb", "native": "🤜🏻" },
@@ -3827,7 +3850,7 @@
 		"clap": {
 			"id": "clap",
 			"name": "Clapping Hands",
-			"keywords": ["praise", "applause", "congrats", "yay"],
+			"keywords": ["clap", "praise", "applause", "congrats", "yay"],
 			"skins": [
 				{ "unified": "1f44f", "native": "👏" },
 				{ "unified": "1f44f-1f3fb", "native": "👏🏻" },
@@ -3897,7 +3920,7 @@
 		"handshake": {
 			"id": "handshake",
 			"name": "Handshake",
-			"keywords": ["agreement"],
+			"keywords": ["agreement", "shake"],
 			"skins": [
 				{ "unified": "1f91d", "native": "🤝" },
 				{ "unified": "1f91d-1f3fb", "native": "🤝🏻" },
@@ -3984,7 +4007,7 @@
 		"muscle": {
 			"id": "muscle",
 			"name": "Flexed Biceps",
-			"keywords": ["muscle", "arm", "hand", "summer", "strong"],
+			"keywords": ["muscle", "arm", "flex", "hand", "summer", "strong"],
 			"skins": [
 				{ "unified": "1f4aa", "native": "💪" },
 				{ "unified": "1f4aa-1f3fb", "native": "💪🏻" },
@@ -4272,7 +4295,7 @@
 		"man_with_beard": {
 			"id": "man_with_beard",
 			"name": "Man: Beard",
-			"keywords": ["with", "facial", "hair"],
+			"keywords": ["man", "with", "facial", "hair"],
 			"skins": [
 				{ "unified": "1f9d4-200d-2642-fe0f", "native": "🧔‍♂️" },
 				{ "unified": "1f9d4-1f3fb-200d-2642-fe0f", "native": "🧔🏻‍♂️" },
@@ -4286,7 +4309,7 @@
 		"woman_with_beard": {
 			"id": "woman_with_beard",
 			"name": "Woman: Beard",
-			"keywords": ["with", "facial", "hair"],
+			"keywords": ["woman", "with", "facial", "hair"],
 			"skins": [
 				{ "unified": "1f9d4-200d-2640-fe0f", "native": "🧔‍♀️" },
 				{ "unified": "1f9d4-1f3fb-200d-2640-fe0f", "native": "🧔🏻‍♀️" },
@@ -4300,7 +4323,7 @@
 		"red_haired_man": {
 			"id": "red_haired_man",
 			"name": "Man: Red Hair",
-			"keywords": ["haired", "hairstyle"],
+			"keywords": ["haired", "man", "hairstyle"],
 			"skins": [
 				{ "unified": "1f468-200d-1f9b0", "native": "👨‍🦰" },
 				{ "unified": "1f468-1f3fb-200d-1f9b0", "native": "👨🏻‍🦰" },
@@ -4314,7 +4337,7 @@
 		"curly_haired_man": {
 			"id": "curly_haired_man",
 			"name": "Man: Curly Hair",
-			"keywords": ["haired", "hairstyle"],
+			"keywords": ["haired", "man", "hairstyle"],
 			"skins": [
 				{ "unified": "1f468-200d-1f9b1", "native": "👨‍🦱" },
 				{ "unified": "1f468-1f3fb-200d-1f9b1", "native": "👨🏻‍🦱" },
@@ -4328,7 +4351,7 @@
 		"white_haired_man": {
 			"id": "white_haired_man",
 			"name": "Man: White Hair",
-			"keywords": ["haired", "old", "elder"],
+			"keywords": ["haired", "man", "old", "elder"],
 			"skins": [
 				{ "unified": "1f468-200d-1f9b3", "native": "👨‍🦳" },
 				{ "unified": "1f468-1f3fb-200d-1f9b3", "native": "👨🏻‍🦳" },
@@ -4342,7 +4365,7 @@
 		"bald_man": {
 			"id": "bald_man",
 			"name": "Man: Bald",
-			"keywords": ["hairless"],
+			"keywords": ["man", "hairless"],
 			"skins": [
 				{ "unified": "1f468-200d-1f9b2", "native": "👨‍🦲" },
 				{ "unified": "1f468-1f3fb-200d-1f9b2", "native": "👨🏻‍🦲" },
@@ -4370,7 +4393,7 @@
 		"red_haired_woman": {
 			"id": "red_haired_woman",
 			"name": "Woman: Red Hair",
-			"keywords": ["haired", "hairstyle"],
+			"keywords": ["haired", "woman", "hairstyle"],
 			"skins": [
 				{ "unified": "1f469-200d-1f9b0", "native": "👩‍🦰" },
 				{ "unified": "1f469-1f3fb-200d-1f9b0", "native": "👩🏻‍🦰" },
@@ -4384,7 +4407,7 @@
 		"red_haired_person": {
 			"id": "red_haired_person",
 			"name": "Person: Red Hair",
-			"keywords": ["haired", "hairstyle"],
+			"keywords": ["haired", "person", "hairstyle"],
 			"skins": [
 				{ "unified": "1f9d1-200d-1f9b0", "native": "🧑‍🦰" },
 				{ "unified": "1f9d1-1f3fb-200d-1f9b0", "native": "🧑🏻‍🦰" },
@@ -4398,7 +4421,7 @@
 		"curly_haired_woman": {
 			"id": "curly_haired_woman",
 			"name": "Woman: Curly Hair",
-			"keywords": ["haired", "hairstyle"],
+			"keywords": ["haired", "woman", "hairstyle"],
 			"skins": [
 				{ "unified": "1f469-200d-1f9b1", "native": "👩‍🦱" },
 				{ "unified": "1f469-1f3fb-200d-1f9b1", "native": "👩🏻‍🦱" },
@@ -4412,7 +4435,7 @@
 		"curly_haired_person": {
 			"id": "curly_haired_person",
 			"name": "Person: Curly Hair",
-			"keywords": ["haired", "hairstyle"],
+			"keywords": ["haired", "person", "hairstyle"],
 			"skins": [
 				{ "unified": "1f9d1-200d-1f9b1", "native": "🧑‍🦱" },
 				{ "unified": "1f9d1-1f3fb-200d-1f9b1", "native": "🧑🏻‍🦱" },
@@ -4426,7 +4449,7 @@
 		"white_haired_woman": {
 			"id": "white_haired_woman",
 			"name": "Woman: White Hair",
-			"keywords": ["haired", "old", "elder"],
+			"keywords": ["haired", "woman", "old", "elder"],
 			"skins": [
 				{ "unified": "1f469-200d-1f9b3", "native": "👩‍🦳" },
 				{ "unified": "1f469-1f3fb-200d-1f9b3", "native": "👩🏻‍🦳" },
@@ -4440,7 +4463,7 @@
 		"white_haired_person": {
 			"id": "white_haired_person",
 			"name": "Person: White Hair",
-			"keywords": ["haired", "elder", "old"],
+			"keywords": ["haired", "person", "elder", "old"],
 			"skins": [
 				{ "unified": "1f9d1-200d-1f9b3", "native": "🧑‍🦳" },
 				{ "unified": "1f9d1-1f3fb-200d-1f9b3", "native": "🧑🏻‍🦳" },
@@ -4454,7 +4477,7 @@
 		"bald_woman": {
 			"id": "bald_woman",
 			"name": "Woman: Bald",
-			"keywords": ["hairless"],
+			"keywords": ["woman", "hairless"],
 			"skins": [
 				{ "unified": "1f469-200d-1f9b2", "native": "👩‍🦲" },
 				{ "unified": "1f469-1f3fb-200d-1f9b2", "native": "👩🏻‍🦲" },
@@ -4468,7 +4491,7 @@
 		"bald_person": {
 			"id": "bald_person",
 			"name": "Person: Bald",
-			"keywords": ["hairless"],
+			"keywords": ["person", "hairless"],
 			"skins": [
 				{ "unified": "1f9d1-200d-1f9b2", "native": "🧑‍🦲" },
 				{ "unified": "1f9d1-1f3fb-200d-1f9b2", "native": "🧑🏻‍🦲" },
@@ -4482,7 +4505,14 @@
 		"blond-haired-woman": {
 			"id": "blond-haired-woman",
 			"name": "Woman: Blond Hair",
-			"keywords": ["haired-woman", "female", "girl", "blonde", "person"],
+			"keywords": [
+				"haired-woman",
+				"woman",
+				"female",
+				"girl",
+				"blonde",
+				"person"
+			],
 			"skins": [
 				{ "unified": "1f471-200d-2640-fe0f", "native": "👱‍♀️" },
 				{ "unified": "1f471-1f3fb-200d-2640-fe0f", "native": "👱🏻‍♀️" },
@@ -4498,6 +4528,7 @@
 			"name": "Man: Blond Hair",
 			"keywords": [
 				"haired-man",
+				"man",
 				"male",
 				"boy",
 				"blonde",
@@ -4895,7 +4926,7 @@
 		"bow": {
 			"id": "bow",
 			"name": "Person Bowing",
-			"keywords": ["respectiful"],
+			"keywords": ["bow", "respectiful"],
 			"skins": [
 				{ "unified": "1f647", "native": "🙇" },
 				{ "unified": "1f647-1f3fb", "native": "🙇🏻" },
@@ -5723,7 +5754,7 @@
 		"firefighter": {
 			"id": "firefighter",
 			"name": "Firefighter",
-			"keywords": [],
+			"keywords": ["fire"],
 			"skins": [
 				{ "unified": "1f9d1-200d-1f692", "native": "🧑‍🚒" },
 				{ "unified": "1f9d1-1f3fb-200d-1f692", "native": "🧑🏻‍🚒" },
@@ -6236,7 +6267,7 @@
 		"breast-feeding": {
 			"id": "breast-feeding",
 			"name": "Breast-Feeding",
-			"keywords": ["nursing", "baby"],
+			"keywords": ["breast", "feeding", "nursing", "baby"],
 			"skins": [
 				{ "unified": "1f931", "native": "🤱" },
 				{ "unified": "1f931-1f3fb", "native": "🤱🏻" },
@@ -6327,7 +6358,14 @@
 		"mrs_claus": {
 			"id": "mrs_claus",
 			"name": "Mrs. Claus",
-			"keywords": ["mother", "christmas", "woman", "female", "xmas"],
+			"keywords": [
+				"mrs",
+				"mother",
+				"christmas",
+				"woman",
+				"female",
+				"xmas"
+			],
 			"skins": [
 				{ "unified": "1f936", "native": "🤶" },
 				{ "unified": "1f936-1f3fb", "native": "🤶🏻" },
@@ -6369,7 +6407,7 @@
 		"male_superhero": {
 			"id": "male_superhero",
 			"name": "Man Superhero",
-			"keywords": ["male", "good", "superpowers"],
+			"keywords": ["male", "good", "hero", "superpowers"],
 			"skins": [
 				{ "unified": "1f9b8-200d-2642-fe0f", "native": "🦸‍♂️" },
 				{ "unified": "1f9b8-1f3fb-200d-2642-fe0f", "native": "🦸🏻‍♂️" },
@@ -6593,7 +6631,7 @@
 		"merman": {
 			"id": "merman",
 			"name": "Merman",
-			"keywords": ["male", "triton"],
+			"keywords": ["man", "male", "triton"],
 			"skins": [
 				{ "unified": "1f9dc-200d-2642-fe0f", "native": "🧜‍♂️" },
 				{ "unified": "1f9dc-1f3fb-200d-2642-fe0f", "native": "🧜🏻‍♂️" },
@@ -7374,7 +7412,7 @@
 		"rowboat": {
 			"id": "rowboat",
 			"name": "Rowboat",
-			"keywords": ["person", "rowing", "sport", "move"],
+			"keywords": ["person", "rowing", "boat", "sport", "move"],
 			"skins": [
 				{ "unified": "1f6a3", "native": "🚣" },
 				{ "unified": "1f6a3-1f3fb", "native": "🚣🏻" },
@@ -7522,7 +7560,7 @@
 		"weight_lifter": {
 			"id": "weight_lifter",
 			"name": "Person Lifting Weights",
-			"keywords": ["lifter", "sports", "training", "exercise"],
+			"keywords": ["weight", "lifter", "sports", "training", "exercise"],
 			"skins": [
 				{ "unified": "1f3cb-fe0f", "native": "🏋️" },
 				{ "unified": "1f3cb-1f3fb", "native": "🏋🏻" },
@@ -7669,7 +7707,7 @@
 		"person_doing_cartwheel": {
 			"id": "person_doing_cartwheel",
 			"name": "Person Cartwheeling",
-			"keywords": ["doing", "sport", "gymnastic"],
+			"keywords": ["doing", "cartwheel", "sport", "gymnastic"],
 			"skins": [
 				{ "unified": "1f938", "native": "🤸" },
 				{ "unified": "1f938-1f3fb", "native": "🤸🏻" },
@@ -8067,7 +8105,7 @@
 		"woman-kiss-man": {
 			"id": "woman-kiss-man",
 			"name": "Kiss: Woman, Man",
-			"keywords": ["kiss-man", "love"],
+			"keywords": ["woman", "kiss-man", "kiss", "love"],
 			"skins": [
 				{
 					"unified": "1f469-200d-2764-fe0f-200d-1f48b-200d-1f468",
@@ -8101,6 +8139,7 @@
 			"name": "Kiss: Man, Man",
 			"keywords": [
 				"kiss-man",
+				"kiss",
 				"pair",
 				"valentines",
 				"love",
@@ -8141,6 +8180,7 @@
 			"name": "Kiss: Woman, Woman",
 			"keywords": [
 				"kiss-woman",
+				"kiss",
 				"pair",
 				"valentines",
 				"love",
@@ -8202,7 +8242,7 @@
 		"woman-heart-man": {
 			"id": "woman-heart-man",
 			"name": "Couple with Heart: Woman, Man",
-			"keywords": ["heart-man", "love"],
+			"keywords": ["woman", "heart-man", "heart", "love"],
 			"skins": [
 				{
 					"unified": "1f469-200d-2764-fe0f-200d-1f468",
@@ -8236,6 +8276,7 @@
 			"name": "Couple with Heart: Man, Man",
 			"keywords": [
 				"heart-man",
+				"heart",
 				"pair",
 				"love",
 				"like",
@@ -8278,6 +8319,7 @@
 			"name": "Couple with Heart: Woman, Woman",
 			"keywords": [
 				"heart-woman",
+				"heart",
 				"pair",
 				"love",
 				"like",
@@ -8335,7 +8377,7 @@
 		"man-woman-boy": {
 			"id": "man-woman-boy",
 			"name": "Family: Man, Woman, Boy",
-			"keywords": ["woman-boy", "love"],
+			"keywords": ["man", "woman-boy", "family", "woman", "love"],
 			"skins": [
 				{ "unified": "1f468-200d-1f469-200d-1f466", "native": "👨‍👩‍👦" }
 			],
@@ -8345,7 +8387,10 @@
 			"id": "man-woman-girl",
 			"name": "Family: Man, Woman, Girl",
 			"keywords": [
+				"man",
 				"woman-girl",
+				"family",
+				"woman",
 				"home",
 				"parents",
 				"people",
@@ -8361,7 +8406,11 @@
 			"id": "man-woman-girl-boy",
 			"name": "Family: Man, Woman, Girl, Boy",
 			"keywords": [
+				"man",
 				"woman-girl-boy",
+				"family",
+				"woman",
+				"girl",
 				"home",
 				"parents",
 				"people",
@@ -8380,7 +8429,10 @@
 			"id": "man-woman-boy-boy",
 			"name": "Family: Man, Woman, Boy, Boy",
 			"keywords": [
+				"man",
 				"woman-boy-boy",
+				"family",
+				"woman",
 				"home",
 				"parents",
 				"people",
@@ -8399,7 +8451,10 @@
 			"id": "man-woman-girl-girl",
 			"name": "Family: Man, Woman, Girl, Girl",
 			"keywords": [
+				"man",
 				"woman-girl-girl",
+				"family",
+				"woman",
 				"home",
 				"parents",
 				"people",
@@ -8418,7 +8473,9 @@
 			"id": "man-man-boy",
 			"name": "Family: Man, Man, Boy",
 			"keywords": [
+				"man",
 				"man-boy",
+				"family",
 				"home",
 				"parents",
 				"people",
@@ -8434,7 +8491,9 @@
 			"id": "man-man-girl",
 			"name": "Family: Man, Man, Girl",
 			"keywords": [
+				"man",
 				"man-girl",
+				"family",
 				"home",
 				"parents",
 				"people",
@@ -8450,7 +8509,10 @@
 			"id": "man-man-girl-boy",
 			"name": "Family: Man, Man, Girl, Boy",
 			"keywords": [
+				"man",
 				"man-girl-boy",
+				"family",
+				"girl",
 				"home",
 				"parents",
 				"people",
@@ -8469,7 +8531,9 @@
 			"id": "man-man-boy-boy",
 			"name": "Family: Man, Man, Boy, Boy",
 			"keywords": [
+				"man",
 				"man-boy-boy",
+				"family",
 				"home",
 				"parents",
 				"people",
@@ -8488,7 +8552,9 @@
 			"id": "man-man-girl-girl",
 			"name": "Family: Man, Man, Girl, Girl",
 			"keywords": [
+				"man",
 				"man-girl-girl",
+				"family",
 				"home",
 				"parents",
 				"people",
@@ -8507,7 +8573,9 @@
 			"id": "woman-woman-boy",
 			"name": "Family: Woman, Woman, Boy",
 			"keywords": [
+				"woman",
 				"woman-boy",
+				"family",
 				"home",
 				"parents",
 				"people",
@@ -8523,7 +8591,9 @@
 			"id": "woman-woman-girl",
 			"name": "Family: Woman, Woman, Girl",
 			"keywords": [
+				"woman",
 				"woman-girl",
+				"family",
 				"home",
 				"parents",
 				"people",
@@ -8539,7 +8609,10 @@
 			"id": "woman-woman-girl-boy",
 			"name": "Family: Woman, Woman, Girl, Boy",
 			"keywords": [
+				"woman",
 				"woman-girl-boy",
+				"family",
+				"girl",
 				"home",
 				"parents",
 				"people",
@@ -8558,7 +8631,9 @@
 			"id": "woman-woman-boy-boy",
 			"name": "Family: Woman, Woman, Boy, Boy",
 			"keywords": [
+				"woman",
 				"woman-boy-boy",
+				"family",
 				"home",
 				"parents",
 				"people",
@@ -8577,7 +8652,9 @@
 			"id": "woman-woman-girl-girl",
 			"name": "Family: Woman, Woman, Girl, Girl",
 			"keywords": [
+				"woman",
 				"woman-girl-girl",
+				"family",
 				"home",
 				"parents",
 				"people",
@@ -8595,7 +8672,15 @@
 		"man-boy": {
 			"id": "man-boy",
 			"name": "Family: Man, Boy",
-			"keywords": ["home", "parent", "people", "human", "child"],
+			"keywords": [
+				"man",
+				"family",
+				"home",
+				"parent",
+				"people",
+				"human",
+				"child"
+			],
 			"skins": [{ "unified": "1f468-200d-1f466", "native": "👨‍👦" }],
 			"version": 4
 		},
@@ -8603,7 +8688,9 @@
 			"id": "man-boy-boy",
 			"name": "Family: Man, Boy, Boy",
 			"keywords": [
+				"man",
 				"boy-boy",
+				"family",
 				"home",
 				"parent",
 				"people",
@@ -8618,7 +8705,15 @@
 		"man-girl": {
 			"id": "man-girl",
 			"name": "Family: Man, Girl",
-			"keywords": ["home", "parent", "people", "human", "child"],
+			"keywords": [
+				"man",
+				"family",
+				"home",
+				"parent",
+				"people",
+				"human",
+				"child"
+			],
 			"skins": [{ "unified": "1f468-200d-1f467", "native": "👨‍👧" }],
 			"version": 4
 		},
@@ -8626,7 +8721,10 @@
 			"id": "man-girl-boy",
 			"name": "Family: Man, Girl, Boy",
 			"keywords": [
+				"man",
 				"girl-boy",
+				"family",
+				"girl",
 				"home",
 				"parent",
 				"people",
@@ -8642,7 +8740,9 @@
 			"id": "man-girl-girl",
 			"name": "Family: Man, Girl, Girl",
 			"keywords": [
+				"man",
 				"girl-girl",
+				"family",
 				"home",
 				"parent",
 				"people",
@@ -8657,7 +8757,15 @@
 		"woman-boy": {
 			"id": "woman-boy",
 			"name": "Family: Woman, Boy",
-			"keywords": ["home", "parent", "people", "human", "child"],
+			"keywords": [
+				"woman",
+				"family",
+				"home",
+				"parent",
+				"people",
+				"human",
+				"child"
+			],
 			"skins": [{ "unified": "1f469-200d-1f466", "native": "👩‍👦" }],
 			"version": 4
 		},
@@ -8665,7 +8773,9 @@
 			"id": "woman-boy-boy",
 			"name": "Family: Woman, Boy, Boy",
 			"keywords": [
+				"woman",
 				"boy-boy",
+				"family",
 				"home",
 				"parent",
 				"people",
@@ -8680,7 +8790,15 @@
 		"woman-girl": {
 			"id": "woman-girl",
 			"name": "Family: Woman, Girl",
-			"keywords": ["home", "parent", "people", "human", "child"],
+			"keywords": [
+				"woman",
+				"family",
+				"home",
+				"parent",
+				"people",
+				"human",
+				"child"
+			],
 			"skins": [{ "unified": "1f469-200d-1f467", "native": "👩‍👧" }],
 			"version": 4
 		},
@@ -8688,7 +8806,10 @@
 			"id": "woman-girl-boy",
 			"name": "Family: Woman, Girl, Boy",
 			"keywords": [
+				"woman",
 				"girl-boy",
+				"family",
+				"girl",
 				"home",
 				"parent",
 				"people",
@@ -8704,7 +8825,9 @@
 			"id": "woman-girl-girl",
 			"name": "Family: Woman, Girl, Girl",
 			"keywords": [
+				"woman",
 				"girl-girl",
+				"family",
 				"home",
 				"parent",
 				"people",
@@ -8720,6 +8843,7 @@
 			"id": "speaking_head_in_silhouette",
 			"name": "Speaking Head",
 			"keywords": [
+				"in",
 				"silhouette",
 				"user",
 				"person",
@@ -9292,7 +9416,14 @@
 		"hatched_chick": {
 			"id": "hatched_chick",
 			"name": "Front-Facing Baby Chick",
-			"keywords": ["hatched", "animal", "chicken", "bird"],
+			"keywords": [
+				"hatched",
+				"front",
+				"facing",
+				"animal",
+				"chicken",
+				"bird"
+			],
 			"skins": [{ "unified": "1f425", "native": "🐥" }],
 			"version": 1
 		},
@@ -9448,6 +9579,8 @@
 			"id": "t-rex",
 			"name": "T-Rex",
 			"keywords": [
+				"t",
+				"rex",
 				"animal",
 				"nature",
 				"dinosaur",
@@ -9490,7 +9623,7 @@
 		"seal": {
 			"id": "seal",
 			"name": "Seal",
-			"keywords": ["animal", "creature"],
+			"keywords": ["animal", "creature", "sea"],
 			"skins": [{ "unified": "1f9ad", "native": "🦭" }],
 			"version": 13
 		},
@@ -9590,7 +9723,15 @@
 		"bee": {
 			"id": "bee",
 			"name": "Honeybee",
-			"keywords": ["animal", "insect", "nature", "bug", "spring"],
+			"keywords": [
+				"bee",
+				"animal",
+				"insect",
+				"nature",
+				"bug",
+				"spring",
+				"honey"
+			],
 			"skins": [{ "unified": "1f41d", "native": "🐝" }],
 			"version": 1
 		},
@@ -9985,7 +10126,7 @@
 		"kiwifruit": {
 			"id": "kiwifruit",
 			"name": "Kiwifruit",
-			"keywords": ["food"],
+			"keywords": ["kiwi", "fruit", "food"],
 			"skins": [{ "unified": "1f95d", "native": "🥝" }],
 			"version": 3
 		},
@@ -10113,7 +10254,7 @@
 		"peanuts": {
 			"id": "peanuts",
 			"name": "Peanuts",
-			"keywords": ["food"],
+			"keywords": ["food", "nut"],
 			"skins": [{ "unified": "1f95c", "native": "🥜" }],
 			"version": 3
 		},
@@ -10239,6 +10380,7 @@
 				"beef",
 				"cheeseburger",
 				"mcdonalds",
+				"burger",
 				"king"
 			],
 			"skins": [{ "unified": "1f354", "native": "🍔" }],
@@ -10607,7 +10749,7 @@
 		"cake": {
 			"id": "cake",
 			"name": "Shortcake",
-			"keywords": ["food", "dessert"],
+			"keywords": ["cake", "food", "dessert"],
 			"skins": [{ "unified": "1f370", "native": "🍰" }],
 			"version": 1
 		},
@@ -10691,7 +10833,14 @@
 		"tea": {
 			"id": "tea",
 			"name": "Teacup Without Handle",
-			"keywords": ["drink", "bowl", "breakfast", "green", "british"],
+			"keywords": [
+				"tea",
+				"drink",
+				"bowl",
+				"breakfast",
+				"green",
+				"british"
+			],
 			"skins": [{ "unified": "1f375", "native": "🍵" }],
 			"version": 1
 		},
@@ -10924,7 +11073,13 @@
 		"earth_africa": {
 			"id": "earth_africa",
 			"name": "Earth Globe Europe-Africa",
-			"keywords": ["showing", "world", "international"],
+			"keywords": [
+				"africa",
+				"showing",
+				"europe",
+				"world",
+				"international"
+			],
 			"skins": [{ "unified": "1f30d", "native": "🌍" }],
 			"version": 1
 		},
@@ -10938,7 +11093,14 @@
 		"earth_asia": {
 			"id": "earth_asia",
 			"name": "Earth Globe Asia-Australia",
-			"keywords": ["showing", "world", "east", "international"],
+			"keywords": [
+				"asia",
+				"showing",
+				"australia",
+				"world",
+				"east",
+				"international"
+			],
 			"skins": [{ "unified": "1f30f", "native": "🌏" }],
 			"version": 1
 		},
@@ -10980,7 +11142,15 @@
 		"snow_capped_mountain": {
 			"id": "snow_capped_mountain",
 			"name": "Snow-Capped Mountain",
-			"keywords": ["photo", "nature", "environment", "winter", "cold"],
+			"keywords": [
+				"snow",
+				"capped",
+				"photo",
+				"nature",
+				"environment",
+				"winter",
+				"cold"
+			],
 			"skins": [{ "unified": "1f3d4-fe0f", "native": "🏔️" }],
 			"version": 1
 		},
@@ -11092,7 +11262,7 @@
 		"house_buildings": {
 			"id": "house_buildings",
 			"name": "Houses",
-			"keywords": ["buildings", "photo"],
+			"keywords": ["house", "buildings", "photo"],
 			"skins": [{ "unified": "1f3d8-fe0f", "native": "🏘️" }],
 			"version": 1
 		},
@@ -11338,7 +11508,14 @@
 		"city_sunset": {
 			"id": "city_sunset",
 			"name": "Cityscape at Dusk",
-			"keywords": ["sunset", "photo", "evening", "sky", "buildings"],
+			"keywords": [
+				"city",
+				"sunset",
+				"photo",
+				"evening",
+				"sky",
+				"buildings"
+			],
 			"skins": [{ "unified": "1f306", "native": "🌆" }],
 			"version": 1
 		},
@@ -11422,7 +11599,14 @@
 		"bullettrain_side": {
 			"id": "bullettrain_side",
 			"name": "High-Speed Train",
-			"keywords": ["bullettrain", "side", "transportation", "vehicle"],
+			"keywords": [
+				"bullettrain",
+				"side",
+				"high",
+				"speed",
+				"transportation",
+				"vehicle"
+			],
 			"skins": [{ "unified": "1f684", "native": "🚄" }],
 			"version": 1
 		},
@@ -11697,7 +11881,7 @@
 		"skateboard": {
 			"id": "skateboard",
 			"name": "Skateboard",
-			"keywords": [],
+			"keywords": ["board"],
 			"skins": [{ "unified": "1f6f9", "native": "🛹" }],
 			"version": 11
 		},
@@ -11813,6 +11997,7 @@
 			"id": "boat",
 			"name": "Sailboat",
 			"keywords": [
+				"boat",
 				"ship",
 				"summer",
 				"transportation",
@@ -12054,6 +12239,8 @@
 			"name": "Twelve O’clock",
 			"keywords": [
 				"clock12",
+				"o",
+				"clock",
 				"time",
 				"noon",
 				"midnight",
@@ -12068,77 +12255,165 @@
 		"clock1230": {
 			"id": "clock1230",
 			"name": "Twelve-Thirty",
-			"keywords": ["clock1230", "time", "late", "early", "schedule"],
+			"keywords": [
+				"clock1230",
+				"twelve",
+				"thirty",
+				"time",
+				"late",
+				"early",
+				"schedule"
+			],
 			"skins": [{ "unified": "1f567", "native": "🕧" }],
 			"version": 1
 		},
 		"clock1": {
 			"id": "clock1",
 			"name": "One O’clock",
-			"keywords": ["clock1", "time", "late", "early", "schedule"],
+			"keywords": [
+				"clock1",
+				"o",
+				"clock",
+				"time",
+				"late",
+				"early",
+				"schedule"
+			],
 			"skins": [{ "unified": "1f550", "native": "🕐" }],
 			"version": 1
 		},
 		"clock130": {
 			"id": "clock130",
 			"name": "One-Thirty",
-			"keywords": ["clock130", "time", "late", "early", "schedule"],
+			"keywords": [
+				"clock130",
+				"one",
+				"thirty",
+				"time",
+				"late",
+				"early",
+				"schedule"
+			],
 			"skins": [{ "unified": "1f55c", "native": "🕜" }],
 			"version": 1
 		},
 		"clock2": {
 			"id": "clock2",
 			"name": "Two O’clock",
-			"keywords": ["clock2", "time", "late", "early", "schedule"],
+			"keywords": [
+				"clock2",
+				"o",
+				"clock",
+				"time",
+				"late",
+				"early",
+				"schedule"
+			],
 			"skins": [{ "unified": "1f551", "native": "🕑" }],
 			"version": 1
 		},
 		"clock230": {
 			"id": "clock230",
 			"name": "Two-Thirty",
-			"keywords": ["clock230", "time", "late", "early", "schedule"],
+			"keywords": [
+				"clock230",
+				"two",
+				"thirty",
+				"time",
+				"late",
+				"early",
+				"schedule"
+			],
 			"skins": [{ "unified": "1f55d", "native": "🕝" }],
 			"version": 1
 		},
 		"clock3": {
 			"id": "clock3",
 			"name": "Three O’clock",
-			"keywords": ["clock3", "time", "late", "early", "schedule"],
+			"keywords": [
+				"clock3",
+				"o",
+				"clock",
+				"time",
+				"late",
+				"early",
+				"schedule"
+			],
 			"skins": [{ "unified": "1f552", "native": "🕒" }],
 			"version": 1
 		},
 		"clock330": {
 			"id": "clock330",
 			"name": "Three-Thirty",
-			"keywords": ["clock330", "time", "late", "early", "schedule"],
+			"keywords": [
+				"clock330",
+				"three",
+				"thirty",
+				"time",
+				"late",
+				"early",
+				"schedule"
+			],
 			"skins": [{ "unified": "1f55e", "native": "🕞" }],
 			"version": 1
 		},
 		"clock4": {
 			"id": "clock4",
 			"name": "Four O’clock",
-			"keywords": ["clock4", "time", "late", "early", "schedule"],
+			"keywords": [
+				"clock4",
+				"o",
+				"clock",
+				"time",
+				"late",
+				"early",
+				"schedule"
+			],
 			"skins": [{ "unified": "1f553", "native": "🕓" }],
 			"version": 1
 		},
 		"clock430": {
 			"id": "clock430",
 			"name": "Four-Thirty",
-			"keywords": ["clock430", "time", "late", "early", "schedule"],
+			"keywords": [
+				"clock430",
+				"four",
+				"thirty",
+				"time",
+				"late",
+				"early",
+				"schedule"
+			],
 			"skins": [{ "unified": "1f55f", "native": "🕟" }],
 			"version": 1
 		},
 		"clock5": {
 			"id": "clock5",
 			"name": "Five O’clock",
-			"keywords": ["clock5", "time", "late", "early", "schedule"],
+			"keywords": [
+				"clock5",
+				"o",
+				"clock",
+				"time",
+				"late",
+				"early",
+				"schedule"
+			],
 			"skins": [{ "unified": "1f554", "native": "🕔" }],
 			"version": 1
 		},
 		"clock530": {
 			"id": "clock530",
 			"name": "Five-Thirty",
-			"keywords": ["clock530", "time", "late", "early", "schedule"],
+			"keywords": [
+				"clock530",
+				"five",
+				"thirty",
+				"time",
+				"late",
+				"early",
+				"schedule"
+			],
 			"skins": [{ "unified": "1f560", "native": "🕠" }],
 			"version": 1
 		},
@@ -12147,6 +12422,8 @@
 			"name": "Six O’clock",
 			"keywords": [
 				"clock6",
+				"o",
+				"clock",
 				"time",
 				"late",
 				"early",
@@ -12160,77 +12437,165 @@
 		"clock630": {
 			"id": "clock630",
 			"name": "Six-Thirty",
-			"keywords": ["clock630", "time", "late", "early", "schedule"],
+			"keywords": [
+				"clock630",
+				"six",
+				"thirty",
+				"time",
+				"late",
+				"early",
+				"schedule"
+			],
 			"skins": [{ "unified": "1f561", "native": "🕡" }],
 			"version": 1
 		},
 		"clock7": {
 			"id": "clock7",
 			"name": "Seven O’clock",
-			"keywords": ["clock7", "time", "late", "early", "schedule"],
+			"keywords": [
+				"clock7",
+				"o",
+				"clock",
+				"time",
+				"late",
+				"early",
+				"schedule"
+			],
 			"skins": [{ "unified": "1f556", "native": "🕖" }],
 			"version": 1
 		},
 		"clock730": {
 			"id": "clock730",
 			"name": "Seven-Thirty",
-			"keywords": ["clock730", "time", "late", "early", "schedule"],
+			"keywords": [
+				"clock730",
+				"seven",
+				"thirty",
+				"time",
+				"late",
+				"early",
+				"schedule"
+			],
 			"skins": [{ "unified": "1f562", "native": "🕢" }],
 			"version": 1
 		},
 		"clock8": {
 			"id": "clock8",
 			"name": "Eight O’clock",
-			"keywords": ["clock8", "time", "late", "early", "schedule"],
+			"keywords": [
+				"clock8",
+				"o",
+				"clock",
+				"time",
+				"late",
+				"early",
+				"schedule"
+			],
 			"skins": [{ "unified": "1f557", "native": "🕗" }],
 			"version": 1
 		},
 		"clock830": {
 			"id": "clock830",
 			"name": "Eight-Thirty",
-			"keywords": ["clock830", "time", "late", "early", "schedule"],
+			"keywords": [
+				"clock830",
+				"eight",
+				"thirty",
+				"time",
+				"late",
+				"early",
+				"schedule"
+			],
 			"skins": [{ "unified": "1f563", "native": "🕣" }],
 			"version": 1
 		},
 		"clock9": {
 			"id": "clock9",
 			"name": "Nine O’clock",
-			"keywords": ["clock9", "time", "late", "early", "schedule"],
+			"keywords": [
+				"clock9",
+				"o",
+				"clock",
+				"time",
+				"late",
+				"early",
+				"schedule"
+			],
 			"skins": [{ "unified": "1f558", "native": "🕘" }],
 			"version": 1
 		},
 		"clock930": {
 			"id": "clock930",
 			"name": "Nine-Thirty",
-			"keywords": ["clock930", "time", "late", "early", "schedule"],
+			"keywords": [
+				"clock930",
+				"nine",
+				"thirty",
+				"time",
+				"late",
+				"early",
+				"schedule"
+			],
 			"skins": [{ "unified": "1f564", "native": "🕤" }],
 			"version": 1
 		},
 		"clock10": {
 			"id": "clock10",
 			"name": "Ten O’clock",
-			"keywords": ["clock10", "time", "late", "early", "schedule"],
+			"keywords": [
+				"clock10",
+				"o",
+				"clock",
+				"time",
+				"late",
+				"early",
+				"schedule"
+			],
 			"skins": [{ "unified": "1f559", "native": "🕙" }],
 			"version": 1
 		},
 		"clock1030": {
 			"id": "clock1030",
 			"name": "Ten-Thirty",
-			"keywords": ["clock1030", "time", "late", "early", "schedule"],
+			"keywords": [
+				"clock1030",
+				"ten",
+				"thirty",
+				"time",
+				"late",
+				"early",
+				"schedule"
+			],
 			"skins": [{ "unified": "1f565", "native": "🕥" }],
 			"version": 1
 		},
 		"clock11": {
 			"id": "clock11",
 			"name": "Eleven O’clock",
-			"keywords": ["clock11", "time", "late", "early", "schedule"],
+			"keywords": [
+				"clock11",
+				"o",
+				"clock",
+				"time",
+				"late",
+				"early",
+				"schedule"
+			],
 			"skins": [{ "unified": "1f55a", "native": "🕚" }],
 			"version": 1
 		},
 		"clock1130": {
 			"id": "clock1130",
 			"name": "Eleven-Thirty",
-			"keywords": ["clock1130", "time", "late", "early", "schedule"],
+			"keywords": [
+				"clock1130",
+				"eleven",
+				"thirty",
+				"time",
+				"late",
+				"early",
+				"schedule"
+			],
 			"skins": [{ "unified": "1f566", "native": "🕦" }],
 			"version": 1
 		},
@@ -12744,7 +13109,16 @@
 		"jack_o_lantern": {
 			"id": "jack_o_lantern",
 			"name": "Jack-O-Lantern",
-			"keywords": ["halloween", "light", "pumpkin", "creepy", "fall"],
+			"keywords": [
+				"jack",
+				"o",
+				"lantern",
+				"halloween",
+				"light",
+				"pumpkin",
+				"creepy",
+				"fall"
+			],
 			"skins": [{ "unified": "1f383", "native": "🎃" }],
 			"version": 1
 		},
@@ -13115,7 +13489,7 @@
 		"fishing_pole_and_fish": {
 			"id": "fishing_pole_and_fish",
 			"name": "Fishing Pole",
-			"keywords": ["and", "food", "hobby", "summer"],
+			"keywords": ["and", "fish", "food", "hobby", "summer"],
 			"skins": [{ "unified": "1f3a3", "native": "🎣" }],
 			"version": 1
 		},
@@ -13136,7 +13510,7 @@
 		"ski": {
 			"id": "ski",
 			"name": "Skis",
-			"keywords": ["sports", "winter", "cold", "snow"],
+			"keywords": ["ski", "sports", "winter", "cold", "snow"],
 			"skins": [{ "unified": "1f3bf", "native": "🎿" }],
 			"version": 1
 		},
@@ -13172,7 +13546,7 @@
 		"yo-yo": {
 			"id": "yo-yo",
 			"name": "Yo-Yo",
-			"keywords": ["toy"],
+			"keywords": ["yo", "toy"],
 			"skins": [{ "unified": "1fa80", "native": "🪀" }],
 			"version": 12
 		},
@@ -13363,14 +13737,14 @@
 		"frame_with_picture": {
 			"id": "frame_with_picture",
 			"name": "Framed Picture",
-			"keywords": ["with", "photography"],
+			"keywords": ["frame", "with", "photography"],
 			"skins": [{ "unified": "1f5bc-fe0f", "native": "🖼️" }],
 			"version": 1
 		},
 		"art": {
 			"id": "art",
 			"name": "Artist Palette",
-			"keywords": ["design", "paint", "draw", "colors"],
+			"keywords": ["art", "design", "paint", "draw", "colors"],
 			"skins": [{ "unified": "1f3a8", "native": "🎨" }],
 			"version": 1
 		},
@@ -13462,7 +13836,15 @@
 		"shirt": {
 			"id": "shirt",
 			"name": "T-Shirt",
-			"keywords": ["tshirt", "fashion", "cloth", "casual", "tee"],
+			"keywords": [
+				"shirt",
+				"tshirt",
+				"t",
+				"fashion",
+				"cloth",
+				"casual",
+				"tee"
+			],
 			"skins": [{ "unified": "1f455", "native": "👕" }],
 			"version": 1
 		},
@@ -13525,7 +13907,7 @@
 		"one-piece_swimsuit": {
 			"id": "one-piece_swimsuit",
 			"name": "One-Piece Swimsuit",
-			"keywords": ["fashion"],
+			"keywords": ["one", "piece", "fashion"],
 			"skins": [{ "unified": "1fa71", "native": "🩱" }],
 			"version": 12
 		},
@@ -13561,7 +13943,7 @@
 		"womans_clothes": {
 			"id": "womans_clothes",
 			"name": "Womans Clothes",
-			"keywords": ["fashion", "shopping", "bags", "female"],
+			"keywords": ["woman", "s", "fashion", "shopping", "bags", "female"],
 			"skins": [{ "unified": "1f45a", "native": "👚" }],
 			"version": 1
 		},
@@ -13616,7 +13998,7 @@
 		"mans_shoe": {
 			"id": "mans_shoe",
 			"name": "Mans Shoe",
-			"keywords": ["fashion", "male"],
+			"keywords": ["man", "s", "fashion", "male"],
 			"skins": [{ "unified": "1f45e", "native": "👞" }],
 			"version": 1
 		},
@@ -13644,14 +14026,23 @@
 		"high_heel": {
 			"id": "high_heel",
 			"name": "High-Heeled Shoe",
-			"keywords": ["fashion", "shoes", "female", "pumps", "stiletto"],
+			"keywords": [
+				"high",
+				"heel",
+				"heeled",
+				"fashion",
+				"shoes",
+				"female",
+				"pumps",
+				"stiletto"
+			],
 			"skins": [{ "unified": "1f460", "native": "👠" }],
 			"version": 1
 		},
 		"sandal": {
 			"id": "sandal",
 			"name": "Womans Sandal",
-			"keywords": ["shoes", "fashion", "flip", "flops"],
+			"keywords": ["woman", "s", "shoes", "fashion", "flip", "flops"],
 			"skins": [{ "unified": "1f461", "native": "👡" }],
 			"version": 1
 		},
@@ -13665,7 +14056,7 @@
 		"boot": {
 			"id": "boot",
 			"name": "Womans Boots",
-			"keywords": ["shoes", "fashion"],
+			"keywords": ["boot", "woman", "s", "shoes", "fashion"],
 			"skins": [{ "unified": "1f462", "native": "👢" }],
 			"version": 1
 		},
@@ -13679,7 +14070,15 @@
 		"womans_hat": {
 			"id": "womans_hat",
 			"name": "Womans Hat",
-			"keywords": ["fashion", "accessories", "female", "lady", "spring"],
+			"keywords": [
+				"woman",
+				"s",
+				"fashion",
+				"accessories",
+				"female",
+				"lady",
+				"spring"
+			],
 			"skins": [{ "unified": "1f452", "native": "👒" }],
 			"version": 1
 		},
@@ -13725,7 +14124,15 @@
 		"helmet_with_white_cross": {
 			"id": "helmet_with_white_cross",
 			"name": "Rescue Worker’s Helmet",
-			"keywords": ["with", "white", "cross", "construction", "build"],
+			"keywords": [
+				"with",
+				"white",
+				"cross",
+				"worker",
+				"s",
+				"construction",
+				"build"
+			],
 			"skins": [{ "unified": "26d1-fe0f", "native": "⛑️" }],
 			"version": 1
 		},
@@ -13770,7 +14177,7 @@
 		"mute": {
 			"id": "mute",
 			"name": "Muted Speaker",
-			"keywords": ["sound", "volume", "silence", "quiet"],
+			"keywords": ["mute", "sound", "volume", "silence", "quiet"],
 			"skins": [{ "unified": "1f507", "native": "🔇" }],
 			"version": 1
 		},
@@ -13805,7 +14212,7 @@
 		"mega": {
 			"id": "mega",
 			"name": "Megaphone",
-			"keywords": ["sound", "speaker", "volume"],
+			"keywords": ["mega", "sound", "speaker", "volume"],
 			"skins": [{ "unified": "1f4e3", "native": "📣" }],
 			"version": 1
 		},
@@ -13847,7 +14254,7 @@
 		"notes": {
 			"id": "notes",
 			"name": "Musical Notes",
-			"keywords": ["score"],
+			"keywords": ["music", "score"],
 			"skins": [{ "unified": "1f3b6", "native": "🎶" }],
 			"version": 1
 		},
@@ -13973,7 +14380,7 @@
 		"phone": {
 			"id": "phone",
 			"name": "Telephone",
-			"keywords": ["technology", "communication", "dial"],
+			"keywords": ["phone", "technology", "communication", "dial"],
 			"skins": [{ "unified": "260e-fe0f", "native": "☎️" }],
 			"version": 1
 		},
@@ -14168,21 +14575,21 @@
 		"vhs": {
 			"id": "vhs",
 			"name": "Videocassette",
-			"keywords": ["vhs", "record", "oldschool", "90s", "80s"],
+			"keywords": ["vhs", "record", "video", "oldschool", "90s", "80s"],
 			"skins": [{ "unified": "1f4fc", "native": "📼" }],
 			"version": 1
 		},
 		"mag": {
 			"id": "mag",
 			"name": "Magnifying Glass Tilted Left",
-			"keywords": ["search", "zoom", "find", "detective"],
+			"keywords": ["mag", "search", "zoom", "find", "detective"],
 			"skins": [{ "unified": "1f50d", "native": "🔍" }],
 			"version": 1
 		},
 		"mag_right": {
 			"id": "mag_right",
 			"name": "Magnifying Glass Tilted Right",
-			"keywords": ["search", "zoom", "find", "detective"],
+			"keywords": ["mag", "search", "zoom", "find", "detective"],
 			"skins": [{ "unified": "1f50e", "native": "🔎" }],
 			"version": 1
 		},
@@ -14322,7 +14729,7 @@
 		"rolled_up_newspaper": {
 			"id": "rolled_up_newspaper",
 			"name": "Rolled-Up Newspaper",
-			"keywords": ["press", "headline"],
+			"keywords": ["rolled", "up", "press", "headline"],
 			"skins": [{ "unified": "1f5de-fe0f", "native": "🗞️" }],
 			"version": 1
 		},
@@ -14443,7 +14850,7 @@
 		"e-mail": {
 			"id": "e-mail",
 			"name": "E-Mail",
-			"keywords": ["communication", "inbox"],
+			"keywords": ["e", "mail", "communication", "inbox"],
 			"skins": [{ "unified": "1f4e7", "native": "📧" }],
 			"version": 1
 		},
@@ -14499,14 +14906,14 @@
 		"mailbox_with_mail": {
 			"id": "mailbox_with_mail",
 			"name": "Open Mailbox with Raised Flag",
-			"keywords": ["email", "inbox", "communication"],
+			"keywords": ["mail", "email", "inbox", "communication"],
 			"skins": [{ "unified": "1f4ec", "native": "📬" }],
 			"version": 1
 		},
 		"mailbox_with_no_mail": {
 			"id": "mailbox_with_no_mail",
 			"name": "Open Mailbox with Lowered Flag",
-			"keywords": ["no", "email", "inbox"],
+			"keywords": ["no", "mail", "email", "inbox"],
 			"skins": [{ "unified": "1f4ed", "native": "📭" }],
 			"version": 1
 		},
@@ -14647,14 +15054,14 @@
 		"calendar": {
 			"id": "calendar",
 			"name": "Tear-off Calendar",
-			"keywords": ["schedule", "date", "planning"],
+			"keywords": ["tear", "off", "schedule", "date", "planning"],
 			"skins": [{ "unified": "1f4c6", "native": "📆" }],
 			"version": 1
 		},
 		"spiral_note_pad": {
 			"id": "spiral_note_pad",
 			"name": "Spiral Notepad",
-			"keywords": ["memo", "stationery"],
+			"keywords": ["note", "pad", "memo", "stationery"],
 			"skins": [{ "unified": "1f5d2-fe0f", "native": "🗒️" }],
 			"version": 1
 		},
@@ -14817,21 +15224,21 @@
 		"unlock": {
 			"id": "unlock",
 			"name": "Unlocked",
-			"keywords": ["privacy", "security"],
+			"keywords": ["unlock", "privacy", "security"],
 			"skins": [{ "unified": "1f513", "native": "🔓" }],
 			"version": 1
 		},
 		"lock_with_ink_pen": {
 			"id": "lock_with_ink_pen",
 			"name": "Locked with Pen",
-			"keywords": ["ink", "security", "secret"],
+			"keywords": ["lock", "ink", "security", "secret"],
 			"skins": [{ "unified": "1f50f", "native": "🔏" }],
 			"version": 1
 		},
 		"closed_lock_with_key": {
 			"id": "closed_lock_with_key",
 			"name": "Locked with Key",
-			"keywords": ["closed", "security", "privacy"],
+			"keywords": ["closed", "lock", "security", "privacy"],
 			"skins": [{ "unified": "1f510", "native": "🔐" }],
 			"version": 1
 		},
@@ -15133,7 +15540,7 @@
 		"x-ray": {
 			"id": "x-ray",
 			"name": "X-Ray",
-			"keywords": ["skeleton", "medicine"],
+			"keywords": ["x", "ray", "skeleton", "medicine"],
 			"skins": [{ "unified": "1fa7b", "native": "🩻" }],
 			"version": 14
 		},
@@ -15428,6 +15835,8 @@
 			"name": "Men’s Room",
 			"keywords": [
 				"mens",
+				"men",
+				"s",
 				"toilet",
 				"restroom",
 				"wc",
@@ -15444,6 +15853,8 @@
 			"name": "Women’s Room",
 			"keywords": [
 				"womens",
+				"women",
+				"s",
 				"purple",
 				"square",
 				"woman",
@@ -15583,14 +15994,22 @@
 		"do_not_litter": {
 			"id": "do_not_litter",
 			"name": "No Littering",
-			"keywords": ["do", "not", "trash", "bin", "garbage", "circle"],
+			"keywords": [
+				"do",
+				"not",
+				"litter",
+				"trash",
+				"bin",
+				"garbage",
+				"circle"
+			],
 			"skins": [{ "unified": "1f6af", "native": "🚯" }],
 			"version": 1
 		},
 		"non-potable_water": {
 			"id": "non-potable_water",
 			"name": "Non-Potable Water",
-			"keywords": ["drink", "faucet", "tap", "circle"],
+			"keywords": ["non", "potable", "drink", "faucet", "tap", "circle"],
 			"skins": [{ "unified": "1f6b1", "native": "🚱" }],
 			"version": 1
 		},
@@ -15649,6 +16068,8 @@
 			"name": "Up-Right Arrow",
 			"keywords": [
 				"upper",
+				"right",
+				"up",
 				"blue",
 				"square",
 				"point",
@@ -15694,6 +16115,8 @@
 			"name": "Down-Left Arrow",
 			"keywords": [
 				"lower",
+				"left",
+				"down",
 				"blue",
 				"square",
 				"direction",
@@ -15715,6 +16138,8 @@
 			"name": "Up-Left Arrow",
 			"keywords": [
 				"upper",
+				"left",
+				"up",
 				"blue",
 				"square",
 				"point",
@@ -15815,7 +16240,7 @@
 		"on": {
 			"id": "on",
 			"name": "On! Arrow",
-			"keywords": ["words"],
+			"keywords": ["on", "words"],
 			"skins": [{ "unified": "1f51b", "native": "🔛" }],
 			"version": 1
 		},
@@ -15926,7 +16351,15 @@
 		"six_pointed_star": {
 			"id": "six_pointed_star",
 			"name": "Dotted Six-Pointed Star",
-			"keywords": ["purple", "square", "religion", "jewish", "hexagram"],
+			"keywords": [
+				"six",
+				"pointed",
+				"purple",
+				"square",
+				"religion",
+				"jewish",
+				"hexagram"
+			],
 			"skins": [{ "unified": "1f52f", "native": "🔯" }],
 			"version": 1
 		},
@@ -16080,7 +16513,15 @@
 		"fast_forward": {
 			"id": "fast_forward",
 			"name": "Fast-Forward Button",
-			"keywords": ["blue", "square", "play", "speed", "continue"],
+			"keywords": [
+				"fast",
+				"forward",
+				"blue",
+				"square",
+				"play",
+				"speed",
+				"continue"
+			],
 			"skins": [{ "unified": "23e9", "native": "⏩" }],
 			"version": 1
 		},
@@ -16164,6 +16605,7 @@
 			"name": "Upwards Button",
 			"keywords": [
 				"arrow",
+				"up",
 				"small",
 				"blue",
 				"square",
@@ -16195,6 +16637,7 @@
 			"name": "Downwards Button",
 			"keywords": [
 				"arrow",
+				"down",
 				"small",
 				"blue",
 				"square",
@@ -16501,7 +16944,7 @@
 		"fleur_de_lis": {
 			"id": "fleur_de_lis",
 			"name": "Fleur-De-Lis",
-			"keywords": ["decorative", "scout"],
+			"keywords": ["fleur", "de", "lis", "decorative", "scout"],
 			"skins": [{ "unified": "269c-fe0f", "native": "⚜️" }],
 			"version": 1
 		},
@@ -16529,7 +16972,7 @@
 		"o": {
 			"id": "o",
 			"name": "Hollow Red Circle",
-			"keywords": ["round"],
+			"keywords": ["o", "round"],
 			"skins": [{ "unified": "2b55", "native": "⭕" }],
 			"version": 1
 		},
@@ -16635,7 +17078,15 @@
 		"eight_pointed_black_star": {
 			"id": "eight_pointed_black_star",
 			"name": "Eight-Pointed Star",
-			"keywords": ["black", "orange", "square", "shape", "polygon"],
+			"keywords": [
+				"eight",
+				"pointed",
+				"black",
+				"orange",
+				"square",
+				"shape",
+				"polygon"
+			],
 			"skins": [{ "unified": "2734-fe0f", "native": "✴️" }],
 			"version": 1
 		},
@@ -16677,14 +17128,14 @@
 		"hash": {
 			"id": "hash",
 			"name": "Hash Key",
-			"keywords": ["keycap", "symbol", "blue", "square", "twitter"],
+			"keywords": ["keycap", "", "symbol", "blue", "square", "twitter"],
 			"skins": [{ "unified": "0023-fe0f-20e3", "native": "#️⃣" }],
 			"version": 1
 		},
 		"keycap_star": {
 			"id": "keycap_star",
 			"name": "Keycap: *",
-			"keywords": ["star"],
+			"keywords": ["keycap", "star", ""],
 			"skins": [{ "unified": "002a-fe0f-20e3", "native": "*️⃣" }],
 			"version": 2
 		},
@@ -16819,7 +17270,7 @@
 		"ab": {
 			"id": "ab",
 			"name": "Negative Squared Ab",
-			"keywords": ["button", "alphabet"],
+			"keywords": ["button", "red", "square", "alphabet"],
 			"skins": [{ "unified": "1f18e", "native": "🆎" }],
 			"version": 1
 		},
@@ -16868,7 +17319,7 @@
 		"m": {
 			"id": "m",
 			"name": "Circled M",
-			"keywords": ["alphabet", "blue", "letter"],
+			"keywords": ["alphabet", "blue", "circle", "letter"],
 			"skins": [{ "unified": "24c2-fe0f", "native": "Ⓜ️" }],
 			"version": 1
 		},
@@ -16924,7 +17375,7 @@
 		"up": {
 			"id": "up",
 			"name": "Up! Button",
-			"keywords": ["blue", "square", "above", "high"],
+			"keywords": ["up", "blue", "square", "above", "high"],
 			"skins": [{ "unified": "1f199", "native": "🆙" }],
 			"version": 1
 		},
@@ -16938,14 +17389,28 @@
 		"koko": {
 			"id": "koko",
 			"name": "Squared Katakana Koko",
-			"keywords": ["japanese", "here", "button", "blue", "destination"],
+			"keywords": [
+				"japanese",
+				"here",
+				"button",
+				"blue",
+				"square",
+				"destination"
+			],
 			"skins": [{ "unified": "1f201", "native": "🈁" }],
 			"version": 1
 		},
 		"sa": {
 			"id": "sa",
 			"name": "Squared Katakana Sa",
-			"keywords": ["japanese", "service", "charge", "button", "blue"],
+			"keywords": [
+				"japanese",
+				"service",
+				"charge",
+				"button",
+				"blue",
+				"square"
+			],
 			"skins": [{ "unified": "1f202-fe0f", "native": "🈂️" }],
 			"version": 1
 		},
@@ -16954,7 +17419,10 @@
 			"name": "Japanese “monthly Amount” Button",
 			"keywords": [
 				"u6708",
+				"monthly",
+				"amount",
 				"chinese",
+				"month",
 				"moon",
 				"orange",
 				"square",
@@ -16975,6 +17443,7 @@
 				"charge",
 				"button",
 				"orange",
+				"square",
 				"chinese",
 				"have",
 				"kanji"
@@ -16987,6 +17456,7 @@
 			"name": "Japanese “reserved” Button",
 			"keywords": [
 				"u6307",
+				"reserved",
 				"chinese",
 				"point",
 				"green",
@@ -17002,6 +17472,7 @@
 			"keywords": [
 				"ideograph",
 				"advantage",
+				"bargain",
 				"chinese",
 				"kanji",
 				"obtain",
@@ -17016,6 +17487,7 @@
 			"name": "Japanese “discount” Button",
 			"keywords": [
 				"u5272",
+				"discount",
 				"cut",
 				"divide",
 				"chinese",
@@ -17031,6 +17503,8 @@
 			"name": "Japanese “free of Charge” Button",
 			"keywords": [
 				"u7121",
+				"free",
+				"charge",
 				"nothing",
 				"chinese",
 				"kanji",
@@ -17045,6 +17519,7 @@
 			"name": "Japanese “prohibited” Button",
 			"keywords": [
 				"u7981",
+				"prohibited",
 				"kanji",
 				"chinese",
 				"forbidden",
@@ -17069,7 +17544,8 @@
 				"kanji",
 				"agree",
 				"yes",
-				"orange"
+				"orange",
+				"circle"
 			],
 			"skins": [{ "unified": "1f251", "native": "🉑" }],
 			"version": 1
@@ -17077,14 +17553,30 @@
 		"u7533": {
 			"id": "u7533",
 			"name": "Japanese “application” Button",
-			"keywords": ["u7533", "chinese", "kanji", "orange", "square"],
+			"keywords": [
+				"u7533",
+				"application",
+				"chinese",
+				"kanji",
+				"orange",
+				"square"
+			],
 			"skins": [{ "unified": "1f238", "native": "🈸" }],
 			"version": 1
 		},
 		"u5408": {
 			"id": "u5408",
 			"name": "Japanese “passing Grade” Button",
-			"keywords": ["u5408", "chinese", "join", "kanji", "red", "square"],
+			"keywords": [
+				"u5408",
+				"passing",
+				"grade",
+				"chinese",
+				"join",
+				"kanji",
+				"red",
+				"square"
+			],
 			"skins": [{ "unified": "1f234", "native": "🈴" }],
 			"version": 1
 		},
@@ -17093,6 +17585,7 @@
 			"name": "Japanese “vacancy” Button",
 			"keywords": [
 				"u7a7a",
+				"vacancy",
 				"kanji",
 				"chinese",
 				"empty",
@@ -17112,7 +17605,8 @@
 				"button",
 				"chinese",
 				"kanji",
-				"red"
+				"red",
+				"circle"
 			],
 			"skins": [{ "unified": "3297-fe0f", "native": "㊗️" }],
 			"version": 1
@@ -17127,7 +17621,8 @@
 				"chinese",
 				"sshh",
 				"kanji",
-				"red"
+				"red",
+				"circle"
 			],
 			"skins": [{ "unified": "3299-fe0f", "native": "㊙️" }],
 			"version": 1
@@ -17144,7 +17639,8 @@
 				"button",
 				"opening",
 				"hours",
-				"orange"
+				"orange",
+				"square"
 			],
 			"skins": [{ "unified": "1f23a", "native": "🈺" }],
 			"version": 1
@@ -17152,7 +17648,16 @@
 		"u6e80": {
 			"id": "u6e80",
 			"name": "Japanese “no Vacancy” Button",
-			"keywords": ["u6e80", "full", "chinese", "red", "square", "kanji"],
+			"keywords": [
+				"u6e80",
+				"no",
+				"vacancy",
+				"full",
+				"chinese",
+				"red",
+				"square",
+				"kanji"
+			],
 			"skins": [{ "unified": "1f235", "native": "🈵" }],
 			"version": 1
 		},
@@ -17509,14 +18014,14 @@
 		"flag-af": {
 			"id": "flag-af",
 			"name": "Afghanistan Flag",
-			"keywords": ["nation", "country", "banner"],
+			"keywords": ["af", "nation", "country", "banner"],
 			"skins": [{ "unified": "1f1e6-1f1eb", "native": "🇦🇫" }],
 			"version": 2
 		},
 		"flag-ag": {
 			"id": "flag-ag",
 			"name": "Antigua & Barbuda Flag",
-			"keywords": ["nation", "country", "banner"],
+			"keywords": ["ag", "nation", "country", "banner"],
 			"skins": [{ "unified": "1f1e6-1f1ec", "native": "🇦🇬" }],
 			"version": 2
 		},
@@ -17530,7 +18035,7 @@
 		"flag-al": {
 			"id": "flag-al",
 			"name": "Albania Flag",
-			"keywords": ["nation", "country", "banner"],
+			"keywords": ["al", "nation", "country", "banner"],
 			"skins": [{ "unified": "1f1e6-1f1f1", "native": "🇦🇱" }],
 			"version": 2
 		},
@@ -17558,7 +18063,7 @@
 		"flag-ar": {
 			"id": "flag-ar",
 			"name": "Argentina Flag",
-			"keywords": ["nation", "country", "banner"],
+			"keywords": ["ar", "nation", "country", "banner"],
 			"skins": [{ "unified": "1f1e6-1f1f7", "native": "🇦🇷" }],
 			"version": 2
 		},
@@ -17579,7 +18084,7 @@
 		"flag-au": {
 			"id": "flag-au",
 			"name": "Australia Flag",
-			"keywords": ["nation", "country", "banner"],
+			"keywords": ["au", "nation", "country", "banner"],
 			"skins": [{ "unified": "1f1e6-1f1fa", "native": "🇦🇺" }],
 			"version": 2
 		},
@@ -17600,7 +18105,7 @@
 		"flag-az": {
 			"id": "flag-az",
 			"name": "Azerbaijan Flag",
-			"keywords": ["nation", "country", "banner"],
+			"keywords": ["az", "nation", "country", "banner"],
 			"skins": [{ "unified": "1f1e6-1f1ff", "native": "🇦🇿" }],
 			"version": 2
 		},
@@ -17628,7 +18133,7 @@
 		"flag-be": {
 			"id": "flag-be",
 			"name": "Belgium Flag",
-			"keywords": ["nation", "country", "banner"],
+			"keywords": ["be", "nation", "country", "banner"],
 			"skins": [{ "unified": "1f1e7-1f1ea", "native": "🇧🇪" }],
 			"version": 2
 		},
@@ -17672,6 +18177,7 @@
 			"name": "St. Barthélemy Flag",
 			"keywords": [
 				"bl",
+				"st",
 				"barthelemy",
 				"saint",
 				"nation",
@@ -17698,7 +18204,7 @@
 		"flag-bo": {
 			"id": "flag-bo",
 			"name": "Bolivia Flag",
-			"keywords": ["nation", "country", "banner"],
+			"keywords": ["bo", "nation", "country", "banner"],
 			"skins": [{ "unified": "1f1e7-1f1f4", "native": "🇧🇴" }],
 			"version": 2
 		},
@@ -17712,7 +18218,7 @@
 		"flag-br": {
 			"id": "flag-br",
 			"name": "Brazil Flag",
-			"keywords": ["nation", "country", "banner"],
+			"keywords": ["br", "nation", "country", "banner"],
 			"skins": [{ "unified": "1f1e7-1f1f7", "native": "🇧🇷" }],
 			"version": 2
 		},
@@ -17761,14 +18267,14 @@
 		"flag-ca": {
 			"id": "flag-ca",
 			"name": "Canada Flag",
-			"keywords": ["nation", "country", "banner"],
+			"keywords": ["ca", "nation", "country", "banner"],
 			"skins": [{ "unified": "1f1e8-1f1e6", "native": "🇨🇦" }],
 			"version": 2
 		},
 		"flag-cc": {
 			"id": "flag-cc",
 			"name": "Cocos (keeling) Islands Flag",
-			"keywords": ["cc", "nation", "country", "banner"],
+			"keywords": ["cc", "keeling", "nation", "country", "banner"],
 			"skins": [{ "unified": "1f1e8-1f1e8", "native": "🇨🇨" }],
 			"version": 2
 		},
@@ -17813,6 +18319,8 @@
 			"keywords": [
 				"ci",
 				"cote",
+				"d",
+				"ivoire",
 				"ivory",
 				"coast",
 				"nation",
@@ -17853,7 +18361,7 @@
 		"flag-co": {
 			"id": "flag-co",
 			"name": "Colombia Flag",
-			"keywords": ["nation", "country", "banner"],
+			"keywords": ["co", "nation", "country", "banner"],
 			"skins": [{ "unified": "1f1e8-1f1f4", "native": "🇨🇴" }],
 			"version": 2
 		},
@@ -17874,7 +18382,7 @@
 		"flag-cu": {
 			"id": "flag-cu",
 			"name": "Cuba Flag",
-			"keywords": ["nation", "country", "banner"],
+			"keywords": ["cu", "nation", "country", "banner"],
 			"skins": [{ "unified": "1f1e8-1f1fa", "native": "🇨🇺" }],
 			"version": 2
 		},
@@ -17902,21 +18410,21 @@
 		"flag-cy": {
 			"id": "flag-cy",
 			"name": "Cyprus Flag",
-			"keywords": ["nation", "country", "banner"],
+			"keywords": ["cy", "nation", "country", "banner"],
 			"skins": [{ "unified": "1f1e8-1f1fe", "native": "🇨🇾" }],
 			"version": 2
 		},
 		"flag-cz": {
 			"id": "flag-cz",
 			"name": "Czechia Flag",
-			"keywords": ["nation", "country", "banner"],
+			"keywords": ["cz", "nation", "country", "banner"],
 			"skins": [{ "unified": "1f1e8-1f1ff", "native": "🇨🇿" }],
 			"version": 2
 		},
 		"de": {
 			"id": "de",
 			"name": "Germany Flag",
-			"keywords": ["de", "nation", "country", "banner"],
+			"keywords": ["de", "german", "nation", "country", "banner"],
 			"skins": [{ "unified": "1f1e9-1f1ea", "native": "🇩🇪" }],
 			"version": 1
 		},
@@ -17930,7 +18438,7 @@
 		"flag-dj": {
 			"id": "flag-dj",
 			"name": "Djibouti Flag",
-			"keywords": ["nation", "country", "banner"],
+			"keywords": ["dj", "nation", "country", "banner"],
 			"skins": [{ "unified": "1f1e9-1f1ef", "native": "🇩🇯" }],
 			"version": 2
 		},
@@ -17951,7 +18459,7 @@
 		"flag-do": {
 			"id": "flag-do",
 			"name": "Dominican Republic Flag",
-			"keywords": ["nation", "country", "banner"],
+			"keywords": ["do", "nation", "country", "banner"],
 			"skins": [{ "unified": "1f1e9-1f1f4", "native": "🇩🇴" }],
 			"version": 2
 		},
@@ -17972,7 +18480,7 @@
 		"flag-ec": {
 			"id": "flag-ec",
 			"name": "Ecuador Flag",
-			"keywords": ["nation", "country", "banner"],
+			"keywords": ["ec", "nation", "country", "banner"],
 			"skins": [{ "unified": "1f1ea-1f1e8", "native": "🇪🇨" }],
 			"version": 2
 		},
@@ -17986,7 +18494,7 @@
 		"flag-eg": {
 			"id": "flag-eg",
 			"name": "Egypt Flag",
-			"keywords": ["nation", "country", "banner"],
+			"keywords": ["eg", "nation", "country", "banner"],
 			"skins": [{ "unified": "1f1ea-1f1ec", "native": "🇪🇬" }],
 			"version": 2
 		},
@@ -18000,7 +18508,7 @@
 		"flag-er": {
 			"id": "flag-er",
 			"name": "Eritrea Flag",
-			"keywords": ["nation", "country", "banner"],
+			"keywords": ["er", "nation", "country", "banner"],
 			"skins": [{ "unified": "1f1ea-1f1f7", "native": "🇪🇷" }],
 			"version": 2
 		},
@@ -18014,21 +18522,21 @@
 		"flag-et": {
 			"id": "flag-et",
 			"name": "Ethiopia Flag",
-			"keywords": ["nation", "country", "banner"],
+			"keywords": ["et", "nation", "country", "banner"],
 			"skins": [{ "unified": "1f1ea-1f1f9", "native": "🇪🇹" }],
 			"version": 2
 		},
 		"flag-eu": {
 			"id": "flag-eu",
 			"name": "European Union Flag",
-			"keywords": ["banner"],
+			"keywords": ["eu", "banner"],
 			"skins": [{ "unified": "1f1ea-1f1fa", "native": "🇪🇺" }],
 			"version": 2
 		},
 		"flag-fi": {
 			"id": "flag-fi",
 			"name": "Finland Flag",
-			"keywords": ["nation", "country", "banner"],
+			"keywords": ["fi", "nation", "country", "banner"],
 			"skins": [{ "unified": "1f1eb-1f1ee", "native": "🇫🇮" }],
 			"version": 2
 		},
@@ -18070,14 +18578,14 @@
 		"fr": {
 			"id": "fr",
 			"name": "France Flag",
-			"keywords": ["banner", "nation", "french", "country"],
+			"keywords": ["fr", "banner", "nation", "french", "country"],
 			"skins": [{ "unified": "1f1eb-1f1f7", "native": "🇫🇷" }],
 			"version": 1
 		},
 		"flag-ga": {
 			"id": "flag-ga",
 			"name": "Gabon Flag",
-			"keywords": ["nation", "country", "banner"],
+			"keywords": ["ga", "nation", "country", "banner"],
 			"skins": [{ "unified": "1f1ec-1f1e6", "native": "🇬🇦" }],
 			"version": 2
 		},
@@ -18114,7 +18622,7 @@
 		"flag-ge": {
 			"id": "flag-ge",
 			"name": "Georgia Flag",
-			"keywords": ["nation", "country", "banner"],
+			"keywords": ["ge", "nation", "country", "banner"],
 			"skins": [{ "unified": "1f1ec-1f1ea", "native": "🇬🇪" }],
 			"version": 2
 		},
@@ -18135,14 +18643,14 @@
 		"flag-gh": {
 			"id": "flag-gh",
 			"name": "Ghana Flag",
-			"keywords": ["nation", "country", "banner"],
+			"keywords": ["gh", "nation", "country", "banner"],
 			"skins": [{ "unified": "1f1ec-1f1ed", "native": "🇬🇭" }],
 			"version": 2
 		},
 		"flag-gi": {
 			"id": "flag-gi",
 			"name": "Gibraltar Flag",
-			"keywords": ["nation", "country", "banner"],
+			"keywords": ["gi", "nation", "country", "banner"],
 			"skins": [{ "unified": "1f1ec-1f1ee", "native": "🇬🇮" }],
 			"version": 2
 		},
@@ -18184,7 +18692,7 @@
 		"flag-gr": {
 			"id": "flag-gr",
 			"name": "Greece Flag",
-			"keywords": ["nation", "country", "banner"],
+			"keywords": ["gr", "nation", "country", "banner"],
 			"skins": [{ "unified": "1f1ec-1f1f7", "native": "🇬🇷" }],
 			"version": 2
 		},
@@ -18205,14 +18713,21 @@
 		"flag-gu": {
 			"id": "flag-gu",
 			"name": "Guam Flag",
-			"keywords": ["nation", "country", "banner"],
+			"keywords": ["gu", "nation", "country", "banner"],
 			"skins": [{ "unified": "1f1ec-1f1fa", "native": "🇬🇺" }],
 			"version": 2
 		},
 		"flag-gw": {
 			"id": "flag-gw",
 			"name": "Guinea-Bissau Flag",
-			"keywords": ["gw", "nation", "country", "banner"],
+			"keywords": [
+				"gw",
+				"guinea",
+				"bissau",
+				"nation",
+				"country",
+				"banner"
+			],
 			"skins": [{ "unified": "1f1ec-1f1fc", "native": "🇬🇼" }],
 			"version": 2
 		},
@@ -18261,7 +18776,7 @@
 		"flag-hu": {
 			"id": "flag-hu",
 			"name": "Hungary Flag",
-			"keywords": ["nation", "country", "banner"],
+			"keywords": ["hu", "nation", "country", "banner"],
 			"skins": [{ "unified": "1f1ed-1f1fa", "native": "🇭🇺" }],
 			"version": 2
 		},
@@ -18303,7 +18818,7 @@
 		"flag-in": {
 			"id": "flag-in",
 			"name": "India Flag",
-			"keywords": ["nation", "country", "banner"],
+			"keywords": ["in", "nation", "country", "banner"],
 			"skins": [{ "unified": "1f1ee-1f1f3", "native": "🇮🇳" }],
 			"version": 2
 		},
@@ -18324,7 +18839,14 @@
 		"flag-ir": {
 			"id": "flag-ir",
 			"name": "Iran Flag",
-			"keywords": ["islamic", "republic", "nation", "country", "banner"],
+			"keywords": [
+				"ir",
+				"islamic",
+				"republic",
+				"nation",
+				"country",
+				"banner"
+			],
 			"skins": [{ "unified": "1f1ee-1f1f7", "native": "🇮🇷" }],
 			"version": 2
 		},
@@ -18338,14 +18860,14 @@
 		"it": {
 			"id": "it",
 			"name": "Italy Flag",
-			"keywords": ["nation", "country", "banner"],
+			"keywords": ["it", "nation", "country", "banner"],
 			"skins": [{ "unified": "1f1ee-1f1f9", "native": "🇮🇹" }],
 			"version": 1
 		},
 		"flag-je": {
 			"id": "flag-je",
 			"name": "Jersey Flag",
-			"keywords": ["nation", "country", "banner"],
+			"keywords": ["je", "nation", "country", "banner"],
 			"skins": [{ "unified": "1f1ef-1f1ea", "native": "🇯🇪" }],
 			"version": 2
 		},
@@ -18359,7 +18881,7 @@
 		"flag-jo": {
 			"id": "flag-jo",
 			"name": "Jordan Flag",
-			"keywords": ["nation", "country", "banner"],
+			"keywords": ["jo", "nation", "country", "banner"],
 			"skins": [{ "unified": "1f1ef-1f1f4", "native": "🇯🇴" }],
 			"version": 2
 		},
@@ -18373,7 +18895,7 @@
 		"flag-ke": {
 			"id": "flag-ke",
 			"name": "Kenya Flag",
-			"keywords": ["nation", "country", "banner"],
+			"keywords": ["ke", "nation", "country", "banner"],
 			"skins": [{ "unified": "1f1f0-1f1ea", "native": "🇰🇪" }],
 			"version": 2
 		},
@@ -18394,7 +18916,7 @@
 		"flag-ki": {
 			"id": "flag-ki",
 			"name": "Kiribati Flag",
-			"keywords": ["nation", "country", "banner"],
+			"keywords": ["ki", "nation", "country", "banner"],
 			"skins": [{ "unified": "1f1f0-1f1ee", "native": "🇰🇮" }],
 			"version": 2
 		},
@@ -18408,7 +18930,7 @@
 		"flag-kn": {
 			"id": "flag-kn",
 			"name": "St. Kitts & Nevis Flag",
-			"keywords": ["kn", "saint", "nation", "country", "banner"],
+			"keywords": ["kn", "st", "saint", "nation", "country", "banner"],
 			"skins": [{ "unified": "1f1f0-1f1f3", "native": "🇰🇳" }],
 			"version": 2
 		},
@@ -18451,6 +18973,8 @@
 			"id": "flag-la",
 			"name": "Laos Flag",
 			"keywords": [
+				"la",
+				"lao",
 				"democratic",
 				"republic",
 				"nation",
@@ -18470,14 +18994,14 @@
 		"flag-lc": {
 			"id": "flag-lc",
 			"name": "St. Lucia Flag",
-			"keywords": ["lc", "saint", "nation", "country", "banner"],
+			"keywords": ["lc", "st", "saint", "nation", "country", "banner"],
 			"skins": [{ "unified": "1f1f1-1f1e8", "native": "🇱🇨" }],
 			"version": 2
 		},
 		"flag-li": {
 			"id": "flag-li",
 			"name": "Liechtenstein Flag",
-			"keywords": ["nation", "country", "banner"],
+			"keywords": ["li", "nation", "country", "banner"],
 			"skins": [{ "unified": "1f1f1-1f1ee", "native": "🇱🇮" }],
 			"version": 2
 		},
@@ -18512,7 +19036,7 @@
 		"flag-lu": {
 			"id": "flag-lu",
 			"name": "Luxembourg Flag",
-			"keywords": ["nation", "country", "banner"],
+			"keywords": ["lu", "nation", "country", "banner"],
 			"skins": [{ "unified": "1f1f1-1f1fa", "native": "🇱🇺" }],
 			"version": 2
 		},
@@ -18561,7 +19085,7 @@
 		"flag-mf": {
 			"id": "flag-mf",
 			"name": "St. Martin Flag",
-			"keywords": ["mf"],
+			"keywords": ["mf", "st"],
 			"skins": [{ "unified": "1f1f2-1f1eb", "native": "🇲🇫" }],
 			"version": 2
 		},
@@ -18694,7 +19218,7 @@
 		"flag-na": {
 			"id": "flag-na",
 			"name": "Namibia Flag",
-			"keywords": ["nation", "country", "banner"],
+			"keywords": ["na", "nation", "country", "banner"],
 			"skins": [{ "unified": "1f1f3-1f1e6", "native": "🇳🇦" }],
 			"version": 2
 		},
@@ -18729,7 +19253,7 @@
 		"flag-ni": {
 			"id": "flag-ni",
 			"name": "Nicaragua Flag",
-			"keywords": ["nation", "country", "banner"],
+			"keywords": ["ni", "nation", "country", "banner"],
 			"skins": [{ "unified": "1f1f3-1f1ee", "native": "🇳🇮" }],
 			"version": 2
 		},
@@ -18743,7 +19267,7 @@
 		"flag-no": {
 			"id": "flag-no",
 			"name": "Norway Flag",
-			"keywords": ["nation", "country", "banner"],
+			"keywords": ["no", "nation", "country", "banner"],
 			"skins": [{ "unified": "1f1f3-1f1f4", "native": "🇳🇴" }],
 			"version": 2
 		},
@@ -18778,21 +19302,21 @@
 		"flag-om": {
 			"id": "flag-om",
 			"name": "Oman Flag",
-			"keywords": ["symbol", "nation", "country", "banner"],
+			"keywords": ["om", "symbol", "nation", "country", "banner"],
 			"skins": [{ "unified": "1f1f4-1f1f2", "native": "🇴🇲" }],
 			"version": 2
 		},
 		"flag-pa": {
 			"id": "flag-pa",
 			"name": "Panama Flag",
-			"keywords": ["nation", "country", "banner"],
+			"keywords": ["pa", "nation", "country", "banner"],
 			"skins": [{ "unified": "1f1f5-1f1e6", "native": "🇵🇦" }],
 			"version": 2
 		},
 		"flag-pe": {
 			"id": "flag-pe",
 			"name": "Peru Flag",
-			"keywords": ["nation", "country", "banner"],
+			"keywords": ["pe", "nation", "country", "banner"],
 			"skins": [{ "unified": "1f1f5-1f1ea", "native": "🇵🇪" }],
 			"version": 2
 		},
@@ -18813,7 +19337,7 @@
 		"flag-ph": {
 			"id": "flag-ph",
 			"name": "Philippines Flag",
-			"keywords": ["nation", "country", "banner"],
+			"keywords": ["ph", "nation", "country", "banner"],
 			"skins": [{ "unified": "1f1f5-1f1ed", "native": "🇵🇭" }],
 			"version": 2
 		},
@@ -18834,7 +19358,7 @@
 		"flag-pm": {
 			"id": "flag-pm",
 			"name": "St. Pierre & Miquelon Flag",
-			"keywords": ["pm", "saint", "nation", "country", "banner"],
+			"keywords": ["pm", "st", "saint", "nation", "country", "banner"],
 			"skins": [{ "unified": "1f1f5-1f1f2", "native": "🇵🇲" }],
 			"version": 2
 		},
@@ -18883,7 +19407,7 @@
 		"flag-qa": {
 			"id": "flag-qa",
 			"name": "Qatar Flag",
-			"keywords": ["nation", "country", "banner"],
+			"keywords": ["qa", "nation", "country", "banner"],
 			"skins": [{ "unified": "1f1f6-1f1e6", "native": "🇶🇦" }],
 			"version": 2
 		},
@@ -18897,7 +19421,7 @@
 		"flag-ro": {
 			"id": "flag-ro",
 			"name": "Romania Flag",
-			"keywords": ["nation", "country", "banner"],
+			"keywords": ["ro", "nation", "country", "banner"],
 			"skins": [{ "unified": "1f1f7-1f1f4", "native": "🇷🇴" }],
 			"version": 2
 		},
@@ -18912,6 +19436,7 @@
 			"id": "ru",
 			"name": "Russia Flag",
 			"keywords": [
+				"ru",
 				"russian",
 				"federation",
 				"nation",
@@ -18924,14 +19449,14 @@
 		"flag-rw": {
 			"id": "flag-rw",
 			"name": "Rwanda Flag",
-			"keywords": ["nation", "country", "banner"],
+			"keywords": ["rw", "nation", "country", "banner"],
 			"skins": [{ "unified": "1f1f7-1f1fc", "native": "🇷🇼" }],
 			"version": 2
 		},
 		"flag-sa": {
 			"id": "flag-sa",
 			"name": "Saudi Arabia Flag",
-			"keywords": ["nation", "country", "banner"],
+			"keywords": ["sa", "nation", "country", "banner"],
 			"skins": [{ "unified": "1f1f8-1f1e6", "native": "🇸🇦" }],
 			"version": 2
 		},
@@ -18975,6 +19500,7 @@
 			"name": "St. Helena Flag",
 			"keywords": [
 				"sh",
+				"st",
 				"saint",
 				"ascension",
 				"tristan",
@@ -19031,7 +19557,7 @@
 		"flag-so": {
 			"id": "flag-so",
 			"name": "Somalia Flag",
-			"keywords": ["nation", "country", "banner"],
+			"keywords": ["so", "nation", "country", "banner"],
 			"skins": [{ "unified": "1f1f8-1f1f4", "native": "🇸🇴" }],
 			"version": 2
 		},
@@ -19082,6 +19608,7 @@
 			"id": "flag-sy",
 			"name": "Syria Flag",
 			"keywords": [
+				"sy",
 				"syrian",
 				"arab",
 				"republic",
@@ -19102,7 +19629,7 @@
 		"flag-ta": {
 			"id": "flag-ta",
 			"name": "Tristan Da Cunha Flag",
-			"keywords": [],
+			"keywords": ["ta"],
 			"skins": [{ "unified": "1f1f9-1f1e6", "native": "🇹🇦" }],
 			"version": 2
 		},
@@ -19137,7 +19664,7 @@
 		"flag-th": {
 			"id": "flag-th",
 			"name": "Thailand Flag",
-			"keywords": ["nation", "country", "banner"],
+			"keywords": ["th", "nation", "country", "banner"],
 			"skins": [{ "unified": "1f1f9-1f1ed", "native": "🇹🇭" }],
 			"version": 2
 		},
@@ -19158,7 +19685,7 @@
 		"flag-tl": {
 			"id": "flag-tl",
 			"name": "Timor-Leste Flag",
-			"keywords": ["tl", "nation", "country", "banner"],
+			"keywords": ["tl", "timor", "leste", "nation", "country", "banner"],
 			"skins": [{ "unified": "1f1f9-1f1f1", "native": "🇹🇱" }],
 			"version": 2
 		},
@@ -19179,7 +19706,7 @@
 		"flag-to": {
 			"id": "flag-to",
 			"name": "Tonga Flag",
-			"keywords": ["nation", "country", "banner"],
+			"keywords": ["to", "nation", "country", "banner"],
 			"skins": [{ "unified": "1f1f9-1f1f4", "native": "🇹🇴" }],
 			"version": 2
 		},
@@ -19235,21 +19762,21 @@
 		"flag-ug": {
 			"id": "flag-ug",
 			"name": "Uganda Flag",
-			"keywords": ["nation", "country", "banner"],
+			"keywords": ["ug", "nation", "country", "banner"],
 			"skins": [{ "unified": "1f1fa-1f1ec", "native": "🇺🇬" }],
 			"version": 2
 		},
 		"flag-um": {
 			"id": "flag-um",
 			"name": "U.s. Outlying Islands Flag",
-			"keywords": ["um"],
+			"keywords": ["um", "u", "s"],
 			"skins": [{ "unified": "1f1fa-1f1f2", "native": "🇺🇲" }],
 			"version": 2
 		},
 		"flag-un": {
 			"id": "flag-un",
 			"name": "United Nations Flag",
-			"keywords": ["banner"],
+			"keywords": ["un", "banner"],
 			"skins": [{ "unified": "1f1fa-1f1f3", "native": "🇺🇳" }],
 			"version": 4
 		},
@@ -19270,21 +19797,21 @@
 		"flag-uz": {
 			"id": "flag-uz",
 			"name": "Uzbekistan Flag",
-			"keywords": ["nation", "country", "banner"],
+			"keywords": ["uz", "nation", "country", "banner"],
 			"skins": [{ "unified": "1f1fa-1f1ff", "native": "🇺🇿" }],
 			"version": 2
 		},
 		"flag-va": {
 			"id": "flag-va",
 			"name": "Vatican City Flag",
-			"keywords": ["nation", "country", "banner"],
+			"keywords": ["va", "nation", "country", "banner"],
 			"skins": [{ "unified": "1f1fb-1f1e6", "native": "🇻🇦" }],
 			"version": 2
 		},
 		"flag-vc": {
 			"id": "flag-vc",
 			"name": "St. Vincent & Grenadines Flag",
-			"keywords": ["vc", "saint", "nation", "country", "banner"],
+			"keywords": ["vc", "st", "saint", "nation", "country", "banner"],
 			"skins": [{ "unified": "1f1fb-1f1e8", "native": "🇻🇨" }],
 			"version": 2
 		},
@@ -19292,6 +19819,7 @@
 			"id": "flag-ve",
 			"name": "Venezuela Flag",
 			"keywords": [
+				"ve",
 				"bolivarian",
 				"republic",
 				"nation",
@@ -19311,14 +19839,14 @@
 		"flag-vi": {
 			"id": "flag-vi",
 			"name": "U.s. Virgin Islands Flag",
-			"keywords": ["us", "nation", "country", "banner"],
+			"keywords": ["vi", "u", "s", "us", "nation", "country", "banner"],
 			"skins": [{ "unified": "1f1fb-1f1ee", "native": "🇻🇮" }],
 			"version": 2
 		},
 		"flag-vn": {
 			"id": "flag-vn",
 			"name": "Vietnam Flag",
-			"keywords": ["vn", "nation", "country", "banner"],
+			"keywords": ["vn", "viet", "nam", "nation", "country", "banner"],
 			"skins": [{ "unified": "1f1fb-1f1f3", "native": "🇻🇳" }],
 			"version": 2
 		},
@@ -19353,7 +19881,7 @@
 		"flag-ye": {
 			"id": "flag-ye",
 			"name": "Yemen Flag",
-			"keywords": ["nation", "country", "banner"],
+			"keywords": ["ye", "nation", "country", "banner"],
 			"skins": [{ "unified": "1f1fe-1f1ea", "native": "🇾🇪" }],
 			"version": 2
 		},
