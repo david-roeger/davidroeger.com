@@ -2,7 +2,7 @@ import type { Handle } from '@sveltejs/kit';
 import { JSDOM } from 'jsdom';
 
 import { auth } from '$utils/Lucia/lucia';
-import { logger } from '$utils';
+import { logger } from '$utils/logger';
 
 const collectPortals = (html: string) => {
 	const dom = new JSDOM(html);
