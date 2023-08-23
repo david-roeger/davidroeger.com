@@ -8,6 +8,7 @@
 	import BezierEasing from 'bezier-easing';
 
 	import { QueryClientProvider } from '@tanstack/svelte-query';
+	import { SvelteQueryDevtools } from '@tanstack/svelte-query-devtools';
 
 	import { page } from '$app/stores';
 
@@ -295,4 +296,5 @@
 			<div id="portal" style="position: absolute; z-index: 9999" />
 		</MiniPlayerProvider>
 	</NotificationProvider>
+	<SvelteQueryDevtools />
 </QueryClientProvider>
