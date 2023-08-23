@@ -10,6 +10,5 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - name: fetch portainer dev-davidroeger
-              uses: sozo-design/curl@v1.0.2
-              with:
-                  args: -X POST https://portainer.davidroeger.com/api/stacks/webhooks/068c015d-ed30-48e4-be3a-e824c7eec939
+              run: |
+                  curl -X POST "https://portainer.davidroeger.com/api/stacks/webhooks/068c015d-ed30-48e4-be3a-e824c7eec939"
