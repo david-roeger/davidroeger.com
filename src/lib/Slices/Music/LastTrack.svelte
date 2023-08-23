@@ -11,6 +11,8 @@
 		LastTrack as LastTrackType,
 		Image
 	} from '$components/Music/types';
+	import { Slide } from '$components/Slide';
+
 	import { getContext, onDestroy, onMount } from 'svelte';
 	import { MUSIC_KEYS } from '$routes/about/music/constants';
 	import type { MiniPlayerContext } from '$provider/MiniPlayerProvider/types';
@@ -52,6 +54,7 @@
 	const query = createQuery({
 		queryKey: MUSIC_KEYS.type('lastTrack'),
 		queryFn,
+		refetchOnWindowFocus: 'always',
 		refetchInterval: 1000 * 30 // 30 seconds
 	});
 
@@ -109,61 +112,63 @@
 	{:else if $query.data}
 		{@const lastTrack = $query.data}
 		<Music.Root {labelledby}>
-			<Music.Row class="flex">
-				{#if lastTrack.album.images.length}
-					<Music.Atom>
-						<Link
-							href={lastTrack.external_urls.spotify}
-							type="ghost"
-						>
-							<Music.Image
-								url={getImageUrl(lastTrack.album.images)}
-								alt="{lastTrack.album.name} Album Cover"
+			<Slide as="li" key={lastTrack.id}>
+				<Music.Row as="div" class="flex">
+					{#if lastTrack.album.images.length}
+						<Music.Atom>
+							<Link
+								href={lastTrack.external_urls.spotify}
+								type="ghost"
+							>
+								<Music.Image
+									url={getImageUrl(lastTrack.album.images)}
+									alt="{lastTrack.album.name} Album Cover"
+								/>
+							</Link>
+						</Music.Atom>
+					{:else}
+						<Music.Atom>
+							<div
+								class="h-[68px] md:h-[92px] w-[68px] md:w-[92px] bg-purple-3"
 							/>
-						</Link>
+						</Music.Atom>
+					{/if}
+					<Music.Atom class="flex-1 min-w-0 border-l border-mauve-6">
+						<Music.Detail
+							subline={[
+								lastTrack.artists
+									.map((artist) => artist.name)
+									.join(', '),
+								lastTrack.album.name
+							]}
+						>
+							<AccessibleIcon label="Artist:" slot="preline">
+								<Artist />
+							</AccessibleIcon>
+							<Link href={lastTrack.external_urls.spotify}>
+								{lastTrack.name}
+							</Link>
+							<div slot="headline">
+								{#if 'is_playable' in lastTrack}
+									<AccessibleIcon label="Currently Playing:">
+										<Wave
+											fill={[
+												'icon-green-7',
+												'icon-green-7',
+												'icon-green-7',
+												'icon-green-7'
+											]}
+										/>
+									</AccessibleIcon>
+								{/if}
+							</div>
+							<AccessibleIcon label="Album:" slot="subline">
+								<Album />
+							</AccessibleIcon>
+						</Music.Detail>
 					</Music.Atom>
-				{:else}
-					<Music.Atom>
-						<div
-							class="h-[68px] md:h-[92px] w-[68px] md:w-[92px] bg-purple-3"
-						/>
-					</Music.Atom>
-				{/if}
-				<Music.Atom class="flex-1 min-w-0 border-l border-mauve-6">
-					<Music.Detail
-						subline={[
-							lastTrack.artists
-								.map((artist) => artist.name)
-								.join(', '),
-							lastTrack.album.name
-						]}
-					>
-						<AccessibleIcon label="Artist:" slot="preline">
-							<Artist />
-						</AccessibleIcon>
-						<Link href={lastTrack.external_urls.spotify}>
-							{lastTrack.name}
-						</Link>
-						<div slot="headline">
-							{#if 'is_playable' in lastTrack}
-								<AccessibleIcon label="Currently Playing:">
-									<Wave
-										fill={[
-											'icon-green-9',
-											'icon-green-9',
-											'icon-green-9',
-											'icon-green-9'
-										]}
-									/>
-								</AccessibleIcon>
-							{/if}
-						</div>
-						<AccessibleIcon label="Album:" slot="subline">
-							<Album />
-						</AccessibleIcon>
-					</Music.Detail>
-				</Music.Atom>
-			</Music.Row>
+				</Music.Row>
+			</Slide>
 		</Music.Root>
 	{:else}
 		<Music.Root {labelledby}>
