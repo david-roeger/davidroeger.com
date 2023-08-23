@@ -54,6 +54,7 @@
 	const query = createQuery({
 		queryKey: MUSIC_KEYS.type('lastTrack'),
 		queryFn,
+		refetchOnMount: true,
 		refetchOnWindowFocus: 'always',
 		refetchInterval: 1000 * 30 // 30 seconds
 	});

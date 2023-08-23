@@ -21,6 +21,8 @@
 	import { logger } from '$utils/logger';
 	import { queryParam } from '$utils/Store/queryParam';
 
+	import Spinner from '$assets/Icons/24/spinner.svg?component';
+
 	import {
 		type S,
 		timeRanges,
@@ -34,6 +36,8 @@
 	// ----------------------------------------------------------------
 
 	import type { PageData } from './$types';
+	import { Slide } from '$components/Slide';
+	import { createQuery } from '@tanstack/svelte-query';
 	export let data: PageData;
 
 	const queryStore = queryParam('s', {
@@ -51,6 +55,10 @@
 		});
 
 	$: store = $queryStore ?? data.initalState;
+
+	const query = createQuery({
+		queryKey: MUSIC_KEYS.type('lastTrack')
+	});
 </script>
 
 <Headline containerClass="flex items-end py-8 md:py-16">
@@ -63,8 +71,12 @@
 	type="quaternary"
 	id="current_track"
 	containerClass="p-2 bg-white border-b border-mauve-6"
+	class="flex space-x-1"
 >
-	Last listened on Spotify
+	<AccessibleIcon label={$query.isFetching ? 'loading' : ''}>
+		<Spinner class={$query.isFetching ? 'animate-loading-1' : ''} />
+	</AccessibleIcon>
+	<span>Last listened on Spotify</span>
 </Headline>
 
 <LastTrack
@@ -77,6 +89,7 @@
 	on:valueChange={(e) => {
 		const tab = tabSchema.safeParse(e.detail.value);
 		if (tab.success) {
+			console.log(tab);
 			queryStore.update((s) => {
 				const last = s ?? data.initalState;
 				return { ...last, tab: tab.data };
