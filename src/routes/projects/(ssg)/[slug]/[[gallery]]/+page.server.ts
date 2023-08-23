@@ -14,7 +14,6 @@ export const load: PageServerLoad = async ({ fetch, params }) => {
 	// ----------------------------------------------------------------
 
 	const { slug, gallery } = params;
-	console.log(params);
 	logger.page(
 		`projects/(ssg)/[slug]/[[gallery]]: +page.server.ts // load (${slug} / ${gallery})`
 	);
