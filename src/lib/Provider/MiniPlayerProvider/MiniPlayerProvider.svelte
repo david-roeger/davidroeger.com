@@ -17,7 +17,7 @@
 
 	import Artist from '$assets/Icons/24/artist.svg?component';
 	import Play from '$assets/Icons/24/play.svg?component';
-	import Pause from '$assets/Icons/24/Pause.svg?component';
+	import Pause from '$assets/Icons/24/pause.svg?component';
 	import Spinner from '$assets/Icons/24/spinner.svg?component';
 
 	import { DEFAULT_PLAYER_CONTEXT } from './constants';
