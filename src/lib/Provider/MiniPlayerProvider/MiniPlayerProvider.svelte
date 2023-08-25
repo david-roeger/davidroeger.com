@@ -16,7 +16,7 @@
 	import Close from '$assets/Icons/24/close.svg?component';
 
 	import Artist from '$assets/Icons/24/artist.svg?component';
-	import Play from '$assets/Icons/24/Play.svg?component';
+	import Play from '$assets/Icons/24/play.svg?component';
 	import Pause from '$assets/Icons/24/Pause.svg?component';
 	import Spinner from '$assets/Icons/24/spinner.svg?component';
 
