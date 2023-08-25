@@ -84,7 +84,7 @@
 					{#if track.album.images.length}
 						<Music.Atom>
 							{#if track.preview_url}
-								<Mp
+								<MiniPlayer
 									previewImage={getImageUrl(
 										track.album.images
 									)}
@@ -107,7 +107,7 @@
 										url={getImageUrl(track.album.images)}
 										alt="{track.album.name} Album Cover"
 									/>
-								</Mp>
+								</MiniPlayer>
 							{:else}
 								<Link
 									href={track.external_urls.spotify}
@@ -123,7 +123,7 @@
 					{:else}
 						<Music.Atom>
 							{#if track.preview_url}
-								<Mp
+								<MiniPlayer
 									previewImage={getImageUrl(
 										track.album.images
 									)}
@@ -139,7 +139,7 @@
 									<div
 										class="h-[68px] md:h-[92px] w-[68px] md:w-[92px] bg-purple-3"
 									/>
-								</Mp>
+								</MiniPlayer>
 							{:else}
 								<div
 									class="h-[68px] md:h-[92px] w-[68px] md:w-[92px] bg-purple-3"

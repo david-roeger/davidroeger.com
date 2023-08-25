@@ -39,7 +39,6 @@ const getAccessToken = async ({
 	// ----------------------------------------------------------------
 
 	if (accessToken) {
-		console.log(accessToken);
 		const now = new Date().getTime();
 		const isExpired = accessToken.expiresAt < now;
 		if (!isExpired) {

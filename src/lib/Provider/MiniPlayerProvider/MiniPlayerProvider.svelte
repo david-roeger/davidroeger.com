@@ -1,22 +1,24 @@
 <script lang="ts">
-	import { setContext, tick } from 'svelte';
-	import { derived, get, writable } from 'svelte/store';
+	import { onMount, setContext } from 'svelte';
+	import { derived, writable } from 'svelte/store';
 	import { slide } from 'svelte/transition';
 
-	import { beforeNavigate } from '$app/navigation';
+	import { v4 as uuid } from 'uuid';
 
 	import * as Progress from '$primitives/Progress';
 
 	import { AccessibleIcon } from '$components/AccessibleIcon';
-	import { Button } from '$components/Button';
 	import * as Music from '$components/Music';
 	import { Link } from '$components/Link';
 
-	import Close from '$assets/Icons/16/close.svg?component';
+	import East from '$assets/Icons/24/east.svg?component';
+	import West from '$assets/Icons/24/west.svg?component';
+	import Close from '$assets/Icons/24/close.svg?component';
 
-	import East from '$assets/Icons/16/east.svg?component';
-	import West from '$assets/Icons/16/west.svg?component';
 	import Artist from '$assets/Icons/24/artist.svg?component';
+	import Play from '$assets/Icons/24/Play.svg?component';
+	import Pause from '$assets/Icons/24/Pause.svg?component';
+	import Spinner from '$assets/Icons/24/spinner.svg?component';
 
 	import { DEFAULT_PLAYER_CONTEXT } from './constants';
 
@@ -27,8 +29,11 @@
 	} from './types';
 	import { tweened } from 'svelte/motion';
 	import { Headline } from '$components/Headline';
+	import { Slide } from '$components/Slide';
 
 	// ----------------------------------------------------------------
+	let transitioning = false;
+	let direction: 1 | -1 = 1;
 
 	const nestedMiniPlayers = writable<Record<string, Set<MiniPlayer>>>({
 		[DEFAULT_PLAYER_CONTEXT]: new Set()
@@ -49,13 +54,7 @@
 		}
 	);
 
-	const currentId = writable<string | undefined>(undefined);
-
-	const currentMiniPlayer = derived(
-		[currentId, currentMiniPlayers],
-		([$currentId, $currentMiniPlayers]) =>
-			Array.from($currentMiniPlayers).find((mp) => mp.id === $currentId)
-	);
+	const currentMiniPlayer = writable<MiniPlayer | undefined>(undefined);
 
 	const toBeRemoved = writable<{ id: string; context: string } | undefined>(
 		undefined
@@ -67,21 +66,20 @@
 		duration: 100
 	});
 
-	const registerPlayer = ({
+	const register = ({
 		context = DEFAULT_PLAYER_CONTEXT,
 		src,
 		metaData,
 		externalUrl,
 		previewImage
 	}: // onStateChange
-	Parameters<MiniPlayerContext['registerPlayer']>[0]) => {
+	Parameters<MiniPlayerContext['register']>[0]) => {
 		if (!$nestedMiniPlayers[context]) {
 			$nestedMiniPlayers[context] = new Set();
 		}
 
-		const id = self.crypto.randomUUID();
+		const id = uuid();
 
-		console.log('registerPlayer', context, id);
 		const miniPlayer: MiniPlayer = {
 			id,
 			metaData,
@@ -99,11 +97,10 @@
 		return id;
 	};
 
-	const playPlayer = ({
+	const play = ({
 		context = DEFAULT_PLAYER_CONTEXT,
 		id
-	}: Parameters<MiniPlayerContext['playPlayer']>[0]) => {
-		console.log('playPlayer', context, id);
+	}: Parameters<MiniPlayerContext['play']>[0]) => {
 		if (!$nestedMiniPlayers[context]) {
 			throw new Error(
 				`No mini players registered for context ${context}`
@@ -111,7 +108,6 @@
 		}
 
 		$currentContext = context;
-		$currentId = id;
 
 		const miniPlayer = Array.from($nestedMiniPlayers[context]).find(
 			(mp) => mp.id === id
@@ -128,6 +124,20 @@
 				`No element found for mini player with id ${id} found in context ${context}`
 			);
 		}
+
+		const nestedMiniPlayerArray = Array.from($nestedMiniPlayers[context]);
+		const miniPlayerIndex = nestedMiniPlayerArray.indexOf(miniPlayer);
+		const currentMiniPlayerIndex = $currentMiniPlayer
+			? nestedMiniPlayerArray.indexOf($currentMiniPlayer)
+			: miniPlayerIndex;
+
+		if (miniPlayerIndex < currentMiniPlayerIndex) {
+			direction = -1;
+		} else {
+			direction = 1;
+		}
+
+		$currentMiniPlayer = miniPlayer;
 
 		const ready = playerReady(miniPlayer.element);
 
@@ -155,10 +165,53 @@
 			});
 	};
 
-	const removePlayer = ({
+	const pause = ({
 		context = DEFAULT_PLAYER_CONTEXT,
 		id
-	}: Parameters<MiniPlayerContext['removePlayer']>[0]) => {
+	}: Parameters<MiniPlayerContext['pause']>[0]) => {
+		if (!$nestedMiniPlayers[context]) {
+			throw new Error(
+				`No mini players registered for context ${context}`
+			);
+		}
+
+		$currentContext = context;
+
+		const miniPlayer = Array.from($nestedMiniPlayers[context]).find(
+			(mp) => mp.id === id
+		);
+
+		if (!miniPlayer) {
+			throw new Error(
+				`No mini player with id ${id} found in context ${context}`
+			);
+		}
+
+		if (!miniPlayer.element) {
+			throw new Error(
+				`No element found for mini player with id ${id} found in context ${context}`
+			);
+		}
+
+		$currentMiniPlayer = miniPlayer;
+
+		const ready = playerReady(miniPlayer.element);
+
+		if (!ready) {
+			$currentState = 'loading';
+		} else {
+			$currentState = 'playing';
+		}
+
+		miniPlayer.element.pause();
+
+		$currentState = 'playing';
+	};
+
+	const remove = ({
+		context = DEFAULT_PLAYER_CONTEXT,
+		id
+	}: Parameters<MiniPlayerContext['remove']>[0]) => {
 		if (!$nestedMiniPlayers[context]) {
 			return;
 		}
@@ -174,6 +227,7 @@
 		if ($currentMiniPlayer && $currentMiniPlayer.id === id) {
 			if ($currentState === 'loading' || $currentState === 'playing') {
 				// keep the audio around and clean up later
+				console.log('keep the audio around and clean up later');
 				$toBeRemoved = { id, context };
 				return;
 			} else {
@@ -190,26 +244,75 @@
 		$nestedMiniPlayers = $nestedMiniPlayers;
 	};
 
+	const state = derived(
+		[currentContext, currentState, currentMiniPlayer],
+		([$currentContext, $currentState, $currentMiniPlayer, ,]) => ({
+			context: $currentContext,
+			currentId: $currentMiniPlayer && $currentMiniPlayer.id,
+			state: $currentState
+		})
+	);
+
 	const miniPlayerContext: MiniPlayerContext = {
-		registerPlayer,
-		playPlayer,
-		removePlayer
+		register,
+		play,
+		pause,
+		remove,
+		state
 	};
 
 	setContext('miniPlayer', miniPlayerContext);
 
-	// ----------------------------------------------------------------
-	function stopAll() {
-		if ($currentMiniPlayers) {
-			$currentMiniPlayers.forEach((miniPlayer) => {
-				if (miniPlayer.element) {
-					miniPlayer.element.pause();
+	const addMediaSessionActionHandler = (
+		action: MediaSessionAction,
+		handler: MediaSessionActionHandler | null
+	) => {
+		try {
+			navigator.mediaSession.setActionHandler(action, handler);
+		} catch (error) {
+			console.log(
+				`The media session action ${action} is not supported yet.`
+			);
+		}
+	};
+
+	onMount(() => {
+		if ('mediaSession' in navigator) {
+			addMediaSessionActionHandler('play', async () => {
+				if ($currentMiniPlayer && $currentMiniPlayer.element) {
+					await $currentMiniPlayer.element.play();
+					updateMetadata($currentMiniPlayer);
+					updatePositionState($currentMiniPlayer);
 				}
 			});
-		}
-	}
 
-	function stopOther(miniPlayer: MiniPlayer) {
+			addMediaSessionActionHandler('pause', () => {
+				if ($currentMiniPlayer && $currentMiniPlayer.element) {
+					$currentMiniPlayer.element.pause();
+				}
+			});
+
+			addMediaSessionActionHandler('stop', handleClose);
+
+			addMediaSessionActionHandler('nexttrack', handleNext);
+
+			addMediaSessionActionHandler('previoustrack', handlePrev);
+
+			addMediaSessionActionHandler('seekbackward', null);
+			addMediaSessionActionHandler('seekforward', null);
+
+			// navigator.mediaSession.setActionHandler('seekto', (details) => {
+			// 	if ($currentMiniPlayer && $currentMiniPlayer.element) {
+			// 		const to = details.seekTime ?? 0;
+			// 		$currentMiniPlayer.element.currentTime = to;
+			// 		$currentMiniPlayer.element.play();
+			// 	}
+			// });
+		}
+	});
+
+	// ----------------------------------------------------------------
+	function stopOtherMiniPlayers(miniPlayer: MiniPlayer) {
 		if ($currentMiniPlayers) {
 			$currentMiniPlayers.forEach((mp) => {
 				if (mp !== miniPlayer && mp.element) {
@@ -220,44 +323,78 @@
 	}
 
 	function playerReady(p: HTMLAudioElement) {
-		console.log(p.readyState);
 		if (p.readyState === 4 || p.readyState === 3) {
 			return true;
 		}
 		return false;
 	}
 
-	const handlePlay = (e: Event) => {
-		// $activePlayer = player;
-		if ($currentMiniPlayer && $currentMiniPlayer.element) {
-			stopOther($currentMiniPlayer);
+	function updatePositionState(miniPlayer: MiniPlayer) {
+		if (
+			'mediaSession' in navigator &&
+			'setPositionState' in navigator.mediaSession
+		) {
+			if (miniPlayer.element && playerReady(miniPlayer.element)) {
+				navigator.mediaSession.setPositionState({
+					duration: miniPlayer.element.duration,
+					playbackRate: miniPlayer.element.playbackRate,
+					position: miniPlayer.element.currentTime
+				});
+			}
 		}
-		// stopOther(player);
-		// if ('mediaSession' in navigator) {
-		// 	navigator.mediaSession.playbackState = 'playing';
-		// 	updateMetadata(player);
-		// 	updatePositionState(player);
-		// }
-		if ($currentMiniPlayer) {
-			// currentMiniPlayer.audio
-			// 	.play()
-			// 	.then(() => {
-			// 		currentState = 'playing';
-			// 		if (currentMiniPlayer) {
-			// 			currentDuration = currentMiniPlayer.audio.duration;
-			// 			currentProgress = currentMiniPlayer.audio.currentTime;
-			// 		}
-			// 	})
-			// 	.catch((e) => {
-			// 		console.log('error', e);
-			// 	});
+	}
+
+	function updateMetadata(miniPlayer: MiniPlayer) {
+		if ('mediaSession' in navigator) {
+			navigator.mediaSession.metadata = new MediaMetadata(
+				miniPlayer.metaData
+			);
 		}
+	}
+
+	const handlePlay = (
+		e: Event & {
+			currentTarget: EventTarget & HTMLAudioElement;
+		}
+	) => {
+		const miniPlayer = Array.from($nestedMiniPlayers[$currentContext]).find(
+			(mp) => mp.element === e.currentTarget
+		);
+
+		if (!miniPlayer || !miniPlayer.element) {
+			return;
+		}
+
+		stopOtherMiniPlayers(miniPlayer);
+
+		$currentMiniPlayer = miniPlayer;
+
+		direction = 1;
+		miniPlayer.element
+			.play()
+			.then(() => {
+				if ('mediaSession' in navigator) {
+					navigator.mediaSession.playbackState = 'playing';
+					updateMetadata(miniPlayer);
+					updatePositionState(miniPlayer);
+				}
+
+				$currentState = 'playing';
+
+				if (miniPlayer.element) {
+					currentDuration = miniPlayer.element.duration;
+					currentProgress = miniPlayer.element.currentTime;
+				}
+			})
+			.catch((e) => {
+				console.log('error', e);
+			});
 	};
 
 	const handlePause = () => {
-		// if ('mediaSession' in navigator) {
-		// 	navigator.mediaSession.playbackState = 'paused';
-		// }
+		if ('mediaSession' in navigator) {
+			navigator.mediaSession.playbackState = 'paused';
+		}
 		$currentState = 'paused';
 	};
 
@@ -269,7 +406,7 @@
 
 	const handleNext = () => {
 		if (!$currentMiniPlayer) return;
-
+		direction = 1;
 		const miniPlayersArray = Array.from($currentMiniPlayers);
 
 		const currentIndex = miniPlayersArray.indexOf($currentMiniPlayer);
@@ -294,15 +431,14 @@
 			}
 
 			nextMiniPlayer.element.play();
-			// updateMetadata(nextMiniPlayer);
-			// updatePositionState(nextMiniPlayer);
 		}
 
-		$currentId = nextMiniPlayer.id;
+		$currentMiniPlayer = nextMiniPlayer;
 	};
+
 	const handlePrev = () => {
 		if (!$currentMiniPlayer) return;
-
+		direction = -1;
 		const miniPlayersArray = Array.from($currentMiniPlayers);
 
 		const currentIndex = miniPlayersArray.indexOf($currentMiniPlayer);
@@ -329,23 +465,21 @@
 			}
 
 			previousMiniPlayer.element.play();
-
-			// updateMetadata(previousMiniPlayer);
-			// updatePositionState(previousMiniPlayer);
 		}
 
-		$currentId = previousMiniPlayer.id;
+		$currentMiniPlayer = previousMiniPlayer;
 	};
 
-	// TODO: think about pausible tween
+	const handleClose = () => {
+		if ($currentMiniPlayer && $currentMiniPlayer.element) {
+			$currentMiniPlayer.element.pause();
+			$currentMiniPlayer.element.currentTime = 0;
+		}
 
-	// const handleStateChange = (state: MediaPlayerState) => {
-	// 	if (currentMiniPlayer && currentMiniPlayer.onStateChange) {
-	// 		currentMiniPlayer.onStateChange(state);
-	// 	}
-	// };
-
-	// $: handleStateChange(currentState);
+		$currentMiniPlayer = undefined;
+		$currentContext = DEFAULT_PLAYER_CONTEXT;
+		$currentState = 'idle';
+	};
 
 	const requestAction = () => {
 		if ($currentMiniPlayer && $currentMiniPlayer.element) {
@@ -368,20 +502,16 @@
 		}
 	};
 
-	// $: {
-	// 	if (removeCurrentMiniPlayer) {
-	// 		if (
-	// 			!currentMiniPlayer ||
-	// 			currentMiniPlayer.id !== removeCurrentMiniPlayer.id
-	// 		) {
-	// 			removePlayer({
-	// 				id: removeCurrentMiniPlayer.id,
-	// 				context: removeCurrentMiniPlayer.context
-	// 			});
-	// 			removeCurrentMiniPlayer = undefined;
-	// 		}
-	// 	}
-	// }
+	$: {
+		if (
+			$toBeRemoved &&
+			$currentMiniPlayer &&
+			$toBeRemoved.id !== $currentMiniPlayer.id
+		) {
+			remove($toBeRemoved);
+			$toBeRemoved = undefined;
+		}
+	}
 
 	const getMiniPlayerIndex = (
 		players: Set<MiniPlayer> | undefined,
@@ -399,23 +529,37 @@
 		return Array.from(players).length;
 	};
 
-	$: index = getMiniPlayerIndex($currentMiniPlayers, $currentMiniPlayer);
-	$: size = getMiniPlayersSize($currentMiniPlayers);
-
 	const formatTime = (time: number) => {
 		return `${Math.floor(time / 60)
 			.toString()
 			.padStart(2, '0')}:${Math.floor(time).toString().padStart(2, '0')}`;
 	};
 
+	$: index = getMiniPlayerIndex($currentMiniPlayers, $currentMiniPlayer);
+	$: size = getMiniPlayersSize($currentMiniPlayers);
+
 	$: $tweenedProgress = currentProgress;
 
-	$: console.log($nestedMiniPlayers);
-	$: console.log($currentMiniPlayers);
-	$: console.log(Array.from($currentMiniPlayers));
-	$: console.log($currentContext);
-	$: console.log($currentId);
-	$: console.log($currentMiniPlayer);
+	function handleSwipe(event) {
+		const { direction: d } = event.detail;
+		if (d === 'left') {
+			handleNext();
+		}
+		if (d === 'right') {
+			handlePrev();
+		}
+		if (d === 'bottom') {
+			if ($currentMiniPlayer) {
+				if ($currentMiniPlayer.element) {
+					$currentMiniPlayer.element.pause();
+					$currentMiniPlayer.element.currentTime = 0;
+				}
+				$currentMiniPlayer = undefined;
+				$currentContext = DEFAULT_PLAYER_CONTEXT;
+				$currentState = 'idle';
+			}
+		}
+	}
 </script>
 
 <slot />
@@ -425,11 +569,11 @@
 	role="region"
 	aria-live="polite"
 	aria-label="Audio player"
-	style="z-index: 9999; position: sticky; bottom: 0"
-	class="bg-white/[.85] backdrop-blur-sm"
+	style="z-index: 9999; position: sticky;"
+	class="bottom-0"
 >
-	<!-- {#if $currentMiniPlayers}
-		{#each Array.from($currentMiniPlayers) as miniPlayer}
+	{#if $currentMiniPlayers}
+		{#each Array.from($currentMiniPlayers) as miniPlayer (miniPlayer.id)}
 			<audio
 				on:play={handlePlay}
 				on:pause={handlePause}
@@ -443,142 +587,144 @@
 					}
 				}}
 				bind:this={miniPlayer.element}
-				controls
 			>
 				<source src={miniPlayer.src} type="audio/mpeg" />
-				<track kind="captions" />
 			</audio>
 		{/each}
-	{/if} -->
+	{/if}
 	{#if $currentMiniPlayer}
 		<div
 			in:slide={{ duration: 400 }}
 			out:slide={{ duration: 400 }}
-			class="border-t border-mauve-6"
+			class="bg-white/[.85] backdrop-blur-sm relative w-full grid grid-cols-[minmax(0,1fr),auto] gap-4 select-none"
 		>
-			<!-- <audio
-				bind:this={player}
-				on:play={handlePlay}
-				on:pause={handlePause}
-				on:ended={handleEnded}
-				on:timeupdate={() => {
-					currentProgress = player.currentTime;
-				}}
-			/> -->
-			<Headline
-				as="h2"
-				type="secondary"
-				class="truncate flex justify-between items-center"
-			>
-				Miniplayer
-
-				<button
-					on:click={() => {
-						if ($currentMiniPlayer && $currentMiniPlayer.element) {
-							$currentMiniPlayer.element.pause();
-							$currentMiniPlayer.element.currentTime = 0;
-
-							$currentId = undefined;
-							$currentContext = DEFAULT_PLAYER_CONTEXT;
-							$currentState = 'idle';
-						}
-					}}
-					class="p-1 m-1 text-xs border rounded-full touch-manipulation border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1"
-				>
-					<AccessibleIcon label="Remove player">
-						<Close />
-					</AccessibleIcon>
-				</button>
-			</Headline>
-
-			<Music.Row class="flex">
-				<Music.Atom>
-					<Link href={$currentMiniPlayer.externalUrl} type="ghost">
-						{#if $currentMiniPlayer.previewImage}
-							<img
-								loading="lazy"
-								width="60"
-								height="60"
-								class="h-[68px] w-[68px] object-cover bg-mauve-3"
-								src={$currentMiniPlayer.previewImage}
-								alt="{$currentMiniPlayer.metaData
-									.album} Album Cover"
-							/>
-						{:else}
-							<div class="h-[68px] w-[68px] bg-purple-3" />
-						{/if}
-					</Link>
-				</Music.Atom>
-				<Music.Atom class="flex-1 min-w-0 border-l border-mauve-6">
-					<div
-						class="flex items-center w-full pt-2 pl-2 text-xs space-x-1 text-mauve-11"
-					>
-						<Artist />
-						<p class="truncate text-xs space-x-1 text-mauve-11">
-							{$currentMiniPlayer.metaData.artist}
-						</p>
-					</div>
-
-					<Headline
-						as="h3"
-						type="tertiary"
-						containerClass="pt-0 pr-0 pb-2 border-b-0 md:pb-0"
-						class="truncate"
-					>
-						<Link href={$currentMiniPlayer.externalUrl}>
-							{$currentMiniPlayer.metaData.title}
-							<span>({index} / {size})</span>
-						</Link>
-					</Headline>
-				</Music.Atom>
-			</Music.Row>
-
 			<Progress.Root
-				class="w-full h-0.5 bg-mauve-6"
+				class="w-full h-0.5 bg-mauve-6 absolute top-0"
 				min={0}
 				max={currentDuration}
 				value={$tweenedProgress}
 				getValueLabel={(value) => `${formatTime(value)}
-				/
-				${formatTime(currentDuration)}`}
+		/
+		${formatTime(currentDuration)}`}
 			>
 				<Progress.Indicator class="bg-mauve-12 will-change-[width]" />
 			</Progress.Root>
-
-			<div
-				class="border-b border-mauve-6 p-2 flex justify-between items-center"
+			<Slide
+				key={$currentMiniPlayer.id}
+				{direction}
+				on:introstart={() => {
+					transitioning = true;
+				}}
+				on:introend={() => {
+					transitioning = false;
+				}}
 			>
-				<button
-					class="bg-white p-1 pl-2 text-xs border rounded-l-full touch-manipulation border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 cursor-w-resize"
-					disabled={!$currentMiniPlayer}
-					on:click={handlePrev}
-				>
-					<AccessibleIcon label="Go to previous">
-						<West />
-					</AccessibleIcon>
-				</button>
+				<Music.Row as="div" class="flex border-b-0 flex-shrink w-full">
+					<Music.Atom>
+						<Link
+							href={$currentMiniPlayer.externalUrl}
+							type="ghost"
+						>
+							{#if $currentMiniPlayer.previewImage}
+								<img
+									loading="lazy"
+									width="60"
+									height="60"
+									class="h-[68px] w-[68px] object-cover bg-mauve-3"
+									src={$currentMiniPlayer.previewImage}
+									alt="{$currentMiniPlayer.metaData
+										.album} Album Cover"
+								/>
+							{:else}
+								<div class="h-[68px] w-[68px] bg-purple-3" />
+							{/if}
+						</Link>
+					</Music.Atom>
+					<Music.Atom class="flex-1 min-w-0 border-l border-mauve-6">
+						<div
+							class="flex items-center w-full pt-2 pl-2 text-xs space-x-1 text-mauve-11"
+						>
+							<Artist />
+							<p class="truncate text-xs space-x-1 text-mauve-11">
+								{$currentMiniPlayer.metaData.artist}
+							</p>
+						</div>
 
+						<Headline
+							as="h3"
+							type="tertiary"
+							containerClass="pt-0 pr-0 pb-2 border-b-0 md:pb-0"
+							class="truncate"
+						>
+							<Link href={$currentMiniPlayer.externalUrl}>
+								{$currentMiniPlayer.metaData.title}
+								<span>({index} / {size})</span>
+							</Link>
+						</Headline>
+					</Music.Atom>
+				</Music.Row>
+			</Slide>
+			<div
+				class="p-2 flex space-x-2 md:space-x-4 items-center border-l border-mauve-6"
+			>
+				<div class="flex space-x-2 items-center">
+					<button
+						class="hidden sm:block bg-white p-1 pl-2 text-xs border rounded-l-full touch-manipulation border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 cursor-w-resize"
+						disabled={!$currentMiniPlayer || transitioning}
+						on:click={handlePrev}
+					>
+						<AccessibleIcon label="Go to previous">
+							<West />
+						</AccessibleIcon>
+					</button>
+
+					<button
+						class="bg-white p-1 text-xs border touch-manipulation border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 cursor-e-resize"
+						disabled={!$currentMiniPlayer ||
+							$currentState === 'loading' ||
+							transitioning}
+						on:click={requestAction}
+					>
+						{#if $currentState === 'loading'}
+							<AccessibleIcon label="loading">
+								<Spinner class="animate-loading-1" />
+							</AccessibleIcon>
+						{:else if $currentState === 'playing'}
+							<AccessibleIcon label="pause">
+								<Pause />
+							</AccessibleIcon>
+						{:else}
+							<AccessibleIcon label="play">
+								<Play />
+							</AccessibleIcon>
+						{/if}
+					</button>
+					<button
+						class="hidden sm:block bg-white p-1 pr-2 text-xs border rounded-r-full touch-manipulation border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 cursor-e-resize"
+						disabled={!$currentMiniPlayer || transitioning}
+						on:click={handleNext}
+					>
+						<AccessibleIcon label="Go to next">
+							<East />
+						</AccessibleIcon>
+					</button>
+				</div>
 				<button
-					class="bg-white p-1 text-xs border touch-manipulation border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 cursor-e-resize"
-					disabled={!$currentMiniPlayer ||
-						$currentState === 'loading'}
-					on:click={requestAction}
+					class=" bg-white p-1 text-xs border rounded-full touch-manipulation border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 cursor-w-resize"
+					on:click={() => {
+						if ($currentMiniPlayer) {
+							if ($currentMiniPlayer.element) {
+								$currentMiniPlayer.element.pause();
+								$currentMiniPlayer.element.currentTime = 0;
+							}
+							$currentMiniPlayer = undefined;
+							$currentContext = DEFAULT_PLAYER_CONTEXT;
+							$currentState = 'idle';
+						}
+					}}
 				>
-					{#if $currentState === 'loading'}
-						<AccessibleIcon label="Loading">🌀</AccessibleIcon>
-					{:else if $currentState === 'playing'}
-						<AccessibleIcon label="pause">⏸️</AccessibleIcon>
-					{:else}
-						<AccessibleIcon label="play">⏯️</AccessibleIcon>
-					{/if}
-				</button>
-				<button
-					class="bg-white p-1 pr-2 text-xs border rounded-r-full touch-manipulation border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 cursor-e-resize"
-					disabled={!$currentMiniPlayer}
-					on:click={handleNext}
-				>
-					<AccessibleIcon label="Go to next">
-						<East />
+					<AccessibleIcon label="close">
+						<Close />
 					</AccessibleIcon>
 				</button>
 			</div>

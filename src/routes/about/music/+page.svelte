@@ -38,6 +38,7 @@
 	import type { PageData } from './$types';
 	import { Slide } from '$components/Slide';
 	import { createQuery } from '@tanstack/svelte-query';
+	import Playing from '$components/SvelteIcons/Playing.svelte';
 	export let data: PageData;
 
 	const queryStore = queryParam('s', {

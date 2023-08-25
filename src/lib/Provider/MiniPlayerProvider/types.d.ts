@@ -1,3 +1,5 @@
+import type { derived, readonly } from 'svelte/store';
+
 type MetaData = {
 	title: string;
 	artist: string;
@@ -20,12 +22,18 @@ type MiniPlayer = {
 	element?: HTMLAudioElement;
 };
 
-type RegisterPlayerArgs = Omit<MiniPlayer, 'element' | 'id'> & {
+type RegisterArgs = Omit<MiniPlayer, 'element' | 'id'> & {
 	context?: string;
 };
 
 export interface MiniPlayerContext {
-	registerPlayer: (args: RegisterPlayerArgs) => string;
-	playPlayer: (args: { context?: string; id: string }) => void;
-	removePlayer: (args: { context?: string; id: string }) => void;
+	register: (args: RegisterArgs) => string;
+	play: (args: { context?: string; id: string }) => void;
+	pause: (args: { context?: string; id: string }) => void;
+	remove: (args: { context?: string; id: string }) => void;
+	state: derived<{
+		context?: string;
+		currentId?: string;
+		state: MediaPlayerState;
+	}>;
 }

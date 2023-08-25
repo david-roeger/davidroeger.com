@@ -1,48 +1,12 @@
-<script context="module" lang="ts">
-	type MetaData = {
-		title: string;
-		artist: string;
-		album: string;
-		artwork: {
-			src: string;
-			sizes: string;
-			type: string;
-		}[];
-	};
-
-	const players = new Set<HTMLAudioElement>();
-	const metaDatas = new Set<MetaData>();
-
-	export function stopAll() {
-		players.forEach((p) => p.pause());
-	}
-
-	export function stopOther(player: HTMLAudioElement) {
-		players.forEach((p) => {
-			if (p !== player) {
-				p.pause();
-			}
-		});
-	}
-
-	export function getMiniPlayerIndex(player: HTMLAudioElement) {
-		const playersArray = Array.from(players);
-		return playersArray.indexOf(player);
-	}
-
-	export function getMetaDataByIndex(index: number) {
-		const metaDataArray = Array.from(metaDatas);
-		return metaDataArray[index];
-	}
-</script>
-
 <script lang="ts">
 	import { getContext, onDestroy, onMount } from 'svelte';
-	import { activePlayer } from './store';
 	import type {
 		MediaPlayerState,
 		MiniPlayerContext
 	} from '$provider/MiniPlayerProvider/types';
+	import { derived, writable, type Readable } from 'svelte/store';
+	import Playing from '$components/SvelteIcons/Playing.svelte';
+	import Button from '$components/Button/Button.svelte';
 
 	export let src: string;
 
@@ -58,7 +22,7 @@
 		type: string;
 	}[];
 
-	const { registerPlayer, playPlayer, removePlayer } =
+	const { register, play, pause, remove, state } =
 		getContext<MiniPlayerContext>('miniPlayer');
 
 	const metaData = {
@@ -68,11 +32,11 @@
 		artwork
 	};
 
-	let id: string | undefined = undefined;
+	const id = writable<string>();
 	const context = 'tracks';
 
 	onMount(() => {
-		id = registerPlayer({
+		$id = register({
 			context,
 			src,
 			previewImage,
@@ -82,28 +46,45 @@
 	});
 
 	onDestroy(() => {
-		if (id) {
-			console.log('destroying', metaData.title);
-			removePlayer({ id, context });
+		console.log('destroy');
+		if ($id) {
+			remove({ id: $id, context });
 		}
 	});
+
+	const current = derived([id, state], ([$id, $s]) => {
+		const $state = $s as {
+			context?: string | undefined;
+			currentId?: string | undefined;
+			state: MediaPlayerState;
+		};
+		if ($id && $id === $state.currentId) {
+			return $state;
+		}
+	});
+
+	$: isShowing = $current ? true : false;
+	$: isPlaying = $current && $current.state === 'playing' ? true : false;
 </script>
 
-<div class="relative">
+<div class="relative flex">
 	<button
-		class="absolute inset-0 w-full h-full bg-mauve-12/80 opacity-0 hover:opacity-100 transition-opacity"
+		class="text-white absolute h-[68px] md:h-[92px] w-[68px] md:w-[92px] bg-mauve-12/80 opacity-0 hover:opacity-100 transition-opacity"
 		disabled={!id}
 		on:click={async () => {
-			if (id) {
-				playPlayer({ id, context });
+			if ($id) {
+				if (!isPlaying) {
+					play({ id: $id, context });
+				} else {
+					pause({ id: $id, context });
+				}
 			}
 		}}
 	>
-		▶️
+		{isPlaying ? '◼︎' : '▶︎'}
 	</button>
-	<audio controls>
-		<source {src} type="audio/mpeg" />
-		<track kind="captions" />
-	</audio>
 	<slot />
+	<div>
+		<Playing show={isShowing} play={isPlaying} />
+	</div>
 </div>

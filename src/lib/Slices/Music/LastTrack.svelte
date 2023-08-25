@@ -13,16 +13,13 @@
 	} from '$components/Music/types';
 	import { Slide } from '$components/Slide';
 
-	import { getContext, onDestroy, onMount } from 'svelte';
 	import { MUSIC_KEYS } from '$routes/about/music/constants';
-	import type { MiniPlayerContext } from '$provider/MiniPlayerProvider/types';
+
+	import MiniPlayer from '$components/MiniPlayer/MiniPlayer.svelte';
 
 	let c = '';
 	export { c as class };
 	export let labelledby: string | undefined = undefined;
-
-	const { registerPlayer, playPlayer, removePlayer } =
-		getContext<MiniPlayerContext>('miniPlayer');
 
 	const getImageUrl = (images: Image[]): string => {
 		if (images.length === 0) return '';
@@ -58,39 +55,6 @@
 		refetchOnWindowFocus: 'always',
 		refetchInterval: 1000 * 30 // 30 seconds
 	});
-
-	let id: string | undefined = undefined;
-	const context = 'tracks';
-	onMount(() => {
-		if ($query.data && $query.data.preview_url) {
-			id = registerPlayer({
-				context,
-				src: $query.data.preview_url,
-				previewImage: getImageUrl($query.data.album.images),
-				externalUrl: $query.data.external_urls.spotify,
-				metaData: {
-					title: $query.data.name,
-					artist: $query.data.artists
-						.map((artist) => artist.name)
-						.join(', '),
-					album: $query.data.album.name,
-					artwork: $query.data.album.images.map((image) => ({
-						src: image.url,
-						sizes: `${image.width}x${image.height}`,
-						type: 'image/jpeg'
-					}))
-				}
-			});
-
-			console.log(id);
-		}
-	});
-
-	onDestroy(() => {
-		if (id) {
-			removePlayer({ id, context });
-		}
-	});
 </script>
 
 <section class={c}>
@@ -117,21 +81,74 @@
 				<Music.Row as="div" class="flex">
 					{#if lastTrack.album.images.length}
 						<Music.Atom>
-							<Link
-								href={lastTrack.external_urls.spotify}
-								type="ghost"
-							>
-								<Music.Image
-									url={getImageUrl(lastTrack.album.images)}
-									alt="{lastTrack.album.name} Album Cover"
-								/>
-							</Link>
+							{#if lastTrack.preview_url}
+								<MiniPlayer
+									previewImage={getImageUrl(
+										lastTrack.album.images
+									)}
+									externalUrl={lastTrack.external_urls
+										.spotify}
+									src={lastTrack.preview_url}
+									title={lastTrack.name}
+									artist={lastTrack.artists
+										.map((artist) => artist.name)
+										.join(', ')}
+									album={lastTrack.album.name}
+									artwork={lastTrack.album.images.map(
+										(image) => ({
+											src: image.url,
+											sizes: `${image.width}x${image.height}`,
+											type: 'image/jpeg'
+										})
+									)}
+								>
+									<Music.Image
+										url={getImageUrl(
+											lastTrack.album.images
+										)}
+										alt="{lastTrack.album.name} Album Cover"
+									/>
+								</MiniPlayer>
+							{:else}
+								<Link
+									href={lastTrack.external_urls.spotify}
+									type="ghost"
+								>
+									<Music.Image
+										url={getImageUrl(
+											lastTrack.album.images
+										)}
+										alt="{lastTrack.album.name} Album Cover"
+									/>
+								</Link>
+							{/if}
 						</Music.Atom>
 					{:else}
 						<Music.Atom>
-							<div
-								class="h-[68px] md:h-[92px] w-[68px] md:w-[92px] bg-purple-3"
-							/>
+							{#if lastTrack.preview_url}
+								<MiniPlayer
+									previewImage={getImageUrl(
+										lastTrack.album.images
+									)}
+									externalUrl={lastTrack.external_urls
+										.spotify}
+									src={lastTrack.preview_url}
+									title={lastTrack.name}
+									artist={lastTrack.artists
+										.map((artist) => artist.name)
+										.join(', ')}
+									album={lastTrack.album.name}
+									artwork={[]}
+								>
+									<div
+										class="h-[68px] md:h-[92px] w-[68px] md:w-[92px] bg-purple-3"
+									/>
+								</MiniPlayer>
+							{:else}
+								<div
+									class="h-[68px] md:h-[92px] w-[68px] md:w-[92px] bg-purple-3"
+								/>
+							{/if}
 						</Music.Atom>
 					{/if}
 					<Music.Atom class="flex-1 min-w-0 border-l border-mauve-6">
