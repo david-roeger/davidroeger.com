@@ -13,5 +13,6 @@
 		<!-- svelte-ignore missing-declaration -->
 		<p>Last updated at: {__BUILD_TIME__}</p>
 		<p>Version: {version}</p>
+		<p>hi luca</p>
 	</div>
 </footer>
