@@ -53,7 +53,7 @@
 		"@lucia-auth/adapter-postgresql": "^2.0.1",
 		"@tanstack/svelte-query": "^5.0.0-beta.18",
 		"bezier-easing": "^2.1.0",
-		"focus-trap": "^7.5.2",
+		"focus-trap": "^7.5.3",
 		"fuse.js": "^6.6.2",
 		"jsdom": "^22.1.0",
 		"lucia": "^2.7.0",
