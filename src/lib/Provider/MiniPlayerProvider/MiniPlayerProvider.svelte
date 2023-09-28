@@ -651,7 +651,9 @@
 				<div class="flex space-x-2 items-center">
 					<button
 						class="hidden sm:block bg-white p-1 pl-2 text-xs border rounded-l-full touch-manipulation border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 cursor-w-resize"
-						disabled={!$currentMiniPlayer || transitioning}
+						disabled={!$currentMiniPlayer ||
+							transitioning ||
+							size === 1}
 						on:click={handlePrev}
 					>
 						<AccessibleIcon label="Go to previous">
@@ -682,7 +684,9 @@
 					</button>
 					<button
 						class="hidden sm:block bg-white p-1 pr-2 text-xs border rounded-r-full touch-manipulation border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 cursor-e-resize"
-						disabled={!$currentMiniPlayer || transitioning}
+						disabled={!$currentMiniPlayer ||
+							transitioning ||
+							size === 1}
 						on:click={handleNext}
 					>
 						<AccessibleIcon label="Go to next">
