@@ -92,6 +92,7 @@
 	<section class="mb-32 border-b border-mauve-6">
 		{#if data.project.title}
 			<Headline containerClass="py-8 md:py-16">
+				<span aria-hidden="true" class="select-none">::</span>
 				{data.project.title}
 			</Headline>
 		{/if}
