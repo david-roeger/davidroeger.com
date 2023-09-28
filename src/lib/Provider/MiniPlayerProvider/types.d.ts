@@ -28,7 +28,7 @@ type RegisterArgs = Omit<MiniPlayer, 'element' | 'id'> & {
 
 export interface MiniPlayerContext {
 	register: (args: RegisterArgs) => string;
-	play: (args: { context?: string; id: string }) => void;
+	play: (args: { context?: string; id: string }) => Promise<void>;
 	pause: (args: { context?: string; id: string }) => void;
 	remove: (args: { context?: string; id: string }) => void;
 	state: derived<{

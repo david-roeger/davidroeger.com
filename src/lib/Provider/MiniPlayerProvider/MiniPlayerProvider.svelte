@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { onMount, setContext } from 'svelte';
+	import { onMount, setContext, tick } from 'svelte';
 	import { derived, writable } from 'svelte/store';
 	import { slide } from 'svelte/transition';
 
@@ -16,9 +16,9 @@
 	import Close from '$assets/Icons/24/close.svg?component';
 
 	import Artist from '$assets/Icons/24/artist.svg?component';
+	import Spinner from '$assets/Icons/24/spinner.svg?component';
 	import Play from '$assets/Icons/24/play.svg?component';
 	import Pause from '$assets/Icons/24/pause.svg?component';
-	import Spinner from '$assets/Icons/24/spinner.svg?component';
 
 	import { DEFAULT_PLAYER_CONTEXT } from './constants';
 
@@ -97,7 +97,7 @@
 		return id;
 	};
 
-	const play = ({
+	const play = async ({
 		context = DEFAULT_PLAYER_CONTEXT,
 		id
 	}: Parameters<MiniPlayerContext['play']>[0]) => {
@@ -108,6 +108,9 @@
 		}
 
 		$currentContext = context;
+
+		// await tick so the audio bindings are up to date
+		await tick();
 
 		const miniPlayer = Array.from($nestedMiniPlayers[context]).find(
 			(mp) => mp.id === id
@@ -539,27 +542,6 @@
 	$: size = getMiniPlayersSize($currentMiniPlayers);
 
 	$: $tweenedProgress = currentProgress;
-
-	function handleSwipe(event) {
-		const { direction: d } = event.detail;
-		if (d === 'left') {
-			handleNext();
-		}
-		if (d === 'right') {
-			handlePrev();
-		}
-		if (d === 'bottom') {
-			if ($currentMiniPlayer) {
-				if ($currentMiniPlayer.element) {
-					$currentMiniPlayer.element.pause();
-					$currentMiniPlayer.element.currentTime = 0;
-				}
-				$currentMiniPlayer = undefined;
-				$currentContext = DEFAULT_PLAYER_CONTEXT;
-				$currentState = 'idle';
-			}
-		}
-	}
 </script>
 
 <slot />

@@ -80,7 +80,7 @@
 		{@const topTracks = $query.data}
 		<Music.Root {labelledby}>
 			{#each topTracks as track (track.id)}
-				<Music.Row class="flex">
+				<Music.Row class="flex group/miniplayer">
 					{#if track.album.images.length}
 						<Music.Atom>
 							{#if track.preview_url}

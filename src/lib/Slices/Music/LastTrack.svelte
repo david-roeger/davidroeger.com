@@ -78,7 +78,7 @@
 		{@const lastTrack = $query.data}
 		<Music.Root {labelledby}>
 			<Slide as="li" key={lastTrack.id}>
-				<Music.Row as="div" class="flex">
+				<Music.Row as="div" class="flex group/miniplayer">
 					{#if lastTrack.album.images.length}
 						<Music.Atom>
 							{#if lastTrack.preview_url}
@@ -101,6 +101,7 @@
 											type: 'image/jpeg'
 										})
 									)}
+									context="lastTrack"
 								>
 									<Music.Image
 										url={getImageUrl(
