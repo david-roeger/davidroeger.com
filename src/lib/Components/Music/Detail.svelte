@@ -21,7 +21,7 @@
 
 	<Headline
 		as="h3"
-		type="tertiary"
+		type="quaternary"
 		containerClass="pt-0 px-0 pb-2 truncate border-b-0 md:pb-0"
 		class="truncate"
 	>

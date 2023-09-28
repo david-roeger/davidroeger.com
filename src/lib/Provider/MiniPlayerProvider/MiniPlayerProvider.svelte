@@ -652,7 +652,7 @@
 
 						<Headline
 							as="h3"
-							type="tertiary"
+							type="quaternary"
 							containerClass="pt-0 pr-0 pb-2 border-b-0 md:pb-0"
 							class="truncate"
 						>
