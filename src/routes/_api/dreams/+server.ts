@@ -11,7 +11,7 @@ import {
 	DREAMS_DEFAULT_SIZE
 } from '$routes/experimental/dreams/constants';
 import type { Pageable } from '$components/Pagination/types';
-import { ensurePositiveInteger, safeUrlParam } from '$utils/Url';
+import { parseNumber } from '$utils/Url';
 import type { Dream } from '$types';
 import { logger } from '$utils/logger';
 
@@ -21,13 +21,18 @@ export const GET: RequestHandler = async ({ url, locals }) => {
 	const session = await locals.auth.validate();
 	if (!session) throw error(401, 'Unauthorized');
 
-	const size = ensurePositiveInteger(DREAMS_DEFAULT_SIZE).parse(
-		safeUrlParam(url, 'size')
-	);
-	const page = ensurePositiveInteger(DREAMS_DEFAULT_PAGE).parse(
-		safeUrlParam(url, 'page')
-	);
+	const size = parseNumber({
+		url,
+		key: 'size',
+		defaultNumber: DREAMS_DEFAULT_SIZE
+	});
+	const page = parseNumber({
+		url,
+		key: 'page',
+		defaultNumber: DREAMS_DEFAULT_PAGE
+	});
 
+	console.log({ size, page });
 	logger.page(
 		`_api/dreams: +server.ts // GET // page: ${page} // size: ${size}`
 	);
