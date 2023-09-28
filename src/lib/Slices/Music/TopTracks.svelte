@@ -64,7 +64,7 @@
 				<Music.Row class="flex">
 					<Music.Atom>
 						<div
-							class="h-[68px] md:h-[92px] w-[68px] md:w-[92px] bg-purple-3"
+							class="h-[64px] md:h-[88px] w-[64px] md:w-[88px] bg-purple-3"
 						/>
 					</Music.Atom>
 					<Music.Atom class="flex-1 min-w-0 border-l border-mauve-6">
@@ -137,12 +137,12 @@
 									artwork={[]}
 								>
 									<div
-										class="h-[68px] md:h-[92px] w-[68px] md:w-[92px] bg-purple-3"
+										class="h-[64px] md:h-[88px] w-[64px] md:w-[88px] bg-purple-3"
 									/>
 								</MiniPlayer>
 							{:else}
 								<div
-									class="h-[68px] md:h-[92px] w-[68px] md:w-[92px] bg-purple-3"
+									class="h-[64px] md:h-[88px] w-[64px] md:w-[88px] bg-purple-3"
 								/>
 							{/if}
 						</Music.Atom>
@@ -175,7 +175,7 @@
 			<Music.Row class="flex">
 				<Music.Atom>
 					<div
-						class="h-[68px] md:h-[92px] w-[68px] md:w-[92px] bg-purple-3"
+						class="h-[64px] md:h-[88px] w-[64px] md:w-[88px] bg-purple-3"
 					/>
 				</Music.Atom>
 				<Music.Atom class="flex-1 min-w-0 border-l border-mauve-6">

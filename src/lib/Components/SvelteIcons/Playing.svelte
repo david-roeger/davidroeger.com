@@ -5,8 +5,8 @@
 </script>
 
 <div
-	class="h-[68px] md:h-[92px] overflow-hidden relative transition-[transform,width] {show
-		? 'w-[34px] md:w-[46px]'
+	class="h-[64px] md:h-[88px] overflow-hidden relative transition-[transform,width] {show
+		? 'w-[32px] md:w-[44px]'
 		: 'w-0 md:w-0'}"
 >
 	<div

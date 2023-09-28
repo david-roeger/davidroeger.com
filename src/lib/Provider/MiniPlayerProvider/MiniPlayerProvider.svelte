@@ -630,13 +630,13 @@
 									loading="lazy"
 									width="60"
 									height="60"
-									class="h-[68px] w-[68px] object-cover bg-mauve-3"
+									class="h-[64px] w-[64px] object-cover bg-mauve-3"
 									src={$currentMiniPlayer.previewImage}
 									alt="{$currentMiniPlayer.metaData
 										.album} Album Cover"
 								/>
 							{:else}
-								<div class="h-[68px] w-[68px] bg-purple-3" />
+								<div class="h-[64px] w-[64px] bg-purple-3" />
 							{/if}
 						</Link>
 					</Music.Atom>
