@@ -76,7 +76,7 @@
 	{:else if $query.data}
 		{@const topArtists = $query.data}
 		<Music.Root {labelledby}>
-			{#each topArtists as artist (artist.id)}
+			{#each topArtists as artist, index (artist.id)}
 				<Music.Row class="flex">
 					{#if artist.images.length}
 						<Music.Atom>
@@ -111,6 +111,9 @@
 							<AccessibleIcon label="Popularity:" slot="subline">
 								<Score score={artist.popularity} />
 							</AccessibleIcon>
+							<span slot="headline">
+								{index + 1}.
+							</span>
 						</Music.Detail>
 					</Music.Atom>
 				</Music.Row>

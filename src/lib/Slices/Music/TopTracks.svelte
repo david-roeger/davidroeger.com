@@ -79,7 +79,7 @@
 	{:else if $query.data}
 		{@const topTracks = $query.data}
 		<Music.Root {labelledby}>
-			{#each topTracks as track (track.id)}
+			{#each topTracks as track, index (track.id)}
 				<Music.Row class="flex group/miniplayer">
 					{#if track.album.images.length}
 						<Music.Atom>
@@ -165,6 +165,9 @@
 							<AccessibleIcon label="Album:" slot="subline">
 								<Album />
 							</AccessibleIcon>
+							<span slot="headline">
+								{index + 1}.
+							</span>
 						</Music.Detail>
 					</Music.Atom>
 				</Music.Row>
