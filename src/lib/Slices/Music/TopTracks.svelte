@@ -4,13 +4,17 @@
 	import * as Music from '$components/Music';
 	import { Link } from '$components/Link';
 	import { AccessibleIcon } from '$components/AccessibleIcon';
-	import Album from '$assets/Icons/24/album.svg?component';
-	import Artist from '$assets/Icons/24/artist.svg?component';
 	import type {
 		TopTrack as TopTrackType,
 		Image
 	} from '$components/Music/types';
+	import { MiniPlayer } from '$components/MiniPlayer';
+
+	import Album from '$assets/Icons/24/album.svg?component';
+	import Artist from '$assets/Icons/24/artist.svg?component';
+
 	import { MUSIC_KEYS, type Range } from '$routes/about/music/constants';
+	import Mp from '$components/MiniPlayer/Mp.svelte';
 
 	export let range: Range;
 
@@ -60,7 +64,7 @@
 				<Music.Row class="flex">
 					<Music.Atom>
 						<div
-							class="h-[68px] md:h-[92px] w-[68px] md:w-[92px] bg-purple-3"
+							class="h-[64px] md:h-[88px] w-[64px] md:w-[88px] bg-purple-3"
 						/>
 					</Music.Atom>
 					<Music.Atom class="flex-1 min-w-0 border-l border-mauve-6">
@@ -76,24 +80,71 @@
 		{@const topTracks = $query.data}
 		<Music.Root {labelledby}>
 			{#each topTracks as track (track.id)}
-				<Music.Row class="flex">
+				<Music.Row class="flex group/miniplayer">
 					{#if track.album.images.length}
 						<Music.Atom>
-							<Link
-								href={track.external_urls.spotify}
-								type="ghost"
-							>
-								<Music.Image
-									url={getImageUrl(track.album.images)}
-									alt="{track.album.name} Album Cover"
-								/>
-							</Link>
+							{#if track.preview_url}
+								<MiniPlayer
+									previewImage={getImageUrl(
+										track.album.images
+									)}
+									externalUrl={track.external_urls.spotify}
+									src={track.preview_url}
+									title={track.name}
+									artist={track.artists
+										.map((artist) => artist.name)
+										.join(', ')}
+									album={track.album.name}
+									artwork={track.album.images.map(
+										(image) => ({
+											src: image.url,
+											sizes: `${image.width}x${image.height}`,
+											type: 'image/jpeg'
+										})
+									)}
+								>
+									<Music.Image
+										url={getImageUrl(track.album.images)}
+										alt="{track.album.name} Album Cover"
+									/>
+								</MiniPlayer>
+							{:else}
+								<Link
+									href={track.external_urls.spotify}
+									type="ghost"
+								>
+									<Music.Image
+										url={getImageUrl(track.album.images)}
+										alt="{track.album.name} Album Cover"
+									/>
+								</Link>
+							{/if}
 						</Music.Atom>
 					{:else}
 						<Music.Atom>
-							<div
-								class="h-[68px] md:h-[92px] w-[68px] md:w-[92px] bg-purple-3"
-							/>
+							{#if track.preview_url}
+								<MiniPlayer
+									previewImage={getImageUrl(
+										track.album.images
+									)}
+									externalUrl={track.external_urls.spotify}
+									src={track.preview_url}
+									title={track.name}
+									artist={track.artists
+										.map((artist) => artist.name)
+										.join(', ')}
+									album={track.album.name}
+									artwork={[]}
+								>
+									<div
+										class="h-[64px] md:h-[88px] w-[64px] md:w-[88px] bg-purple-3"
+									/>
+								</MiniPlayer>
+							{:else}
+								<div
+									class="h-[64px] md:h-[88px] w-[64px] md:w-[88px] bg-purple-3"
+								/>
+							{/if}
 						</Music.Atom>
 					{/if}
 					<Music.Atom class="flex-1 min-w-0 border-l border-mauve-6">
@@ -124,7 +175,7 @@
 			<Music.Row class="flex">
 				<Music.Atom>
 					<div
-						class="h-[68px] md:h-[92px] w-[68px] md:w-[92px] bg-purple-3"
+						class="h-[64px] md:h-[88px] w-[64px] md:w-[88px] bg-purple-3"
 					/>
 				</Music.Atom>
 				<Music.Atom class="flex-1 min-w-0 border-l border-mauve-6">

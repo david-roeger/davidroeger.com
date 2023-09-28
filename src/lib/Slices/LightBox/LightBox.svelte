@@ -2,8 +2,7 @@
 	import * as Dialog from '$primitives/Dialog';
 	import type { BreakpointContext } from '$provider/BreakpointProvider/types';
 	import type { Media as MediaType } from '$types';
-	import { debounce, mapToRange } from '$utils';
-	import BezierEasing from 'bezier-easing';
+	import { debounce } from '$utils';
 
 	import { createEventDispatcher, getContext, onMount, tick } from 'svelte';
 	import { cubicInOut } from 'svelte/easing';
@@ -19,6 +18,7 @@
 	import { AccessibleIcon } from '$components/AccessibleIcon';
 	import { Media } from '$components/Media';
 	import { fade } from 'svelte/transition';
+	import { Slide } from '$components/Slide';
 
 	export let mediaArray: MediaType[];
 	export let defaultIndex: number | undefined = undefined;
@@ -240,23 +240,6 @@
 		}
 	};
 
-	const baseEasing = BezierEasing(0.4, 0, 0.2, 1);
-	const reversedEasing = BezierEasing(0.8, 0, 0.6, 1);
-
-	function slide(
-		_: HTMLDivElement,
-		{ start = -100, end = 0, duration = 150, easing = baseEasing }
-	) {
-		return {
-			duration,
-			css: (t: number) => {
-				const eased = easing(t);
-				const mapped = mapToRange(eased, 0, 1, start, end);
-				return `transform: translateX(${mapped}%);`;
-			}
-		};
-	}
-
 	$: offsetX.set(activeMedia.targetX, instant);
 	$: offsetY.set(activeMedia.targetY, instant);
 
@@ -364,40 +347,28 @@
 					{#key mounted}
 						<div in:fade>
 							{#if activeMedia.media}
-								{#key activeMedia.index}
+								<Slide
+									key={activeMedia.index}
+									direction={DIRECTION}
+									on:introstart={() => (enabled = false)}
+									on:introend={() => (enabled = true)}
+								>
 									<div
-										in:slide={{
-											start: DIRECTION === 1 ? 100 : -100,
-											end: 0,
-											duration: 500
-										}}
-										out:slide={{
-											start: DIRECTION === 1 ? -100 : 100,
-											end: 0,
-											duration: 500,
-											easing: reversedEasing
-										}}
-										on:introstart={() => (enabled = false)}
-										on:introend={() => (enabled = true)}
-										class="absolute w-full"
+										style:width="{activeMedia.targetWidth}px"
+										style:height="{activeMedia.targetHeight}px"
+										style:transform="translateX({$offsetX}px)
+										translateY({$offsetY}px) scale({$scale})"
+										class="pointer-events-auto origin-top-left"
 									>
-										<div
-											style:width="{activeMedia.targetWidth}px"
-											style:height="{activeMedia.targetHeight}px"
-											style:transform="translateX({$offsetX}px)
-											translateY({$offsetY}px) scale({$scale})"
-											class="pointer-events-auto origin-top-left"
-										>
-											<Media
-												media={activeMedia.media}
-												src="/assets/projects/{assetPath}/{activeMedia
-													.media.src}"
-												alt=""
-												class="block w-full h-full border-mauve-6"
-											/>
-										</div>
+										<Media
+											media={activeMedia.media}
+											src="/assets/projects/{assetPath}/{activeMedia
+												.media.src}"
+											alt=""
+											class="block w-full h-full border-mauve-6"
+										/>
 									</div>
-								{/key}
+								</Slide>
 							{/if}
 						</div>
 					{/key}

@@ -11,7 +11,7 @@
 	} from '$components/SvelteIcons';
 
 	import { Marquee } from '$components/Marquee';
-	import AccessibleIcon from '$components/AccessibleIcon/AccessibleIcon.svelte';
+	import {AccessibleIcon} from '$components/AccessibleIcon';
 
 	let c = '';
 	export { c as class };

@@ -3,7 +3,7 @@ logger.page('projects/(ssg)/[slug]/[[gallery]]: +page.server.ts');
 
 import { error, redirect } from '@sveltejs/kit';
 
-import { logger } from '$utils';
+import { logger } from '$utils/logger';
 
 import type { ProjectMetaData } from '$types';
 

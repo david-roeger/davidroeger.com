@@ -4,14 +4,14 @@
 
 	import { page } from '$app/stores';
 
+	import { Headline } from '$components/Headline';
+	import { NavLink } from '$components/NavLink';
+	import { Background } from '$components/Background';
+	import { Head } from '$components/Head';
+
 	import East from '$assets/Icons/24/east.svg?component';
 
-	import Headline from '$components/Headline/Headline.svelte';
-	import NavLink from '$components/NavLink/NavLink.svelte';
-	import { Background } from '$components/Background';
-	import Head from '$components/Head/Head.svelte';
-
-	import { logger } from '$utils';
+	import { logger } from '$utils/logger';
 
 	$: error = $page.error?.message ?? '';
 	$: status = $page.status;

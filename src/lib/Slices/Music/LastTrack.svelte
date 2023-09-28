@@ -6,13 +6,16 @@
 	import { AccessibleIcon } from '$components/AccessibleIcon';
 	import Album from '$assets/Icons/24/album.svg?component';
 	import Artist from '$assets/Icons/24/artist.svg?component';
-	import Wave from '$components/Wave/Wave.svelte';
+	import { Wave } from '$components/Wave';
 	import type {
 		LastTrack as LastTrackType,
 		Image
 	} from '$components/Music/types';
-	import { onMount } from 'svelte';
+	import { Slide } from '$components/Slide';
+
 	import { MUSIC_KEYS } from '$routes/about/music/constants';
+
+	import MiniPlayer from '$components/MiniPlayer/MiniPlayer.svelte';
 
 	let c = '';
 	export { c as class };
@@ -48,6 +51,8 @@
 	const query = createQuery({
 		queryKey: MUSIC_KEYS.type('lastTrack'),
 		queryFn,
+		refetchOnMount: true,
+		refetchOnWindowFocus: 'always',
 		refetchInterval: 1000 * 30 // 30 seconds
 	});
 </script>
@@ -58,7 +63,7 @@
 			<Music.Row class="flex">
 				<Music.Atom>
 					<div
-						class="h-[68px] md:h-[92px] w-[68px] md:w-[92px] bg-purple-3"
+						class="h-[64px] md:h-[88px] w-[64px] md:w-[88px] bg-purple-3"
 					/>
 				</Music.Atom>
 				<Music.Atom class="flex-1 min-w-0 border-l border-mauve-6">
@@ -72,68 +77,127 @@
 	{:else if $query.data}
 		{@const lastTrack = $query.data}
 		<Music.Root {labelledby}>
-			<Music.Row class="flex">
-				{#if lastTrack.album.images.length}
-					<Music.Atom>
-						<Link
-							href={lastTrack.external_urls.spotify}
-							type="ghost"
-						>
-							<Music.Image
-								url={getImageUrl(lastTrack.album.images)}
-								alt="{lastTrack.album.name} Album Cover"
-							/>
-						</Link>
-					</Music.Atom>
-				{:else}
-					<Music.Atom>
-						<div
-							class="h-[68px] md:h-[92px] w-[68px] md:w-[92px] bg-purple-3"
-						/>
-					</Music.Atom>
-				{/if}
-				<Music.Atom class="flex-1 min-w-0 border-l border-mauve-6">
-					<Music.Detail
-						subline={[
-							lastTrack.artists
-								.map((artist) => artist.name)
-								.join(', '),
-							lastTrack.album.name
-						]}
-					>
-						<AccessibleIcon label="Artist:" slot="preline">
-							<Artist />
-						</AccessibleIcon>
-						<Link href={lastTrack.external_urls.spotify}>
-							{lastTrack.name}
-						</Link>
-						<div slot="headline">
-							{#if 'is_playable' in lastTrack}
-								<AccessibleIcon label="Currently Playing:">
-									<Wave
-										fill={[
-											'icon-green-9',
-											'icon-green-9',
-											'icon-green-9',
-											'icon-green-9'
-										]}
+			<Slide as="li" key={lastTrack.id}>
+				<Music.Row as="div" class="flex group/miniplayer">
+					{#if lastTrack.album.images.length}
+						<Music.Atom>
+							{#if lastTrack.preview_url}
+								<MiniPlayer
+									previewImage={getImageUrl(
+										lastTrack.album.images
+									)}
+									externalUrl={lastTrack.external_urls
+										.spotify}
+									src={lastTrack.preview_url}
+									title={lastTrack.name}
+									artist={lastTrack.artists
+										.map((artist) => artist.name)
+										.join(', ')}
+									album={lastTrack.album.name}
+									artwork={lastTrack.album.images.map(
+										(image) => ({
+											src: image.url,
+											sizes: `${image.width}x${image.height}`,
+											type: 'image/jpeg'
+										})
+									)}
+									context="lastTrack"
+								>
+									<Music.Image
+										url={getImageUrl(
+											lastTrack.album.images
+										)}
+										alt="{lastTrack.album.name} Album Cover"
 									/>
-								</AccessibleIcon>
+								</MiniPlayer>
+							{:else}
+								<Link
+									href={lastTrack.external_urls.spotify}
+									type="ghost"
+								>
+									<Music.Image
+										url={getImageUrl(
+											lastTrack.album.images
+										)}
+										alt="{lastTrack.album.name} Album Cover"
+									/>
+								</Link>
 							{/if}
-						</div>
-						<AccessibleIcon label="Album:" slot="subline">
-							<Album />
-						</AccessibleIcon>
-					</Music.Detail>
-				</Music.Atom>
-			</Music.Row>
+						</Music.Atom>
+					{:else}
+						<Music.Atom>
+							{#if lastTrack.preview_url}
+								<MiniPlayer
+									previewImage={getImageUrl(
+										lastTrack.album.images
+									)}
+									externalUrl={lastTrack.external_urls
+										.spotify}
+									src={lastTrack.preview_url}
+									title={lastTrack.name}
+									artist={lastTrack.artists
+										.map((artist) => artist.name)
+										.join(', ')}
+									album={lastTrack.album.name}
+									artwork={[]}
+								>
+									<div
+										class="h-[64px] md:h-[88px] w-[64px] md:w-[88px] bg-purple-3"
+									/>
+								</MiniPlayer>
+							{:else}
+								<div
+									class="h-[64px] md:h-[88px] w-[64px] md:w-[88px] bg-purple-3"
+								/>
+							{/if}
+						</Music.Atom>
+					{/if}
+					<Music.Atom class="flex-1 min-w-0 border-l border-mauve-6">
+						<Music.Detail
+							subline={[
+								lastTrack.artists
+									.map((artist) => artist.name)
+									.join(', '),
+								lastTrack.album.name
+							]}
+						>
+							<AccessibleIcon label="Artist:" slot="preline">
+								<Artist />
+							</AccessibleIcon>
+							<Link href={lastTrack.external_urls.spotify}>
+								{lastTrack.name}
+							</Link>
+							<div
+								slot="headline"
+								hidden={!('is_playable' in lastTrack)}
+							>
+								{#if 'is_playable' in lastTrack}
+									<AccessibleIcon label="Currently Playing:">
+										<Wave
+											fill={[
+												'icon-green-7',
+												'icon-green-7',
+												'icon-green-7',
+												'icon-green-7'
+											]}
+										/>
+									</AccessibleIcon>
+								{/if}
+							</div>
+							<AccessibleIcon label="Album:" slot="subline">
+								<Album />
+							</AccessibleIcon>
+						</Music.Detail>
+					</Music.Atom>
+				</Music.Row>
+			</Slide>
 		</Music.Root>
 	{:else}
 		<Music.Root {labelledby}>
 			<Music.Row class="flex">
 				<Music.Atom>
 					<div
-						class="h-[68px] md:h-[92px] w-[68px] md:w-[92px] bg-purple-3"
+						class="h-[64px] md:h-[88px] w-[64px] md:w-[88px] bg-purple-3"
 					/>
 				</Music.Atom>
 				<Music.Atom class="flex-1 min-w-0 border-l border-mauve-6">

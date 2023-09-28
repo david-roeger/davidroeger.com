@@ -8,11 +8,12 @@
 	import BezierEasing from 'bezier-easing';
 
 	import { QueryClientProvider } from '@tanstack/svelte-query';
+	import { SvelteQueryDevtools } from '@tanstack/svelte-query-devtools';
 
 	import { page } from '$app/stores';
 
-	import BreakpointProvider from '$provider/BreakpointProvider';
-	import NotificationProvider from '$provider/NotificationProvider';
+	import { BreakpointProvider } from '$provider/BreakpointProvider';
+	import { NotificationProvider } from '$provider/NotificationProvider';
 
 	import North from '$assets/Icons/24/north.svg?component';
 
@@ -21,11 +22,13 @@
 	import { HireMe } from '$slices/HireMe';
 
 	import { AccessibleIcon } from '$components/AccessibleIcon';
-	import DefaultHead from '$components/Head/DefaultHead.svelte';
+	import { DefaultHead } from '$components/Head';
 
-	import { logger, mapToRange } from '$utils';
+	import { mapToRange } from '$utils';
+	import { logger } from '$utils/logger';
 
 	import type { LayoutData } from './$types';
+	import MiniPlayerProvider from '$provider/MiniPlayerProvider/MiniPlayerProvider.svelte';
 
 	export let data: LayoutData;
 
@@ -242,53 +245,56 @@
 
 <QueryClientProvider client={data.queryClient}>
 	<NotificationProvider>
-		<div
-			class="relative flex flex-col min-h-full font-sans text-mauve-12"
-			data-sveltekit-preload-data
-		>
-			<a
-				href="#content"
-				class="absolute z-50 px-4 py-2 bg-white border -top-full left-2 focus:top-2 focus:outline-none ring-mauve-12 focus:ring-1"
+		<MiniPlayerProvider>
+			<div
+				class="relative flex flex-col min-h-full font-sans text-mauve-12 bg-blu"
+				data-sveltekit-preload-data
 			>
-				Skip to content
-			</a>
-			<Header class="z-40" />
-
-			<main
-				id="content"
-				class="z-10 flex flex-col mb-auto xl:max-w-7xl xl:border-r border-mauve-6"
-			>
-				<BreakpointProvider>
-					<slot />
-				</BreakpointProvider>
-			</main>
-
-			<Footer class="z-20" />
-
-			{#if showBttButton}
-				<div
-					class="sticky bottom-0 left-0 z-30 p-2 overflow-hidden pointer-events-none"
-					in:slideUp={{}}
-					out:slideUp={{ easing: reversedEasing }}
+				<a
+					href="#content"
+					class="absolute z-50 px-4 py-2 bg-white border -top-full left-2 focus:top-2 focus:outline-none ring-mauve-12 focus:ring-1"
 				>
-					<button
-						aria-hidden={!showBttButton ? true : undefined}
-						tabindex={showBttButton ? 0 : -1}
-						on:click={handleClick}
-						on:click
-						type="button"
-						class="{showBttButton
-							? 'pointer-events-auto'
-							: 'translate-y-[42px] pointer-events-none'} block p-1 text-xs transition-transform bg-white border rounded-full cursor-n-resize touch-manipulation focus:outline-none ring-mauve-12 focus:ring-1"
-					>
-						<AccessibleIcon label="Back to top">
-							<North />
-						</AccessibleIcon>
-					</button>
-				</div>
-			{/if}
-		</div>
+					Skip to content
+				</a>
+				<Header class="z-40" />
 
-		<div id="portal" style="position: absolute; z-index: 9999" />
+				<main
+					id="content"
+					class="z-10 flex flex-col mb-auto xl:max-w-7xl xl:border-r border-mauve-6"
+				>
+					<BreakpointProvider>
+						<slot />
+					</BreakpointProvider>
+				</main>
+
+				<Footer class="z-20" />
+
+				{#if showBttButton}
+					<div
+						class="sticky bottom-0 left-0 z-30 p-2 overflow-hidden pointer-events-none"
+						in:slideUp={{}}
+						out:slideUp={{ easing: reversedEasing }}
+					>
+						<button
+							aria-hidden={!showBttButton ? true : undefined}
+							tabindex={showBttButton ? 0 : -1}
+							on:click={handleClick}
+							on:click
+							type="button"
+							class="{showBttButton
+								? 'pointer-events-auto'
+								: 'translate-y-[42px] pointer-events-none'} block p-1 text-xs transition-transform bg-white border rounded-full cursor-n-resize touch-manipulation focus:outline-none ring-mauve-12 focus:ring-1"
+						>
+							<AccessibleIcon label="Back to top">
+								<North />
+							</AccessibleIcon>
+						</button>
+					</div>
+				{/if}
+			</div>
+
+			<div id="portal" style="position: absolute; z-index: 9999" />
+		</MiniPlayerProvider>
 	</NotificationProvider>
+	<SvelteQueryDevtools buttonPosition="top-right" />
 </QueryClientProvider>

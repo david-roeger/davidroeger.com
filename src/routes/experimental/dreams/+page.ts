@@ -3,8 +3,8 @@ logger.page('experimental/dreams: +page.ts');
 
 import type { Pageable } from '$components/Pagination/types';
 
-import { ensurePositiveInteger, safeUrlParam } from '$utils/Url';
-import { logger } from '$utils';
+import { parseNumber } from '$utils/Url';
+import { logger } from '$utils/logger';
 
 import type { Dream } from '$types';
 
@@ -23,12 +23,16 @@ export const load: PageLoad = async ({ fetch, data, url, parent }) => {
 	const { queryClient } = await parent();
 	const { user } = data;
 
-	const size = ensurePositiveInteger(DREAMS_DEFAULT_SIZE).parse(
-		safeUrlParam(url, 'size')
-	);
-	const page = ensurePositiveInteger(DREAMS_DEFAULT_PAGE).parse(
-		safeUrlParam(url, 'page')
-	);
+	const size = parseNumber({
+		url,
+		key: 'size',
+		defaultNumber: DREAMS_DEFAULT_SIZE
+	});
+	const page = parseNumber({
+		url,
+		key: 'page',
+		defaultNumber: DREAMS_DEFAULT_PAGE
+	});
 
 	const queryFn = async () =>
 		await fetch(`/_api/dreams?size=${size}&page=${page}`).then(

@@ -14,7 +14,7 @@ import {
 	DEFAULT_CONTACT_FORM
 } from '$slices/ContactForm/constants';
 
-import { logger } from '$utils';
+import { logger } from '$utils/logger';
 
 import type { Actions } from './$types';
 

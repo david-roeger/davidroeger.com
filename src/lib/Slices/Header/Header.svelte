@@ -3,7 +3,7 @@
 	export { c as class };
 
 	import { AccessibleIcon } from '$components/AccessibleIcon';
-	import Logo from '$components/Logo/Logo.svelte';
+	import {Logo} from '$components/Logo';
 	import { NavLink } from '$components/NavLink';
 	import * as VisuallyHidden from '$primitives/VisuallyHidden';
 

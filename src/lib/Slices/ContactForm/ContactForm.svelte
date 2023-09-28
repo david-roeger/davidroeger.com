@@ -1,17 +1,21 @@
 <script lang="ts">
+	import { getContext } from 'svelte';
+
 	import { superForm } from 'sveltekit-superforms/client';
 
 	import { page } from '$app/stores';
-	import Button from '$components/Button/Button.svelte';
 
-	import { getContext } from 'svelte';
+	import {Button} from '$components/Button';
+	
 	import type { NotificationContext } from '$provider/NotificationProvider/types';
+
+	import { getLoadingEmojis } from '$utils';
+
 	import {
 		COLOR_CLASSES,
 		contactFormSchema,
 		type ContactFormSchema
 	} from './constants';
-	import { getLoadingEmojis } from '$utils';
 
 	export let variant:
 		| 'default'

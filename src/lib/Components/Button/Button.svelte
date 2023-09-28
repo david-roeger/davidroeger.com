@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { buttonType } from '$actions';
 
-	export let variant: 'primary' | 'icon' | 'rounded' = 'primary';
+	export let variant: 'primary' | 'icon' | 'rounded' | 'custom' = 'primary';
 	export let type: 'button' | 'submit' | 'reset' = 'button';
 	export let role: string | undefined = undefined;
 	export let disabled: boolean | undefined = undefined;
@@ -15,7 +15,7 @@
 	const iconClass = '';
 
 	let disabledClass =
-		'cursor-not-allowed !bg-white border-mauve-11 ring-mauve-11 text-mauve-11';
+		'disabled:cursor-not-allowed !disabled:bg-white disabled:border-mauve-11 disabled:ring-mauve-11 disabled:text-mauve-11';
 
 	let variantClass = '';
 	switch (variant) {
@@ -28,6 +28,9 @@
 			break;
 		case 'rounded':
 			variantClass = roundedClass;
+			break;
+		case 'custom':
+			variantClass = '';
 			break;
 	}
 </script>

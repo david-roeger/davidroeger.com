@@ -43,7 +43,7 @@ export interface TopTrack extends BaseObject {
 	external_urls: ExternalUrls;
 	is_local: false;
 	popularity: number;
-	preview_url: string;
+	preview_url?: string;
 	track_number: number;
 }
 

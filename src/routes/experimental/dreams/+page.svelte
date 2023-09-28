@@ -10,13 +10,15 @@
 
 	import * as VisuallyHidden from '$primitives/VisuallyHidden';
 
-	import Headline from '$components/Headline/Headline.svelte';
+	import { Headline } from '$components/Headline';
 	import type { Pageable } from '$components/Pagination/types';
-	import Pagination from '$components/Pagination/Pagination.svelte';
+	import { Pagination } from '$components/Pagination';
+	import { Button } from '$components/Button';
 
-	import AddDreamForm from '$slices/AddDreamForm/AddDreamForm.svelte';
+	import { AddDreamForm } from '$slices/AddDreamForm';
 
-	import { getLoadingEmojis, replaceStateWithQuery, logger } from '$utils';
+	import { getLoadingEmojis, replaceStateWithQuery } from '$utils';
+	import { logger } from '$utils/logger';
 
 	import type { Dream } from '$types';
 
@@ -59,82 +61,6 @@
 		const parsed = new Date(date);
 		return parsed.toLocaleDateString('en-GB');
 	};
-
-	const BOUNDARY_COUNT = 1;
-	const SIBLING_COUNT = 1;
-
-	const range = (start: number, end: number) => {
-		const length = end - start + 1;
-		return Array.from({ length }, (_, i) => start + i);
-	};
-
-	const getInRange = (
-		current: number,
-		last: number,
-		boundaryCount: number,
-		siblingCount: number
-	) => {
-		const startPages = range(1, Math.min(boundaryCount, last));
-		const endPages = range(
-			Math.max(last - boundaryCount + 1, boundaryCount + 1),
-			last
-		);
-
-		const siblingsStart = Math.max(
-			Math.min(
-				// Natural start
-				current - siblingCount,
-				// Lower boundary when page is high
-				last - boundaryCount - siblingCount * 2 - 1
-			),
-			// Greater than startPages
-			boundaryCount + 2
-		);
-
-		const siblingsEnd = Math.min(
-			Math.max(
-				// Natural end
-				current + siblingCount,
-				// Upper boundary when page is low
-				boundaryCount + siblingCount * 2 + 2
-			),
-			// Less than endPages
-			endPages.length > 0 ? endPages[0] - 2 : last - 1
-		);
-
-		// Basic list of items to render
-		// e.g. itemList = ['first', 'previous', 1, 'ellipsis', 4, 5, 6, 'ellipsis', 10, 'next', 'last']
-		const itemList = [
-			...startPages,
-
-			// Start ellipsis
-			// eslint-disable-next-line no-nested-ternary
-			...(siblingsStart > boundaryCount + 2
-				? [-1]
-				: boundaryCount + 1 < last - boundaryCount
-				? [boundaryCount + 1]
-				: []),
-
-			// Sibling pages
-			...range(siblingsStart, siblingsEnd),
-
-			// End ellipsis
-			// eslint-disable-next-line no-nested-ternary
-			...(siblingsEnd < last - boundaryCount - 1
-				? [-2]
-				: last - boundaryCount > boundaryCount
-				? [last - boundaryCount]
-				: []),
-
-			...endPages
-		];
-
-		return itemList;
-	};
-
-	$: IN_RANGE = $query.data
-		? getInRange(data.page, $query.data.last, BOUNDARY_COUNT, SIBLING_COUNT)
-		: [];
 </script>
 
 <div class="border-b xl:max-w-7xl border-mauve-6">
@@ -188,14 +114,12 @@
 			</li>
 		{/if}
 		<li>
-			<!-- <ul class="flex flex-wrap justify-end p-1">
-				{#if data.profile}
+			<ul class="flex flex-wrap justify-end p-1">
+				{#if user}
 					<li class="p-1 list-none">
 						<form
-							method="POST"
 							action="/experimental/dreams/logout"
-							class="bg-white/[.85] flex flex-col"
-							use:logoutFormEnhance
+							method="post"
 						>
 							<Button
 								type="submit"
@@ -207,7 +131,7 @@
 						</form>
 					</li>
 				{:else}
-					<li class="p-1 list-none">
+					<!--li class="p-1 list-none">
 						<Dialog
 							trigger="🔓 Login"
 							triggerClass="bg-white hover:bg-blue-5"
@@ -298,9 +222,9 @@
 								</button>
 							</form>
 						</Dialog>
-					</li>
+					</li-->
 				{/if}
-			</ul> -->
+			</ul>
 		</li>
 	</ul>
 </div>
@@ -525,7 +449,7 @@
 					</div>
 				</li>
 			{:else}
-				<li>No dreams yet recorded 😴</li>
+				<li>No dreams recorded yet 😴</li>
 			{/each}
 		{/if}
 	</ul>

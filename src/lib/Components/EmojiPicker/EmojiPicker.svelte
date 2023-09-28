@@ -13,18 +13,25 @@
 
 	import { setContext, onMount } from 'svelte';
 
-	import { writable } from 'svelte/store';
+	import { derived, writable } from 'svelte/store';
 	import { createEventDispatcher } from 'svelte';
-	import type { RootContext, EmojiData } from './types';
+	import type { RootContext, EmojiData, EmojiValue } from './types';
 	import type { Writable } from 'svelte/store';
+
+	import { createQuery, keepPreviousData } from '@tanstack/svelte-query';
+	import Fuse from 'fuse.js';
 
 	import * as Popper from '$primitives/Popper';
 	import * as VisuallyHidden from '$primitives/VisuallyHidden';
 	import { Headline } from '$components/Headline';
 	import { Button } from '$components/Button';
+	import { AccessibleIcon } from '$components/AccessibleIcon';
 
-	import { hasParentOfType } from '$utils';
-	import { emojiData } from './store';
+	import { debounce, hasParentOfType } from '$utils';
+
+	import Spinner from '$assets/Icons/24/spinner.svg?component';
+
+	import { EMOJI_FUSE_KEYS, EMOJI_KEYS } from './constants';
 
 	id++;
 	const rootContext: RootContext = {
@@ -34,6 +41,97 @@
 		activeValue: writable(defaultValue)
 	};
 	setContext('root', rootContext);
+
+	const dataQuery = createQuery({
+		queryKey: EMOJI_KEYS.data(),
+		queryFn: () =>
+			fetch(`/_api/emoji/data.json`).then((res) => {
+				if (res.ok) {
+					return res.json() as Promise<EmojiData>;
+				} else {
+					throw new Error(res.statusText);
+				}
+			}),
+		staleTime: Infinity
+	});
+
+	const indexQuery = createQuery({
+		queryKey: EMOJI_KEYS.index(),
+		queryFn: () =>
+			fetch(`/_api/emoji/index.json`).then((res) => {
+				if (res.ok) {
+					return res.json() as Promise<
+						{
+							keys: string[];
+							records: Fuse.FuseIndexRecords;
+						}[]
+					>;
+				} else {
+					throw new Error(res.statusText);
+				}
+			}),
+		staleTime: Infinity
+	});
+
+	const search = writable('');
+
+	const fuseOptions = {
+		includeScore: true,
+		// shouldSort: true,
+		// includeMatches: false,
+		// findAllMatches: false,
+		// minMatchCharLength: 1,
+		// location: 0,
+		// threshold: 0.6,
+		// distance: 100,
+		ignoreLocation: true,
+		ignoreFieldNorm: true,
+		// fieldNormWeight: 1,
+		keys: EMOJI_FUSE_KEYS
+	};
+
+	const fuse = derived(
+		[dataQuery, indexQuery],
+		([$dataQuery, $indexQuery]) => {
+			if ($dataQuery.data && $indexQuery.data) {
+				return new Fuse(
+					Object.values($dataQuery.data.emojis),
+					fuseOptions,
+					Fuse.parseIndex($indexQuery.data)
+				);
+			} else {
+				return undefined;
+			}
+		}
+	);
+	const searchedQuery = createQuery<Fuse.FuseResult<EmojiValue>[]>(
+		derived([search, fuse, dataQuery], ([$search, $fuse, $dataQuery]) => ({
+			queryKey: EMOJI_KEYS.search($search),
+			queryFn: () => {
+				if (!$fuse) {
+					throw new Error('Fuse is not defined');
+				}
+
+				if (!$search) {
+					if ($dataQuery.data) {
+						return Object.values($dataQuery.data.emojis).map(
+							(emoji, idx) => ({
+								item: emoji,
+								refIndex: idx,
+								score: 1
+							})
+						);
+					}
+
+					throw new Error('No data');
+				}
+
+				return $fuse.search($search);
+			},
+			enabled: !!$fuse,
+			placeholderData: keepPreviousData
+		}))
+	);
 
 	const { activeValue, required } = rootContext;
 
@@ -59,21 +157,6 @@
 
 	let renderInput = false;
 
-	async function getEmojiData() {
-		if ($emojiData) {
-			return $emojiData;
-		}
-
-		const res = await fetch(`/_api/emojiData`);
-		if (res.ok) {
-			const data = await res.json();
-			$emojiData = data as EmojiData;
-			return data as EmojiData;
-		} else {
-			throw new Error(res.statusText);
-		}
-	}
-
 	onMount(() => {
 		if (hasParentOfType(root, 'form')) {
 			renderInput = true;
@@ -87,197 +170,178 @@
 
 	const emojisPerRow = 7;
 
-	let categoryElements: HTMLDivElement[] = [];
-	let emojiElements: HTMLDivElement[][] = [];
 	const handleKeyDown = (e: KeyboardEvent) => {
-		if ($emojiData) {
-			if (!categoryElements.length) {
-				categoryElements = Array.from(
-					container.querySelectorAll(':scope div[data-state]')
-				);
-				categoryElements.forEach((categoryElement, index) => {
-					emojiElements[index] = Array.from(
-						categoryElement.querySelectorAll(
-							':scope button[data-state]'
-						)
-					);
-				});
-			}
-			if (!categoryElements.length || !emojiElements.length) {
-				return;
-			}
+		const categoryElements: HTMLDivElement[] = Array.from(
+			container.querySelectorAll(':scope div[data-state]')
+		);
 
-			const activeCategory = categoryElements.find((categoryElement) =>
-				categoryElement.contains(document.activeElement)
+		const emojiElements: HTMLDivElement[][] = [];
+		categoryElements.forEach((categoryElement, index) => {
+			emojiElements[index] = Array.from(
+				categoryElement.querySelectorAll(':scope button[data-state]')
 			);
+		});
 
-			const activeEmoji = document.activeElement as HTMLButtonElement;
+		if (!categoryElements.length || !emojiElements.length) {
+			return;
+		}
 
-			const categoryIndex = activeCategory
-				? parseInt(activeCategory.dataset.state ?? '')
-				: 0;
-			const emojiIndex = activeEmoji
-				? parseInt(activeEmoji.dataset.state ?? '')
-				: 0;
+		const activeCategory = categoryElements.find((categoryElement) =>
+			categoryElement.contains(document.activeElement)
+		);
 
-			switch (e.key) {
-				case leftKey:
-					if (!activeCategory) {
-						emojiElements[0][0].focus();
-					} else {
-						const newEmojiIndex = emojiIndex - 1;
-						if (newEmojiIndex === -1) {
-							const newCategoryIndex = categoryIndex - 1;
-							if (newCategoryIndex === -1) {
-								emojiElements[categoryElements.length - 1][
-									emojiElements[categoryElements.length - 1]
-										.length - 1
-								].focus();
-							} else {
-								emojiElements[newCategoryIndex][
-									emojiElements[newCategoryIndex].length - 1
-								].focus();
-							}
-						} else {
-							emojiElements[categoryIndex][newEmojiIndex].focus();
-						}
-					}
+		const activeEmoji = document.activeElement as HTMLButtonElement;
 
-					e.preventDefault();
-					e.stopPropagation();
-					break;
-				case rightKey:
-					if (!activeCategory) {
-						emojiElements[0][0].focus();
-					} else {
-						const newEmojiIndex = emojiIndex + 1;
-						if (
-							newEmojiIndex ===
-							emojiElements[categoryIndex].length
-						) {
-							const newCategoryIndex = categoryIndex + 1;
-							if (newCategoryIndex === categoryElements.length) {
-								emojiElements[0][0].focus();
-							} else {
-								emojiElements[newCategoryIndex][0].focus();
-							}
-						} else {
-							emojiElements[categoryIndex][newEmojiIndex].focus();
-						}
-					}
+		const categoryIndex = activeCategory
+			? parseInt(activeCategory.dataset.state ?? '')
+			: 0;
+		const emojiIndex = activeEmoji
+			? parseInt(activeEmoji.dataset.state ?? '')
+			: 0;
 
-					e.preventDefault();
-					e.stopPropagation();
-					break;
-				case upKey:
-					if (!activeCategory) {
-						emojiElements[0][0].focus();
-					} else {
-						const newEmojiIndex = emojiIndex - emojisPerRow; // move one emoji up
-						// wrap around category if necessary
-						// but if we're at the top of the category, move to the bottom or the row if present of the previous category
-						if (newEmojiIndex < 0) {
-							const newCategoryIndex = categoryIndex - 1;
-
-							if (newCategoryIndex < 0) {
-								const pos = emojiIndex & emojisPerRow;
-								const empojisInLastRow =
-									(emojiElements[categoryElements.length - 1]
-										.length -
-										1) %
-									emojisPerRow;
-								const diff = Math.max(
-									0,
-									empojisInLastRow - pos
-								);
-								emojiElements[categoryElements.length - 1][
-									emojiElements[categoryElements.length - 1]
-										.length -
-										1 -
-										diff
-								].focus();
-							} else {
-								const pos = emojiIndex & emojisPerRow;
-								const empojisInLastRow =
-									(emojiElements[newCategoryIndex].length -
-										1) %
-									emojisPerRow;
-								const diff = Math.max(
-									0,
-									empojisInLastRow - pos
-								);
-								// move to the row of the previous category
-								emojiElements[newCategoryIndex][
-									emojiElements[newCategoryIndex].length -
-										1 -
-										diff
-								].focus();
-							}
-						} else {
-							emojiElements[categoryIndex][newEmojiIndex].focus();
-						}
-					}
-
-					e.preventDefault();
-					e.stopPropagation();
-					break;
-				case downKey: {
-					if (!activeCategory) {
-						emojiElements[0][0].focus();
-					} else {
-						const newEmojiIndex = emojiIndex + emojisPerRow; // move one emoji up
-						// wrap around category if necessary
-						// but if we're at the top of the category, move to the bottom or the row if present of the previous category
-						if (
-							newEmojiIndex >= emojiElements[categoryIndex].length
-						) {
-							// this could mean that we are in the pre last row of the category
-							const pos = emojiIndex % emojisPerRow;
-							const empojisInLastRow =
-								(emojiElements[categoryIndex].length - 1) %
-								emojisPerRow;
-							if (pos > empojisInLastRow) {
-								emojiElements[categoryIndex][
-									emojiElements[categoryIndex].length - 1
-								].focus();
-							} else {
-								const newCategoryIndex = categoryIndex + 1;
-								if (
-									newCategoryIndex >
-									categoryElements.length - 1
-								) {
-									emojiElements[0][pos].focus();
-								} else {
-									// move to the row of the previous category
-									emojiElements[newCategoryIndex][
-										pos
-									].focus();
-								}
-							}
-						} else {
-							emojiElements[categoryIndex][newEmojiIndex].focus();
-						}
-					}
-
-					e.preventDefault();
-					e.stopPropagation();
-					break;
-				}
-				case 'Home':
+		switch (e.key) {
+			case leftKey:
+				if (!activeCategory) {
 					emojiElements[0][0].focus();
-					e.preventDefault();
-					e.stopPropagation();
-					break;
-				case 'End':
-					emojiElements[emojiElements.length - 1][
-						emojiElements[emojiElements.length - 1].length - 1
-					].focus();
-					e.preventDefault();
-					e.stopPropagation();
-					break;
-				default:
-					break;
+				} else {
+					const newEmojiIndex = emojiIndex - 1;
+					if (newEmojiIndex === -1) {
+						const newCategoryIndex = categoryIndex - 1;
+						if (newCategoryIndex === -1) {
+							emojiElements[categoryElements.length - 1][
+								emojiElements[categoryElements.length - 1]
+									.length - 1
+							].focus();
+						} else {
+							emojiElements[newCategoryIndex][
+								emojiElements[newCategoryIndex].length - 1
+							].focus();
+						}
+					} else {
+						emojiElements[categoryIndex][newEmojiIndex].focus();
+					}
+				}
+
+				e.preventDefault();
+				e.stopPropagation();
+				break;
+			case rightKey:
+				if (!activeCategory) {
+					emojiElements[0][0].focus();
+				} else {
+					const newEmojiIndex = emojiIndex + 1;
+					if (newEmojiIndex === emojiElements[categoryIndex].length) {
+						const newCategoryIndex = categoryIndex + 1;
+						if (newCategoryIndex === categoryElements.length) {
+							emojiElements[0][0].focus();
+						} else {
+							emojiElements[newCategoryIndex][0].focus();
+						}
+					} else {
+						emojiElements[categoryIndex][newEmojiIndex].focus();
+					}
+				}
+
+				e.preventDefault();
+				e.stopPropagation();
+				break;
+			case upKey:
+				if (!activeCategory) {
+					emojiElements[0][0].focus();
+				} else {
+					const newEmojiIndex = emojiIndex - emojisPerRow; // move one emoji up
+					// wrap around category if necessary
+					// but if we're at the top of the category, move to the bottom or the row if present of the previous category
+					if (newEmojiIndex < 0) {
+						const newCategoryIndex = categoryIndex - 1;
+
+						if (newCategoryIndex < 0) {
+							const pos = emojiIndex & emojisPerRow;
+							const empojisInLastRow =
+								(emojiElements[categoryElements.length - 1]
+									.length -
+									1) %
+								emojisPerRow;
+							const diff = Math.max(0, empojisInLastRow - pos);
+							emojiElements[categoryElements.length - 1][
+								emojiElements[categoryElements.length - 1]
+									.length -
+									1 -
+									diff
+							].focus();
+						} else {
+							const pos = emojiIndex & emojisPerRow;
+							const empojisInLastRow =
+								(emojiElements[newCategoryIndex].length - 1) %
+								emojisPerRow;
+							const diff = Math.max(0, empojisInLastRow - pos);
+							// move to the row of the previous category
+							emojiElements[newCategoryIndex][
+								emojiElements[newCategoryIndex].length -
+									1 -
+									diff
+							].focus();
+						}
+					} else {
+						emojiElements[categoryIndex][newEmojiIndex].focus();
+					}
+				}
+
+				e.preventDefault();
+				e.stopPropagation();
+				break;
+			case downKey: {
+				if (!activeCategory) {
+					emojiElements[0][0].focus();
+				} else {
+					const newEmojiIndex = emojiIndex + emojisPerRow; // move one emoji up
+					// wrap around category if necessary
+					// but if we're at the top of the category, move to the bottom or the row if present of the previous category
+					if (newEmojiIndex >= emojiElements[categoryIndex].length) {
+						// this could mean that we are in the pre last row of the category
+						const pos = emojiIndex % emojisPerRow;
+						const empojisInLastRow =
+							(emojiElements[categoryIndex].length - 1) %
+							emojisPerRow;
+						if (pos > empojisInLastRow) {
+							emojiElements[categoryIndex][
+								emojiElements[categoryIndex].length - 1
+							].focus();
+						} else {
+							const newCategoryIndex = categoryIndex + 1;
+							if (
+								newCategoryIndex >
+								categoryElements.length - 1
+							) {
+								emojiElements[0][pos].focus();
+							} else {
+								// move to the row of the previous category
+								emojiElements[newCategoryIndex][pos].focus();
+							}
+						}
+					} else {
+						emojiElements[categoryIndex][newEmojiIndex].focus();
+					}
+				}
+
+				e.preventDefault();
+				e.stopPropagation();
+				break;
 			}
+			case 'Home':
+				emojiElements[0][0].focus();
+				e.preventDefault();
+				e.stopPropagation();
+				break;
+			case 'End':
+				emojiElements[emojiElements.length - 1][
+					emojiElements[emojiElements.length - 1].length - 1
+				].focus();
+				e.preventDefault();
+				e.stopPropagation();
+				break;
+			default:
+				break;
 		}
 	};
 
@@ -286,6 +350,16 @@
 	};
 
 	let closePopper: Writable<() => void | undefined>;
+
+	function updateSearch(e: Event) {
+		if (e.target) {
+			$search = (e.target as HTMLInputElement).value;
+		}
+	}
+
+	$: searchedQueryLoading =
+		($searchedQuery.isFetching && $searchedQuery.isPlaceholderData) ||
+		($search && $searchedQuery.isPending && !$searchedQuery.isFetching);
 </script>
 
 {#if renderInput}
@@ -323,48 +397,125 @@
 				bind:this={container}
 				class="relative w-full max-w-[282px] max-h-[360px] overflow-auto"
 			>
-				<Headline as="h2" type="tertiary" class="border-b-0 ">
-					Choose an emoji:
-				</Headline>
-				{#await getEmojiData()}
-					<p>...waiting</p>
-				{:then data}
-					{#each data.categories as category, categoryIndex (category.id)}
-						<div class="relative" data-state={categoryIndex}>
-							<Headline
-								as="h3"
-								type="quaternary"
-								containerClass="sticky top-0 bg-white/[.85]"
-								class="border-b-0"
-							>
-								{category.id.charAt(0).toUpperCase() +
-									category.id.slice(1)}
-							</Headline>
-							<div class="w-full flex flex-wrap p-2 -m-0.5">
-								{#each category.emojis as emoji, emojiIndex (emoji)}
-									<Button
-										on:click={() => {
-											setEmoji(
-												data.emojis[emoji].skins[0]
-													.native
-											);
-										}}
-										data-state={emojiIndex}
-										data-emoji={data.emojis[emoji].skins[0]
-											.native}
-										class="m-0.5 w-[34px] flex justify-center !p-1 rounded-full"
-									>
-										{data.emojis[emoji].skins[0].native}
-									</Button>
-								{/each}
+				<h2>
+					<VisuallyHidden.Root>Choose an emoji:</VisuallyHidden.Root>
+				</h2>
+
+				{#if $dataQuery.data}
+					<label
+						class="z-10 pl-2 border-b border-mauve-12 ring-mauve-12 ring-inset focus-within:ring-1 top-0 bg-white/[.85] group flex items-center space-x-2"
+						class:sticky={$search !== ''}
+					>
+						<AccessibleIcon
+							label={searchedQueryLoading ? 'loading' : ''}
+						>
+							<Spinner
+								class={searchedQueryLoading
+									? 'animate-loading-1'
+									: ''}
+							/>
+						</AccessibleIcon>
+						<input
+							id="search"
+							class="py-2 pr-4 bg-transparent rounded-none w-full focus:outline-none"
+							autocomplete="name"
+							enterkeyhint="search"
+							placeholder="Search"
+							type="search"
+							on:change={updateSearch}
+							on:input={debounce(updateSearch, 50)}
+							on:keydown|stopPropagation={(e) => {
+								if (e.key === 'Enter') {
+									e.preventDefault();
+								}
+							}}
+						/>
+						<!-- on:change={updateSearchAndFocus}
+						on:input={debounce(updateSearch, 200)}
+						on:keydown|stopPropagation -->
+					</label>
+					{#if $search !== ''}
+						{#if $searchedQuery.data}
+							<div class="relative" data-state={0}>
+								<div class="w-full flex flex-wrap p-2 -m-0.5">
+									{#each $searchedQuery.data as result, index (result.refIndex)}
+										<Button
+											on:click={() => {
+												if ($dataQuery.data) {
+													setEmoji(
+														$dataQuery.data.emojis[
+															result.item.id
+														].skins[0].native
+													);
+												}
+											}}
+											data-state={index}
+											data-emoji={$dataQuery.data.emojis[
+												result.item.id
+											].skins[0].native}
+											class="m-0.5 w-[34px] flex justify-center !p-1 rounded-full scroll-mt-[47px]"
+										>
+											{$dataQuery.data.emojis[
+												result.item.id
+											].skins[0].native}
+										</Button>
+									{:else}
+										<p>No emojis found for "{$search}"</p>
+									{/each}
+								</div>
 							</div>
-						</div>
-					{/each}
-				{:catch _}
+						{:else if searchedQueryLoading}
+							<p>...loading searched emojis</p>
+						{:else}
+							<p class="p-2 text-sm text-mauve-11">
+								Searching for emojis failed 😭
+							</p>
+						{/if}
+					{:else}
+						{#each $dataQuery.data.categories as category, categoryIndex (category.id)}
+							<div class="relative" data-state={categoryIndex}>
+								<Headline
+									as="h3"
+									type="quaternary"
+									containerClass="sticky top-0 bg-white/[.85]"
+									class="border-b-0"
+								>
+									{category.id.charAt(0).toUpperCase() +
+										category.id.slice(1)}
+								</Headline>
+								<div class="w-full flex flex-wrap p-2 -m-0.5">
+									{#each category.emojis as emoji, emojiIndex (emoji)}
+										<Button
+											on:click={() => {
+												if ($dataQuery.data) {
+													setEmoji(
+														$dataQuery.data.emojis[
+															emoji
+														].skins[0].native
+													);
+												}
+											}}
+											data-state={emojiIndex}
+											data-emoji={$dataQuery.data.emojis[
+												emoji
+											].skins[0].native}
+											class="m-0.5 w-[34px] flex justify-center !p-1 rounded-full scroll-mt-[47px]"
+										>
+											{$dataQuery.data.emojis[emoji]
+												.skins[0].native}
+										</Button>
+									{/each}
+								</div>
+							</div>
+						{/each}
+					{/if}
+				{:else if $dataQuery.isLoading || $dataQuery.isFetching}
+					<p>...loading emojis</p>
+				{:else}
 					<p class="p-2 text-sm text-mauve-11">
-						Something went wrong and now there are no emojis 😭
+						Something went wrong and all the emojis are gone 😭
 					</p>
-				{/await}
+				{/if}
 			</div>
 		</Popper.Content>
 	</Popper.Root>

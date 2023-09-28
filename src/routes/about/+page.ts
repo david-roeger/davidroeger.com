@@ -5,7 +5,7 @@ import { error } from '@sveltejs/kit';
 
 import type { Resume } from '$lib/resume';
 import type { PageLoad } from './$types';
-import { logger } from '$utils';
+import { logger } from '$utils/logger';
 
 export const load: PageLoad = async ({ fetch }) => {
 	logger.page('about: +page.ts // load');

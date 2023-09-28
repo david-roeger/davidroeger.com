@@ -1,4 +1,4 @@
-logger.page('experimental/dream/login: +layout.server.ts');
+logger.page('experimental/dream/login: +page.server.ts');
 // ----------------------------------------------------------------
 
 import { fail, redirect } from '@sveltejs/kit';
@@ -6,12 +6,12 @@ import { fail, redirect } from '@sveltejs/kit';
 import { LuciaError } from 'lucia';
 
 import { auth } from '$utils/Lucia/lucia';
-import { logger } from '$utils';
+import { logger } from '$utils/logger';
 
 import type { Actions, PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ locals }) => {
-	logger.page('experimental/dream/login: +layout.server.ts // load');
+	logger.page('experimental/dream/login: +page.server.ts // load');
 	// ----------------------------------------------------------------
 
 	const session = await locals.auth.validate();
@@ -22,7 +22,7 @@ export const load: PageServerLoad = async ({ locals }) => {
 export const actions: Actions = {
 	default: async ({ request, locals }) => {
 		logger.page(
-			'experimental/dream/login: +layout.server.ts // Action // default'
+			'experimental/dream/login: +page.server.ts // Action // default'
 		);
 
 		const formData = await request.formData();

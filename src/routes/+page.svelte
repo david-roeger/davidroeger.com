@@ -9,13 +9,14 @@
 
 	import { page } from '$app/stores';
 
-	import Head from '$components/Head/Head.svelte';
-	import Logo from '$components/Logo/Logo.svelte';
-	import Displace from '$components/Displace/Displace.svelte';
+	import { Head } from '$components/Head';
+	import { Logo } from '$components/Logo';
+	import { Displace } from '$components/Displace';
 
-	import HireMe from '$slices/HireMe/HireMe.svelte';
+	import { HireMe } from '$slices/HireMe';
 
-	import { debounce, limit, logger, mapToRange } from '$utils';
+	import { debounce, limit, mapToRange } from '$utils';
+	import { logger } from '$utils/logger';
 
 	const easing = BezierEasing(0.4, 0, 0.2, 1);
 
@@ -478,29 +479,5 @@
 		.triangle-wrapper {
 			grid-column: 5;
 		}
-	}
-
-	.mask {
-		background: linear-gradient(
-					180deg,
-					rgba(211, 180, 237, 0.8) 0%,
-					rgba(211, 180, 237, 0) 50%
-				)
-				400%,
-			linear-gradient(
-				270deg,
-				rgba(255, 179, 129, 0.8) 0%,
-				rgba(255, 179, 129, 0) 50%
-			),
-			linear-gradient(
-				360deg,
-				rgba(150, 199, 242, 0.8) 0%,
-				rgba(150, 199, 242, 0) 50%
-			),
-			linear-gradient(
-				90deg,
-				rgba(146, 206, 172, 0.8) 0%,
-				rgba(146, 206, 172, 0) 50%
-			);
 	}
 </style>

@@ -10,7 +10,9 @@
 	<BeKind class="z-30" />
 	<div class="p-2">
 		<p>Building: {building}</p>
+		<!-- svelte-ignore missing-declaration -->
 		<p>Last updated at: {__BUILD_TIME__}</p>
 		<p>Version: {version}</p>
+		<p>hi luca</p>
 	</div>
 </footer>

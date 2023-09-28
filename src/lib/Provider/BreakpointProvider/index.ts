@@ -1,1 +1,1 @@
-export { default } from './BreakpointProvider.svelte';
+export { default as BreakpointProvider } from './BreakpointProvider.svelte';

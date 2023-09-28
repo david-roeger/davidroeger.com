@@ -3,7 +3,7 @@ logger.page('_api/ping: +server.ts');
 
 import { json } from '@sveltejs/kit';
 
-import { logger } from '$utils';
+import { logger } from '$utils/logger';
 
 import type { RequestHandler } from './$types';
 

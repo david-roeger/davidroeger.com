@@ -1,5 +1,5 @@
 import { env } from '$env/dynamic/private';
-import { logger } from '$utils';
+import { logger } from '$utils/logger';
 import { error } from '@sveltejs/kit';
 import nodemailer from 'nodemailer';
 import type Mail from 'nodemailer/lib/mailer';

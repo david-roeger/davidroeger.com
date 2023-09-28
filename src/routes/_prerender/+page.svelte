@@ -4,7 +4,7 @@
 
 	import { Headline } from '$components/Headline';
 
-	import { logger } from '$utils';
+	import { logger } from '$utils/logger';
 
 	import type { PageData } from './$types';
 

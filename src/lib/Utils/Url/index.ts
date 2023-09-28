@@ -6,11 +6,25 @@ export const safeUrlParam = (url: URL, key: string) => {
 	return value;
 };
 
-export const ensurePositiveInteger = (d: number) => {
+export const ensureNumber = (d: number, min = 1) => {
 	return z.coerce
 		.number()
-		.min(1)
+		.min(min)
 		.transform((v) => v ?? d)
 		.catch(d)
 		.default(d);
+};
+
+export const parseNumber = ({
+	url,
+	key,
+	defaultNumber,
+	min = 1
+}: {
+	url: URL;
+	key: string;
+	defaultNumber: number;
+	min?: number;
+}) => {
+	return ensureNumber(defaultNumber, min).parse(safeUrlParam(url, key));
 };

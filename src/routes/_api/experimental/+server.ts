@@ -3,7 +3,7 @@ logger.page('_api/experimental: +server.ts');
 
 import { error, json } from '@sveltejs/kit';
 
-import { logger } from '$utils';
+import { logger } from '$utils/logger';
 
 import type { RequestHandler } from './$types';
 

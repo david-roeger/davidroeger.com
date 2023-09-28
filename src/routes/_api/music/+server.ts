@@ -15,11 +15,16 @@ import type {
 
 import { rangeSchema as baseRangeSchema } from '$routes/about/music/constants';
 
-import { logger } from '$utils';
+import { logger } from '$utils/logger';
 
 import type { RequestHandler } from './$types';
 
 import { baseRequest, getTopArtists, getTopTracks } from './utils';
+
+let accessToken: {
+	token: string;
+	expiresAt: number;
+};
 
 const getAccessToken = async ({
 	clientId,
@@ -33,6 +38,17 @@ const getAccessToken = async ({
 	logger.page('_api/music: +server.ts // GET // getAccessToken');
 	// ----------------------------------------------------------------
 
+	if (accessToken) {
+		const now = new Date().getTime();
+		const isExpired = accessToken.expiresAt < now;
+		if (!isExpired) {
+			logger.page(
+				'_api/music: +server.ts // GET // getAccessToken // taken from cache'
+			);
+
+			return accessToken.token;
+		}
+	}
 	const response = await fetch('https://accounts.spotify.com/api/token', {
 		method: 'POST',
 		headers: {
@@ -49,8 +65,13 @@ const getAccessToken = async ({
 
 	const body = await response.json();
 	if (response.ok) {
-		const { access_token } = body;
+		const { access_token, expires_in = 0 } = body;
 		if (access_token) {
+			accessToken = {
+				token: access_token as string,
+				expiresAt:
+					new Date().getTime() + expires_in * 1000 - 5 * 60 * 1000 // substract five minutes to avoid timeouts
+			};
 			return access_token as string;
 		}
 

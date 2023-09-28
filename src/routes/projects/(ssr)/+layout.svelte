@@ -2,7 +2,7 @@
 	logger.page('projects/(ssr): +layout.svelte');
 	// ----------------------------------------------------------------
 
-	import { logger } from '$utils';
+	import { logger } from '$utils/logger';
 </script>
 
 <slot />

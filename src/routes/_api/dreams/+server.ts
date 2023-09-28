@@ -1,6 +1,7 @@
+logger.page('_api/dreams: +server.ts');
 // ----------------------------------------------------------------
 
-import { json } from '@sveltejs/kit';
+import { error, json } from '@sveltejs/kit';
 
 import client from '$utils/Db/client';
 
@@ -10,23 +11,37 @@ import {
 	DREAMS_DEFAULT_SIZE
 } from '$routes/experimental/dreams/constants';
 import type { Pageable } from '$components/Pagination/types';
-import { ensurePositiveInteger, safeUrlParam } from '$utils/Url';
+import { parseNumber } from '$utils/Url';
 import type { Dream } from '$types';
+import { logger } from '$utils/logger';
 
-export const GET: RequestHandler = async ({ url }) => {
-	const size = ensurePositiveInteger(DREAMS_DEFAULT_SIZE).parse(
-		safeUrlParam(url, 'size')
-	);
-	const page = ensurePositiveInteger(DREAMS_DEFAULT_PAGE).parse(
-		safeUrlParam(url, 'page')
+export const GET: RequestHandler = async ({ url, locals }) => {
+	logger.page('_api/dreams: +server.ts // GET');
+
+	const session = await locals.auth.validate();
+	if (!session) throw error(401, 'Unauthorized');
+
+	const size = parseNumber({
+		url,
+		key: 'size',
+		defaultNumber: DREAMS_DEFAULT_SIZE
+	});
+	const page = parseNumber({
+		url,
+		key: 'page',
+		defaultNumber: DREAMS_DEFAULT_PAGE
+	});
+
+	logger.page(
+		`_api/dreams: +server.ts // GET // page: ${page} // size: ${size}`
 	);
 
 	const total = client.query('SELECT COUNT(*) AS total from dreams');
 
 	const offset = (page - 1) * size;
 	const dreams = client.query(
-		'SELECT * from dreams ORDER BY created_at DESC LIMIT $1 OFFSET $2',
-		[size, offset]
+		'SELECT * from dreams WHERE created_by = $3 ORDER BY created_at DESC LIMIT $1 OFFSET $2',
+		[size, offset, session.user.userId]
 	);
 
 	const [totalResult, totalDreams] = await Promise.all([total, dreams]);

@@ -1,7 +1,7 @@
 logger.page('experimental/dreams: +layout.server.ts');
 // ----------------------------------------------------------------
 
-import { logger } from '$utils';
+import { logger } from '$utils/logger';
 
 import type { LayoutServerLoad } from './$types';
 

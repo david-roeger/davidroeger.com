@@ -5,7 +5,7 @@ import type { ProjectFrontMatter } from '$types';
 import { error, json } from '@sveltejs/kit';
 
 import type { RequestEvent, RequestHandler } from './$types';
-import { logger } from '$utils';
+import { logger } from '$utils/logger';
 
 export type RouteParams = RequestEvent['params'];
 

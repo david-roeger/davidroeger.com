@@ -2,11 +2,11 @@
 	logger.page('contact: +page.svelte');
 	// ----------------------------------------------------------------
 
-	import Headline from '$components/Headline/Headline.svelte';
+	import { Headline } from '$components/Headline';
 
-	import ContactForm from '$slices/ContactForm/ContactForm.svelte';
+	import { ContactForm } from '$slices/ContactForm';
 
-	import { logger } from '$utils';
+	import { logger } from '$utils/logger';
 </script>
 
 <section class="mb-32">
