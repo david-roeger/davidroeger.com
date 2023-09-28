@@ -27,10 +27,12 @@
 	}
 </script>
 
-<div class="grid grid-cols-1 grid-rows-1 overflow-x-hidden {c}">
+<svelte:element
+	this={as}
+	class="grid grid-cols-1 grid-rows-1 overflow-x-hidden {c}"
+>
 	{#key key}
-		<svelte:element
-			this={as}
+		<div
 			in:slide={{
 				start: direction === 1 ? 100 : -100,
 				end: 0,
@@ -47,6 +49,6 @@
 			on:introend
 		>
 			<slot />
-		</svelte:element>
+		</div>
 	{/key}
-</div>
+</svelte:element>
