@@ -253,8 +253,6 @@
 <div class="pt-8 mb-32 text-center md:pt-16">
 	<p>Made with:</p>
 	<p>
-		<Link type="secondary" href="https://spotify.com">Spotify</Link>
-		💚
-		<Link type="secondary" href="https://supabase.com/">Supabase</Link>
+		<Link type="secondary" href="https://spotify.com">Spotify 💚</Link>
 	</p>
 </div>
