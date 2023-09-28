@@ -166,7 +166,10 @@
 							<Link href={lastTrack.external_urls.spotify}>
 								{lastTrack.name}
 							</Link>
-							<div slot="headline">
+							<div
+								slot="headline"
+								hidden={!('is_playable' in lastTrack)}
+							>
 								{#if 'is_playable' in lastTrack}
 									<AccessibleIcon label="Currently Playing:">
 										<Wave
