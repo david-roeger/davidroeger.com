@@ -1,7 +1,6 @@
 <script lang="ts">
 	export let show = false;
 	export let play = false;
-	console.log(show);
 </script>
 
 <div

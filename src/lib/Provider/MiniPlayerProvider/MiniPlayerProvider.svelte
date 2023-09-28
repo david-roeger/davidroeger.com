@@ -230,7 +230,6 @@
 		if ($currentMiniPlayer && $currentMiniPlayer.id === id) {
 			if ($currentState === 'loading' || $currentState === 'playing') {
 				// keep the audio around and clean up later
-				console.log('keep the audio around and clean up later');
 				$toBeRemoved = { id, context };
 				return;
 			} else {

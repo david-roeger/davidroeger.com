@@ -52,7 +52,6 @@
 	});
 
 	onDestroy(() => {
-		console.log('destroy');
 		if ($id) {
 			remove({ id: $id, context });
 		}
@@ -84,7 +83,6 @@
 			on:click={async () => {
 				if ($id) {
 					if (!isPlaying) {
-						console.log('play');
 						play({ id: $id, context });
 					} else {
 						pause({ id: $id, context });

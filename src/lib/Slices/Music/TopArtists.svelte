@@ -50,8 +50,6 @@
 		queryKey: MUSIC_KEYS.range('artists', range),
 		queryFn
 	});
-
-	$: console.log($query.data);
 </script>
 
 <section class={c}>

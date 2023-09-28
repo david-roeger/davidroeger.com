@@ -90,7 +90,6 @@
 	on:valueChange={(e) => {
 		const tab = tabSchema.safeParse(e.detail.value);
 		if (tab.success) {
-			console.log(tab);
 			queryStore.update((s) => {
 				const last = s ?? data.initalState;
 				return { ...last, tab: tab.data };

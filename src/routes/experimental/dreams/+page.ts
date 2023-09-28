@@ -34,7 +34,6 @@ export const load: PageLoad = async ({ fetch, data, url, parent }) => {
 		defaultNumber: DREAMS_DEFAULT_PAGE
 	});
 
-	console.log({ size, page });
 	const queryFn = async () =>
 		await fetch(`/_api/dreams?size=${size}&page=${page}`).then(
 			async (res) => {

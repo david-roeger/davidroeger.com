@@ -32,7 +32,6 @@ export const GET: RequestHandler = async ({ url, locals }) => {
 		defaultNumber: DREAMS_DEFAULT_PAGE
 	});
 
-	console.log({ size, page });
 	logger.page(
 		`_api/dreams: +server.ts // GET // page: ${page} // size: ${size}`
 	);
