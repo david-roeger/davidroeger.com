@@ -662,7 +662,7 @@
 					</button>
 
 					<button
-						class="bg-white p-1 text-xs border touch-manipulation border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 cursor-e-resize"
+						class="bg-white p-1 text-xs border touch-manipulation border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 cursor-pointer"
 						disabled={!$currentMiniPlayer ||
 							$currentState === 'loading' ||
 							transitioning}
