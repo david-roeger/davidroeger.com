@@ -30,6 +30,7 @@
 	import { tweened } from 'svelte/motion';
 	import { Headline } from '$components/Headline';
 	import { Slide } from '$components/Slide';
+	import Button from '$components/Button/Button.svelte';
 
 	// ----------------------------------------------------------------
 	let transitioning = false;
@@ -577,7 +578,7 @@
 		<div
 			in:slide={{ duration: 400 }}
 			out:slide={{ duration: 400 }}
-			class="bg-white/[.85] backdrop-blur-sm relative w-full grid grid-cols-[minmax(0,1fr),auto] gap-4 select-none"
+			class="bg-white relative w-full grid grid-cols-[minmax(0,1fr),auto] gap-4 select-none"
 		>
 			<Progress.Root
 				class="w-full h-0.5 bg-mauve-6 absolute top-0"
@@ -649,7 +650,8 @@
 				class="p-2 flex space-x-2 md:space-x-4 items-center border-l border-mauve-6"
 			>
 				<div class="flex space-x-2 items-center">
-					<button
+					<Button
+						variant="custom"
 						class="hidden sm:block bg-white p-1 pl-2 text-xs border rounded-l-full touch-manipulation border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 cursor-w-resize"
 						disabled={!$currentMiniPlayer ||
 							transitioning ||
@@ -659,9 +661,10 @@
 						<AccessibleIcon label="Go to previous">
 							<West />
 						</AccessibleIcon>
-					</button>
+					</Button>
 
-					<button
+					<Button
+						variant="custom"
 						class="bg-white p-1 text-xs border touch-manipulation border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 cursor-pointer"
 						disabled={!$currentMiniPlayer ||
 							$currentState === 'loading' ||
@@ -681,8 +684,9 @@
 								<Play />
 							</AccessibleIcon>
 						{/if}
-					</button>
-					<button
+					</Button>
+					<Button
+						variant="custom"
 						class="hidden sm:block bg-white p-1 pr-2 text-xs border rounded-r-full touch-manipulation border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 cursor-e-resize"
 						disabled={!$currentMiniPlayer ||
 							transitioning ||
@@ -692,10 +696,11 @@
 						<AccessibleIcon label="Go to next">
 							<East />
 						</AccessibleIcon>
-					</button>
+					</Button>
 				</div>
-				<button
-					class=" bg-white p-1 text-xs border rounded-full touch-manipulation border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 cursor-w-resize"
+				<Button
+					variant="custom"
+					class="bg-white p-1 text-xs border rounded-full touch-manipulation border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 cursor-pointer"
 					on:click={() => {
 						if ($currentMiniPlayer) {
 							if ($currentMiniPlayer.element) {
@@ -711,7 +716,7 @@
 					<AccessibleIcon label="close">
 						<Close />
 					</AccessibleIcon>
-				</button>
+				</Button>
 			</div>
 		</div>
 	{/if}

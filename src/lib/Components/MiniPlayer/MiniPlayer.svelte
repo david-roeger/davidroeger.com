@@ -13,6 +13,7 @@
 
 	import Play from '$assets/Icons/24/play.svg?component';
 	import Pause from '$assets/Icons/24/pause.svg?component';
+	import Button from '$components/Button/Button.svelte';
 
 	export let context = DEFAULT_PLAYER_CONTEXT;
 	export let src: string;
@@ -77,7 +78,8 @@
 		class:active={isShowing}
 		class="bg-mauve-3 border-mauve-6 border-r flex items-center p-2 slider transition-[transform,margin-left]"
 	>
-		<button
+		<Button
+			variant="custom"
 			class="bg-white p-1 text-xs border touch-manipulation border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 cursor-pointer rounded-full"
 			disabled={!id}
 			on:click={async () => {
@@ -99,7 +101,7 @@
 					<Play />
 				</AccessibleIcon>
 			{/if}
-		</button>
+		</Button>
 	</div>
 
 	<slot />
