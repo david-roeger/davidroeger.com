@@ -427,6 +427,19 @@
 							on:keydown|stopPropagation={(e) => {
 								if (e.key === 'Enter') {
 									e.preventDefault();
+									if (!$searchedQuery.isFetching && $search) {
+										const firstEmoji =
+											container.querySelector(
+												':scope button[data-state="0"]'
+											);
+										if (
+											firstEmoji &&
+											firstEmoji instanceof
+												HTMLButtonElement
+										) {
+											firstEmoji.click();
+										}
+									}
 								}
 							}}
 						/>
