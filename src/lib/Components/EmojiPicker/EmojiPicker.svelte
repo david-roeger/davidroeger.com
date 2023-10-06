@@ -33,6 +33,7 @@
 
 	import { EMOJI_FUSE_KEYS, EMOJI_KEYS } from './constants';
 
+	// TODO: this blocks rendering
 	id++;
 	const rootContext: RootContext = {
 		id: `drds-emojiPicker-${id.toString()}`,
