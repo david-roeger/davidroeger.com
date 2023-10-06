@@ -78,6 +78,7 @@
 		) {
 			const { popperStyles } = getPlacementData({
 				triggerRect: $triggerRect.rect,
+				triggerOffset: $triggerRect.offset,
 				popperSize: $contentSize.size,
 				side: $popperOptions.side,
 				sideOffset: $popperOptions.sideOffset,

@@ -5,6 +5,7 @@ import { SIDE_OPTIONS, ALIGN_OPTIONS } from './constants';
 
 export interface Rect {
 	rect: DOMRect;
+	offset: Point;
 	onDestroy: (() => void) | undefined;
 }
 

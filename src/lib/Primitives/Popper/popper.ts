@@ -5,6 +5,8 @@ import type { Axis, Side, Align, Point, Size } from './types';
 type GetPlacementDataOptions = {
 	/** The rect of the trigger we are placing around */
 	triggerRect?: DOMRect;
+	/** The rect of the trigger we are placing around */
+	triggerOffset?: Point;
 	/** The size of the popper to place */
 	popperSize?: Size;
 	/** An optional arrow size */
@@ -46,6 +48,10 @@ type PlacementData = {
  */
 function getPlacementData({
 	triggerRect,
+	triggerOffset = {
+		x: window.scrollX,
+		y: window.scrollY
+	},
 	popperSize,
 	side,
 	sideOffset = 0,
@@ -71,12 +77,23 @@ function getPlacementData({
 		alignOffset
 	);
 
+	const allOffsetPoints = getAllOffsetPoints(
+		popperSize,
+		triggerRect,
+		triggerOffset,
+		sideOffset,
+		alignOffset
+	);
+
 	// get point based on side / align
 	const popperPoint = allPlacementPoints[side][align];
 
 	// if we don't need to avoid collisions, we can stop here
 	if (shouldAvoidCollisions === false) {
-		const popperStyles = getPlacementStylesForPoint(popperPoint);
+		const popperStyles = getPlacementStylesForPoint(
+			popperPoint,
+			triggerOffset
+		);
 
 		return {
 			popperStyles,
@@ -132,7 +149,10 @@ function getPlacementData({
 	const placedPopperPoint = allPlacementPoints[placedSide][placedAlign];
 
 	// compute adjusted popper / arrow styles
-	const popperStyles = getPlacementStylesForPoint(placedPopperPoint);
+	const popperStyles = getPlacementStylesForPoint(
+		placedPopperPoint,
+		triggerOffset
+	);
 
 	return {
 		popperStyles,
@@ -267,9 +287,12 @@ function getAlignAccountingForCollisions(
 	return align;
 }
 
-function getPlacementStylesForPoint(point: Point): CSS.Properties {
-	const x = Math.round(point.x + window.scrollX);
-	const y = Math.round(point.y + window.scrollY);
+function getPlacementStylesForPoint(
+	point: Point,
+	offset: Point
+): CSS.Properties {
+	const x = Math.round(point.x + offset.x);
+	const y = Math.round(point.y + offset.y);
 	return {
 		position: 'absolute',
 		top: 0,

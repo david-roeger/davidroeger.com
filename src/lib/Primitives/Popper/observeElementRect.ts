@@ -1,4 +1,8 @@
-type Measurable = { getBoundingClientRect(): DOMRect };
+type Measurable = {
+	getBoundingClientRect(): DOMRect;
+	offsetLeft: number;
+	offsetTop: number;
+};
 
 /**
  * Observes an element's rectangle on screen (getBoundingClientRect)
