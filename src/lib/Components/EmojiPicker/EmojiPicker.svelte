@@ -396,7 +396,7 @@
 		>
 			<div
 				bind:this={container}
-				class="relative w-full max-w-[282px] max-h-[360px] overflow-auto"
+				class="relative w-[282px] max-h-[360px] overflow-auto"
 			>
 				<h2>
 					<VisuallyHidden.Root>Choose an emoji:</VisuallyHidden.Root>
