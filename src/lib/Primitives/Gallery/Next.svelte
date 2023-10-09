@@ -7,10 +7,16 @@
 	import { getContext } from 'svelte';
 	import { derived } from 'svelte/store';
 	import type { RootContext } from './types';
+	import { ticked } from '$utils/Store/ticked';
 
 	const { setGallery, computedStep, end, id }: RootContext =
 		getContext('root');
-	const dataState = derived(end, ($end) => ($end ? 'inactive' : 'active'));
+	const dataState = ticked(
+		end,
+		($end) => ($end ? 'inactive' : 'active'),
+		$end ? 'inactive' : 'active',
+		($end) => $end === false
+	);
 
 	const handleClick = () => {
 		if ($setGallery && !isNaN($computedStep) && !$end)

@@ -7,13 +7,19 @@
 	export let focusTrapOptions: Options = {};
 
 	import { getContext, onMount, tick } from 'svelte';
-	import { derived } from 'svelte/store';
+	import { derived, writable } from 'svelte/store';
 
 	import type { RootContext } from './types';
+	import { ticked } from '$utils/Store/ticked';
 
 	const { open, id, trap, setClose }: RootContext = getContext('root');
 
-	const dataState = derived(open, ($open) => ($open ? 'open' : 'closed'));
+	const tickedDataState = ticked(
+		open,
+		($open) => ($open ? 'open' : 'closed'),
+		$open ? 'open' : 'closed',
+		($open) => $open
+	);
 
 	let content: HTMLElement;
 	let mounted = false;
@@ -48,14 +54,14 @@
 
 {#if $open}
 	<div
-		data-state={$dataState}
+		data-state={$tickedDataState}
 		role="dialog"
 		aria-modal="true"
 		tabindex="-1"
 		id="{id}-content"
 		aria-labelledby="{id}-title"
 		aria-describedby="{id}-description"
-		class={c}
+		class="group/dr-ds-dialog {c}"
 		bind:this={content}
 		on:keydown
 		on:keydown={handleKeyDown}
