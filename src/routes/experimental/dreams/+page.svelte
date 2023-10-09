@@ -4,9 +4,11 @@
 
 	import { derived, writable } from 'svelte/store';
 
-	import { createQuery, keepPreviousData } from '@tanstack/svelte-query';
-
-	import { page } from '$app/stores';
+	import {
+		createQuery,
+		keepPreviousData,
+		useQueryClient
+	} from '@tanstack/svelte-query';
 
 	import * as VisuallyHidden from '$primitives/VisuallyHidden';
 
@@ -22,11 +24,15 @@
 
 	import type { Dream } from '$types';
 
+	import DreamComponent from './Dream.svelte';
 	import { DREAMS_KEYS } from './constants';
 
 	// ----------------------------------------------------------------
 	import type { PageData } from './$types';
+
 	export let data: PageData;
+
+	const queryClient = useQueryClient();
 
 	$: user = data.user;
 
@@ -35,7 +41,15 @@
 			async (res) => {
 				const data = await res.json();
 				if (!res.ok) throw data;
-				return data as Pageable<Dream>;
+				const dreams = data as Pageable<Dream>;
+				dreams.rows.forEach((dream) => {
+					queryClient.setQueryData(DREAMS_KEYS.id(dream.id), dream);
+				});
+				const rows = dreams.rows.map((dream) => dream.id);
+				return {
+					...dreams,
+					rows
+				};
 			}
 		);
 
@@ -56,11 +70,6 @@
 			placeholderData: keepPreviousData
 		}))
 	);
-
-	const formatDate = (date: string) => {
-		const parsed = new Date(date);
-		return parsed.toLocaleDateString('en-GB');
-	};
 </script>
 
 <div class="border-b xl:max-w-7xl border-mauve-6">
@@ -230,7 +239,7 @@
 </div>
 
 <Headline containerClass="py-8 md:py-16" class="flex">
-	<span>Meine Träume 3</span>
+	<span>Meine Träume</span>
 </Headline>
 
 {#if $query.data}
@@ -258,196 +267,8 @@
 		class="grid grid-cols-1 p-1 md:grid-cols-2 lg:grid-cols-3 grid-rows-[masonry]"
 	>
 		{#if $query.data}
-			{#each $query.data.rows as dream (dream.id)}
-				{@const active = $page.url.hash === `#${dream.id.toString()}`}
-				<li
-					class="flex flex-col m-1 border border-mauve-6 scroll-m-2 {active
-						? 'ring-1 ring-mauve-6'
-						: ''}"
-					id={dream.id.toString()}
-				>
-					<div class="flex bg-white">
-						<span
-							class="w-10 p-2 text-center border-b border-mauve-6 group"
-						>
-							<span
-								class="block transition-transform group-hover:animate-cool-wiggle"
-							>
-								{dream.emoji}
-							</span>
-						</span>
-
-						<Headline
-							as="h2"
-							type="quaternary"
-							containerClass="grow border-l flex"
-						>
-							{formatDate(dream.created_at)}
-							<span class="text-mauve-11">
-								({formatDate(dream.updated_at)})
-							</span>
-						</Headline>
-
-						<!-- edit dialog-->
-						<!-- {#if data.profile}
-					<Dialog
-						disabled={$editDreamFormState ===
-							FORM_STATE.SUBMITTING || !data.profile}
-						triggerClass="w-10 !px-2 text-center transition-colors border-t-0 border-r-0 !border-mauve-6 focus:outline-none ring-mauve-6 focus:ring-1 ring-inset {$editDreamFormState !==
-							FORM_STATE.SUBMITTING && data.profile
-							? 'group'
-							: ''}"
-						title="Title"
-						description="description"
-						bind:setClose={setEditDreamDialogClose}
-					>
-						<AccessibleIcon label="edit" slot="trigger">
-							<EditIcon
-								class="block w-auto h-full group-hover:animate-spin icon-mauve-11"
-							/>
-						</AccessibleIcon>
-						<form
-							method="POST"
-							action="/experimental/dreams/actions?/edit"
-							class="bg-white/[.85] flex flex-col"
-							use:editDreamFormEnhance
-						>
-							<div
-								class="flex flex-col items-start max-w-xs group sm:max-w-none lg:max-w-xs"
-							>
-								<p class="h-4 text-xs">
-									{#if $editDreamForm && 'invalidValues' in $editDreamForm && $editDreamForm.invalidValues?.default && editDreamId === dream.id}
-										{$editDreamForm.invalidValues.default}
-									{/if}
-								</p>
-							</div>
-
-							<input
-								type="hidden"
-								name="dreamId"
-								value={dream.id}
-							/>
-							<div
-								class="flex flex-col items-start max-w-xs group sm:max-w-none lg:max-w-xs"
-							>
-								<label
-									for="text"
-									class="px-4 py-1 text-xs border border-b-0 rounded-none border-mauve-12 ring-mauve-12 group-focus-within:ring-1"
-								>
-									Wovon träumst du nachts?
-								</label>
-								<textarea
-									name="text"
-									id="text"
-									class="w-full px-4 py-2 border rounded-none resize-none border-mauve-12 group-focus-within:outline-none ring-mauve-12 group-focus-within:ring-1 bg-gradient-to-r from-transparent"
-									placeholder="Ganz viele Schafe..."
-									value={editDreamId === dream.id
-										? editDreamText
-										: dream.text}
-									disabled={$editDreamFormState ===
-										FORM_STATE.SUBMITTING}
-								/>
-
-								<p class="h-4 text-xs">
-									{#if $editDreamForm && 'invalidValues' in $editDreamForm && $editDreamForm.invalidValues?.text && editDreamId === dream.id}
-										{$editDreamForm.invalidValues.text}
-									{/if}
-								</p>
-							</div>
-							<div
-								class="flex flex-col items-start max-w-xs group sm:max-w-none lg:max-w-xs"
-							>
-								<EmojiPicker
-									name="emoji"
-									defaultValue={editDreamId === dream.id
-										? editDreamEmoji
-										: dream.emoji
-										? dream.emoji
-										: data?.emojiMap?.[dream.id]}
-									disabled={$editDreamFormState ===
-										FORM_STATE.SUBMITTING}
-								/>
-								<p class="h-4 text-xs">
-									{#if $editDreamForm && 'invalidValues' in $editDreamForm && $editDreamForm.invalidValues?.emoji && editDreamId === dream.id}
-										{$editDreamForm.invalidValues.emoji}
-									{/if}
-								</p>
-							</div>
-
-							<Button
-								class="block bg-white hover:bg-green-5"
-								disabled={$editDreamFormState ===
-									FORM_STATE.SUBMITTING || !data.profile}
-								type="submit"
-							>
-								Update
-							</Button>
-						</form>
-					</Dialog>
-				{/if} -->
-
-						<!-- remove dialog-->
-						<!-- {#if data.profile}
-					<Dialog
-						disabled={$removeDreamFormState ===
-							FORM_STATE.SUBMITTING || !data.profile}
-						triggerClass="w-10 !px-2 text-center transition-colors border-t-0 border-r-0 !border-mauve-6 focus:outline-none ring-mauve-6 focus:ring-1 ring-inset {$removeDreamFormState !==
-							FORM_STATE.SUBMITTING && data.profile
-							? 'group'
-							: ''}"
-						title="Title"
-						description="description"
-						bind:setClose={setRemoveDreamDialogClose}
-					>
-						<AccessibleIcon label="delete" slot="trigger">
-							<CloseIcon />
-						</AccessibleIcon>
-						<form
-							method="POST"
-							action="/experimental/dreams/actions?/remove"
-							class="bg-white/[.85] flex flex-col"
-							use:removeDreamFormEnhance
-						>
-							<div
-								class="flex flex-col items-start max-w-xs group sm:max-w-none lg:max-w-xs"
-							>
-								<p class="h-4 text-xs">
-									{#if $removeDreamForm && 'invalidValues' in $removeDreamForm && $removeDreamForm.invalidValues?.default && removeDreamId === dream.id}
-										{$removeDreamForm.invalidValues.default}
-									{/if}
-								</p>
-							</div>
-
-							<input
-								type="hidden"
-								name="dreamId"
-								value={dream.id}
-							/>
-							<div
-								class="flex flex-col items-start max-w-xs group sm:max-w-none lg:max-w-xs"
-							>
-								<Close
-									class="block px-4 py-2 transition-colors bg-white border border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 hover:bg-green-5"
-								>
-									Abbrechen
-								</Close>
-								<Button
-									class="block bg-red-5"
-									type="submit"
-									disabled={$removeDreamFormState ===
-										FORM_STATE.SUBMITTING || !data.profile}
-								>
-									Löschen
-								</Button>
-							</div>
-						</form>
-					</Dialog>
-				{/if} -->
-					</div>
-					<div class="p-2 bg-white/[.85] grow">
-						<p class="whitespace-pre-line">{dream.text}</p>
-					</div>
-				</li>
+			{#each $query.data.rows as id}
+				<DreamComponent {id} />
 			{:else}
 				<li>No dreams recorded yet 😴</li>
 			{/each}

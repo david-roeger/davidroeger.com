@@ -14,8 +14,10 @@ declare global {
 	}
 	declare namespace App {
 		interface PageData {
+			user: import('lucia').User | undefined;
 			contactForm: import('$slices/ContactForm/constants').ContactForm;
 			addDreamForm: import('$slices/AddDreamForm/constants').AddDreamForm;
+			editDreamForm: import('$slices/EditDreamForm/constants').EditDreamForm;
 		}
 		interface Locals {
 			auth: import('lucia').AuthRequest;

@@ -39,7 +39,15 @@ export const load: PageLoad = async ({ fetch, data, url, parent }) => {
 			async (res) => {
 				const data = await res.json();
 				if (!res.ok) throw data;
-				return data as Pageable<Dream>;
+				const dreams = data as Pageable<Dream>;
+				dreams.rows.forEach((dream) => {
+					queryClient.setQueryData(DREAMS_KEYS.id(dream.id), dream);
+				});
+				const rows = dreams.rows.map((dream) => dream.id);
+				return {
+					...dreams,
+					rows
+				};
 			}
 		);
 

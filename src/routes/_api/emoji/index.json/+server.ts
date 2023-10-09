@@ -23,10 +23,7 @@ export const GET: RequestHandler = async ({ fetch }) => {
 			const emojiData = (await response.json()) as EmojiData;
 			const emojis = emojiData ? Object.values(emojiData.emojis) : [];
 			const index = Fuse.createIndex(EMOJI_FUSE_KEYS, emojis);
-			const sleep = (ms: number) =>
-				new Promise((resolve) => setTimeout(resolve, ms));
 
-			await sleep(10000);
 			return json(index.toJSON());
 		}
 

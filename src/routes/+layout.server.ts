@@ -9,6 +9,7 @@ import { addDreamFormSchema } from '$slices/AddDreamForm/constants';
 import { logger } from '$utils/logger';
 
 import type { LayoutServerLoad } from './$types';
+import { editDreamFormSchema } from '$slices/EditDreamForm/constants';
 
 export const load: LayoutServerLoad = async () => {
 	logger.page('index: +layout.server.ts // load');
@@ -22,5 +23,9 @@ export const load: LayoutServerLoad = async () => {
 		id: 'addDreamForm'
 	});
 
-	return { contactForm, addDreamForm };
+	const editDreamForm = await superValidate(editDreamFormSchema, {
+		id: 'editDreamForm'
+	});
+
+	return { contactForm, addDreamForm, editDreamForm };
 };

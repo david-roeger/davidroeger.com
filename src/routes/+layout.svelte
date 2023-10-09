@@ -296,5 +296,5 @@
 			<div id="portal" style="position: absolute; z-index: 9999" />
 		</MiniPlayerProvider>
 	</NotificationProvider>
-	<SvelteQueryDevtools buttonPosition="top-right" />
+	<SvelteQueryDevtools buttonPosition="bottom-right" />
 </QueryClientProvider>

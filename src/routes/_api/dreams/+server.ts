@@ -15,6 +15,7 @@ import { parseNumber } from '$utils/Url';
 import type { Dream } from '$types';
 import { logger } from '$utils/logger';
 
+const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 export const GET: RequestHandler = async ({ url, locals }) => {
 	logger.page('_api/dreams: +server.ts // GET');
 
@@ -36,7 +37,10 @@ export const GET: RequestHandler = async ({ url, locals }) => {
 		`_api/dreams: +server.ts // GET // page: ${page} // size: ${size}`
 	);
 
-	const total = client.query('SELECT COUNT(*) AS total from dreams');
+	const total = client.query(
+		'SELECT COUNT(*) AS total from dreams WHERE created_by = $1',
+		[session.user.userId]
+	);
 
 	const offset = (page - 1) * size;
 	const dreams = client.query(

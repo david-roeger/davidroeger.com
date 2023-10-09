@@ -164,3 +164,29 @@ export const getLoadingEmojis = (count = 3) => {
 	}
 	return emojis;
 };
+
+export const compareFlatObject = (
+	a: Record<string, unknown>,
+	b: Record<string, unknown>
+): boolean => {
+	if (Object.keys(a).length !== Object.keys(b).length) return false;
+	for (const key in a) {
+		if (a[key] && typeof a[key] === 'object') {
+			throw new Error(
+				`compareFlatObject does not support nested objects (key: ${key})`
+			);
+		}
+		if (b[key] && typeof b[key] === 'object') {
+			throw new Error(
+				`compareFlatObject does not support nested objects (key: ${key})`
+			);
+		}
+		if (Array.isArray(a[key]) || Array.isArray(b[key])) {
+			throw new Error(
+				`compareFlatObject does not support arrays (key: ${key})`
+			);
+		}
+		if (a[key] !== b[key]) return false;
+	}
+	return true;
+};
