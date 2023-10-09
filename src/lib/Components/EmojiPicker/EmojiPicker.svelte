@@ -389,9 +389,9 @@
 			</span>
 		</Popper.Trigger>
 		<Popper.Content
-			class="bg-white border border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1"
 			side="bottom"
 			align="start"
+			class="bg-white border border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 scale-0 data-[state=open]:scale-100 transition-transform"
 			on:keydown={handleKeyDown}
 		>
 			<div
