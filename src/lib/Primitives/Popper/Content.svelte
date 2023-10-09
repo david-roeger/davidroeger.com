@@ -1,7 +1,20 @@
 <script lang="ts">
 	import { getContext, onMount, tick } from 'svelte';
-	import { derived } from 'svelte/store';
+	import { derived, writable } from 'svelte/store';
 	import { createFocusTrap } from 'focus-trap';
+	import {
+		type Placement,
+		type Middleware,
+		autoUpdate,
+		offset,
+		shift,
+		limitShift,
+		hide,
+		flip,
+		size,
+		computePosition
+	} from '@floating-ui/dom';
+
 	import { clickOutside } from '$actions';
 
 	import type { Side, Align, RootContext } from './types';
@@ -11,20 +24,169 @@
 	export let sideOffset = 0;
 	export let alignOffset = 0;
 	export let collisionTolerance = 0;
-	export let avoidCollision = true;
+	export let avoidCollisions = true;
+	export let optimizePixelRation = false;
+
+	let collisionPaddingProp: number | Partial<Record<Side, number>> = 0;
+	export { collisionPaddingProp as collisionPadding };
+	export let sticky: 'partial' | 'always' = 'partial';
+	export let hideWhenDetached = false;
+	export let updatePositionStrategy: 'optimized' | 'always' = 'optimized';
+
+	export let onPlaced = () => {};
 
 	let c = '';
 	export { c as class };
 
-	const {
-		open,
-		id,
-		trap,
-		setClose,
-		contentElement,
-		popperOptions,
-		contentStyles
-	}: RootContext = getContext('root');
+	const { open, id, trap, setClose, triggerElement }: RootContext =
+		getContext('root');
+
+	const desiredPlacement = (side +
+		(align !== 'center' ? '-' + align : '')) as Placement;
+
+	const collisionPadding =
+		typeof collisionPaddingProp === 'number'
+			? collisionPaddingProp
+			: { top: 0, right: 0, bottom: 0, left: 0, ...collisionPaddingProp };
+
+	const detectOverflowOptions = {
+		padding: collisionPadding,
+		boundary: [],
+		// with `strategy: 'fixed'`, this is the only way to get it to respect boundaries
+		altBoundary: false
+	};
+
+	const styles = writable({
+		transform: 'translate(0, -200%)',
+		transformOrigin: 'center center'
+	});
+
+	function getSideAndAlignFromPlacement(placement: Placement) {
+		const [side, align = 'center'] = placement.split('-');
+		return [side as Side, align as Align] as const;
+	}
+
+	const transformOrigin = (): Middleware => ({
+		name: 'transformOrigin',
+		fn(data) {
+			const { placement } = data;
+
+			const [placedSide, placedAlign] =
+				getSideAndAlignFromPlacement(placement);
+
+			let x: 'left' | 'right' | 'center' = 'center';
+			let y: 'top' | 'bottom' | 'center' = 'center';
+
+			if (placedSide === 'bottom') {
+				if (placedAlign === 'start') {
+					x = 'left';
+				} else if (placedAlign === 'end') {
+					x = 'right';
+				}
+				y = 'top';
+			} else if (placedSide === 'top') {
+				if (placedAlign === 'start') {
+					x = 'left';
+				} else if (placedAlign === 'end') {
+					x = 'right';
+				}
+				y = 'bottom';
+			} else if (placedSide === 'right') {
+				x = 'left';
+				if (placedAlign === 'start') {
+					y = 'top';
+				} else if (placedAlign === 'end') {
+					y = 'bottom';
+				}
+			} else if (placedSide === 'left') {
+				x = 'right';
+				if (placedAlign === 'start') {
+					y = 'top';
+				} else if (placedAlign === 'end') {
+					y = 'bottom';
+				}
+			}
+
+			return { data: { x, y } };
+		}
+	});
+
+	function roundByDPR(value: number) {
+		const dpr = window.devicePixelRatio || 1;
+		return Math.round(value * dpr) / dpr;
+	}
+
+	const computePositionFunction = () => {
+		if ($triggerElement && content) {
+			computePosition($triggerElement, content, {
+				strategy: 'fixed',
+				placement: desiredPlacement,
+				middleware: [
+					offset({
+						mainAxis: sideOffset,
+						alignmentAxis: alignOffset
+					}),
+					avoidCollisions &&
+						shift({
+							mainAxis: true,
+							crossAxis: false,
+							limiter:
+								sticky === 'partial' ? limitShift() : undefined,
+							...detectOverflowOptions
+						}),
+					avoidCollisions && flip({ ...detectOverflowOptions }),
+					size({
+						...detectOverflowOptions,
+						apply: ({
+							elements,
+							rects,
+							availableWidth,
+							availableHeight
+						}) => {
+							const {
+								width: triggerWidth,
+								height: triggerHeight
+							} = rects.reference;
+
+							const contentStyle = elements.floating.style;
+							contentStyle.setProperty(
+								'--drds-popper-available-width',
+								`${availableWidth}px`
+							);
+							contentStyle.setProperty(
+								'--drds-popper-available-height',
+								`${availableHeight}px`
+							);
+							contentStyle.setProperty(
+								'--drds-popper-trigger-width',
+								`${triggerWidth}px`
+							);
+							contentStyle.setProperty(
+								'--drds-popper-trigger-height',
+								`${triggerHeight}px`
+							);
+						}
+					}),
+					transformOrigin(),
+					hideWhenDetached &&
+						hide({
+							strategy: 'referenceHidden',
+							...detectOverflowOptions
+						})
+				]
+			}).then((result) => {
+				if (optimizePixelRation) {
+					$styles.transform = `translate(${roundByDPR(
+						result.x
+					)}px, ${roundByDPR(result.y)}px)`;
+				} else {
+					$styles.transform = `translate(${result.x}px, ${result.y}px)`;
+				}
+
+				$styles.transformOrigin = `${result.middlewareData.transformOrigin.y} ${result.middlewareData.transformOrigin.x}`;
+			});
+		}
+	};
 
 	const dataState = derived(open, ($open) => ($open ? 'open' : 'closed'));
 
@@ -56,37 +218,43 @@
 		mounted = true;
 		activateTrap($open);
 
-		$contentElement = content;
-		const options = {
-			side,
-			sideOffset,
-			align,
-			alignOffset,
-			shouldAvoidCollisions: avoidCollision,
-			collisionBoundariesRect: DOMRect.fromRect({
-				width: window.innerWidth,
-				height: window.innerHeight,
-				x: 0,
-				y: 0
-			}),
-			collisionTolerance
-		};
+		if ($triggerElement && content) {
+			const cleanup = autoUpdate(
+				$triggerElement,
+				content,
+				computePositionFunction,
+				{
+					animationFrame: updatePositionStrategy === 'always'
+				}
+			);
 
-		$popperOptions = options;
+			return () => {
+				cleanup();
+			};
+		}
 	});
 </script>
 
 <div
-	style={`position: absolute; visibility: ${
-		$open ? 'visible' : 'hidden'
-	}; opacity: ${$open ? 1 : 0}; ${$contentStyles}`}
-	data-state={$dataState}
+	style="
+		position: absolute;
+		top: 0;
+		left: 0;
+		transform: {$open ? $styles.transform : 'translate(0, -200%)'}; 
+		transform-origin: {$styles.transformOrigin};
+		pointer-events: {$open ? 'auto' : 'none'};
+		minWidth: 'max-content';
+		visibility: {$open ? 'visible' : 'hidden'};
+		opacity: {$open ? 1 : 0};
+		--drds-popper-transform-origin: {$styles.transformOrigin};
+		will-change: transform;
+	"
+	class="group/drds-popper"
 	role="dialog"
 	aria-modal="true"
 	id="{id}-content"
 	aria-labelledby="{id}-title"
 	aria-describedby="{id}-description"
-	class={c}
 	tabindex="-1"
 	bind:this={content}
 	on:keydown
@@ -95,6 +263,13 @@
 	use:clickOutside={() => {
 		if ($setClose && $open) $setClose();
 	}}
+	data-state={$dataState}
 >
-	<slot />
+	<div
+		style:transform-origin="var(--drds-popper-transform-origin)"
+		data-state={$dataState}
+		class={c}
+	>
+		<slot />
+	</div>
 </div>

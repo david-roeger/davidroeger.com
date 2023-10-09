@@ -77,14 +77,6 @@ function getPlacementData({
 		alignOffset
 	);
 
-	const allOffsetPoints = getAllOffsetPoints(
-		popperSize,
-		triggerRect,
-		triggerOffset,
-		sideOffset,
-		alignOffset
-	);
-
 	// get point based on side / align
 	const popperPoint = allPlacementPoints[side][align];
 

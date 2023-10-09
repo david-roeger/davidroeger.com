@@ -5,7 +5,6 @@ import { SIDE_OPTIONS, ALIGN_OPTIONS } from './constants';
 
 export interface Rect {
 	rect: DOMRect;
-	offset: Point;
 	onDestroy: (() => void) | undefined;
 }
 
@@ -16,20 +15,6 @@ export interface RootContext {
 	setOpen: Writable<(() => void) | undefined>;
 	setClose: Writable<(() => void) | undefined>;
 	triggerElement: Writable<HTMLElement | undefined>;
-	contentElement: Writable<HTMLElement | undefined>;
-	contentStyles: Writable<string>;
-	popperOptions: Writable<
-		| {
-				side: Side;
-				sideOffset: number;
-				align: Align;
-				alignOffset: number;
-				shouldAvoidCollisions: boolean;
-				collisionBoundariesRect: DOMRect;
-				collisionTolerance: number;
-		  }
-		| undefined
-	>;
 }
 
 export type Axis = 'x' | 'y';

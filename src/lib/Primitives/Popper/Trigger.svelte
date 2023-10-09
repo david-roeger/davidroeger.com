@@ -27,6 +27,10 @@
 
 	onMount(() => {
 		$triggerElement = trigger;
+
+		return () => {
+			$triggerElement = undefined;
+		};
 	});
 </script>
 

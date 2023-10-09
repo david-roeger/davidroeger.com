@@ -10,14 +10,7 @@
 
 	import { setContext, createEventDispatcher, onDestroy } from 'svelte';
 	import { writable } from 'svelte/store';
-	import type { Rect, RootContext } from './types';
-	import type { Writable } from 'svelte/store';
-
-	import { useRect } from './useRect';
-	import { useSize } from './useSize';
-	import { convertStyleString } from '$utils';
-
-	import { getPlacementData } from './popper';
+	import type { RootContext } from './types';
 
 	id++;
 	const rootContext: RootContext = {
@@ -26,23 +19,11 @@
 		open: writable(defaultOpen),
 		setOpen: writable(undefined),
 		setClose: writable(undefined),
-		popperOptions: writable(undefined),
-		triggerElement: writable(undefined),
-		contentElement: writable(undefined),
-		contentStyles: writable('')
+		triggerElement: writable(undefined)
 	};
 
 	setContext('root', rootContext);
-	const {
-		open,
-		trap,
-		setOpen,
-		setClose,
-		popperOptions,
-		triggerElement,
-		contentElement,
-		contentStyles
-	} = rootContext;
+	const { open, trap, setOpen, setClose } = rootContext;
 
 	export const closePopper = setClose;
 
@@ -50,71 +31,7 @@
 		$open = true;
 	};
 
-	let triggerRect: Writable<Rect | undefined>;
-	let contentSize: Writable<
-		| {
-				size: {
-					width: number;
-					height: number;
-				};
-				onDestroy: () => void;
-		  }
-		| undefined
-	>;
-
-	$: {
-		if ($triggerElement && !$triggerRect) {
-			triggerRect = useRect($triggerElement);
-		}
-		if ($contentElement && !$contentSize) {
-			contentSize = useSize($contentElement);
-		}
-		if (
-			$triggerRect &&
-			$triggerRect.rect &&
-			$contentSize &&
-			$contentSize.size &&
-			$popperOptions
-		) {
-			const { popperStyles } = getPlacementData({
-				triggerRect: $triggerRect.rect,
-				triggerOffset: $triggerRect.offset,
-				popperSize: $contentSize.size,
-				side: $popperOptions.side,
-				sideOffset: $popperOptions.sideOffset,
-				align: $popperOptions.align,
-				alignOffset: $popperOptions.alignOffset,
-				shouldAvoidCollisions: $popperOptions.shouldAvoidCollisions,
-				collisionBoundariesRect: DOMRect.fromRect({
-					width: window.innerWidth,
-					height: window.innerHeight,
-					x: 0,
-					y: 0
-				}),
-				collisionTolerance: $popperOptions.collisionTolerance
-			});
-
-			let string = '';
-
-			for (const [key, value] of Object.entries(popperStyles)) {
-				string += `${convertStyleString(key)}: ${value};
-				`;
-			}
-
-			$contentStyles = string;
-		}
-	}
-
 	const destroy = () => {
-		if ($contentSize && $contentSize.onDestroy) {
-			$contentSize.onDestroy();
-			$contentSize = undefined;
-		}
-		if ($triggerRect && $triggerRect.onDestroy) {
-			$triggerRect.onDestroy();
-			$triggerRect = undefined;
-		}
-
 		if ($trap) {
 			$trap.deactivate();
 			$trap = undefined;
