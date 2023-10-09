@@ -425,7 +425,7 @@
 							type="search"
 							on:change={updateSearch}
 							on:input={debounce(updateSearch, 50)}
-							on:keydown|stopPropagation={(e) => {
+							on:keydown={(e) => {
 								if (e.key === 'Enter') {
 									e.preventDefault();
 									if (!$searchedQuery.isFetching && $search) {
@@ -441,6 +441,10 @@
 											firstEmoji.click();
 										}
 									}
+								}
+
+								if (e.key !== 'Escape') {
+									e.stopPropagation();
 								}
 							}}
 						/>
