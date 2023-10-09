@@ -17,14 +17,12 @@
 
 	import {
 		addDreamFormSchema,
-		DEFAULT_DREAM_FORM,
+		DEFAULT_ADD_DREAM_FORM,
 		type AddDreamFormSchema
 	} from './constants';
 
 	export let user: User;
 
-	let c = '';
-	export { c as class };
 	const queryClient = useQueryClient();
 
 	$: unsuccessfulSubmitted = $page.status !== 200;
@@ -48,14 +46,13 @@
 		onResult: ({ result, cancel }) => {
 			console.log('result', result);
 			if (result.type === 'success') {
-				console.log($form, user.userId);
 				$form = {
-					...DEFAULT_DREAM_FORM,
+					...DEFAULT_ADD_DREAM_FORM,
 					userId: user.userId
 				};
+				setEmojiValue(DEFAULT_ADD_DREAM_FORM.emoji);
 
-				setEmojiValue(DEFAULT_DREAM_FORM.emoji);
-				queryClient.invalidateQueries({ queryKey: DREAMS_KEYS.all() });
+				queryClient.invalidateQueries({ queryKey: DREAMS_KEYS.list() });
 			}
 		},
 		onUpdate: (event) => {
@@ -92,12 +89,12 @@
 	const notificationContext: NotificationContext = getContext('notification');
 
 	$: if ($submitting) {
-		notificationContext.removeNotification('contactFormMessage');
+		notificationContext.removeNotification('addDreamFormMessage');
 	}
 
 	$: if ($message) {
 		notificationContext.addNotification({
-			id: 'contactFormMessage',
+			id: 'addDreamFormMessage',
 			variant: $message.type,
 			priority: $message.type === 'red' ? true : false,
 			html: $message.html,

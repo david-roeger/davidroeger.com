@@ -30,7 +30,7 @@ export type AddDreamForm = Awaited<
 	ReturnType<typeof superValidate<ZodAddDreamForm, AddDreamFormMessage>>
 >;
 
-export const DEFAULT_DREAM_FORM: AddDreamFormSchema = {
+export const DEFAULT_ADD_DREAM_FORM: AddDreamFormSchema = {
 	userId: '',
 	text: '',
 	emoji: '❤️'
