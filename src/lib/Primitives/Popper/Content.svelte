@@ -25,7 +25,6 @@
 	export let alignOffset = 0;
 	export let collisionTolerance = 0;
 	export let avoidCollisions = true;
-	export let optimizePixelRation = false;
 
 	let collisionPaddingProp: number | Partial<Record<Side, number>> = 0;
 	export { collisionPaddingProp as collisionPadding };
@@ -175,13 +174,9 @@
 						})
 				]
 			}).then((result) => {
-				if (optimizePixelRation) {
-					$styles.transform = `translate(${roundByDPR(
-						result.x
-					)}px, ${roundByDPR(result.y)}px)`;
-				} else {
-					$styles.transform = `translate(${result.x}px, ${result.y}px)`;
-				}
+				$styles.transform = `translate(${roundByDPR(
+					result.x
+				)}px, ${roundByDPR(result.y)}px)`;
 
 				$styles.transformOrigin = `${result.middlewareData.transformOrigin.y} ${result.middlewareData.transformOrigin.x}`;
 			});
