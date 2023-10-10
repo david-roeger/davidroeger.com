@@ -25,8 +25,8 @@
 />
 
 <Background
-	center="hsla(208, 77.5%, 76.9%, 0.4)"
-	outside="hsla(208, 77.5%, 76.9%, 0)"
+	center="hsl(var(--drds-blue-6) / 0.4)"
+	outside="hsl(var(--drds-blue-6) / 0)"
 />
 
 <slot />

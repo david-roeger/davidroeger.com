@@ -379,7 +379,7 @@
 	<Popper.Root defaultOpen={false} bind:closePopper>
 		<Popper.Trigger
 			{disabled}
-			class="p-2 border border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1"
+			class="p-2 border border-mauve-12 bg-white focus:outline-none ring-mauve-12 focus:ring-1"
 		>
 			<span>
 				<VisuallyHidden.Root>

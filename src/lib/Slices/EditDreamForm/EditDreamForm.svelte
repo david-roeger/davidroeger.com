@@ -264,7 +264,7 @@
 	title="Title"
 	description="description"
 	contentContainerClass="fixed inset-0 pointer-events-none flex justify-center items-end md:items-center p-2"
-	contentClass="h-96 bg-purple-3 pointer-events-auto w-full max-w-xs max-h-full p-2 overlow-y-auto overflow-x-hidden border border-mauve-12
+	contentClass="h-96 bg-purple-2 pointer-events-auto w-full max-w-xs max-h-full p-2 overlow-y-auto overflow-x-hidden border border-mauve-12
 	opacity-0 
 	group-data-[state=open]/dr-ds-dialog:opacity-100 
 

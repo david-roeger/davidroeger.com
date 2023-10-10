@@ -37,8 +37,8 @@
 />
 
 <Background
-	center="hsla(359, 74%, 82%, 0.4)"
-	outside="hsla(359, 74%, 82%, 0)"
+	center="hsl(var(--drds-red-6) / 0.4)"
+	outside="hsl(var(--drds-red-6) / 0)"
 />
 
 <section class="relative">

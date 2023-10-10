@@ -8,8 +8,8 @@
 </script>
 
 <Background
-	center="hsla(146, 38%, 69%, 0.4)"
-	outside="hsla(146, 38%, 69%, 0)"
+	center="hsl(var(--drds-green-6) / 0.4)"
+	outside="hsl(var(--drds-green-6) / 0)"
 />
 
 <slot />

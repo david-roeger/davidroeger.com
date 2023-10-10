@@ -93,27 +93,28 @@ body {
 	}
 
 	.mask {
+		background: hsl(var(--drds-blue-6));
 		background:
 			linear-gradient(
 					180deg,
-					rgba(211, 180, 237, 0.8) 0%,
-					rgba(211, 180, 237, 0) 50%
+					hsl(var(--drds-purple-6)) 0%,
+					hsl(var(--drds-purple-6) / 0) 50%
 				)
 				400%,
 			linear-gradient(
 				270deg,
-				rgba(255, 179, 129, 0.8) 0%,
-				rgba(255, 179, 129, 0) 50%
+				hsl(var(--drds-orange-6)) 0%,
+				hsl(var(--drds-orange-6) / 0) 50%
 			),
 			linear-gradient(
-				360deg,
-				rgba(150, 199, 242, 0.8) 0%,
-				rgba(150, 199, 242, 0) 50%
+				370deg,
+				hsl(var(--drds-blue-6)) 0%,
+				hsl(var(--drds-blue-6) / 0) 50%
 			),
 			linear-gradient(
 				90deg,
-				rgba(146, 206, 172, 0.8) 0%,
-				rgba(146, 206, 172, 0) 50%
+				hsl(var(--drds-green-6)) 0%,
+				hsl(var(--drds-green-6) / 0) 50%
 			);
 	}
 }
