@@ -10,12 +10,22 @@
 
 	import type { Pageable } from './types';
 
+	import { flip } from 'svelte/animate';
+	import { fade } from 'svelte/transition';
+
+	import type { Colors } from '$utils/colors';
+	import { PAGINATION_COLOR_CLASSES } from './constants';
+
+	export let variant: Colors = 'default';
+
 	export let currentPage: number;
 	export let pagable: Pageable<unknown>;
 	export let isLoading: boolean;
 	export let boundaryCount = 1;
 	export let siblingCount = 1;
 
+	// TODO: think about progressive enhancement and hydration
+	// e.g. render as <a> on the server and then replace with <button> on the client
 	export let getHref: (page: number) => string;
 
 	export let onItemClick: (page: number) => void;
@@ -120,32 +130,39 @@
 	</button>
 
 	{#each IN_RANGE as i (i)}
-		{#if i >= 0}
-			<button
-				on:click={() => {
-					onItemClick(i);
-				}}
-				use:preload
-				on:preload={() => {
-					onItemPreload(i);
-				}}
-				class="text-center px-4 py-2 flex-1 border border-mauve-12 focus:outline-none ring-mauve-12
-	focus:ring-1 bg-white aria-current-page:bg-purple-5 disabled:cursor-not-allowed disabled:bg-white disabled:border-mauve-11 disabled:ring-mauve-11 disabled:text-mauve-11"
-				aria-current={currentPage === i ? 'page' : undefined}
-				aria-label={currentPage === i ? `Page ${i}` : undefined}
-			>
-				{#if currentPage !== i}
-					<VisuallyHidden.Root>Page</VisuallyHidden.Root>
-				{/if}
-				{i}
-			</button>
-		{:else}
-			<span
-				class="px-4 py-2 flex-1 text-center border border-transparent text-mauve-11"
-			>
-				...
-			</span>
-		{/if}
+		<div
+			class="flex-1"
+			in:fade={{ delay: 50, duration: 250 }}
+			animate:flip={{ duration: 200 }}
+		>
+			{#if i >= 0}
+				<button
+					on:click={() => {
+						onItemClick(i);
+					}}
+					use:preload
+					on:preload={() => {
+						onItemPreload(i);
+					}}
+					class="b w-full text-center px-4 py-2 border border-mauve-12 focus:outline-none ring-mauve-12
+	focus:ring-1 {PAGINATION_COLOR_CLASSES[variant]
+						.default} disabled:cursor-not-allowed disabled:bg-white disabled:border-mauve-11 disabled:ring-mauve-11 disabled:text-mauve-11"
+					aria-current={currentPage === i ? 'page' : undefined}
+					aria-label={currentPage === i ? `Page ${i}` : undefined}
+				>
+					{#if currentPage !== i}
+						<VisuallyHidden.Root>Page</VisuallyHidden.Root>
+					{/if}
+					{i}
+				</button>
+			{:else}
+				<span
+					class="block px-4 py-2 w-full text-center border border-transparent text-mauve-11"
+				>
+					...
+				</span>
+			{/if}
+		</div>
 	{/each}
 
 	<button

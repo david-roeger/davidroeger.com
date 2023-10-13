@@ -284,7 +284,7 @@
 	/>
 	<div
 		data-progress="1"
-		class="bg-mauve-6"
+		class="bg-mauve5"
 		style="height: {windowHeight}px"
 		bind:this={el2}
 	/>

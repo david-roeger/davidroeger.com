@@ -5,25 +5,20 @@
 
 	import { page } from '$app/stores';
 
-	import {Button} from '$components/Button';
-	
+	import { Button } from '$components/Button';
+
 	import type { NotificationContext } from '$provider/NotificationProvider/types';
 
 	import { getLoadingEmojis } from '$utils';
 
 	import {
-		COLOR_CLASSES,
-		contactFormSchema,
-		type ContactFormSchema
-	} from './constants';
+		INPUT_COLOR_CLASSES,
+		type Colors,
+		BUTTON_COLOR_CLASSES
+	} from '$utils/colors';
+	import { contactFormSchema, type ContactFormSchema } from './constants';
 
-	export let variant:
-		| 'default'
-		| 'green'
-		| 'red'
-		| 'orange'
-		| 'blue'
-		| 'purple' = 'default';
+	export let variant: Colors = 'default';
 
 	export let borderTop = false;
 	export let borderBottom = true;
@@ -157,9 +152,11 @@
 						class="border-mauve-12 rounded-none border border-b-0 text-xs ring-mauve-12 group-focus-within:ring-1 px-4 py-1 {getValValidationClass(
 							'name',
 							{
-								successClass: COLOR_CLASSES.green.highlight,
-								errorClass: COLOR_CLASSES.red.highlight,
-								defaultClass: COLOR_CLASSES[variant].highlight
+								successClass:
+									INPUT_COLOR_CLASSES.green.highlight,
+								errorClass: INPUT_COLOR_CLASSES.red.highlight,
+								defaultClass:
+									INPUT_COLOR_CLASSES[variant].highlight
 							}
 						)}"
 					>
@@ -198,9 +195,11 @@
 						class="border-mauve-12 rounded-none border border-b-0 text-xs ring-mauve-12 group-focus-within:ring-1 px-4 py-1 {getValValidationClass(
 							'email',
 							{
-								successClass: COLOR_CLASSES.green.highlight,
-								errorClass: COLOR_CLASSES.red.highlight,
-								defaultClass: COLOR_CLASSES[variant].highlight
+								successClass:
+									INPUT_COLOR_CLASSES.green.highlight,
+								errorClass: INPUT_COLOR_CLASSES.red.highlight,
+								defaultClass:
+									INPUT_COLOR_CLASSES[variant].highlight
 							}
 						)}"
 					>
@@ -240,9 +239,11 @@
 						class="border-mauve-12 rounded-none border border-b-0 text-xs ring-mauve-12 group-focus-within:ring-1 px-4 py-1 {getValValidationClass(
 							'message',
 							{
-								successClass: COLOR_CLASSES.green.highlight,
-								errorClass: COLOR_CLASSES.red.highlight,
-								defaultClass: COLOR_CLASSES[variant].highlight
+								successClass:
+									INPUT_COLOR_CLASSES.green.highlight,
+								errorClass: INPUT_COLOR_CLASSES.red.highlight,
+								defaultClass:
+									INPUT_COLOR_CLASSES[variant].highlight
 							}
 						)}"
 					>
@@ -277,9 +278,9 @@
 					name="submit"
 					type="submit"
 					variant="rounded"
-					class="flex flex-1 max-w-xs sm:max-w-none lg:max-w-xs {COLOR_CLASSES[
+					class="flex flex-1 max-w-xs sm:max-w-none lg:max-w-xs {BUTTON_COLOR_CLASSES[
 						variant
-					].background}"
+					].filled}"
 					disabled={$submitting}
 				>
 					<span

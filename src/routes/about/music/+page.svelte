@@ -39,6 +39,7 @@
 	import { Slide } from '$components/Slide';
 	import { createQuery } from '@tanstack/svelte-query';
 	import Playing from '$components/SvelteIcons/Playing.svelte';
+	import { BUTTON_COLOR_CLASSES } from '$utils/colors';
 	export let data: PageData;
 
 	const queryStore = queryParam('s', {
@@ -110,10 +111,8 @@
 		>
 			<Tabs.Trigger
 				value="tracks"
-				class="flex-grow border border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 rounded-l-full {store.tab ===
-				'tracks'
-					? 'bg-purple-5'
-					: 'bg-white'}"
+				class="flex-grow border border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 rounded-l-full {BUTTON_COLOR_CLASSES
+					.purple.default}"
 			>
 				<div class="px-4 py-2">
 					<Headline as="h2" unstyled id="top_tracks" type="secondary">
@@ -124,10 +123,8 @@
 
 			<Tabs.Trigger
 				value="artists"
-				class="flex-grow border border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 rounded-r-full {store.tab ===
-				'artists'
-					? 'bg-purple-5'
-					: 'bg-white'}"
+				class="flex-grow border border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 rounded-r-full  {BUTTON_COLOR_CLASSES
+					.purple.default}"
 			>
 				<div class="px-4 py-2">
 					<Headline
@@ -212,7 +209,8 @@
 								class="relative w-6 h-6 p-1 bg-white border rounded-full b border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 before:absolute before:inset-0 before:block before:m-1 before:rounded-full group-hover:before:bg-mauve-5 before:transition-colors"
 							>
 								<RadioGroup.Indicator
-									class="absolute inset-0 block m-1 rounded-full bg-plum-5"
+									class="absolute inset-0 block m-1 rounded-full {BUTTON_COLOR_CLASSES
+										.purple.filled}"
 								/>
 							</RadioGroup.Item>
 							<label

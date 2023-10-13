@@ -581,7 +581,7 @@
 			class="bg-white relative w-full grid grid-cols-[minmax(0,1fr),auto] gap-4 select-none"
 		>
 			<Progress.Root
-				class="w-full h-0.5 bg-mauve-6 absolute top-0"
+				class="w-full h-0.5 bg-mauve-5 absolute top-0"
 				min={0}
 				max={currentDuration}
 				value={$tweenedProgress}
