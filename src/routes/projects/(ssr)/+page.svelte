@@ -119,22 +119,6 @@
 	};
 </script>
 
-<Head
-	additionalMetaTags={[
-		{
-			name: 'theme-color',
-			// green 3
-			content: '#E9F9EE',
-			media: '(prefers-color-scheme: light)'
-		},
-		{
-			name: 'theme-color',
-			content: '#0F291E',
-			media: '(prefers-color-scheme: dark)'
-		}
-	]}
-/>
-
 <Tags.Root
 	defaultValue={defaultTags}
 	on:valueChange={(e) => updateQueries(e.detail.value)}
@@ -157,11 +141,7 @@
 		{#each [...availableTags] as tag (tag)}
 			<Tags.Tag
 				value={tag}
-				class=" transition-[margin] m-1 touch-manipulation px-4 py-1 border border-mauve-12 text-xs rounded-full focus:outline-none ring-mauve-12 focus:ring-1 {$tags.has(
-					tag
-				)
-					? 'bg-green-5'
-					: 'bg-white'}"
+				class=" transition-[margin] m-1 touch-manipulation px-4 py-1 border border-mauve-12 text-xs rounded-full focus:outline-none ring-mauve-12 focus:ring-1 bg-white data-[state=active]:bg-green-6"
 			>
 				{tag}
 			</Tags.Tag>

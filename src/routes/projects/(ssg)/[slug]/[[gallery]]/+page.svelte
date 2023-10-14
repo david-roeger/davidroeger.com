@@ -57,22 +57,6 @@
 	}
 </script>
 
-<Head
-	additionalMetaTags={[
-		{
-			name: 'theme-color',
-			// green 3
-			content: '#E9F9EE',
-			media: '(prefers-color-scheme: light)'
-		},
-		{
-			name: 'theme-color',
-			content: '#0F291E',
-			media: '(prefers-color-scheme: dark)'
-		}
-	]}
-/>
-
 <article class="mb-32">
 	{#if data.project.tags.length}
 		<div

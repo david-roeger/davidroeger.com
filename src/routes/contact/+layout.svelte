@@ -1,6 +1,7 @@
 <script lang="ts">
 	logger.page('contact: +layout.svelte');
 	// ----------------------------------------------------------------
+	import { orange, orangeDark } from '@radix-ui/colors';
 
 	import { Background } from '$components/Background';
 	import { Head } from '$components/Head';
@@ -12,13 +13,12 @@
 	additionalMetaTags={[
 		{
 			name: 'theme-color',
-			// orange-3
-			content: '#FFF1E7',
+			content: orange.orange3,
 			media: '(prefers-color-scheme: light)'
 		},
 		{
 			name: 'theme-color',
-			content: '#391A03',
+			content: orangeDark.orange3,
 			media: '(prefers-color-scheme: dark)'
 		}
 	]}

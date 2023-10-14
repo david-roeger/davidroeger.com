@@ -1,6 +1,7 @@
 <script lang="ts">
 	logger.page('about: +layout.svelte');
 	// ----------------------------------------------------------------
+	import { purple, purpleDark } from '@radix-ui/colors';
 
 	import { Background } from '$components/Background';
 	import { Head } from '$components/Head';
@@ -12,13 +13,12 @@
 	additionalMetaTags={[
 		{
 			name: 'theme-color',
-			// purple-3
-			content: '#F9F1FE',
+			content: purple.purple3,
 			media: '(prefers-color-scheme: light)'
 		},
 		{
 			name: 'theme-color',
-			content: '#301A3A',
+			content: purpleDark.purple3,
 			media: '(prefers-color-scheme: dark)'
 		}
 	]}

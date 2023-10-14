@@ -9,6 +9,7 @@
 
 	import { QueryClientProvider } from '@tanstack/svelte-query';
 	import { SvelteQueryDevtools } from '@tanstack/svelte-query-devtools';
+	import { mauve, mauveDark } from '@radix-ui/colors';
 
 	import { page } from '$app/stores';
 
@@ -222,13 +223,12 @@
 	additionalMetaTags={[
 		{
 			name: 'theme-color',
-			// mauve-3
-			content: '#F4F2F4',
+			content: mauve.mauve3,
 			media: '(prefers-color-scheme: light)'
 		},
 		{
 			name: 'theme-color',
-			content: '#232326',
+			content: mauveDark.mauve3,
 			media: '(prefers-color-scheme: dark)'
 		},
 		{

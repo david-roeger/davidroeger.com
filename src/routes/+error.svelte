@@ -1,6 +1,7 @@
 <script lang="ts">
 	logger.page('error: +error.svelte');
 	// ----------------------------------------------------------------
+	import { red, redDark } from '@radix-ui/colors';
 
 	import { page } from '$app/stores';
 
@@ -22,13 +23,12 @@
 	additionalMetaTags={[
 		{
 			name: 'theme-color',
-			// red-3
-			content: '#FFEFEF',
+			content: red.red3,
 			media: '(prefers-color-scheme: light)'
 		},
 		{
 			name: 'theme-color',
-			content: '#3C181A',
+			content: redDark.red3,
 			media: '(prefers-color-scheme: dark)'
 		}
 	]}
