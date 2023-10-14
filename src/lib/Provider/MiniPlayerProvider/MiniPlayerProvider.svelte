@@ -651,7 +651,7 @@
 			>
 				<div class="flex space-x-2 items-center">
 					<Button
-						variant="custom"
+						form="custom"
 						class="hidden sm:block bg-white p-1 pl-2 text-xs border rounded-l-full touch-manipulation border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 cursor-w-resize"
 						disabled={!$currentMiniPlayer ||
 							transitioning ||
@@ -664,7 +664,7 @@
 					</Button>
 
 					<Button
-						variant="custom"
+						form="custom"
 						class="bg-white p-1 text-xs border touch-manipulation border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 cursor-pointer"
 						disabled={!$currentMiniPlayer ||
 							$currentState === 'loading' ||
@@ -686,7 +686,7 @@
 						{/if}
 					</Button>
 					<Button
-						variant="custom"
+						form="custom"
 						class="hidden sm:block bg-white p-1 pr-2 text-xs border rounded-r-full touch-manipulation border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 cursor-e-resize"
 						disabled={!$currentMiniPlayer ||
 							transitioning ||
@@ -699,7 +699,7 @@
 					</Button>
 				</div>
 				<Button
-					variant="custom"
+					form="custom"
 					class="bg-white p-1 text-xs border rounded-full touch-manipulation border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 cursor-pointer"
 					on:click={() => {
 						if ($currentMiniPlayer) {

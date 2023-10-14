@@ -1,6 +1,8 @@
 <script lang="ts">
+	import AccessibleIcon from '$components/AccessibleIcon/AccessibleIcon.svelte';
 	import * as Dialog from '$primitives/Dialog';
 	import type { Writable } from 'svelte/store';
+	import Close from '$assets/Icons/24/close.svg?component';
 
 	export let trigger = '';
 	export let triggerClass: string;
@@ -20,7 +22,6 @@
 	export let descriptionClass = '';
 
 	export let close = true;
-	export let closeClass = '';
 
 	export let setClose: Writable<(() => void) | undefined> | undefined =
 		undefined;
@@ -53,7 +54,11 @@
 					{/if}
 					<slot />
 					{#if close}
-						<Dialog.Close class={closeClass}>Close</Dialog.Close>
+						<Dialog.Close
+							class="focus:outline-none ring-mauve-12 focus:ring-1"
+						>
+							Close
+						</Dialog.Close>
 					{/if}
 				</div>
 			</div>

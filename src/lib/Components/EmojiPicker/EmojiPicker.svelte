@@ -504,6 +504,7 @@
 								<div class="w-full flex flex-wrap p-2 -m-0.5">
 									{#each category.emojis as emoji, emojiIndex (emoji)}
 										<Button
+											form="custom"
 											on:click={() => {
 												if ($dataQuery.data) {
 													setEmoji(

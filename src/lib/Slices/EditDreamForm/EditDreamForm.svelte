@@ -263,12 +263,13 @@
 	triggerClass="bg-white hover:bg-blue-5"
 	title="Title"
 	description="description"
-	contentContainerClass="fixed inset-0 pointer-events-none flex justify-center items-end md:items-center p-2"
-	contentClass="h-96 bg-purple-2 pointer-events-auto w-full max-w-xs max-h-full p-2 overlow-y-auto overflow-x-hidden border border-mauve-12
+	contentContainerClass="fixed inset-0 pointer-events-none  flex justify-center items-end md:items-center p-2"
+	contentClass="h-96 bg-mauve-2 pointer-events-auto w-full max-w-xs max-h-full p-2 overlow-y-auto overflow-x-hidden border border-mauve-12
 	opacity-0 
 	group-data-[state=open]/dr-ds-dialog:opacity-100 
 
-	translate-y-3/4 
+
+	translate-y-3/4
 	md:translate-y-[20%]
 	scale-80 
 	group-data-[state=open]/dr-ds-dialog:transform-none 
@@ -286,7 +287,7 @@
 		action="/experimental/dreams?/edit"
 		class="flex flex-col"
 	>
-		<div class="flex flex-col items-start max-w-xs group w-96">
+		<div class="flex flex-col items-start w-full group">
 			<p class="h-4 text-xs">
 				{#if $message && 'invalidValues'}
 					{@html $message.html}
@@ -294,7 +295,7 @@
 			</p>
 		</div>
 
-		<div class="flex flex-col items-start w-full max-w-xs group w-96">
+		<div class="flex flex-col items-start w-full group">
 			<p class="h-4 text-xs">
 				{#if $errors.userId}
 					{$errors.userId[0]}
@@ -318,10 +319,11 @@
 			>
 				Wovon träumst du nachts?*
 			</label>
-			<TextArea
+			<textarea
+				rows="3"
 				name="text"
 				id="text"
-				class="py-2 px-4 border-mauve-12 rounded-none border group-focus-within:outline-none ring-mauve-12 group-focus-within:ring-1 bg-gradient-to-r from-transparent w-full {getValValidationClass(
+				class="py-2 px-4 border-mauve-12 rounded-none border group-focus-within:outline-none ring-mauve-12 group-focus-within:ring-1 bg-gradient-to-r from-transparent w-full resize-none {getValValidationClass(
 					'text',
 					{
 						successClass: 'to-green-5',
@@ -341,7 +343,7 @@
 				{/if}
 			</p>
 		</div>
-		<div class="flex flex-col items-start max-w-xs group w-96">
+		<div class="flex flex-col items-start group">
 			<EmojiPicker
 				name="emoji"
 				disabled={$submitting}
@@ -360,7 +362,7 @@
 		</div>
 
 		<Button
-			class="block bg-white hover:bg-green-5"
+			class="block bg-white hover:bg-blue-5"
 			disabled={$submitting}
 			type="submit"
 		>
@@ -373,234 +375,3 @@
 		</Button>
 	</form>
 </Dialog>
-
-<!-- <form
-	use:enhance
-	novalidate
-	action="/contact"
-	method="POST"
-	class="grid custom-grid border-mauve-6 {c}"
->
-	<div class="flex flex-col">
-		<div class="border-b border-mauve-6">
-			<div class="h-12" />
-		</div>
-		<div class="border-b grow border-mauve-6 sm:hidden">
-			<div class="" />
-		</div>
-		<div class="border-b border-mauve-6 sm:hidden">
-			<div class="h-[377px] sm:h-0" />
-		</div>
-		<div class="sm:hidden"><div class="h-[58px]" /></div>
-	</div>
-
-	<div
-		class="border-mauve-6 border-x bg-white/[.85] flex flex-col space-y-2 sm:flex-row sm:space-y-0 relative"
-	>
-		<div
-			class="flex flex-col border-b border-mauve-6 space-y-2 sm:flex-1 sm:border-b-0"
-		>
-			<div class="flex border-b border-mauve-6">
-				<h2 class="p-2 text-2xl">
-					<slot name="headline">Kontakt</slot>
-				</h2>
-			</div>
-			<p class="max-w-xs p-2 pt-0 sm:max-w-none lg:max-w-xs">
-				<slot>
-					Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-					Facilis vero aut sint officia quos omnis corrupti iusto et
-					at fugit soluta ad, earum cum commodi! Minus in deserunt
-					maiores, corrupti, cumque tempora, assumenda iure tempore
-					nobis officia voluptatem facilis optio aut eaque labore
-					nesciunt voluptas quam ut asperiores ad enim
-				</slot>
-			</p>
-		</div>
-		<div class="hidden h-full border-r sm:block border-mauve-6" />
-		<div class="relative flex flex-col space-y-2 sm:flex-1">
-			<fieldset
-				disabled={$submitting}
-				class="flex flex-col border-b border-mauve-6 space-y-2 p-2
-					pt-0 sm:pt-2"
-			>
-				<input
-					type="hidden"
-					hidden
-					name="url"
-					value={$page.url.toString()}
-				/>
-				<div
-					class="flex flex-col items-start max-w-xs group sm:max-w-none lg:max-w-xs"
-				>
-					<label
-						for="name"
-						class="border-mauve-12 rounded-none border border-b-0 text-xs ring-mauve-12 group-focus-within:ring-1 px-4 py-1 {getValValidationClass(
-							'name',
-							{
-								successClass: COLOR_CLASSES.green.highlight,
-								errorClass: COLOR_CLASSES.red.highlight,
-								defaultClass: COLOR_CLASSES[variant].highlight
-							}
-						)}"
-					>
-						Name*
-					</label>
-					<input
-						id="name"
-						class="py-2 px-4 border-mauve-12 rounded-none border w-full group-focus-within:outline-none ring-mauve-12 group-focus-within:ring-1 bg-gradient-to-r from-transparent {getValValidationClass(
-							'name',
-							{
-								successClass: 'to-green-5',
-								errorClass: 'to-red-5'
-							}
-						)}"
-						name="name"
-						autocomplete="name"
-						enterkeyhint="send"
-						placeholder="vielleicht David"
-						type="text"
-						bind:value={$form.name}
-						aria-invalid={$errors.name}
-						{...$constraints.name}
-					/>
-					<p class="h-4 text-xs">
-						{#if $errors.name}
-							{$errors.name[0]}
-						{/if}
-					</p>
-				</div>
-
-				<div
-					class="flex flex-col items-start max-w-xs group sm:max-w-none lg:max-w-xs"
-				>
-					<label
-						for="email"
-						class="border-mauve-12 rounded-none border border-b-0 text-xs ring-mauve-12 group-focus-within:ring-1 px-4 py-1 {getValValidationClass(
-							'email',
-							{
-								successClass: COLOR_CLASSES.green.highlight,
-								errorClass: COLOR_CLASSES.red.highlight,
-								defaultClass: COLOR_CLASSES[variant].highlight
-							}
-						)}"
-					>
-						E-Mail*
-					</label>
-					<input
-						id="email"
-						class="py-2 px-4 border-mauve-12 rounded-none border w-full group-focus-within:outline-none ring-mauve-12 group-focus-within:ring-1 bg-gradient-to-r from-transparent {getValValidationClass(
-							'email',
-							{
-								successClass: 'to-green-5',
-								errorClass: 'to-red-5'
-							}
-						)}"
-						name="email"
-						autocomplete="email"
-						enterkeyhint="send"
-						placeholder="email@example.com"
-						type="email"
-						bind:value={$form.email}
-						aria-invalid={$errors.email}
-						{...$constraints.email}
-					/>
-
-					<p class="h-4 text-xs">
-						{#if $errors.email}
-							{$errors.email[0]}
-						{/if}
-					</p>
-				</div>
-
-				<div
-					class="flex flex-col items-start max-w-xs group sm:max-w-none lg:max-w-xs"
-				>
-					<label
-						for="message"
-						class="border-mauve-12 rounded-none border border-b-0 text-xs ring-mauve-12 group-focus-within:ring-1 px-4 py-1 {getValValidationClass(
-							'message',
-							{
-								successClass: COLOR_CLASSES.green.highlight,
-								errorClass: COLOR_CLASSES.red.highlight,
-								defaultClass: COLOR_CLASSES[variant].highlight
-							}
-						)}"
-					>
-						Message*
-					</label>
-					<textarea
-						rows="5"
-						name="message"
-						id="message"
-						placeholder="Hi..."
-						class="py-2 px-4 border-mauve-12 rounded-none resize-none border w-full group-focus-within:outline-none ring-mauve-12 group-focus-within:ring-1 bg-gradient-to-r from-transparent {getValValidationClass(
-							'message',
-							{
-								successClass: 'to-green-5',
-								errorClass: 'to-red-5'
-							}
-						)}"
-						bind:value={$form.message}
-						aria-invalid={$errors.message}
-						{...$constraints.message}
-					/>
-
-					<p class="h-4 text-xs">
-						{#if $errors.message}
-							{$errors.message[0]}
-						{/if}
-					</p>
-				</div>
-			</fieldset>
-			<div class="flex flex-col p-2 pt-0">
-				<Button
-					name="submit"
-					type="submit"
-					variant="rounded"
-					class="flex flex-1 max-w-xs sm:max-w-none lg:max-w-xs {COLOR_CLASSES[
-						variant
-					].background}"
-					disabled={$submitting}
-				>
-					<span
-						class="grow grid grid-cols-[minmax(0,_1fr)_auto_minmax(0,_1fr)] place-items-start"
-					>
-						{#if $delayed}
-							<span class="px-1 -ml-2 bg-white rounded-full">
-								🕸
-							</span>
-							<span class="col-start-2">Submitting...</span>
-						{:else}
-							<span class="px-1 -ml-2 bg-white rounded-full">
-								💌
-							</span>
-							<span>Send</span>
-						{/if}
-					</span>
-				</Button>
-			</div>
-			{#if $delayed}
-				<div
-					class="absolute inset-0 flex items-center justify-center cursor-wait bg-white/50 icon-mauve-12"
-				>
-					{#each getLoadingEmojis() as emoji}
-						<p class="m-4 text-4xl animate-loading-1">
-							{emoji}
-						</p>
-					{/each}
-				</div>
-			{/if}
-		</div>
-	</div>
-
-	<div class="flex flex-col grid-cols-2">
-		<div class="border-b border-mauve-6 sm:hidden">
-			<div class="h-12 sm:h-0" />
-		</div>
-		<div class="border-b grow border-mauve-6" />
-		<div class="border-b border-mauve-6 sm:hidden">
-			<div class="h-[377px] sm:h-0" />
-		</div>
-		<div class="h-[58px]" />
-	</div>
-</form> -->

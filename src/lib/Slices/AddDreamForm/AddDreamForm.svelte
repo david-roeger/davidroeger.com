@@ -211,6 +211,8 @@
 		</div>
 
 		<Button
+			form="rounded"
+			variant="green"
 			class="block bg-white hover:bg-green-5"
 			disabled={$submitting}
 			type="submit"

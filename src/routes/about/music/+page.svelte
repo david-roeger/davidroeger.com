@@ -39,7 +39,7 @@
 	import { Slide } from '$components/Slide';
 	import { createQuery } from '@tanstack/svelte-query';
 	import Playing from '$components/SvelteIcons/Playing.svelte';
-	import { BUTTON_COLOR_CLASSES } from '$utils/colors';
+	import { BUTTON_COLOR_CLASSES } from '$components/Button/constants';
 	export let data: PageData;
 
 	const queryStore = queryParam('s', {

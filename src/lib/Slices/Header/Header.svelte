@@ -9,7 +9,7 @@
 
 	import { page } from '$app/stores';
 	import { afterNavigate, beforeNavigate } from '$app/navigation';
-	import { BUTTON_COLOR_CLASSES } from '$utils/colors';
+	import { BUTTON_COLOR_CLASSES } from '$components/Button/constants';
 
 	const projectsRegex = /^\/projects/;
 	const aboutRegex = /^\/about/;
@@ -50,7 +50,6 @@
 </script>
 
 <div class="flex border-r sm:border-l border-mauve-6" />
-
 <nav class="border-b xl:max-w-7xl border-mauve-6 {c}">
 	<h3><VisuallyHidden.Root>Main Menu</VisuallyHidden.Root></h3>
 	<ul class="flex justify-between">
@@ -59,6 +58,7 @@
 				class="block border border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 transition-colors {getActiveClass()}"
 				href="/"
 				type="icon"
+				aria-current={$page.url.pathname === '/' ? 'page' : undefined}
 			>
 				<AccessibleIcon
 					label="Logo: {$page.error
@@ -115,7 +115,7 @@
 					<NavLink
 						role="menuitem"
 						href="/contact"
-						type="button"
+						form="button"
 						variant="orange"
 						activePath="/contact"
 						activeRegEx={contactRegex}

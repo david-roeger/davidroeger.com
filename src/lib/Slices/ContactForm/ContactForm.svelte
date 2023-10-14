@@ -11,11 +11,7 @@
 
 	import { getLoadingEmojis } from '$utils';
 
-	import {
-		INPUT_COLOR_CLASSES,
-		type Colors,
-		BUTTON_COLOR_CLASSES
-	} from '$utils/colors';
+	import { INPUT_COLOR_CLASSES, type Colors } from '$utils/colors';
 	import { contactFormSchema, type ContactFormSchema } from './constants';
 
 	export let variant: Colors = 'default';
@@ -277,10 +273,10 @@
 				<Button
 					name="submit"
 					type="submit"
-					variant="rounded"
-					class="flex flex-1 max-w-xs sm:max-w-none lg:max-w-xs {BUTTON_COLOR_CLASSES[
-						variant
-					].filled}"
+					form="rounded"
+					{variant}
+					filled
+					class="flex flex-1 max-w-xs sm:max-w-none lg:max-w-xs"
 					disabled={$submitting}
 				>
 					<span

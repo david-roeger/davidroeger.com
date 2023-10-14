@@ -1,8 +1,12 @@
 <script lang="ts">
 	import { buttonType } from '$actions';
+	import type { Colors } from '$utils/colors';
+	import { BUTTON_COLOR_CLASSES } from './constants';
 
-	export let variant: 'primary' | 'icon' | 'rounded' | 'custom' = 'primary';
+	export let form: 'primary' | 'icon' | 'rounded' | 'custom' = 'primary';
 	export let type: 'button' | 'submit' | 'reset' = 'button';
+	export let variant: Colors = 'default';
+	export let filled = false;
 	export let role: string | undefined = undefined;
 	export let disabled: boolean | undefined = undefined;
 
@@ -15,22 +19,22 @@
 	const iconClass = '';
 
 	let disabledClass =
-		'disabled:cursor-not-allowed disabled:!bg-white disabled:border-mauve-11 disabled:ring-mauve-11 disabled:text-mauve-11';
+		'disabled:cursor-not-allowed !disabled:bg-white disabled:border-mauve-11 disabled:ring-mauve-11 disabled:text-mauve-11';
 
-	let variantClass = '';
-	switch (variant) {
+	let formClass = '';
+	switch (form) {
 		case 'primary':
 		default:
-			variantClass = primaryClass;
+			formClass = primaryClass;
 			break;
 		case 'icon':
-			variantClass = iconClass;
+			formClass = iconClass;
 			break;
 		case 'rounded':
-			variantClass = roundedClass;
+			formClass = roundedClass;
 			break;
 		case 'custom':
-			variantClass = '';
+			formClass = '';
 			break;
 	}
 </script>
@@ -41,7 +45,9 @@
 	use:buttonType={type}
 	on:click
 	{style}
-	class="border border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 transition-colors {variantClass} {customClass} {disabled
+	class="border border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 transition-colors {formClass} {BUTTON_COLOR_CLASSES[
+		variant
+	][filled ? 'filled' : 'default']} {customClass} {disabled
 		? disabledClass
 		: ''}"
 	{...$$restProps}

@@ -79,7 +79,7 @@
 		class="bg-mauve-3 border-mauve-6 border-r flex items-center p-2 slider transition-[transform,margin-left]"
 	>
 		<Button
-			variant="custom"
+			form="custom"
 			class="bg-white p-1 text-xs border touch-manipulation border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 cursor-pointer rounded-full"
 			disabled={!id}
 			on:click={async () => {

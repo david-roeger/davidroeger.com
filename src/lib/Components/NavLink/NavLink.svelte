@@ -1,6 +1,6 @@
 <script lang="ts">
 	export let href: string;
-	export let type: 'primary' | 'icon' | 'button' = 'primary';
+	export let form: 'primary' | 'icon' | 'button' = 'primary';
 	export let variant: Colors = 'default';
 	export let activePath: string | undefined = undefined;
 	export let activeRegEx: RegExp | undefined = undefined;
@@ -10,28 +10,25 @@
 	export { customClass as class };
 
 	import { page } from '$app/stores';
-	import {
-		BUTTON_COLOR_CLASSES,
-		LINK_COLOR_CLASSES,
-		type Colors
-	} from '$utils/colors';
+	import type { Colors } from '$utils/colors';
 	import { derived } from 'svelte/store';
+	import { LINK_COLOR_CLASSES } from './constants';
 
 	const primaryClass = 'px-4 py-2';
 	const buttonClass = 'px-4 py-2 rounded-full';
 	const iconClass = '';
 
-	let typeClass = '';
-	switch (type) {
+	let formClass = '';
+	switch (form) {
 		case 'primary':
 		default:
-			typeClass = primaryClass;
+			formClass = primaryClass;
 			break;
 		case 'icon':
-			typeClass = iconClass;
+			formClass = iconClass;
 			break;
 		case 'button':
-			typeClass = buttonClass;
+			formClass = buttonClass;
 			break;
 	}
 
@@ -66,7 +63,7 @@
 	{role}
 	{href}
 	aria-current={$currentPage ? 'page' : undefined}
-	class="border border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 transition-colors {typeClass} {LINK_COLOR_CLASSES[
+	class="border border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 transition-colors {formClass} {LINK_COLOR_CLASSES[
 		variant
 	].default} {customClass} "
 >

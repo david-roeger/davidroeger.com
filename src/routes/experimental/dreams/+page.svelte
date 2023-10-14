@@ -130,11 +130,7 @@
 							action="/experimental/dreams/logout"
 							method="post"
 						>
-							<Button
-								type="submit"
-								variant="rounded"
-								class="block bg-white hover:bg-blue-5"
-							>
+							<Button type="submit" form="rounded" variant="blue">
 								🔒 Logout
 							</Button>
 						</form>
@@ -244,6 +240,7 @@
 
 {#if $query.data}
 	<Pagination
+		variant="blue"
 		currentPage={data.page}
 		isLoading={$query.isFetching}
 		pagable={$query.data}

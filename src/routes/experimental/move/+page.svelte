@@ -344,7 +344,7 @@
 				<Slider.Track
 					class="h-2 bg-white border rounded-full border-mauve-12"
 				>
-					<Slider.Range class="h-full rounded-full bg-blue-5" />
+					<Slider.Range class="h-full rounded-full bg-blue-6" />
 				</Slider.Track>
 				<Slider.Thumb
 					value={boundImageScl}
