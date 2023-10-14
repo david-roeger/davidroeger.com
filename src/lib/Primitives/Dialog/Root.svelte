@@ -78,6 +78,12 @@
 			$trap.deactivate();
 			$trap = undefined;
 		}
+
+		$activeDialogs = [
+			...$activeDialogs.filter(
+				(activeDialog) => activeDialog !== computedId
+			)
+		];
 	});
 
 	const handleScroll = () => {
