@@ -2,6 +2,7 @@
 	import { getContext } from 'svelte';
 
 	import { superForm } from 'sveltekit-superforms/client';
+	import SuperDebug from 'sveltekit-superforms/client/SuperDebug.svelte';
 
 	import { page } from '$app/stores';
 
@@ -11,8 +12,11 @@
 
 	import { getLoadingEmojis } from '$utils';
 
-	import { INPUT_COLOR_CLASSES, type Colors } from '$utils/colors';
+	import type { Colors } from '$utils/colors';
 	import { contactFormSchema, type ContactFormSchema } from './constants';
+	import { Input } from '$components/Input';
+	import { INPUT_COLOR_CLASSES } from '$components/Input/constants';
+	import SuperformsInput from '$components/Input/SuperformsInput.svelte';
 
 	export let variant: Colors = 'default';
 
@@ -32,7 +36,9 @@
 		constraints,
 		message,
 		submitting,
-		delayed
+		delayed,
+		posted,
+		...props
 	} = superForm($page.data.contactForm, {
 		id: 'contactForm',
 		validators: contactFormSchema,
@@ -81,6 +87,8 @@
 			closeIcon: true
 		});
 	}
+
+	$: console.log('posted', props);
 </script>
 
 <form
@@ -140,48 +148,21 @@
 					name="url"
 					value={$page.url.toString()}
 				/>
-				<div
-					class="flex flex-col items-start max-w-xs group sm:max-w-none lg:max-w-xs"
-				>
-					<label
-						for="name"
-						class="border-mauve-12 rounded-none border border-b-0 text-xs ring-mauve-12 group-focus-within:ring-1 px-4 py-1 {getValValidationClass(
-							'name',
-							{
-								successClass:
-									INPUT_COLOR_CLASSES.green.highlight,
-								errorClass: INPUT_COLOR_CLASSES.red.highlight,
-								defaultClass:
-									INPUT_COLOR_CLASSES[variant].highlight
-							}
-						)}"
-					>
-						Name*
-					</label>
-					<input
-						id="name"
-						class="py-2 px-4 border-mauve-12 rounded-none border w-full group-focus-within:outline-none ring-mauve-12 group-focus-within:ring-1 bg-gradient-to-r from-transparent {getValValidationClass(
-							'name',
-							{
-								successClass: 'to-green-5',
-								errorClass: 'to-red-5'
-							}
-						)}"
-						name="name"
-						autocomplete="name"
-						enterkeyhint="send"
-						placeholder="vielleicht David"
-						type="text"
-						bind:value={$form.name}
-						data-invalid={$errors.name}
-						{...$constraints.name}
-					/>
-					<p class="h-4 text-xs">
-						{#if $errors.name}
-							{$errors.name[0]}
-						{/if}
-					</p>
-				</div>
+
+				<SuperformsInput
+					id="name"
+					name="name"
+					label="Name*"
+					{variant}
+					formStore={form}
+					errorsStore={errors}
+					taintedStore={tainted}
+					constraintsStore={constraints}
+					type="text"
+					autocomplete="name"
+					enterkeyhint="send"
+					placeholder="vielleicht David"
+				/>
 
 				<div
 					class="flex flex-col items-start max-w-xs group sm:max-w-none lg:max-w-xs"
@@ -321,6 +302,9 @@
 		<div class="h-[58px]" />
 	</div>
 </form>
+
+<SuperDebug data={$tainted} />
+<SuperDebug data={$errors} />
 
 <style global>
 	.custom-grid {
