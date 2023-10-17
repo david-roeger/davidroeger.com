@@ -26,6 +26,7 @@
 		"@types/jsdom": "^21.1.3",
 		"@types/nodemailer": "^6.4.11",
 		"@types/pg": "^8.10.3",
+		"@types/three": "^0.157.0",
 		"@types/uuid": "^9.0.4",
 		"@typescript-eslint/eslint-plugin": "^6.7.2",
 		"@typescript-eslint/parser": "^6.7.2",
@@ -57,11 +58,13 @@
 		"bezier-easing": "^2.1.0",
 		"focus-trap": "^7.5.3",
 		"fuse.js": "^6.6.2",
+		"immer": "^10.0.3",
 		"jsdom": "^22.1.0",
 		"lucia": "^2.7.0",
 		"nodemailer": "^6.9.5",
 		"open-simplex-noise": "^2.5.0",
 		"pg": "^8.11.3",
+		"three": "^0.157.0",
 		"uuid": "^9.0.1",
 		"zod": "^3.22.2"
 	}

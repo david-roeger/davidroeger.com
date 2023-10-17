@@ -19,7 +19,7 @@
 	const iconClass = '';
 
 	let disabledClass =
-		'disabled:cursor-not-allowed !disabled:bg-white disabled:border-mauve-11 disabled:ring-mauve-11 disabled:text-mauve-11';
+		'disabled:cursor-not-allowed disabled:!bg-white disabled:border-mauve-11 disabled:ring-mauve-11 disabled:text-mauve-11';
 
 	let formClass = '';
 	switch (form) {
