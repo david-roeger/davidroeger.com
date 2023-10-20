@@ -52,6 +52,7 @@ const config = {
 			$types: 'src/lib/types.d.ts',
 			$utils: 'src/lib/Utils',
 			'$utils/*': 'src/lib/Utils/*',
+			'$form/*': 'src/lib/Form/*',
 			$lib: 'src/lib'
 		},
 
