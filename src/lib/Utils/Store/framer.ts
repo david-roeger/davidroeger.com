@@ -7,7 +7,7 @@ export const createFramer = (initialFrameRate = 60, play = false) => {
 	let delta = 0;
 
 	const state = writable({
-		frame: 0,
+		frame: 1,
 		frameRate: initialFrameRate,
 		playing: browser && play
 	});

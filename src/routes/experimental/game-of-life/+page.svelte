@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { current, produce } from 'immer';
+	import { produce } from 'immer';
 
 	import { Button } from '$components/Button';
 	import * as Slider from '$primitives/Slider';
@@ -9,7 +9,6 @@
 	import { onDestroy } from 'svelte';
 	import { derived } from 'svelte/store';
 	import { calculateAliveNeighborsCount, wrapX, wrapY } from './utils';
-	import EditDreamForm from '$slices/EditDreamForm/EditDreamForm.svelte';
 
 	const DEFAULT_FRAME_RATE = 24;
 
@@ -37,15 +36,22 @@
 		return grid;
 	};
 
-	const COL_COUNT = 40;
-	const ROW_COUNT = 20;
+	let containerWidth = 0;
+	let containerHeight = 0;
 
-	const GRID = initializeGrid(ROW_COUNT, COL_COUNT);
+	const CELL_SIZE = 32;
+	$: COL_COUNT = Math.floor(containerWidth / CELL_SIZE);
+	$: ROW_COUNT = Math.floor(containerHeight / CELL_SIZE);
+
+	// whenever the container size changes, we want to reset the grid
+	$: stack = createStack({
+		frame: 1,
+		state: initializeGrid(ROW_COUNT, COL_COUNT),
+		source: 'initial'
+	});
 
 	const framer = createFramer(DEFAULT_FRAME_RATE, false);
 	const frame = derived(framer, (framerValue) => framerValue.frame);
-
-	const stack = createStack({ frame: 0, state: GRID, source: 'initial' });
 
 	const GLIDER_NORTH = [
 		[0, 1, 0],
@@ -80,7 +86,7 @@
 	] as const;
 
 	const onFrameUpdate = async (frame: number) => {
-		if (frame === 0) return;
+		if (frame === 1) return;
 
 		const current = $stack.current;
 		const currentState = current.state;
@@ -137,7 +143,7 @@
 		}
 
 		stack.push({
-			frame,
+			frame: current.frame + 1,
 			state: nextState,
 			source: 'frame'
 		});
@@ -153,7 +159,7 @@
 		const nextState = produce($stack.current.state, (draftState) => {
 			selection.forEach((key) => {
 				const [x, y] = key.split('-').map((n) => parseInt(n));
-				draftState[y][x] = draftState[y][x] === 1 ? 0 : 1;
+				draftState[y][x] = 1;
 			});
 		});
 
@@ -224,27 +230,33 @@
 
 	$: hoveredSelection = generateHoveredSelection(hovered, rotation);
 
-	let pointerId: number | undefined;
 	const slideStart = (e: PointerEvent) => {
-		const target = e.target as HTMLElement;
-		pointerId = e.pointerId;
+		const target = e.target as HTMLElement | null;
+		if (!target) return;
+		target.setPointerCapture(e.pointerId);
 
 		if (target.dataset.x && target.dataset.y && mode === 'draw') {
 			selection.add(`${target.dataset.x}-${target.dataset.y}`);
 			selection = selection;
 			console.log('selection', `${target.dataset.x}-${target.dataset.y}`);
 		}
+
 		e.preventDefault();
 	};
 
 	const slideMove = (e: PointerEvent) => {
 		if (mode === 'glider') return;
 
-		const target = e.target as HTMLElement;
-		console.log('move', `${target.dataset.x}-${target.dataset.y}`);
-		if (pointerId === e.pointerId) {
-			if (target.dataset.x && target.dataset.y && mode === 'draw') {
-				selection.add(`${target.dataset.x}-${target.dataset.y}`);
+		const target = e.target as HTMLElement | null;
+
+		if (target && target.hasPointerCapture(e.pointerId)) {
+			const cell = document.elementFromPoint(
+				e.clientX,
+				e.clientY
+			) as HTMLElement | null;
+
+			if (cell && cell.dataset.x && cell.dataset.y && mode === 'draw') {
+				selection.add(`${cell.dataset.x}-${cell.dataset.y}`);
 				selection = selection;
 			}
 
@@ -255,37 +267,42 @@
 	const slideStop = (e: PointerEvent) => {
 		console.log('stop');
 
-		if (e.pointerId === pointerId) {
-			const target = e.target as HTMLElement;
+		const target = e.target as HTMLElement | null;
+		if (target && target.hasPointerCapture(e.pointerId)) {
+			target.releasePointerCapture(e.pointerId);
 
-			if (target.dataset.x && target.dataset.y) {
+			const cell = document.elementFromPoint(
+				e.clientX,
+				e.clientY
+			) as HTMLElement | null;
+
+			if (cell && cell.dataset.x && cell.dataset.y) {
 				if (mode === 'draw') {
-					selection.add(`${target.dataset.x}-${target.dataset.y}`);
-					selection = selection;
+					selection.add(`${cell.dataset.x}-${cell.dataset.y}`);
 					applySelection(selection);
 					selection.clear();
 					selection = selection;
 				} else {
-					const xPos = parseInt(target.dataset.x);
-					const yPos = parseInt(target.dataset.y);
+					const xPos = parseInt(cell.dataset.x);
+					const yPos = parseInt(cell.dataset.y);
 
 					placeGlider(xPos, yPos);
 				}
 			}
-
-			console.log('selection', selection);
-
-			pointerId = undefined;
 		}
 	};
 
 	const slideCancel = (e: PointerEvent) => {
 		if (mode === 'glider') return;
 
-		if (e.pointerId === pointerId) {
+		const target = e.target as HTMLElement | null;
+		if (target && target.hasPointerCapture(e.pointerId)) {
+			target.releasePointerCapture(e.pointerId);
+
 			selection.clear();
 			selection = selection;
-			pointerId = undefined;
+
+			e.preventDefault();
 		}
 	};
 
@@ -300,7 +317,8 @@
 			if ($stack.last) {
 				framer.pushFrame(true);
 			} else {
-				stack.redo();
+				const jumpToEnd = e.shiftKey;
+				stack.redo(jumpToEnd);
 			}
 			e.preventDefault();
 		} else if (e.key === prevKey) {
@@ -308,9 +326,10 @@
 				framer.pause();
 			}
 			if (!$stack.first) {
-				stack.undo();
-				e.preventDefault();
+				const jumpToStart = e.shiftKey;
+				stack.undo(jumpToStart);
 			}
+			e.preventDefault();
 		} else if (e.key === 'r') {
 			rotation = (rotation + 1) % GLIDERS.length;
 		} else if (e.key === 'c') {
@@ -321,14 +340,92 @@
 			}));
 		}
 	};
-
-	$: console.log(selection);
 </script>
 
 <svelte:window on:keydown={handleKeyDown} />
-<p>{$frame}</p>
-<p>1 / {$framer.frameRate}</p>
+
+<div
+	bind:clientWidth={containerWidth}
+	bind:clientHeight={containerHeight}
+	style="--row-count: {ROW_COUNT}; --col-count: {COL_COUNT}; --cell-size: {CELL_SIZE}px;"
+	class="relative border-b border-mauve-6 w-full portrait:aspect-w-1 portrait:aspect-h-1 landscape:aspect-w-[2.35] landscape:aspect-h-1 landscape:md:aspect-w-16 landscape:md:aspect-h-[8.5] bg-blue-3"
+>
+	<div>
+		<div
+			class="bg-mauve-1 grid relative ring-1 ring-mauve-6 mx-auto grid-cols-[repeat(var(--col-count),var(--cell-size))] grid-rows-[repeat(var(--row-count),var(--cell-size))] w-[calc(var(--col-count)*var(--cell-size))] h-[calc(var(--row-count)*var(--cell-size))]"
+			on:pointerdown={slideStart}
+			on:pointermove={slideMove}
+			on:pointerup={slideStop}
+			on:pointercancel={slideCancel}
+		>
+			{#each $stack.current.state as row, y (y)}
+				{#each row as cell, x (x)}
+					<div
+						on:mouseenter={() => {
+							hovered = `${x}-${y}`;
+						}}
+						on:mouseout={() => {
+							if (hovered === `${x}-${y}`) {
+								hovered = undefined;
+							}
+						}}
+						on:click={() => {
+							if (mode === 'glider') {
+								placeGlider(x, y);
+							}
+						}}
+						class="relative touch-none
+							data-[checker=even]:bg-mauve-3
+							data-[state=alive]:before:bg-blue-6 before:w-full before:h-full before:absolute
+							data-[hovered=true]:after:bg-orange-6 data-[selected=true]:after:bg-orange-6 after:w-full after:h-full after:absolute"
+						data-state={!!cell ? 'alive' : 'dead'}
+						data-hovered={hoveredSelection.has(`${x}-${y}`)}
+						data-selected={selection.has(`${x}-${y}`)}
+						data-checker={y % 2 === 0
+							? x % 2 === 0
+								? 'even'
+								: 'odd'
+							: x % 2 === 0
+							? 'odd'
+							: 'even'}
+						data-x={x}
+						data-y={y}
+					/>
+				{/each}
+			{/each}
+		</div>
+	</div>
+</div>
+
+<div
+	class="bg-white/[.85] flex flex-col items-center justify-center pt-2 border-t border-b md:pt-0 md:flex-row border-mauve-6"
+>
+	<div class="w-full px-8 md:w-fit-content">
+		<Slider.Root
+			on:valueChange={(e) => framer.setFrameRate(e.detail.values[0])}
+			class="flex items-center w-full py-4 md:w-96"
+			min={1}
+			max={240}
+			step={1}
+			label="Framerate"
+		>
+			<Slider.Track
+				class="h-2 bg-white border rounded-full border-mauve-12"
+			>
+				<Slider.Range class="h-full rounded-full bg-blue-6" />
+			</Slider.Track>
+			<Slider.Thumb
+				defaultValue={DEFAULT_FRAME_RATE}
+				class="w-6 h-6 bg-white border rounded-full border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 touch-none"
+			/>
+		</Slider.Root>
+	</div>
+</div>
+
+<p>{$stack.current.frame}</p>
+<p>{$framer.frameRate} fps</p>
 <p>{1 / $framer.frameRate}</p>
+<p>{mode}</p>
 <p>playing: {$framer.playing ? 'true' : 'false'}</p>
 <Button disabled={$framer.playing} on:click={() => framer.play()}>Play</Button>
 <Button disabled={!$framer.playing} on:click={() => framer.pause()}>
@@ -372,23 +469,6 @@
 	clear
 </Button>
 
-<Slider.Root
-	on:valueChange={(e) => framer.setFrameRate(e.detail.values[0])}
-	class="flex items-center w-full py-4 md:w-96"
-	min={1}
-	max={240}
-	step={1}
-	label="frameRate"
->
-	<Slider.Track class="h-2 bg-white border rounded-full border-mauve-12">
-		<Slider.Range class="h-full rounded-full bg-blue-6" />
-	</Slider.Track>
-	<Slider.Thumb
-		defaultValue={DEFAULT_FRAME_RATE}
-		class="w-6 h-6 bg-white border rounded-full border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 touch-none"
-	/>
-</Slider.Root>
-
 <p>total {$stack.current.state.flat().length}</p>
 <p>alive {$stack.current.state.flat().reduce((acc, curr) => acc + curr, 0)}</p>
 <p>
@@ -398,71 +478,4 @@
 </p>
 
 <p>stack {$stack.current.frame}</p>
-<div
-	style="--row-count: {ROW_COUNT}; --col-count: {COL_COUNT}"
-	class="gol-grid"
-	on:pointerdown={(e) => slideStart(e)}
-	on:pointermove={(e) => slideMove(e)}
-	on:pointerup={(e) => slideStop(e)}
-	on:pointercancel={(e) => slideCancel(e)}
->
-	{#each $stack.current.state as row, y (y)}
-		{#each row as cell, x (x)}
-			<!--Popper.Root class="contents" defaultOpen={false}>
-				<Popper.Trigger
-					class="w-8 h-8 bg-blue-3 border border-mauve-6 focus:outline-none ring-mauve-6 focus:ring-1 grid-cols-2"
-				>
-					{cell}
-				</Popper.Trigger>
-				<Popper.Content
-					class="bg-white border border-mauve-6 focus:outline-none ring-mauve-6 focus:ring-1 px-4 py-2"
-					side="top"
-					align="center"
-					avoidCollisions={false}
-				>
-					<p>({x} | {y}) {cell}</p>
-				</Popper.Content>
-				on:click={() => {
-					placeGlider(x, y);
-				}}
-			</Popper.Root-->
-			<div
-				on:mouseenter={() => {
-					hovered = `${x}-${y}`;
-				}}
-				on:mouseout={() => {
-					if (hovered === `${x}-${y}`) {
-						hovered = undefined;
-					}
-				}}
-				on:click={() => {
-					if (mode === 'glider') {
-						placeGlider(x, y);
-					}
-				}}
-				class="w-8 h-8 bg-blue-3 border border-mauve-6 data-[state=alive]:bg-blue-6 {hoveredSelection.has(
-					`${x}-${y}`
-				) || selection.has(`${x}-${y}`)
-					? '!bg-orange-6'
-					: ''}"
-				data-state={!!cell ? 'alive' : 'dead'}
-				data-x={x}
-				data-y={y}
-			/>
-		{/each}
-	{/each}
-</div>
-
-<style>
-	.gol-grid {
-		display: grid;
-		margin-left: auto;
-		margin-right: auto;
-
-		grid-template-columns: repeat(var(--col-count), minmax(0, 32px));
-		grid-template-rows: repeat(var(--row-count), minmax(0, 32px));
-
-		justify-content: center;
-		border: 1px solid hsl(var(--drds-mauve-6));
-	}
-</style>
+<p>{$stack.index}</p>

@@ -294,9 +294,9 @@
 				tabindex="-1"
 				class="touch-none focus:outline-none ring-mauve-12 focus:ring-1"
 				bind:this={canvas}
-				on:pointerdown={(e) => slideStart(e)}
-				on:pointermove={(e) => slideMove(e)}
-				on:pointerup={(e) => slideStop(e)}
+				on:pointerdown={slideStart}
+				on:pointermove={slideMove}
+				on:pointerup={slideStop}
 			/>
 		</div>
 

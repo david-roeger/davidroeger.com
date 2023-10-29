@@ -8,6 +8,7 @@ export function createStack<T>(current: T, maxLength = 100) {
 	const state = writable({
 		first: true,
 		last: true,
+		index,
 		current
 	});
 
@@ -17,6 +18,7 @@ export function createStack<T>(current: T, maxLength = 100) {
 		state.set({
 			first: index === 1,
 			last: index === stack.length,
+			index,
 			current
 		});
 
@@ -44,12 +46,24 @@ export function createStack<T>(current: T, maxLength = 100) {
 
 			return update();
 		},
-		undo: () => {
-			if (index > 1) index -= 1;
+		undo: (jumpToStart = false) => {
+			if (index > 1) {
+				if (jumpToStart) {
+					index = 1;
+				} else {
+					index -= 1;
+				}
+			}
 			return update();
 		},
-		redo: () => {
-			if (index < stack.length) index += 1;
+		redo: (jumpToEnd = false) => {
+			if (index < stack.length) {
+				if (jumpToEnd) {
+					index = stack.length;
+				} else {
+					index += 1;
+				}
+			}
 			return update();
 		},
 		subscribe: state.subscribe
