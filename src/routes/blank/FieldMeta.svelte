@@ -7,6 +7,7 @@
 	type TName = DeepKeys<TParentData>;
 
 	export let state: Field<TParentData, TName>['state'];
+	$: console.log('FieldMeta', $state);
 </script>
 
 {#if $state.meta.touchedErrors}

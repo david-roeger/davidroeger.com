@@ -6,10 +6,12 @@ import { useStore } from './useStore';
 import { type UseField, useField } from './useField';
 import { setFormContext } from './formContext';
 import { get, type Readable } from 'svelte/store';
+import FormProvider from '$routes/blank/FormProvider.svelte';
+import WrapperFormProvider from './WrappedFormProvider';
 
 export type Form<TFormData, ValidatorType> = {
 	api: FormApi<TFormData>;
-	// Provider: (props: { children: any }) => any
+	Provider: typeof FormProvider;
 	provideFormContext: () => void;
 	// Field: FieldComponent<TFormData, ValidatorType>
 	useField: UseField<TFormData>;
@@ -69,12 +71,16 @@ export function useForm<TFormData, FormValidator>(
 		});
 	}
 
+	const P = new WrapperFormProvider({});
+	const Provider = FormProvider.bind({ api: formApi });
+
 	/**
 	 * formApi.update should not have any side effects. Think of it like a `useRef`
 	 * that we need to keep updated every render with the most up-to-date information.
 	 */
 	return {
 		api: formApi,
+		Provider,
 		provideFormContext,
 		useStore: useFormStore,
 		useField: useFormField,

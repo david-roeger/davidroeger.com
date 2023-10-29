@@ -14,7 +14,10 @@
 	name={field.name}
 	value={$state.value}
 	on:blur={field.handleBlur}
+	on:input
 	on:input={(e) => {
+		console.log('input', e.target.value);
 		field.handleChange(e.target.value);
 	}}
+	{...$$restProps}
 />
