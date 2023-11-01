@@ -10,6 +10,9 @@
 	import { derived } from 'svelte/store';
 	import { calculateAliveNeighborsCount, wrapX, wrapY } from './utils';
 
+	import * as Switch from '$primitives/Switch';
+	import Thumb from '$primitives/Slider/Thumb.svelte';
+
 	const DEFAULT_FRAME_RATE = 24;
 
 	const initializeGrid = (rowCount: number, colCount: number) => {
@@ -427,6 +430,7 @@
 <p>{1 / $framer.frameRate}</p>
 <p>{mode}</p>
 <p>playing: {$framer.playing ? 'true' : 'false'}</p>
+
 <Button disabled={$framer.playing} on:click={() => framer.play()}>Play</Button>
 <Button disabled={!$framer.playing} on:click={() => framer.pause()}>
 	Pause
@@ -443,6 +447,25 @@
 </Button>
 <Button on:click={() => framer.pushFrame(true)}>Push Frame</Button>
 
+<form>
+	<Switch.Root
+		name="switch"
+		id="switch"
+		on:checkedChange={(e) => {
+			if (e.detail.value) {
+				mode = 'glider';
+			} else {
+				mode = 'draw';
+			}
+		}}
+		class="border border-mauve-12 bg-mauve-6 w-12 data-[state=checked]:bg-blue-6 rounded-full m-8 relative focus:"
+	>
+		<Switch.Thumb
+			class="w-6 h-6 bg-white ring-1 ring-mauve-12 rounded-full ml-0 data-[state=checked]:translate-x-full transition-transform"
+		/>
+	</Switch.Root>
+	<label for="switch">Glider</label>
+</form>
 <Button
 	data-state={mode === 'draw' ? 'active' : 'inactive'}
 	on:click={() => (mode = 'draw')}
