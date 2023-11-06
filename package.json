@@ -60,7 +60,7 @@
 		"fuse.js": "^6.6.2",
 		"immer": "^10.0.3",
 		"jsdom": "^22.1.0",
-		"lucia": "^2.7.0",
+		"lucia": "^2.7.3",
 		"nodemailer": "^6.9.5",
 		"open-simplex-noise": "^2.5.0",
 		"pg": "^8.11.3",
