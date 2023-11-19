@@ -2,16 +2,26 @@
 	import { produce } from 'immer';
 
 	import { Button } from '$components/Button';
+	import { AccessibleIcon } from '$components/AccessibleIcon';
+
 	import * as Slider from '$primitives/Slider';
 
 	import { createFramer } from '$utils/Store/framer';
 	import { createStack } from '$utils/Store/stack';
-	import { onDestroy } from 'svelte';
+	import { onDestroy, tick } from 'svelte';
 	import { derived } from 'svelte/store';
 	import { calculateAliveNeighborsCount, wrapX, wrapY } from './utils';
 
 	import * as Switch from '$primitives/Switch';
-	import Thumb from '$primitives/Slider/Thumb.svelte';
+
+	import Randomize from '$assets/Icons/24/randomize.svg?component';
+	import Close from '$assets/Icons/24/close.svg?component';
+
+	import Play from '$assets/Icons/24/play.svg?component';
+	import Pause from '$assets/Icons/24/pause.svg?component';
+	import West from '$assets/Icons/24/west.svg?component';
+	import East from '$assets/Icons/24/east.svg?component';
+	import Headline from '$components/Headline/Headline.svelte';
 
 	const DEFAULT_FRAME_RATE = 24;
 
@@ -141,7 +151,6 @@
 		// if the user pushes a frame while the update function is running
 
 		if (currentState === nextState) {
-			console.log('pausing');
 			framer.pause();
 		}
 
@@ -241,7 +250,6 @@
 		if (target.dataset.x && target.dataset.y && mode === 'draw') {
 			selection.add(`${target.dataset.x}-${target.dataset.y}`);
 			selection = selection;
-			console.log('selection', `${target.dataset.x}-${target.dataset.y}`);
 		}
 
 		e.preventDefault();
@@ -268,8 +276,6 @@
 	};
 
 	const slideStop = (e: PointerEvent) => {
-		console.log('stop');
-
 		const target = e.target as HTMLElement | null;
 		if (target && target.hasPointerCapture(e.pointerId)) {
 			target.releasePointerCapture(e.pointerId);
@@ -311,41 +317,102 @@
 
 	const nextKey = 'ArrowRight';
 	const prevKey = 'ArrowLeft';
+	const enterKey = 'Enter';
+	const spaceKey = ' ';
+
+	const handleNext = (jumpToEnd = false) => {
+		if ($framer.playing) {
+			framer.pause();
+		}
+		if ($stack.last) {
+			framer.pushFrame(true);
+		} else {
+			stack.redo(jumpToEnd);
+		}
+	};
+
+	const handlePrev = (jumpToStart = false) => {
+		if ($framer.playing) {
+			framer.pause();
+		}
+		stack.undo(jumpToStart);
+	};
+
+	const togglePlay = () => {
+		if ($framer.playing) {
+			framer.pause();
+		} else {
+			framer.play();
+		}
+	};
+
+	const handleClear = () => {
+		if ($framer.playing) {
+			framer.pause();
+		}
+		stack.update((current) => ({
+			...current,
+			state: clearGrid(ROW_COUNT, COL_COUNT),
+			source: 'clear'
+		}));
+	};
 
 	const handleKeyDown = (e: KeyboardEvent) => {
 		if (e.key === nextKey) {
-			if ($framer.playing) {
-				framer.pause();
-			}
-			if ($stack.last) {
-				framer.pushFrame(true);
-			} else {
-				const jumpToEnd = e.shiftKey;
-				stack.redo(jumpToEnd);
-			}
+			handleNext(e.shiftKey);
+			if (nextButton) nextButton.focus();
 			e.preventDefault();
 		} else if (e.key === prevKey) {
-			if ($framer.playing) {
-				framer.pause();
-			}
 			if (!$stack.first) {
-				const jumpToStart = e.shiftKey;
-				stack.undo(jumpToStart);
+				handlePrev(e.shiftKey);
+				if (prevButton) prevButton.focus();
+
+				e.preventDefault();
 			}
-			e.preventDefault();
+		} else if (e.key === spaceKey) {
+			if (
+				document.activeElement === document.body ||
+				document.activeElement === playButton ||
+				document.activeElement === pauseButton
+			) {
+				togglePlay();
+				tick().then(() => {
+					if ($framer.playing) {
+						if (pauseButton) pauseButton.focus();
+					} else {
+						if (playButton) playButton.focus();
+					}
+				});
+				e.preventDefault();
+			}
 		} else if (e.key === 'r') {
-			rotation = (rotation + 1) % GLIDERS.length;
+			if (mode === 'glider') {
+				rotation = (rotation + 1) % GLIDERS.length;
+				if (rotateButton) rotateButton.focus();
+				e.preventDefault();
+			}
 		} else if (e.key === 'c') {
-			stack.update((current) => ({
-				...current,
-				state: clearGrid(ROW_COUNT, COL_COUNT),
-				source: 'clear'
-			}));
+			handleClear();
+			if (clearButton) clearButton.focus();
+			e.preventDefault();
 		}
 	};
+
+	let playButton: HTMLButtonElement;
+	let pauseButton: HTMLButtonElement;
+	let nextButton: HTMLButtonElement;
+	let prevButton: HTMLButtonElement;
+	let rotateButton: HTMLButtonElement;
+	let clearButton: HTMLButtonElement;
+	let randomizeButton: HTMLButtonElement;
 </script>
 
 <svelte:window on:keydown={handleKeyDown} />
+
+<Headline containerClass="py-8 md:py-16">
+	<span aria-hidden="true" class="select-none">::</span>
+	Game of life
+</Headline>
 
 <div
 	bind:clientWidth={containerWidth}
@@ -400,105 +467,178 @@
 	</div>
 </div>
 
-<div
-	class="bg-white/[.85] flex flex-col items-center justify-center pt-2 border-t border-b md:pt-0 md:flex-row border-mauve-6"
->
-	<div class="w-full px-8 md:w-fit-content">
-		<Slider.Root
-			on:valueChange={(e) => framer.setFrameRate(e.detail.values[0])}
-			class="flex items-center w-full py-4 md:w-96"
-			min={1}
-			max={240}
-			step={1}
-			label="Framerate"
+<div class="border-b border-mauve-6">
+	<div class="py-8 px-2 md:w-3/4 md:border-r border-mauve-6">
+		<div
+			class="p-2 border border-mauve-6 bg-white/[.85] rounded-full flex gap-4 flex-grow-0 justify-center"
 		>
-			<Slider.Track
-				class="h-2 bg-white border rounded-full border-mauve-12"
+			<Button
+				bind:button={prevButton}
+				variant="custom"
+				form="custom"
+				class="bg-white p-1 text-xs border touch-manipulation border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 cursor-pointer rounded-full"
+				disabled={$stack.first}
+				on:click={() => {
+					handlePrev();
+				}}
 			>
-				<Slider.Range class="h-full rounded-full bg-blue-6" />
-			</Slider.Track>
-			<Slider.Thumb
-				defaultValue={DEFAULT_FRAME_RATE}
-				class="w-6 h-6 bg-white border rounded-full border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 touch-none"
-			/>
-		</Slider.Root>
+				<span class="text-mauve-11">
+					<AccessibleIcon label="last Frame">
+						<West />
+					</AccessibleIcon>
+				</span>
+			</Button>
+
+			<Button
+				bind:button={playButton}
+				variant="custom"
+				form="custom"
+				class="bg-white p-1 text-xs border touch-manipulation border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 cursor-pointer rounded-full"
+				disabled={$framer.playing}
+				on:click={() => {
+					framer.play();
+				}}
+			>
+				<AccessibleIcon label="play">
+					<Play />
+				</AccessibleIcon>
+			</Button>
+
+			<Button
+				bind:button={pauseButton}
+				variant="custom"
+				form="custom"
+				class="bg-white p-1 text-xs border touch-manipulation border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 cursor-pointer rounded-full"
+				disabled={!$framer.playing}
+				on:click={() => {
+					framer.pause();
+				}}
+			>
+				<AccessibleIcon label="pause">
+					<Pause />
+				</AccessibleIcon>
+			</Button>
+
+			<Button
+				bind:button={nextButton}
+				variant="custom"
+				form="custom"
+				class="bg-white p-1 text-xs border touch-manipulation border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 cursor-pointer rounded-full"
+				on:click={() => {
+					handleNext();
+				}}
+			>
+				<span class="text-mauve-11">
+					<AccessibleIcon label="next Frame">
+						<East />
+					</AccessibleIcon>
+				</span>
+			</Button>
+		</div>
 	</div>
 </div>
 
-<p>{$stack.current.frame}</p>
-<p>{$framer.frameRate} fps</p>
-<p>{1 / $framer.frameRate}</p>
-<p>{mode}</p>
-<p>playing: {$framer.playing ? 'true' : 'false'}</p>
+<div class="border-b border-mauve-6">
+	<div class="md:w-3/4 md:border-r border-mauve-6 flex">
+		<div
+			class="flex-1 sm:flex-grow-[2] border-r border-mauve-6 py-8 px-2 md:p-8 xl:p-16 bg-white/[.85] flex flex-col justify-center"
+		>
+			<p>Frame {$stack.current.frame}</p>
+			<p class="mt-4">Cells total {$stack.current.state.flat().length}</p>
+			<p>
+				Cells alive {$stack.current.state
+					.flat()
+					.reduce((acc, curr) => acc + curr, 0)}
+			</p>
+			<p>
+				Cells dead {$stack.current.state
+					.flat()
+					.reduce((acc, curr) => acc + (curr === 0 ? 1 : 0), 0)}
+			</p>
 
-<Button disabled={$framer.playing} on:click={() => framer.play()}>Play</Button>
-<Button disabled={!$framer.playing} on:click={() => framer.pause()}>
-	Pause
-</Button>
-<Button
-	on:click={() =>
-		stack.update((current) => ({
-			...current,
-			state: initializeGrid(ROW_COUNT, COL_COUNT),
-			source: 'push'
-		}))}
+			<p class="mt-4">Framerate {$framer.frameRate} fps</p>
+		</div>
+
+		<div class="flex-1 flex items-center justify-center">
+			<form
+				class="flex items-center py-8 px-2 md:p-8 xl:p-16 gap-4 flex-col"
+			>
+				<label for="switch" class:font-bold={mode === 'draw'}>
+					Draw
+				</label>
+				<Switch.Root
+					name="switch"
+					id="switch"
+					on:checkedChange={(e) => {
+						if (e.detail.value) {
+							mode = 'glider';
+						} else {
+							mode = 'draw';
+						}
+					}}
+					class="flex border border-mauve-12 bg-mauve-6 h-12 data-[state=checked]:bg-blue-6 rounded-full focus:ring-mauve-12 focus:ring-1"
+				>
+					<Switch.Thumb
+						class="w-6 h-6 bg-white border border-mauve-12 -m-px rounded-full data-[state=checked]:translate-y-6 transition-transform"
+					/>
+				</Switch.Root>
+				<label for="switch" class:font-bold={mode === 'glider'}>
+					Glider
+				</label>
+			</form>
+		</div>
+	</div>
+</div>
+
+<div
+	class="bg-white/[.85] border-y border-mauve-6 flex flex-col sm:flex-row gap-2 w-full px-8 py-4 justify-center items-center"
 >
-	randomize
-</Button>
-<Button on:click={() => framer.pushFrame(true)}>Push Frame</Button>
-
-<form>
-	<Switch.Root
-		name="switch"
-		id="switch"
-		on:checkedChange={(e) => {
-			if (e.detail.value) {
-				mode = 'glider';
-			} else {
-				mode = 'draw';
-			}
-		}}
-		class="border border-mauve-12 bg-mauve-6 w-12 data-[state=checked]:bg-blue-6 rounded-full m-8 relative focus:"
+	<Slider.Root
+		on:valueChange={(e) => framer.setFrameRate(e.detail.values[0])}
+		class="flex items-center w-full py-4 max-w-[384px]"
+		min={1}
+		max={240}
+		step={1}
+		label="Framerate"
 	>
-		<Switch.Thumb
-			class="w-6 h-6 bg-white ring-1 ring-mauve-12 rounded-full ml-0 data-[state=checked]:translate-x-full transition-transform"
+		<Slider.Track class="h-2 bg-white border rounded-full border-mauve-12">
+			<Slider.Range class="h-full rounded-full bg-blue-6" />
+		</Slider.Track>
+		<Slider.Thumb
+			defaultValue={DEFAULT_FRAME_RATE}
+			class="w-6 h-6 bg-white border rounded-full border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 touch-none"
 		/>
-	</Switch.Root>
-	<label for="switch">Glider</label>
-</form>
-<Button
-	data-state={mode === 'draw' ? 'active' : 'inactive'}
-	on:click={() => (mode = 'draw')}
->
-	Draw
-</Button>
-<Button
-	data-state={mode === 'glider' ? 'active' : 'inactive'}
-	on:click={() => (mode = 'glider')}
->
-	Glider
-</Button>
-<Button disabled={$stack.first} on:click={() => stack.undo()}>Undo</Button>
-<Button disabled={$stack.last} on:click={() => stack.redo()}>Redo</Button>
-
-<Button
-	on:click={() =>
-		stack.update((current) => ({
-			...current,
-			state: clearGrid(ROW_COUNT, COL_COUNT),
-			source: 'clear'
-		}))}
->
-	clear
-</Button>
-
-<p>total {$stack.current.state.flat().length}</p>
-<p>alive {$stack.current.state.flat().reduce((acc, curr) => acc + curr, 0)}</p>
-<p>
-	dead {$stack.current.state
-		.flat()
-		.reduce((acc, curr) => acc + (curr === 0 ? 1 : 0), 0)}
-</p>
-
-<p>stack {$stack.current.frame}</p>
-<p>{$stack.index}</p>
+	</Slider.Root>
+	<div class="flex gap-2 items-center">
+		<Button
+			bind:button={randomizeButton}
+			variant="custom"
+			form="custom"
+			class="bg-white p-1 text-xs border touch-manipulation border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 cursor-pointer rounded-full"
+			on:click={() => {
+				stack.update((current) => ({
+					...current,
+					state: initializeGrid(ROW_COUNT, COL_COUNT),
+					source: 'push'
+				}));
+			}}
+		>
+			<AccessibleIcon label="randomize">
+				<Randomize />
+			</AccessibleIcon>
+		</Button>
+		<Button
+			bind:button={clearButton}
+			variant="custom"
+			form="custom"
+			class="bg-white p-1 text-xs border touch-manipulation border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 cursor-pointer rounded-full"
+			on:click={() => {
+				handleClear();
+			}}
+		>
+			<AccessibleIcon label="clear grid">
+				<Close />
+			</AccessibleIcon>
+		</Button>
+	</div>
+</div>

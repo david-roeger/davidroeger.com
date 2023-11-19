@@ -18,5 +18,9 @@ export const LINK_COLOR_CLASSES = constructColorClasses({
 	},
 	purple: {
 		default: 'bg-white hover:bg-purple-4 aria-current-page:bg-purple-6'
+	},
+	custom: {
+		default: '',
+		filled: ''
 	}
 });

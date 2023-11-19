@@ -1,4 +1,11 @@
-export type Colors = 'default' | 'red' | 'green' | 'orange' | 'blue' | 'purple';
+export type Colors =
+	| 'default'
+	| 'red'
+	| 'green'
+	| 'orange'
+	| 'blue'
+	| 'purple'
+	| 'custom';
 
 export const constructColorClasses = <
 	T extends Record<string, string>

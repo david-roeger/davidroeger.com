@@ -37,9 +37,12 @@
 			formClass = '';
 			break;
 	}
+
+	export let button: HTMLButtonElement | undefined = undefined;
 </script>
 
 <button
+	bind:this={button}
 	{disabled}
 	{role}
 	use:buttonType={type}

@@ -42,5 +42,9 @@ export const INPUT_COLOR_CLASSES = constructColorClasses({
 			'group-focus-within:bg-purple-6 group-focus-within:data-[state=valid]:bg-green-6 group-focus-within:data-[state=invalid]:bg-red-6',
 		gradient:
 			'bg-gradient-to-r from-transparent data-[state=valid]:to-green-6 data-[state=invalid]:to-red-6'
+	},
+	custom: {
+		default: '',
+		filled: ''
 	}
 });

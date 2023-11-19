@@ -24,5 +24,9 @@ export const BUTTON_COLOR_CLASSES = constructColorClasses({
 	purple: {
 		default: 'bg-white hover:bg-purple-4 data-[state=active]:bg-purple-6',
 		filled: 'bg-purple-6'
+	},
+	custom: {
+		default: '',
+		filled: ''
 	}
 });
