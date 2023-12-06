@@ -16,13 +16,12 @@
 
 	import Randomize from '$assets/Icons/24/randomize.svg?component';
 	import Close from '$assets/Icons/24/close.svg?component';
-
+	import Filter from '$assets/Icons/24/filter.svg?component';
 	import Play from '$assets/Icons/24/play.svg?component';
 	import Pause from '$assets/Icons/24/pause.svg?component';
 	import West from '$assets/Icons/24/west.svg?component';
 	import East from '$assets/Icons/24/east.svg?component';
 	import Headline from '$components/Headline/Headline.svelte';
-	import { rotate } from 'imagetools-core';
 
 	const DEFAULT_FRAME_RATE = 24;
 
@@ -67,36 +66,36 @@
 	const framer = createFramer(DEFAULT_FRAME_RATE, false);
 	const frame = derived(framer, (framerValue) => framerValue.frame);
 
-	const GLIDER_NORTH = [
+	const GLIDER_EAST_SOUTH = [
 		[0, 1, 0],
 		[0, 0, 1],
 		[1, 1, 1]
 	];
 
-	const GLIDER_EAST = [
+	const GLIDER_SOUTH_WEST = [
 		[1, 0, 0],
 		[1, 0, 1],
 		[1, 1, 0]
 	];
 
-	const GLIDER_SOUTH = [
+	const GLIDER_WEST_NORTH = [
+		[1, 1, 1],
+		[1, 0, 0],
+		[0, 1, 0]
+	];
+
+	const GLIDER_NORTH_EAST = [
 		[0, 1, 1],
 		[1, 0, 1],
 		[0, 0, 1]
 	];
 
-	const GLIDER_WEST = [
-		[0, 1, 1],
-		[1, 0, 1],
-		[1, 0, 0]
-	];
-
 	let rotation = 0;
 	const GLIDERS = [
-		GLIDER_NORTH,
-		GLIDER_EAST,
-		GLIDER_SOUTH,
-		GLIDER_WEST
+		GLIDER_EAST_SOUTH,
+		GLIDER_SOUTH_WEST,
+		GLIDER_WEST_NORTH,
+		GLIDER_NORTH_EAST
 	] as const;
 
 	const onFrameUpdate = async (frame: number) => {
@@ -393,6 +392,8 @@
 
 	let playButton: HTMLButtonElement;
 	let pauseButton: HTMLButtonElement;
+
+	$: console.log('rotation', rotation);
 </script>
 
 <svelte:window on:keydown={handleKeyDown} />
@@ -508,13 +509,14 @@
 				variant="custom"
 				form="custom"
 				class="bg-white p-1 text-xs border touch-manipulation border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 cursor-pointer rounded-full"
+				style="transform: rotate({rotation * 90 + 180}deg)"
 				disabled={mode === 'draw'}
 				on:click={() => {
 					handleRotate();
 				}}
 			>
 				<AccessibleIcon label="rotate glider">
-					<Pause />
+					<Filter />
 				</AccessibleIcon>
 			</Button>
 
