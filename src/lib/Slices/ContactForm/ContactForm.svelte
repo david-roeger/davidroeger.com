@@ -303,9 +303,6 @@
 	</div>
 </form>
 
-<SuperDebug data={$tainted} />
-<SuperDebug data={$errors} />
-
 <style global>
 	.custom-grid {
 		--spacing-2: theme(spacing.2);

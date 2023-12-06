@@ -5,6 +5,7 @@ import { auth } from '$utils/Lucia/lucia';
 import { logger } from '$utils/logger';
 
 const collectPortals = (html: string) => {
+	if (!html.includes('data-ssr-portal')) return html;
 	const dom = new JSDOM(html);
 	const { window } = dom;
 	const portals = window.document.querySelectorAll('div[data-ssr-portal]');
