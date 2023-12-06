@@ -456,187 +456,193 @@
 	</div>
 </div>
 
-<div class="border-b border-mauve-6">
-	<div class="py-8 px-2 md:w-3/4 md:border-r border-mauve-6">
-		<div
-			class="p-2 border border-mauve-6 bg-white/[.85] rounded-full flex gap-4 flex-grow-0 justify-center"
-		>
-			<Button
-				variant="custom"
-				form="custom"
-				class="bg-white p-1 text-xs border touch-manipulation border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 cursor-pointer rounded-full"
-				disabled={$stack.first}
-				on:click={() => {
-					handlePrev();
-				}}
+<section class="mb-32">
+	<div class="border-b border-mauve-6">
+		<div class="py-8 px-2 md:w-3/4 md:border-r border-mauve-6">
+			<div
+				class="p-2 border border-mauve-6 bg-white/[.85] rounded-full inline-flex gap-4 flex-grow-0 justify-start"
 			>
-				<span class="text-mauve-11">
-					<AccessibleIcon label="last Frame">
-						<West />
-					</AccessibleIcon>
-				</span>
-			</Button>
-
-			<Button
-				variant="custom"
-				form="custom"
-				class="bg-white p-1 text-xs border touch-manipulation border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 cursor-pointer rounded-full"
-				disabled={$framer.playing}
-				on:click={() => {
-					framer.play();
-				}}
-			>
-				<AccessibleIcon label="play">
-					<Play />
-				</AccessibleIcon>
-			</Button>
-
-			<Button
-				variant="custom"
-				form="custom"
-				class="bg-white p-1 text-xs border touch-manipulation border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 cursor-pointer rounded-full"
-				disabled={!$framer.playing}
-				on:click={() => {
-					framer.pause();
-				}}
-			>
-				<AccessibleIcon label="pause">
-					<Pause />
-				</AccessibleIcon>
-			</Button>
-
-			<Button
-				variant="custom"
-				form="custom"
-				class="bg-white p-1 text-xs border touch-manipulation border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 cursor-pointer rounded-full"
-				style="transform: rotate({rotation * 90 + 180}deg)"
-				disabled={mode === 'draw'}
-				on:click={() => {
-					handleRotate();
-				}}
-			>
-				<AccessibleIcon label="rotate glider">
-					<Filter />
-				</AccessibleIcon>
-			</Button>
-
-			<Button
-				variant="custom"
-				form="custom"
-				class="bg-white p-1 text-xs border touch-manipulation border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 cursor-pointer rounded-full"
-				on:click={() => {
-					handleNext();
-				}}
-			>
-				<span class="text-mauve-11">
-					<AccessibleIcon label="next Frame">
-						<East />
-					</AccessibleIcon>
-				</span>
-			</Button>
-		</div>
-	</div>
-</div>
-
-<div class="border-b border-mauve-6">
-	<div class="md:w-3/4 md:border-r border-mauve-6 flex">
-		<div
-			class="flex-1 sm:flex-grow-[2] border-r border-mauve-6 py-8 px-2 md:p-8 xl:p-16 bg-white/[.85] flex flex-col justify-center"
-		>
-			<p>Frame {$stack.current.frame}</p>
-			<p class="mt-4">Cells total {$stack.current.state.flat().length}</p>
-			<p>
-				Cells alive {$stack.current.state
-					.flat()
-					.reduce((acc, curr) => acc + curr, 0)}
-			</p>
-			<p>
-				Cells dead {$stack.current.state
-					.flat()
-					.reduce((acc, curr) => acc + (curr === 0 ? 1 : 0), 0)}
-			</p>
-
-			<p class="mt-4">Framerate {$framer.frameRate} fps</p>
-		</div>
-
-		<div class="flex-1 flex items-center justify-center">
-			<form
-				class="flex items-center py-8 px-2 md:p-8 xl:p-16 gap-4 flex-col"
-			>
-				<label for="switch" class:font-bold={mode === 'draw'}>
-					Draw
-				</label>
-				<Switch.Root
-					name="switch"
-					id="switch"
-					on:checkedChange={(e) => {
-						if (e.detail.value) {
-							mode = 'glider';
-						} else {
-							mode = 'draw';
-						}
+				<Button
+					variant="custom"
+					form="custom"
+					class="bg-white p-1 text-xs border touch-manipulation border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 cursor-pointer rounded-full"
+					disabled={$stack.first}
+					on:click={() => {
+						handlePrev();
 					}}
-					class="flex border border-mauve-12 bg-mauve-6 h-12 data-[state=checked]:bg-blue-6 rounded-full focus:ring-mauve-12 focus:ring-1"
 				>
-					<Switch.Thumb
-						class="w-6 h-6 bg-white border border-mauve-12 -m-px rounded-full data-[state=checked]:translate-y-6 transition-transform"
-					/>
-				</Switch.Root>
-				<label for="switch" class:font-bold={mode === 'glider'}>
-					Glider
-				</label>
-			</form>
+					<span class="text-mauve-11">
+						<AccessibleIcon label="last Frame">
+							<West />
+						</AccessibleIcon>
+					</span>
+				</Button>
+
+				<Button
+					variant="custom"
+					form="custom"
+					class="bg-white p-1 text-xs border touch-manipulation border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 cursor-pointer rounded-full"
+					disabled={$framer.playing}
+					on:click={() => {
+						framer.play();
+					}}
+				>
+					<AccessibleIcon label="play">
+						<Play />
+					</AccessibleIcon>
+				</Button>
+
+				<Button
+					variant="custom"
+					form="custom"
+					class="bg-white p-1 text-xs border touch-manipulation border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 cursor-pointer rounded-full"
+					disabled={!$framer.playing}
+					on:click={() => {
+						framer.pause();
+					}}
+				>
+					<AccessibleIcon label="pause">
+						<Pause />
+					</AccessibleIcon>
+				</Button>
+
+				<Button
+					variant="custom"
+					form="custom"
+					class="bg-white p-1 text-xs border touch-manipulation border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 cursor-pointer rounded-full"
+					style="transform: rotate({rotation * 90 + 180}deg)"
+					disabled={mode === 'draw'}
+					on:click={() => {
+						handleRotate();
+					}}
+				>
+					<AccessibleIcon label="rotate glider">
+						<Filter />
+					</AccessibleIcon>
+				</Button>
+
+				<Button
+					variant="custom"
+					form="custom"
+					class="bg-white p-1 text-xs border touch-manipulation border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 cursor-pointer rounded-full"
+					on:click={() => {
+						handleNext();
+					}}
+				>
+					<span class="text-mauve-11">
+						<AccessibleIcon label="next Frame">
+							<East />
+						</AccessibleIcon>
+					</span>
+				</Button>
+			</div>
 		</div>
 	</div>
-</div>
 
-<div
-	class="bg-white/[.85] border-y border-mauve-6 flex flex-col sm:flex-row gap-2 w-full px-8 py-4 justify-center items-center"
->
-	<Slider.Root
-		on:valueChange={(e) => framer.setFrameRate(e.detail.values[0])}
-		class="flex items-center w-full py-4 max-w-[384px]"
-		min={1}
-		max={240}
-		step={1}
-		label="Framerate"
-	>
-		<Slider.Track class="h-2 bg-white border rounded-full border-mauve-12">
-			<Slider.Range class="h-full rounded-full bg-blue-6" />
-		</Slider.Track>
-		<Slider.Thumb
-			defaultValue={DEFAULT_FRAME_RATE}
-			class="w-6 h-6 bg-white border rounded-full border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 touch-none"
-		/>
-	</Slider.Root>
-	<div class="flex gap-2 items-center">
-		<Button
-			variant="custom"
-			form="custom"
-			class="bg-white p-1 text-xs border touch-manipulation border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 cursor-pointer rounded-full"
-			on:click={() => {
-				stack.update((current) => ({
-					...current,
-					state: initializeGrid(ROW_COUNT, COL_COUNT),
-					source: 'push'
-				}));
-			}}
-		>
-			<AccessibleIcon label="randomize">
-				<Randomize />
-			</AccessibleIcon>
-		</Button>
-		<Button
-			variant="custom"
-			form="custom"
-			class="bg-white p-1 text-xs border touch-manipulation border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 cursor-pointer rounded-full"
-			on:click={() => {
-				handleClear();
-			}}
-		>
-			<AccessibleIcon label="clear grid">
-				<Close />
-			</AccessibleIcon>
-		</Button>
+	<div class="border-b border-mauve-6">
+		<div class="md:w-3/4 md:border-r border-mauve-6 flex">
+			<div
+				class="flex-1 sm:flex-grow-[2] border-r border-mauve-6 py-8 px-2 md:p-8 xl:p-16 bg-white/[.85] flex flex-col justify-center"
+			>
+				<p>Frame {$stack.current.frame}</p>
+				<p class="mt-4">
+					Cells total {$stack.current.state.flat().length}
+				</p>
+				<p>
+					Cells alive {$stack.current.state
+						.flat()
+						.reduce((acc, curr) => acc + curr, 0)}
+				</p>
+				<p>
+					Cells dead {$stack.current.state
+						.flat()
+						.reduce((acc, curr) => acc + (curr === 0 ? 1 : 0), 0)}
+				</p>
+
+				<p class="mt-4">Framerate {$framer.frameRate} fps</p>
+			</div>
+
+			<div class="flex-1 flex items-center justify-center">
+				<form
+					class="flex items-center py-8 px-2 md:p-8 xl:p-16 gap-4 flex-col"
+				>
+					<label for="switch" class:font-bold={mode === 'draw'}>
+						Draw
+					</label>
+					<Switch.Root
+						name="switch"
+						id="switch"
+						on:checkedChange={(e) => {
+							if (e.detail.value) {
+								mode = 'glider';
+							} else {
+								mode = 'draw';
+							}
+						}}
+						class="flex border border-mauve-12 bg-mauve-6 h-12 data-[state=checked]:bg-blue-6 rounded-full focus:ring-mauve-12 focus:ring-1"
+					>
+						<Switch.Thumb
+							class="w-6 h-6 bg-white border border-mauve-12 -m-px rounded-full data-[state=checked]:translate-y-6 transition-transform"
+						/>
+					</Switch.Root>
+					<label for="switch" class:font-bold={mode === 'glider'}>
+						Glider
+					</label>
+				</form>
+			</div>
+		</div>
 	</div>
-</div>
+
+	<div
+		class="bg-white/[.85] border-b border-mauve-6 flex flex-col sm:flex-row gap-2 w-full px-8 py-4 justify-start items-center"
+	>
+		<Slider.Root
+			on:valueChange={(e) => framer.setFrameRate(e.detail.values[0])}
+			class="flex items-center w-full py-4 max-w-[384px]"
+			min={1}
+			max={240}
+			step={1}
+			label="Framerate"
+		>
+			<Slider.Track
+				class="h-2 bg-white border rounded-full border-mauve-12"
+			>
+				<Slider.Range class="h-full rounded-full bg-blue-6" />
+			</Slider.Track>
+			<Slider.Thumb
+				defaultValue={DEFAULT_FRAME_RATE}
+				class="w-6 h-6 bg-white border rounded-full border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 touch-none"
+			/>
+		</Slider.Root>
+		<div class="flex gap-2 items-center">
+			<Button
+				variant="custom"
+				form="custom"
+				class="bg-white p-1 text-xs border touch-manipulation border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 cursor-pointer rounded-full"
+				on:click={() => {
+					stack.update((current) => ({
+						...current,
+						state: initializeGrid(ROW_COUNT, COL_COUNT),
+						source: 'push'
+					}));
+				}}
+			>
+				<AccessibleIcon label="randomize">
+					<Randomize />
+				</AccessibleIcon>
+			</Button>
+			<Button
+				variant="custom"
+				form="custom"
+				class="bg-white p-1 text-xs border touch-manipulation border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 cursor-pointer rounded-full"
+				on:click={() => {
+					handleClear();
+				}}
+			>
+				<AccessibleIcon label="clear grid">
+					<Close />
+				</AccessibleIcon>
+			</Button>
+		</div>
+	</div>
+</section>
