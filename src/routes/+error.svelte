@@ -61,8 +61,8 @@
 				<NavLink
 					role="menuitem"
 					href="/projects"
+					variant="green"
 					class="pl-2 bg-white hover:bg-green-4 flex items-center justify-between gap-2 !transition-[gap,padding,color,background-color] hover:gap-4 hover:pr-2 focus:gap-4 focus:pr-2"
-					activeClass="!bg-green-5"
 				>
 					<span>
 						<span class="p-1 px-[6px] mr-1 bg-white rounded-full">
@@ -80,7 +80,7 @@
 					role="menuitem"
 					href="/about"
 					class="pl-2 bg-white hover:bg-purple-4 flex items-center justify-between gap-2 !transition-[gap,padding,color,background-color] hover:gap-4 hover:pr-2 focus:gap-4 focus:pr-2"
-					activeClass="!bg-purple-5"
+					variant="purple"
 				>
 					<span>
 						<span class="p-1 px-[6px] mr-1 bg-white rounded-full">
@@ -98,7 +98,7 @@
 					role="menuitem"
 					href="/contact"
 					class="pl-2 bg-white hover:bg-orange-4 flex items-center justify-between gap-2 !transition-[gap,padding,color,background-color] hover:gap-4 hover:pr-2 focus:gap-4 focus:pr-2"
-					activeClass="!bg-orange-5"
+					variant="orange"
 				>
 					<span>
 						<span class="p-1 px-[6px] mr-1 bg-white rounded-full">

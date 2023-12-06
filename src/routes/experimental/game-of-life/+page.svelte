@@ -22,6 +22,7 @@
 	import West from '$assets/Icons/24/west.svg?component';
 	import East from '$assets/Icons/24/east.svg?component';
 	import Headline from '$components/Headline/Headline.svelte';
+	import { rotate } from 'imagetools-core';
 
 	const DEFAULT_FRAME_RATE = 24;
 
@@ -357,16 +358,17 @@
 		}));
 	};
 
+	const handleRotate = () => {
+		rotation = (rotation + 1) % GLIDERS.length;
+	};
+
 	const handleKeyDown = (e: KeyboardEvent) => {
 		if (e.key === nextKey) {
 			handleNext(e.shiftKey);
-			if (nextButton) nextButton.focus();
 			e.preventDefault();
 		} else if (e.key === prevKey) {
 			if (!$stack.first) {
 				handlePrev(e.shiftKey);
-				if (prevButton) prevButton.focus();
-
 				e.preventDefault();
 			}
 		} else if (e.key === spaceKey) {
@@ -376,35 +378,21 @@
 				document.activeElement === pauseButton
 			) {
 				togglePlay();
-				tick().then(() => {
-					if ($framer.playing) {
-						if (pauseButton) pauseButton.focus();
-					} else {
-						if (playButton) playButton.focus();
-					}
-				});
 				e.preventDefault();
 			}
 		} else if (e.key === 'r') {
 			if (mode === 'glider') {
-				rotation = (rotation + 1) % GLIDERS.length;
-				if (rotateButton) rotateButton.focus();
+				handleRotate();
 				e.preventDefault();
 			}
 		} else if (e.key === 'c') {
 			handleClear();
-			if (clearButton) clearButton.focus();
 			e.preventDefault();
 		}
 	};
 
 	let playButton: HTMLButtonElement;
 	let pauseButton: HTMLButtonElement;
-	let nextButton: HTMLButtonElement;
-	let prevButton: HTMLButtonElement;
-	let rotateButton: HTMLButtonElement;
-	let clearButton: HTMLButtonElement;
-	let randomizeButton: HTMLButtonElement;
 </script>
 
 <svelte:window on:keydown={handleKeyDown} />
@@ -473,7 +461,6 @@
 			class="p-2 border border-mauve-6 bg-white/[.85] rounded-full flex gap-4 flex-grow-0 justify-center"
 		>
 			<Button
-				bind:button={prevButton}
 				variant="custom"
 				form="custom"
 				class="bg-white p-1 text-xs border touch-manipulation border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 cursor-pointer rounded-full"
@@ -490,7 +477,6 @@
 			</Button>
 
 			<Button
-				bind:button={playButton}
 				variant="custom"
 				form="custom"
 				class="bg-white p-1 text-xs border touch-manipulation border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 cursor-pointer rounded-full"
@@ -505,7 +491,6 @@
 			</Button>
 
 			<Button
-				bind:button={pauseButton}
 				variant="custom"
 				form="custom"
 				class="bg-white p-1 text-xs border touch-manipulation border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 cursor-pointer rounded-full"
@@ -520,7 +505,20 @@
 			</Button>
 
 			<Button
-				bind:button={nextButton}
+				variant="custom"
+				form="custom"
+				class="bg-white p-1 text-xs border touch-manipulation border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 cursor-pointer rounded-full"
+				disabled={mode === 'draw'}
+				on:click={() => {
+					handleRotate();
+				}}
+			>
+				<AccessibleIcon label="rotate glider">
+					<Pause />
+				</AccessibleIcon>
+			</Button>
+
+			<Button
 				variant="custom"
 				form="custom"
 				class="bg-white p-1 text-xs border touch-manipulation border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 cursor-pointer rounded-full"
@@ -611,7 +609,6 @@
 	</Slider.Root>
 	<div class="flex gap-2 items-center">
 		<Button
-			bind:button={randomizeButton}
 			variant="custom"
 			form="custom"
 			class="bg-white p-1 text-xs border touch-manipulation border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 cursor-pointer rounded-full"
@@ -628,7 +625,6 @@
 			</AccessibleIcon>
 		</Button>
 		<Button
-			bind:button={clearButton}
 			variant="custom"
 			form="custom"
 			class="bg-white p-1 text-xs border touch-manipulation border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 cursor-pointer rounded-full"
