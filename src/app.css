@@ -85,14 +85,14 @@ body {
 		top: 100%;
 	}
 
-	.displace-hover-selector:hover
+	.group\/displace-selector:hover
 		.displace.word
 		.char-wrapper:nth-child(odd)
 		.char,
-	.displace-hover-selector:hover
+	.group\/displace-selector:hover
 		.displace.word
 		.char-wrapper:nth-child(odd)::before,
-	.displace-hover-selector:hover
+	.group\/displace-selector:hover
 		.displace.word
 		.char-wrapper:nth-child(odd)::after,
 	.displace.word:hover .char-wrapper:nth-child(odd) .char,
@@ -101,14 +101,14 @@ body {
 		transform: translateY(-100%);
 	}
 
-	.displace-hover-selector:hover
+	.group\/displace-selector:hover
 		.displace.word
 		.char-wrapper:nth-child(even)
 		.char,
-	.displace-hover-selector:hover
+	.group\/displace-selector:hover
 		.displace.word
 		.char-wrapper:nth-child(even)::before,
-	.displace-hover-selector:hover
+	.group\/displace-selector:hover
 		.displace.word
 		.char-wrapper:nth-child(even)::after,
 	.displace.word:hover .char-wrapper:nth-child(even) .char,

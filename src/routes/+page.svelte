@@ -161,41 +161,58 @@
 			/>
 		</span>
 	</h1>
-	<h2
-		aria-label="Projects"
-		class="group/cube-selector p-2 text-2xl border-b sm:text-4xl sm:py-1 md:text-6xl md:py-0 lg:text-8xl border-mauve-6 flex items-center justify-start gap-8 sm:gap-10 md:gap-11 lg:gap-20"
-	>
-		<Displace class="break-all" text="PROJECTS" />
+	<div class="p-2">
+		<div class="border border-mauve-6 flex gap-2 flex-col">
+			<a
+				href="/projects"
+				aria-label="Projects"
+				class="group/cube-selector p-2 text-2xl border-b sm:text-4xl sm:py-1 md:text-6xl md:py-0 lg:text-8xl border-mauve-6 flex items-center justify-start gap-8 sm:gap-10 md:gap-11 lg:gap-20"
+			>
+				<Displace class="break-all" text="PROJECTS" />
 
-		<span class="md:py-2">
-			<span class="block aspect-1 w-auto h-8 sm:h-10 md:h-[60px] lg:h-24">
-				<Cube variant="green" />
-			</span>
-		</span>
-	</h2>
-	<h2
-		aria-label="About"
-		class="group/cube-selector p-2 text-2xl border-b sm:text-4xl sm:py-1 md:text-6xl md:py-0 lg:text-8xl border-mauve-6 flex items-center justify-start gap-8 sm:gap-10 md:gap-11 lg:gap-20"
-	>
-		<Displace class="break-all" text="ABOUT" />
-		<span class="md:py-2">
-			<span class="block aspect-1 w-auto h-8 sm:h-10 md:h-[60px] lg:h-24">
-				<Cube variant="purple" />
-			</span>
-		</span>
-	</h2>
-	<h2
-		aria-label="Say hi!"
-		class="group/cube-selector p-2 text-2xl border-b sm:text-4xl sm:py-1 md:text-6xl md:py-0 lg:text-8xl border-mauve-6 flex items-center justify-start gap-8 sm:gap-10 md:gap-11 lg:gap-20"
-	>
-		<Displace class="break-all" text="SAY" />
-		<span class="md:py-2">
-			<span class="block aspect-1 w-auto h-8 sm:h-10 md:h-[60px] lg:h-24">
-				<Cube variant="orange" />
-			</span>
-		</span>
-		<Displace class="break-all" text="HI" />
-	</h2>
+				<span class="md:py-2">
+					<span
+						class="block aspect-1 w-auto h-8 sm:h-10 md:h-[60px] lg:h-24"
+					>
+						<Cube variant="green" />
+					</span>
+				</span>
+			</a>
+			<a
+				href="/contact"
+				aria-label="About"
+				class="group/cube-selector p-2 text-2xl border-y sm:text-4xl sm:py-1 md:text-6xl md:py-0 lg:text-8xl border-mauve-6 flex items-center justify-start gap-8 sm:gap-10 md:gap-11 lg:gap-20"
+			>
+				<Displace class="break-all" text="ABOUT" />
+				<span class="md:py-2">
+					<span
+						class="block aspect-1 w-auto h-8 sm:h-10 md:h-[60px] lg:h-24"
+					>
+						<Cube variant="purple" />
+					</span>
+				</span>
+			</a>
+			<a
+				href="/contact"
+				aria-label="Say hi!"
+				class="group/cube-selector p-2 text-2xl border-t sm:text-4xl sm:py-1 md:text-6xl md:py-0 lg:text-8xl border-mauve-6 flex"
+			>
+				<span
+					class="group/displace-selector flex items-center justify-start gap-8 sm:gap-10 md:gap-11 lg:gap-20"
+				>
+					<Displace class="break-all" text="SAY" />
+					<span class="md:py-2">
+						<span
+							class="block aspect-1 w-auto h-8 sm:h-10 md:h-[60px] lg:h-24"
+						>
+							<Cube variant="orange" />
+						</span>
+					</span>
+					<Displace class="break-all" text="HI" />
+				</span>
+			</a>
+		</div>
+	</div>
 </section>
 
 <style>
