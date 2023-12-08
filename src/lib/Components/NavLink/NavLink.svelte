@@ -32,19 +32,6 @@
 			break;
 	}
 
-	$: getActiveClass = () => {
-		if ($page.error) {
-			return false;
-		}
-		if (activePath && $page.url.pathname === activePath) {
-			return true;
-		}
-		if (activeRegEx && activeRegEx.exec($page.url.pathname)) {
-			return true;
-		}
-		return false;
-	};
-
 	const currentPage = derived([page], ([$page]) => {
 		if ($page.error) {
 			return false;

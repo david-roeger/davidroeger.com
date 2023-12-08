@@ -37,16 +37,6 @@
 		}
 		return BUTTON_COLOR_CLASSES.default.filled;
 	};
-
-	let spin = false;
-
-	beforeNavigate(() => {
-		spin = true;
-	});
-
-	afterNavigate(() => {
-		spin = false;
-	});
 </script>
 
 <div class="flex border-r sm:border-l border-mauve-6" />
@@ -65,10 +55,7 @@
 						? 'sad'
 						: 'happy'} smiley with four eyes - Go to Main Page"
 				>
-					<div
-						class:animate-spin={spin}
-						class="animate-spin duration-1000 transition-transform"
-					>
+					<div class="duration-1000 transition-transform">
 						<Logo
 							container={true}
 							animated={true}
