@@ -17,6 +17,7 @@
 
 	import { debounce, limit, mapToRange } from '$utils';
 	import { logger } from '$utils/logger';
+	import { Cube } from '$components/Cube';
 
 	const easing = BezierEasing(0.4, 0, 0.2, 1);
 
@@ -162,21 +163,38 @@
 	</h1>
 	<h2
 		aria-label="Projects"
-		class="p-2 text-2xl border-b sm:text-4xl sm:py-1 md:text-6xl md:py-0 lg:text-8xl border-mauve-6"
+		class="group/cube-selector p-2 text-2xl border-b sm:text-4xl sm:py-1 md:text-6xl md:py-0 lg:text-8xl border-mauve-6 flex items-center justify-start gap-8 sm:gap-10 md:gap-11 lg:gap-20"
 	>
 		<Displace class="break-all" text="PROJECTS" />
+
+		<span class="md:py-2">
+			<span class="block aspect-1 w-auto h-8 sm:h-10 md:h-[60px] lg:h-24">
+				<Cube variant="green" />
+			</span>
+		</span>
 	</h2>
 	<h2
 		aria-label="About"
-		class="p-2 text-2xl text-center border-b sm:text-4xl sm:py-1 md:text-6xl md:py-0 lg:text-8xl border-mauve-6"
+		class="group/cube-selector p-2 text-2xl border-b sm:text-4xl sm:py-1 md:text-6xl md:py-0 lg:text-8xl border-mauve-6 flex items-center justify-start gap-8 sm:gap-10 md:gap-11 lg:gap-20"
 	>
 		<Displace class="break-all" text="ABOUT" />
+		<span class="md:py-2">
+			<span class="block aspect-1 w-auto h-8 sm:h-10 md:h-[60px] lg:h-24">
+				<Cube variant="purple" />
+			</span>
+		</span>
 	</h2>
 	<h2
-		aria-label="Say hi"
-		class="p-2 text-2xl text-right border-b sm:text-4xl sm:py-1 md:text-6xl md:py-0 lg:text-8xl border-mauve-6"
+		aria-label="Say hi!"
+		class="group/cube-selector p-2 text-2xl border-b sm:text-4xl sm:py-1 md:text-6xl md:py-0 lg:text-8xl border-mauve-6 flex items-center justify-start gap-8 sm:gap-10 md:gap-11 lg:gap-20"
 	>
-		<Displace class="break-all" text="SAY_HI" />
+		<Displace class="break-all" text="SAY" />
+		<span class="md:py-2">
+			<span class="block aspect-1 w-auto h-8 sm:h-10 md:h-[60px] lg:h-24">
+				<Cube variant="orange" />
+			</span>
+		</span>
+		<Displace class="break-all" text="HI" />
 	</h2>
 </section>
 
