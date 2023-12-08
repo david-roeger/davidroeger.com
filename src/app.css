@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+	--ease-quart: cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
 html {
 	width: 100%;
 	max-width: 100%;
@@ -65,7 +69,7 @@ body {
 	.displace.word .char-wrapper::before,
 	.displace.word .char-wrapper::after {
 		transition-property: transform;
-		transition-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+		transition-timing-function: var(--ease-quart);
 		transition-duration: 400ms;
 	}
 	.displace.word .char-wrapper::before,
@@ -81,11 +85,32 @@ body {
 		top: 100%;
 	}
 
+	.displace-hover-selector:hover
+		.displace.word
+		.char-wrapper:nth-child(odd)
+		.char,
+	.displace-hover-selector:hover
+		.displace.word
+		.char-wrapper:nth-child(odd)::before,
+	.displace-hover-selector:hover
+		.displace.word
+		.char-wrapper:nth-child(odd)::after,
 	.displace.word:hover .char-wrapper:nth-child(odd) .char,
 	.displace.word:hover .char-wrapper:nth-child(odd)::before,
 	.displace.word:hover .char-wrapper:nth-child(odd)::after {
 		transform: translateY(-100%);
 	}
+
+	.displace-hover-selector:hover
+		.displace.word
+		.char-wrapper:nth-child(even)
+		.char,
+	.displace-hover-selector:hover
+		.displace.word
+		.char-wrapper:nth-child(even)::before,
+	.displace-hover-selector:hover
+		.displace.word
+		.char-wrapper:nth-child(even)::after,
 	.displace.word:hover .char-wrapper:nth-child(even) .char,
 	.displace.word:hover .char-wrapper:nth-child(even)::before,
 	.displace.word:hover .char-wrapper:nth-child(even)::after {

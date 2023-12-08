@@ -16,8 +16,9 @@
 	export let replacer: string = '_';
 	export let split: boolean = true;
 
-	const fixed = text.replaceAll(' ', replacer);
-	const charArray = split ? [...fixed] : [fixed];
+	const charArray = split
+		? [...text].map((char) => char.replaceAll(' ', replacer))
+		: [text.replaceAll(' ', replacer)];
 
 	export let as: string = 'span';
 </script>
