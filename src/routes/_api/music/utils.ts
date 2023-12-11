@@ -2,6 +2,7 @@ import { error } from '@sveltejs/kit';
 
 import type { TopArtist, TopTrack } from '$components/Music/types';
 
+const LIMIT = 10;
 export const baseRequest = async (
 	accessToken: string,
 	params: string
@@ -22,7 +23,7 @@ export const getTop = async <T>(
 ): Promise<T> => {
 	const response = await baseRequest(
 		accessToken,
-		`/top/${type}/?time_range=${range}&limit=8&offset=0`
+		`/top/${type}/?time_range=${range}&limit=${LIMIT}&offset=0`
 	);
 
 	const body = await response.json();

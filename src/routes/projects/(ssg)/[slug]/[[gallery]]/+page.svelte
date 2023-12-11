@@ -22,6 +22,7 @@
 	// ----------------------------------------------------------------
 
 	import type { PageData } from './$types';
+	import { AnimatedEntry } from '$components/AnimatedEntry';
 
 	export let data: PageData;
 
@@ -146,7 +147,7 @@
 				</div>
 			</div>
 		{/if}
-		<div class="flex">
+		<AnimatedEntry class="flex">
 			<div
 				class="py-8 px-2 grow md:grow-0 md:w-3/4 md:border-r border-mauve-6 md:p-8 xl:p-16 bg-white/[.85]"
 			>
@@ -154,39 +155,42 @@
 					{@html data.project.html}
 				</div>
 			</div>
-		</div>
+		</AnimatedEntry>
 	</section>
-	<LightBox
-		{mediaArray}
-		title={`Fullscreen Gallery for ${data.project.title}`}
-		description={`Currently showing media ${
-			data.gallery !== undefined ? data.gallery + 1 : 0
-		} of ${mediaArray.length}`}
-		defaultIndex={data.gallery !== undefined ? data.gallery : undefined}
-		assetPath={data.project.slug}
-		on:mediaChange={(e) => {
-			const { index } = e.detail;
-			if (index === undefined) {
-				// this should be shallow routing
-				// https://github.com/sveltejs/kit/issues/2673
-				goto(`/projects/${data.project.slug}`, {
+	<AnimatedEntry>
+		<LightBox
+			{mediaArray}
+			title={`Fullscreen Gallery for ${data.project.title}`}
+			description={`Currently showing media ${
+				data.gallery !== undefined ? data.gallery + 1 : 0
+			} of ${mediaArray.length}`}
+			defaultIndex={data.gallery !== undefined ? data.gallery : undefined}
+			assetPath={data.project.slug}
+			on:mediaChange={(e) => {
+				const { index } = e.detail;
+				if (index === undefined) {
+					// this should be shallow routing
+					// https://github.com/sveltejs/kit/issues/2673
+					goto(`/projects/${data.project.slug}`, {
+						replaceState: false,
+						keepFocus: true,
+						noScroll: true
+					});
+					return;
+				}
+				goto(`/projects/${data.project.slug}/${index}`, {
 					replaceState: false,
 					keepFocus: true,
 					noScroll: true
 				});
-				return;
-			}
-			goto(`/projects/${data.project.slug}/${index}`, {
-				replaceState: false,
-				keepFocus: true,
-				noScroll: true
-			});
-		}}
-	/>
-
-	<ContactForm variant="green" borderTop={true}>
-		<span slot="headline">Bla Bla Bla</span>
-	</ContactForm>
+			}}
+		/>
+	</AnimatedEntry>
+	<AnimatedEntry>
+		<ContactForm variant="green" borderTop={true}>
+			<span slot="headline">Bla Bla Bla</span>
+		</ContactForm>
+	</AnimatedEntry>
 </article>
 
 <style global>

@@ -6,6 +6,11 @@
 	--ease-quart: cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
+.transition-quart {
+	transition-duration: 400ms;
+	transition-timing-function: var(--ease-quart);
+}
+
 html {
 	width: 100%;
 	max-width: 100%;

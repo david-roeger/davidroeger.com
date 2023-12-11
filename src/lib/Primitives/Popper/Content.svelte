@@ -232,6 +232,7 @@
 
 <div
 	style="
+		z-index: 100;
 		position: absolute;
 		top: 0;
 		left: 0;

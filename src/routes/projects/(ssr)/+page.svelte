@@ -17,7 +17,7 @@
 
 	import { Headline } from '$components/Headline';
 	import { Media } from '$components/Media';
-	import { Head } from '$components/Head';
+	import { AnimatedEntry } from '$components/AnimatedEntry';
 	import { AccessibleIcon } from '$components/AccessibleIcon';
 
 	import East from '$assets/Icons/24/east.svg?component';
@@ -155,7 +155,8 @@
 	<div class={$tags.size ? 'pb-32' : ''}>
 		{#each filteredProjects as project, index (project.title)}
 			{@const projectMediaData = getProjectMediaData(project.slug)}
-			<section
+			<AnimatedEntry
+				as="section"
 				class="mb-8 border-t border-b first:border-t-0 border-mauve-6 md:mb-16 last:mb-0"
 			>
 				<Headline
@@ -247,7 +248,7 @@
 						</AccessibleIcon>
 					</a>
 				</div>
-			</section>
+			</AnimatedEntry>
 		{/each}
 	</div>
 </Tags.Root>
@@ -259,39 +260,45 @@
 	</Headline>
 
 	<section class="mb-32">
-		{#each experimental as experiment}
+		{#each experimental as experiment, i}
 			{@const computed = experiment.slug.replace('-', ' ')}
 			<!-- content here -->
-			<Headline as="h3" type="secondary" containerClass="!p-0 bg-white">
-				<a
-					class="group flex justify-between items-center pr-4 transition-[padding] bg-white md:justify-between hover:pr-2 focus:pr-2 focus:outline-none"
-					href="experimental/{experiment.slug}"
-					title="Read more about the project {experiment.slug}"
+			<AnimatedEntry>
+				<Headline
+					as="h3"
+					type="secondary"
+					containerClass="!p-0 bg-white"
 				>
-					<span class="flex">
-						<img
-							loading="lazy"
-							alt="Thumbnail for experimental Project {computed}"
-							width="40"
-							height="40"
-							class="block w-12 h-12 bg-white max-w-none"
-							src="/assets/experimental/{experiment.slug}.png"
-						/>
-						<span
-							class={`block p-2 group-hover:underline group-focus:underline decoration-from-font ${
-								experiment.thumbnail
-									? 'border-l border-mauve-6'
-									: ''
-							}`}
-						>
-							{computed[0].toUpperCase() + computed.slice(1)}
+					<a
+						class="group flex justify-between items-center pr-4 transition-[padding] bg-white md:justify-between hover:pr-2 focus:pr-2 focus:outline-none"
+						href="experimental/{experiment.slug}"
+						title="Read more about the project {experiment.slug}"
+					>
+						<span class="flex">
+							<img
+								loading="lazy"
+								alt="Thumbnail for experimental Project {computed}"
+								width="40"
+								height="40"
+								class="block w-12 h-12 bg-white max-w-none"
+								src="/assets/experimental/{experiment.slug}.png"
+							/>
+							<span
+								class={`block p-2 group-hover:underline group-focus:underline decoration-from-font ${
+									experiment.thumbnail
+										? 'border-l border-mauve-6'
+										: ''
+								}`}
+							>
+								{computed[0].toUpperCase() + computed.slice(1)}
+							</span>
 						</span>
-					</span>
-					<span aria-hidden="true">
-						<East />
-					</span>
-				</a>
-			</Headline>
+						<span aria-hidden="true">
+							<East />
+						</span>
+					</a>
+				</Headline>
+			</AnimatedEntry>
 		{/each}
 	</section>
 {/if}

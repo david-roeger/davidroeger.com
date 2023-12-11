@@ -12,6 +12,7 @@
 	import { Head } from '$components/Head';
 	import { Logo } from '$components/Logo';
 	import { Displace } from '$components/Displace';
+	import { AnimatedEntry } from '$components/AnimatedEntry';
 
 	import { HireMe } from '$slices/HireMe';
 
@@ -126,6 +127,50 @@
 				/>
 			</span>
 		</span>
+		<!-- <AnimatedEntry class="grrrid-child grrrid-child-0">
+			<Displace text="D" />
+		</AnimatedEntry>
+		<AnimatedEntry class="grrrid-child grrrid-child-1">
+			<Displace text="A" />
+		</AnimatedEntry>
+		<AnimatedEntry class="grrrid-child grrrid-child-2">
+			<Displace text="V" />
+		</AnimatedEntry>
+		<AnimatedEntry class="grrrid-child grrrid-child-3">
+			<Displace text="I" />
+		</AnimatedEntry>
+		<AnimatedEntry class="grrrid-child grrrid-child-4">
+			<Displace text="D" />
+		</AnimatedEntry>
+
+		<AnimatedEntry class="grrrid-child grrrid-child-5">
+			<Displace
+				aria-hidden="true"
+				class="select-none"
+				text="::"
+				split={false}
+			/>
+		</AnimatedEntry>
+		<AnimatedEntry class="grrrid-child grrrid-child-6">
+			<Displace text="R" />
+		</AnimatedEntry>
+
+		<AnimatedEntry class="grrrid-child grrrid-child-7">
+			<Displace text="O" />
+		</AnimatedEntry>
+		<AnimatedEntry class="grrrid-child grrrid-child-8">
+			<Displace text="E" />
+		</AnimatedEntry>
+		<AnimatedEntry class="grrrid-child grrrid-child-9">
+			<Displace text="G" />
+		</AnimatedEntry>
+		<AnimatedEntry class="grrrid-child grrrid-child-10">
+			<Displace text="E" />
+		</AnimatedEntry>
+		<AnimatedEntry class="grrrid-child grrrid-child-11">
+			<Displace text="R" />
+		</AnimatedEntry> -->
+
 		<Displace class="grrrid-child grrrid-child-0" text="D" />
 		<Displace class="grrrid-child grrrid-child-1" text="A" />
 		<Displace class="grrrid-child grrrid-child-2" text="V" />
@@ -163,54 +208,60 @@
 	</h1>
 	<div class="p-2">
 		<div class="border border-mauve-6 flex gap-2 flex-col">
-			<a
-				href="/projects"
-				aria-label="Projects"
-				class="group/cube-selector p-2 text-2xl border-b sm:text-4xl sm:py-1 md:text-6xl md:py-0 lg:text-8xl border-mauve-6 flex items-center justify-start gap-8 sm:gap-10 md:gap-11 lg:gap-20"
-			>
-				<Displace class="break-all" text="PROJECTS" />
-
-				<span class="md:py-2">
-					<span
-						class="block aspect-1 w-auto h-8 sm:h-10 md:h-[60px] lg:h-24"
-					>
-						<Cube variant="green" />
-					</span>
-				</span>
-			</a>
-			<a
-				href="/contact"
-				aria-label="About"
-				class="group/cube-selector p-2 text-2xl border-y sm:text-4xl sm:py-1 md:text-6xl md:py-0 lg:text-8xl border-mauve-6 flex items-center justify-start gap-8 sm:gap-10 md:gap-11 lg:gap-20"
-			>
-				<Displace class="break-all" text="ABOUT" />
-				<span class="md:py-2">
-					<span
-						class="block aspect-1 w-auto h-8 sm:h-10 md:h-[60px] lg:h-24"
-					>
-						<Cube variant="purple" />
-					</span>
-				</span>
-			</a>
-			<a
-				href="/contact"
-				aria-label="Say hi!"
-				class="group/cube-selector p-2 text-2xl border-t sm:text-4xl sm:py-1 md:text-6xl md:py-0 lg:text-8xl border-mauve-6 flex"
-			>
-				<span
-					class="group/displace-selector flex items-center justify-start gap-8 sm:gap-10 md:gap-11 lg:gap-20"
+			<AnimatedEntry>
+				<a
+					href="/projects"
+					aria-label="Projects"
+					class="group/cube-selector bg-white p-2 text-2xl border-b sm:text-4xl sm:py-1 md:text-6xl md:py-0 lg:text-8xl border-mauve-6 flex items-center justify-start gap-8 sm:gap-10 md:gap-11 lg:gap-20"
 				>
-					<Displace class="break-all" text="SAY" />
+					<Displace class="break-all" text="PROJECTS" />
+
 					<span class="md:py-2">
 						<span
 							class="block aspect-1 w-auto h-8 sm:h-10 md:h-[60px] lg:h-24"
 						>
-							<Cube variant="orange" />
+							<Cube variant="green" />
 						</span>
 					</span>
-					<Displace class="break-all" text="HI" />
-				</span>
-			</a>
+				</a>
+			</AnimatedEntry>
+			<AnimatedEntry>
+				<a
+					href="/contact"
+					aria-label="About"
+					class="group/cube-selector bg-white p-2 text-2xl border-y sm:text-4xl sm:py-1 md:text-6xl md:py-0 lg:text-8xl border-mauve-6 flex items-center justify-start gap-8 sm:gap-10 md:gap-11 lg:gap-20"
+				>
+					<Displace class="break-all" text="ABOUT" />
+					<span class="md:py-2">
+						<span
+							class="block aspect-1 w-auto h-8 sm:h-10 md:h-[60px] lg:h-24"
+						>
+							<Cube variant="purple" />
+						</span>
+					</span>
+				</a>
+			</AnimatedEntry>
+			<AnimatedEntry>
+				<a
+					href="/contact"
+					aria-label="Say hi!"
+					class="group/cube-selector bg-white p-2 text-2xl border-t sm:text-4xl sm:py-1 md:text-6xl md:py-0 lg:text-8xl border-mauve-6 flex"
+				>
+					<span
+						class="group/displace-selector flex items-center justify-start gap-8 sm:gap-10 md:gap-11 lg:gap-20"
+					>
+						<Displace class="break-all" text="SAY" />
+						<span class="md:py-2">
+							<span
+								class="block aspect-1 w-auto h-8 sm:h-10 md:h-[60px] lg:h-24"
+							>
+								<Cube variant="orange" />
+							</span>
+						</span>
+						<Displace class="break-all" text="HI" />
+					</span>
+				</a>
+			</AnimatedEntry>
 		</div>
 	</div>
 </section>

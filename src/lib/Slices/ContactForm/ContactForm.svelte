@@ -87,8 +87,6 @@
 			closeIcon: true
 		});
 	}
-
-	$: console.log('posted', props);
 </script>
 
 <form

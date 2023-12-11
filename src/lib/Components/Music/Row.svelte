@@ -1,9 +1,11 @@
 <script lang="ts">
+	import { AnimatedEntry } from '$components/AnimatedEntry';
+
 	export let as = 'li';
 	let c = '';
 	export { c as class };
 </script>
 
-<svelte:element this={as} class="border-b last:border-b-0 border-mauve-6 {c}">
+<AnimatedEntry {as} class="border-b last:border-b-0 border-mauve-6 {c}">
 	<slot />
-</svelte:element>
+</AnimatedEntry>
