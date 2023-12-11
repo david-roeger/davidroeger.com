@@ -67,7 +67,7 @@
 		<p>Last updated at: {__BUILD_TIME__}</p>
 		<p>Version: {version}</p>
 		<!-- svelte-ignore missing-declaration -->
-		<p>Hash: {__BUILD_HASH__}</p>
+		<!-- <p>Hash: {__BUILD_HASH__}</p> -->
 	</div>
 </footer>
 

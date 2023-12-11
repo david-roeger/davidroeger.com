@@ -5,7 +5,7 @@ declare global {
 	// eslint-disable-next-line no-var
 	declare const __BUILD_TIME__: string;
 	// eslint-disable-next-line no-var
-	declare const __BUILD_HASH__: string;
+	// declare const __BUILD_HASH__: string;
 	namespace Lucia {
 		type Auth = import('$utils/Lucia/lucia').Auth;
 		type DatabaseUserAttributes = {

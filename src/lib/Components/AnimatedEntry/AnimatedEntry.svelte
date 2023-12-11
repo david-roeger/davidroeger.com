@@ -24,7 +24,6 @@
 			clearTimeout(timeout);
 			intersecting = false;
 		}
-		initial = false;
 	}}
 >
 	<svelte:element
