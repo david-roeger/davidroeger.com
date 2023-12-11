@@ -257,7 +257,7 @@
 
 <!--svelte:window on:keydown={handleKeyDown} /-->
 
-<section class="relative">
+<section class="relative mb-32">
 	<Accordion.Root
 		type="single"
 		defaultValue=""

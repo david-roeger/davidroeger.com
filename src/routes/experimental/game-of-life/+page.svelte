@@ -392,8 +392,6 @@
 
 	let playButton: HTMLButtonElement;
 	let pauseButton: HTMLButtonElement;
-
-	$: console.log('rotation', rotation);
 </script>
 
 <svelte:window on:keydown={handleKeyDown} />
