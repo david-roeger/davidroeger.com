@@ -4,9 +4,6 @@
 
 	import '../app.css';
 
-	import { onMount } from 'svelte';
-	import BezierEasing from 'bezier-easing';
-
 	import { QueryClientProvider } from '@tanstack/svelte-query';
 	import { SvelteQueryDevtools } from '@tanstack/svelte-query-devtools';
 	import { mauve, mauveDark } from '@radix-ui/colors';
@@ -16,16 +13,11 @@
 	import { BreakpointProvider } from '$provider/BreakpointProvider';
 	import { NotificationProvider } from '$provider/NotificationProvider';
 
-	import North from '$assets/Icons/24/north.svg?component';
-
 	import { Header } from '$slices/Header';
 	import { Footer } from '$slices/Footer';
-	import { HireMe } from '$slices/HireMe';
 
-	import { AccessibleIcon } from '$components/AccessibleIcon';
 	import { DefaultHead } from '$components/Head';
 
-	import { mapToRange } from '$utils';
 	import { logger } from '$utils/logger';
 
 	import type { LayoutData } from './$types';
@@ -44,54 +36,6 @@
 		});
 		return finalPath;
 	};
-	// bttbutton handling
-	let showBttButton = false;
-	const handleScroll = () => {
-		if (
-			(document.body.scrollTop > 120 ||
-				document.documentElement.scrollTop > 120) &&
-			document.body.offsetHeight > window.innerHeight
-		) {
-			showBttButton = true;
-			return;
-		}
-		showBttButton = false;
-	};
-
-	onMount(() => {
-		window.addEventListener('scroll', handleScroll, { passive: true });
-		handleScroll();
-	});
-
-	const handleClick = (
-		event: MouseEvent & {
-			currentTarget: EventTarget & HTMLButtonElement;
-		}
-	) => {
-		document.body.scrollTop = 0;
-		document.documentElement.scrollTo({
-			top: 0,
-			behavior: 'smooth'
-		});
-		event.currentTarget.blur();
-	};
-
-	const baseEasing = BezierEasing(0.4, 0, 0.2, 1);
-	const reversedEasing = BezierEasing(0.8, 0, 0.6, 1);
-
-	function slideUp(
-		_: HTMLDivElement,
-		{ start = -42, end = 0, duration = 150, easing = baseEasing }
-	) {
-		return {
-			duration,
-			css: (t: number) => {
-				const eased = easing(t);
-				const mapped = mapToRange(eased, 0, 1, start, end);
-				return `bottom: ${mapped}px;`;
-			}
-		};
-	}
 </script>
 
 <DefaultHead
@@ -268,29 +212,6 @@
 				</main>
 
 				<Footer class="z-20" />
-
-				{#if showBttButton}
-					<div
-						class="sticky bottom-0 left-0 z-30 p-2 overflow-hidden pointer-events-none"
-						in:slideUp={{}}
-						out:slideUp={{ easing: reversedEasing }}
-					>
-						<button
-							aria-hidden={!showBttButton ? true : undefined}
-							tabindex={showBttButton ? 0 : -1}
-							on:click={handleClick}
-							on:click
-							type="button"
-							class="{showBttButton
-								? 'pointer-events-auto'
-								: 'translate-y-[42px] pointer-events-none'} block p-1 text-xs transition-transform bg-white border rounded-full cursor-n-resize touch-manipulation focus:outline-none ring-mauve-12 focus:ring-1"
-						>
-							<AccessibleIcon label="Back to top">
-								<North />
-							</AccessibleIcon>
-						</button>
-					</div>
-				{/if}
 			</div>
 
 			<div id="portal" style="position: absolute; z-index: 9999" />
