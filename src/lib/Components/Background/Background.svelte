@@ -6,6 +6,6 @@
 </script>
 
 <div
-	class="{position} top-0 bottom-0 w-full h-full pointer-events-none xl:max-w-7xl -z-10"
+	class="{position} pointer-events-none bottom-0 top-0 -z-10 h-full w-full xl:max-w-7xl"
 	style="background: radial-gradient(50% 50% at 50% 50%, {center}, {outside} 100%);"
 />

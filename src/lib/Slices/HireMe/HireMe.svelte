@@ -18,6 +18,7 @@
 	{href}
 	{count}
 	class={c}
+	close={false}
 	wrapperClass="ml-2 inline-flex items-center gap-2 shrink-0"
 >
 	<span class="w-10">

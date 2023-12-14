@@ -9,8 +9,8 @@ import type { EmojiData } from '$components/EmojiPicker/types';
 
 import { logger } from '$utils/logger';
 
-import type { RequestHandler } from './$types';
 import { EMOJI_FUSE_KEYS } from '$components/EmojiPicker/constants';
+import type { RequestHandler } from './$types';
 
 export const GET: RequestHandler = async ({ fetch }) => {
 	logger.page('_api/emoji/index.json: +server.ts // GET');

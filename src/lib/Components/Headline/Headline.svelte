@@ -33,7 +33,7 @@
 	}
 </script>
 
-<div class="{unstyled ? '' : 'border-b border-mauve-6 p-2'} {containerClass}">
+<div class="{unstyled ? '' : 'border-b border-mauve-6  p-2'} {containerClass}">
 	<svelte:element
 		this={asTag}
 		{id}

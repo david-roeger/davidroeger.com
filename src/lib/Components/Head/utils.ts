@@ -1,4 +1,4 @@
-import type { SepProps, OpenGraphMedia, Tags } from './types';
+import type { OpenGraphMedia, SepProps, Tags } from './types';
 
 const defaults = {
 	templateTitle: '',

@@ -7,5 +7,27 @@
 	"printWidth": 80,
 	"pluginSearchDirs": ["."],
 	"overrides": [{ "files": "*.svelte", "options": { "parser": "svelte" } }],
-	"htmlWhitespaceSensitivity": "ignore"
+	"htmlWhitespaceSensitivity": "ignore",
+	"plugins": [
+		"prettier-plugin-svelte",
+		"prettier-plugin-organize-imports",
+		"@trivago/prettier-plugin-sort-imports",
+		"prettier-plugin-tailwindcss"
+	],
+	"importOrder": [
+		"^svelte$",
+		"^svelte/(.*)$",
+		"^@sveltejs/kit$",
+		"<THIRD_PARTY_MODULES>",
+		"^$app/(.*)$",
+		"^@routes/(.*)$",
+		"^@theme/(.*)$",
+		"^@providers/(.*)$",
+		"^@layouts/(.*)$",
+		"^@components/(.*)$",
+		"^@hooks/(.*)$",
+		"^@utils/(.*)$",
+		"^@types/(.*)$",
+		"^[./]"
+	]
 }

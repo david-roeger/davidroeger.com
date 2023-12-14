@@ -15,6 +15,7 @@
 	import { AnimatedEntry } from '$components/AnimatedEntry';
 
 	import { HireMe } from '$slices/HireMe';
+	import Background from '$assets/Icons/test.svg?component';
 
 	import { debounce, limit, mapToRange } from '$utils';
 	import { logger } from '$utils/logger';
@@ -101,33 +102,34 @@
 
 <section class="mb-32">
 	<HireMe title="← Hi, welcome to my site! This is me." />
-	<h1
-		aria-label="David Röger personal website"
-		class="relative p-2 border-b grrrid text-8xl md:text-9xl lg:text-10xl border-mauve-6"
-	>
-		<span
-			bind:this={gradient}
-			aria-hidden="true"
-			class="absolute rounded-full min-w-[96px] min-h-[96px] mask grrrid-mask -z-10 border border-mauve-12"
-		/>
-		<span
-			aria-hidden="true"
-			class="relative flex items-center rounded-full grrrid-smiley"
+	<div class="relative">
+		<h1
+			aria-label="David Röger personal website"
+			class="grrrid relative border-b border-mauve-6 p-2 text-8xl md:text-9xl lg:text-10xl"
 		>
 			<span
-				bind:this={logo}
-				class="block"
-				style:transform="translateX({$scrollLeft}px)"
+				bind:this={gradient}
+				aria-hidden="true"
+				class="mask grrrid-mask absolute -z-10 min-h-[96px] min-w-[96px] rounded-full border border-mauve-12"
+			/>
+			<span
+				aria-hidden="true"
+				class="grrrid-smiley relative flex items-center rounded-full"
 			>
-				<Logo
-					container={true}
-					backgroundFill="rgba(255, 255, 255, 0.8)"
-					smile={$page.error ? false : true}
-					class="w-24 h-24 p-2 md:w-32 md:h-32 lg:h-40 lg:w-40"
-				/>
+				<span
+					bind:this={logo}
+					class="block"
+					style:transform="translateX({$scrollLeft}px)"
+				>
+					<Logo
+						container={true}
+						backgroundFill="rgba(255, 255, 255, 0.8)"
+						smile={$page.error ? false : true}
+						class="h-24 w-24 p-2 md:h-32 md:w-32 lg:h-40 lg:w-40"
+					/>
+				</span>
 			</span>
-		</span>
-		<!-- <AnimatedEntry class="grrrid-child grrrid-child-0">
+			<!-- <AnimatedEntry class="grrrid-child grrrid-child-0">
 			<Displace text="D" />
 		</AnimatedEntry>
 		<AnimatedEntry class="grrrid-child grrrid-child-1">
@@ -171,54 +173,55 @@
 			<Displace text="R" />
 		</AnimatedEntry> -->
 
-		<Displace class="grrrid-child grrrid-child-0" text="D" />
-		<Displace class="grrrid-child grrrid-child-1" text="A" />
-		<Displace class="grrrid-child grrrid-child-2" text="V" />
-		<Displace class="grrrid-child grrrid-child-3" text="I" />
-		<Displace class="grrrid-child grrrid-child-4" text="D" />
-		<Displace
-			aria-hidden="true"
-			class="select-none grrrid-child grrrid-child-5"
-			text="::"
-			split={false}
-		/>
-		<Displace class="grrrid-child grrrid-child-6" text="R" />
-		<Displace class="relative grrrid-child grrrid-child-7" text="O" />
-		<Displace class="grrrid-child grrrid-child-8" text="E" />
-		<Displace class="grrrid-child grrrid-child-9" text="G" />
-		<Displace class="grrrid-child grrrid-child-10" text="E" />
-		<Displace class="grrrid-child grrrid-child-11" text="R" />
-
-		<span class="line-y line-y-0 border-mauve-6 border-y" />
-		<span class="line-y line-y-1 border-mauve-6 border-y" />
-		<span class="line-y line-y-2 border-mauve-6 border-y" />
-		<span class="line-y line-y-3 border-mauve-6 border-y" />
-		<span class="line-y line-y-4 border-mauve-6 border-y" />
-		<span class="line-x line-x-0 border-mauve-6 border-x" />
-		<span class="line-x line-x-1 border-mauve-6 border-x" />
-		<span class="line-x line-x-2 border-mauve-6 border-x" />
-		<span class="line-x line-x-3 border-mauve-6 border-x" />
-		<span class="line-x line-x-4 border-mauve-6 border-x" />
-		<span class="line-x line-x-5 border-mauve-6 border-x" />
-		<span class="triangle-wrapper">
-			<span
-				class="triangle w-[9px] h-[9px] border-l border-t border-mauve-6 translate-x-2 translate-y-2 z-10"
+			<Displace class="grrrid-child grrrid-child-0" text="D" />
+			<Displace class="grrrid-child grrrid-child-1" text="A" />
+			<Displace class="grrrid-child grrrid-child-2" text="V" />
+			<Displace class="grrrid-child grrrid-child-3" text="I" />
+			<Displace class="grrrid-child grrrid-child-4" text="D" />
+			<Displace
+				aria-hidden="true"
+				class="grrrid-child grrrid-child-5 select-none"
+				text="::"
+				split={false}
 			/>
-		</span>
-	</h1>
+			<Displace class="grrrid-child grrrid-child-6" text="R" />
+			<Displace class="grrrid-child grrrid-child-7" text="O" />
+			<Displace class="grrrid-child grrrid-child-8" text="E" />
+			<Displace class="grrrid-child grrrid-child-9" text="G" />
+			<Displace class="grrrid-child grrrid-child-10" text="E" />
+			<Displace class="grrrid-child grrrid-child-11" text="R" />
+
+			<span class="line-y line-y-0 border-y border-mauve-6" />
+			<span class="line-y line-y-1 border-y border-mauve-6" />
+			<span class="line-y line-y-2 border-y border-mauve-6" />
+			<span class="line-y line-y-3 border-y border-mauve-6" />
+			<span class="line-y line-y-4 border-y border-mauve-6" />
+			<span class="line-x line-x-0 border-x border-mauve-6" />
+			<span class="line-x line-x-1 border-x border-mauve-6" />
+			<span class="line-x line-x-2 border-x border-mauve-6" />
+			<span class="line-x line-x-3 border-x border-mauve-6" />
+			<span class="line-x line-x-4 border-x border-mauve-6" />
+			<span class="line-x line-x-5 border-x border-mauve-6" />
+			<span class="triangle-wrapper">
+				<span
+					class="triangle z-10 h-[9px] w-[9px] translate-x-2 translate-y-2 border-l border-t border-mauve-6"
+				/>
+			</span>
+		</h1>
+	</div>
 	<div class="p-2">
-		<div class="border border-mauve-6 flex gap-2 flex-col">
+		<div class="flex flex-col gap-2 border border-mauve-6">
 			<AnimatedEntry>
 				<a
 					href="/projects"
 					aria-label="Projects"
-					class="group/cube-selector bg-white p-2 text-2xl border-b sm:text-4xl sm:py-1 md:text-6xl md:py-0 lg:text-8xl border-mauve-6 flex items-center justify-start gap-8 sm:gap-10 md:gap-11 lg:gap-20"
+					class="group/cube-selector flex items-center justify-start gap-8 border-b border-mauve-6 bg-white/[.85] p-2 text-2xl sm:gap-10 sm:py-1 sm:text-4xl md:gap-11 md:py-0 md:text-6xl lg:gap-20 lg:text-8xl"
 				>
 					<Displace class="break-all" text="PROJECTS" />
 
 					<span class="md:py-2">
 						<span
-							class="block aspect-1 w-auto h-8 sm:h-10 md:h-[60px] lg:h-24"
+							class="block aspect-1 h-8 w-auto sm:h-10 md:h-[60px] lg:h-24"
 						>
 							<Cube variant="green" />
 						</span>
@@ -229,12 +232,12 @@
 				<a
 					href="/contact"
 					aria-label="About"
-					class="group/cube-selector bg-white p-2 text-2xl border-y sm:text-4xl sm:py-1 md:text-6xl md:py-0 lg:text-8xl border-mauve-6 flex items-center justify-start gap-8 sm:gap-10 md:gap-11 lg:gap-20"
+					class="group/cube-selector flex items-center justify-start gap-8 border-y border-mauve-6 bg-white/[.85] p-2 text-2xl sm:gap-10 sm:py-1 sm:text-4xl md:gap-11 md:py-0 md:text-6xl lg:gap-20 lg:text-8xl"
 				>
 					<Displace class="break-all" text="ABOUT" />
 					<span class="md:py-2">
 						<span
-							class="block aspect-1 w-auto h-8 sm:h-10 md:h-[60px] lg:h-24"
+							class="block aspect-1 h-8 w-auto sm:h-10 md:h-[60px] lg:h-24"
 						>
 							<Cube variant="purple" />
 						</span>
@@ -245,7 +248,7 @@
 				<a
 					href="/contact"
 					aria-label="Say hi!"
-					class="group/cube-selector bg-white p-2 text-2xl border-t sm:text-4xl sm:py-1 md:text-6xl md:py-0 lg:text-8xl border-mauve-6 flex"
+					class="group/cube-selector flex border-t border-mauve-6 bg-white/[.85] p-2 text-2xl sm:py-1 sm:text-4xl md:py-0 md:text-6xl lg:text-8xl"
 				>
 					<span
 						class="group/displace-selector flex items-center justify-start gap-8 sm:gap-10 md:gap-11 lg:gap-20"
@@ -253,7 +256,7 @@
 						<Displace class="break-all" text="SAY" />
 						<span class="md:py-2">
 							<span
-								class="block aspect-1 w-auto h-8 sm:h-10 md:h-[60px] lg:h-24"
+								class="block aspect-1 h-8 w-auto sm:h-10 md:h-[60px] lg:h-24"
 							>
 								<Cube variant="orange" />
 							</span>

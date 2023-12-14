@@ -1,9 +1,7 @@
 import { sveltekit } from '@sveltejs/kit/vite';
 
-import { imagetools } from 'vite-imagetools';
 import svg from '@poppanator/sveltekit-svg';
-
-import * as child from 'child_process';
+import { imagetools } from 'vite-imagetools';
 
 // const commitHash = child.execSync('git rev-parse --short HEAD').toString();
 // const commitBranch = child

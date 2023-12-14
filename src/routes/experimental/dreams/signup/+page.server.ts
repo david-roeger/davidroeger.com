@@ -8,7 +8,7 @@ import { LuciaError } from 'lucia';
 import { auth } from '$utils/Lucia/lucia';
 import { logger } from '$utils/logger';
 
-import type { PageServerLoad, Actions } from './$types';
+import type { Actions, PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ locals }) => {
 	logger.page('experimental/dream/signup: +layout.server.ts // load');

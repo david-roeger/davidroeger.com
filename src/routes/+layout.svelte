@@ -191,12 +191,12 @@
 	<NotificationProvider>
 		<MiniPlayerProvider>
 			<div
-				class="relative flex flex-col min-h-full font-sans text-mauve-12 bg-blu"
+				class="bg-blue relative flex min-h-full flex-col text-mauve-12"
 				data-sveltekit-preload-data
 			>
 				<a
 					href="#content"
-					class="absolute z-50 px-4 py-2 bg-white border -top-full left-2 focus:top-2 focus:outline-none ring-mauve-12 focus:ring-1"
+					class="absolute -top-full left-2 z-50 border bg-white px-4 py-2 ring-mauve-12 focus:top-2 focus:outline-none focus:ring-1"
 				>
 					Skip to content
 				</a>
@@ -204,7 +204,7 @@
 
 				<main
 					id="content"
-					class="z-10 flex flex-col mb-auto xl:max-w-7xl xl:border-r border-mauve-6"
+					class="z-10 mb-auto flex flex-col border-mauve-6 xl:max-w-7xl xl:border-r"
 				>
 					<BreakpointProvider>
 						<slot />

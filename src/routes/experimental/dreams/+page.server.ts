@@ -1,7 +1,7 @@
 logger.page('experimental/dreams: +page.server.ts');
 // ----------------------------------------------------------------
 
-import { error, fail, redirect } from '@sveltejs/kit';
+import { fail, redirect } from '@sveltejs/kit';
 
 import { message, superValidate } from 'sveltekit-superforms/server';
 
@@ -11,15 +11,15 @@ import {
 	type ZodAddDreamForm
 } from '$slices/AddDreamForm/constants';
 
-import { logger } from '$utils/logger';
 import client from '$utils/Db/client';
+import { logger } from '$utils/logger';
 
-import type { Actions, PageServerLoad } from './$types';
 import {
 	editDreamFormSchema,
 	type EditDreamFormMessage,
 	type ZodEditDreamForm
 } from '$slices/EditDreamForm/constants';
+import type { Actions, PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ locals }) => {
 	logger.page('experimental/dreams: +page.server.ts // load');

@@ -125,12 +125,12 @@
 >
 	<Tags.List
 		label="Filter Projects"
-		class="flex flex-wrap p-1 border-b transition-all border-mauve-6 ocus:outline-none ring-mauve-6 ring-inset focus:ring-1"
+		class="ocus:outline-none flex flex-wrap border-b border-mauve-6 p-1 ring-inset ring-mauve-6 transition-all focus:ring-1"
 	>
 		{#if $tags.size}
 			<div in:slideLeft={{}} out:slideLeft={{ easing: reversedEasing }}>
 				<Tags.Unset
-					class="p-1 m-1 text-xs border rounded-full touch-manipulation border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1"
+					class="m-1 touch-manipulation rounded-full border border-mauve-12 p-1 text-xs ring-mauve-12 focus:outline-none focus:ring-1"
 				>
 					<AccessibleIcon label="Unselect all tags">
 						<Close16 />
@@ -141,13 +141,13 @@
 		{#each [...availableTags] as tag (tag)}
 			<Tags.Tag
 				value={tag}
-				class=" transition-[margin] m-1 touch-manipulation px-4 py-1 border border-mauve-12 text-xs rounded-full focus:outline-none ring-mauve-12 focus:ring-1 bg-white data-[state=active]:bg-green-6"
+				class=" m-1 touch-manipulation rounded-full border border-mauve-12 bg-white px-4 py-1 text-xs ring-mauve-12 transition-[margin] focus:outline-none focus:ring-1 data-[state=active]:bg-green-6"
 			>
 				{tag}
 			</Tags.Tag>
 		{/each}
 	</Tags.List>
-	<Headline containerClass="py-8 md:py-16">
+	<Headline containerClass="py-8 md:py-16 uppercase">
 		<span aria-hidden="true" class="select-none">::</span>
 		Projects
 	</Headline>
@@ -157,7 +157,7 @@
 			{@const projectMediaData = getProjectMediaData(project.slug)}
 			<AnimatedEntry
 				as="section"
-				class="mb-8 border-t border-b first:border-t-0 border-mauve-6 md:mb-16 last:mb-0"
+				class="mb-8 border-b border-t border-mauve-6 first:border-t-0 last:mb-0 md:mb-16"
 			>
 				<Headline
 					as="h2"
@@ -166,7 +166,7 @@
 					id="gallery-headline-{encodeURIComponent(project.title)}"
 				>
 					<a
-						class="focus:outline-none growing-underline"
+						class="growing-underline focus:outline-none"
 						href="projects/{project.slug}"
 					>
 						{project.title}
@@ -180,21 +180,21 @@
 					)}"
 				>
 					<Gallery.Previous
-						class="cursor-w-resize bg-white absolute top-0 lg:top-1/2 right-0 lg:left-2 lg:right-auto z-10 transform -translate-y-1/2 -translate-x-[calc(100%+16px)] lg:translate-x-0 block p-1 text-xs  border rounded-full touch-manipulation focus:outline-none ring-mauve-12 focus:ring-1"
+						class="absolute right-0 top-0 z-10 block -translate-x-[calc(100%+16px)] -translate-y-1/2 transform cursor-w-resize touch-manipulation rounded-full border bg-white p-1 text-xs ring-mauve-12  focus:outline-none focus:ring-1 lg:left-2 lg:right-auto lg:top-1/2 lg:translate-x-0"
 					>
 						<AccessibleIcon label="Go to previous">
 							<West />
 						</AccessibleIcon>
 					</Gallery.Previous>
 					<Gallery.Next
-						class="absolute top-0 right-0 z-10 block p-1 text-xs bg-white border rounded-full transform -translate-x-2 -translate-y-1/2 cursor-e-resize lg:translate-x-0 lg:top-1/2 lg:right-2 touch-manipulation focus:outline-none ring-mauve-12 focus:ring-1"
+						class="absolute right-0 top-0 z-10 block -translate-x-2 -translate-y-1/2 transform cursor-e-resize touch-manipulation rounded-full border bg-white p-1 text-xs ring-mauve-12 focus:outline-none focus:ring-1 lg:right-2 lg:top-1/2 lg:translate-x-0"
 					>
 						<AccessibleIcon label="Go to next">
 							<East />
 						</AccessibleIcon>
 					</Gallery.Next>
 					<Gallery.Content
-						class="flex border-b border-t border-mauve-6 border-r-0 h-96 md:h-[32rem] focus:outline-none ring-mauve-6 focus:ring-1 no-scrollbar"
+						class="no-scrollbar flex h-96 border-b border-r-0 border-t border-mauve-6 ring-mauve-6 focus:outline-none focus:ring-1 md:h-[32rem]"
 					>
 						{#if project.vertical && projectMediaData && projectMediaData[project.vertical]}
 							<Media
@@ -203,7 +203,7 @@
 									project.vertical
 								].src}"
 								alt=""
-								class="block h-full border-r last:border-r-0 border-mauve-6 max-w-none"
+								class="block h-full max-w-none border-r border-mauve-6 last:border-r-0"
 								loading={index > 1 ? 'lazy' : undefined}
 							/>
 						{/if}
@@ -214,7 +214,7 @@
 									project.horizontal
 								].src}"
 								alt=""
-								class="block h-full border-r last:border-r-0 border-mauve-6 max-w-none"
+								class="block h-full max-w-none border-r border-mauve-6 last:border-r-0"
 								loading={index > 1 ? 'lazy' : undefined}
 							/>
 						{/if}
@@ -226,7 +226,7 @@
 										src="/assets/projects/{project.slug}/{projectMediaData[
 											media
 										].src}"
-										class="block h-full border-r last:border-r-0 border-mauve-6 max-w-none"
+										class="block h-full max-w-none border-r border-mauve-6 last:border-r-0"
 										alt=""
 										loading={index > 1 ? 'lazy' : undefined}
 									/>
@@ -237,7 +237,7 @@
 				</Gallery.Root>
 				<div class="bg-white md:flex md:flex-wrap md:justify-between">
 					<a
-						class="inline-flex items-center gap-2 px-4 p-1 m-2 text-xs transition-[gap,padding] border border-mauve-12 bg-white md:justify-between hover:gap-4 hover:pr-2 focus:gap-4 focus:pr-2 focus:outline-none ring-mauve-12 focus:ring-1"
+						class="m-2 inline-flex items-center gap-2 border border-mauve-12 bg-white p-1 px-4 text-xs ring-mauve-12 transition-[gap,padding] hover:gap-4 hover:pr-2 focus:gap-4 focus:pr-2 focus:outline-none focus:ring-1 md:justify-between"
 						href="projects/{project.slug}"
 						title="Read more about the project {project.slug}"
 					>
@@ -254,7 +254,11 @@
 </Tags.Root>
 
 {#if !$tags.size && experimental.length}
-	<Headline as="h2" containerClass="py-8 md:py-16" id="experimental">
+	<Headline
+		as="h2"
+		containerClass="py-8 md:py-16 uppercase"
+		id="experimental"
+	>
 		<span aria-hidden="true" class="select-none">::</span>
 		Experi&shy;mental
 	</Headline>
@@ -270,7 +274,7 @@
 					containerClass="!p-0 bg-white"
 				>
 					<a
-						class="group flex justify-between items-center pr-4 transition-[padding] bg-white md:justify-between hover:pr-2 focus:pr-2 focus:outline-none"
+						class="group flex items-center justify-between bg-white pr-4 transition-[padding] hover:pr-2 focus:pr-2 focus:outline-none md:justify-between"
 						href="experimental/{experiment.slug}"
 						title="Read more about the project {experiment.slug}"
 					>
@@ -280,11 +284,11 @@
 								alt="Thumbnail for experimental Project {computed}"
 								width="40"
 								height="40"
-								class="block w-12 h-12 bg-white max-w-none"
+								class="block h-12 w-12 max-w-none bg-white"
 								src="/assets/experimental/{experiment.slug}.png"
 							/>
 							<span
-								class={`block p-2 group-hover:underline group-focus:underline decoration-from-font ${
+								class={`block p-2 decoration-from-font group-hover:underline group-focus:underline ${
 									experiment.thumbnail
 										? 'border-l border-mauve-6'
 										: ''

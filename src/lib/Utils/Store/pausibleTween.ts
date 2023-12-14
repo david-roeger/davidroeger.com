@@ -1,7 +1,7 @@
-import { tweened as nativeTweened } from 'svelte/motion';
-import type { Tweened as NativeTweened } from 'svelte/motion';
-import { get, writable, type Writable } from 'svelte/store';
 import {} from 'svelte/easing';
+import type { Tweened as NativeTweened } from 'svelte/motion';
+import { tweened as nativeTweened } from 'svelte/motion';
+import { get, writable, type Writable } from 'svelte/store';
 
 interface Options<T> {
 	delay?: number;

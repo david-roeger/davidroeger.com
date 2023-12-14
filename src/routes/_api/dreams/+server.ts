@@ -5,15 +5,15 @@ import { error, json } from '@sveltejs/kit';
 
 import client from '$utils/Db/client';
 
-import type { RequestHandler } from './$types';
+import type { Pageable } from '$components/Pagination/types';
 import {
 	DREAMS_DEFAULT_PAGE,
 	DREAMS_DEFAULT_SIZE
 } from '$routes/experimental/dreams/constants';
-import type { Pageable } from '$components/Pagination/types';
-import { parseNumber } from '$utils/Url';
 import type { Dream } from '$types';
+import { parseNumber } from '$utils/Url';
 import { logger } from '$utils/logger';
+import type { RequestHandler } from './$types';
 
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 export const GET: RequestHandler = async ({ url, locals }) => {

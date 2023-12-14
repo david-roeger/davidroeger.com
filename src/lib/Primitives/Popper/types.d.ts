@@ -1,7 +1,7 @@
 import type { FocusTrap } from 'focus-trap';
 import type { Writable } from 'svelte/store';
 
-import { SIDE_OPTIONS, ALIGN_OPTIONS } from './constants';
+import { ALIGN_OPTIONS, SIDE_OPTIONS } from './constants';
 
 export interface Rect {
 	rect: DOMRect;

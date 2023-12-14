@@ -5,9 +5,9 @@ import { error, json } from '@sveltejs/kit';
 
 import client from '$utils/Db/client';
 
-import type { RequestHandler } from './$types';
 import type { Dream } from '$types';
 import { logger } from '$utils/logger';
+import type { RequestHandler } from './$types';
 
 export const GET: RequestHandler = async ({ url, params, locals }) => {
 	logger.page('_api/dreams/id: +server.ts // GET');

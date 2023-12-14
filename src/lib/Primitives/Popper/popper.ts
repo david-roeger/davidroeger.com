@@ -1,6 +1,6 @@
 import type * as CSS from 'csstype';
 
-import type { Axis, Side, Align, Point, Size } from './types';
+import type { Align, Axis, Point, Side, Size } from './types';
 
 type GetPlacementDataOptions = {
 	/** The rect of the trigger we are placing around */
@@ -352,4 +352,4 @@ function getCollisions(
 type Collisions = ReturnType<typeof getCollisions>;
 
 export { getPlacementData };
-export type { Side, Align };
+export type { Align, Side };

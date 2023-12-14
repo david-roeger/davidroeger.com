@@ -8,10 +8,10 @@ import { message, superValidate } from 'sveltekit-superforms/server';
 import { env } from '$env/dynamic/private';
 
 import {
+	DEFAULT_CONTACT_FORM,
 	contactFormSchema,
-	type ZodContactForm,
 	type ContactFormMessage,
-	DEFAULT_CONTACT_FORM
+	type ZodContactForm
 } from '$slices/ContactForm/constants';
 
 import { logger } from '$utils/logger';

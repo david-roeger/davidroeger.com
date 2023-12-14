@@ -4,8 +4,8 @@ logger.page('_api/projects/[slug]: +server.ts');
 import type { ProjectFrontMatter } from '$types';
 import { error, json } from '@sveltejs/kit';
 
-import type { RequestEvent, RequestHandler } from './$types';
 import { logger } from '$utils/logger';
+import type { RequestEvent, RequestHandler } from './$types';
 
 export type RouteParams = RequestEvent['params'];
 

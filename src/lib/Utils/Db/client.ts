@@ -1,6 +1,6 @@
-import pg, { type Pool } from 'pg';
-import { env } from '$env/dynamic/private';
 import { building } from '$app/environment';
+import { env } from '$env/dynamic/private';
+import pg, { type Pool } from 'pg';
 
 let client: Pool;
 if (!building) {

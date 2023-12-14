@@ -1,4 +1,4 @@
-import type { derived, readonly } from 'svelte/store';
+import type { derived } from 'svelte/store';
 
 type MetaData = {
 	title: string;

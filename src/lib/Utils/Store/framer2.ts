@@ -63,6 +63,5 @@ export const createFramer = (initialFrameRate = 60) => {
 };
 
 import { browser } from '$app/environment';
-import { onDestroy } from 'svelte';
 import { derived, get, writable } from 'svelte/store';
 import { Clock } from 'three';

@@ -5,8 +5,8 @@ import type { ProjectMetaData } from '$types';
 
 import { error } from '@sveltejs/kit';
 
-import type { PageServerLoad } from './$types';
 import { logger } from '$utils/logger';
+import type { PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async ({ fetch }) => {
 	logger.page('projects/(ssr): +page.server.ts // load');

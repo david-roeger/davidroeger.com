@@ -1,6 +1,6 @@
+import { pg } from '@lucia-auth/adapter-postgresql';
 import { lucia } from 'lucia';
 import { sveltekit } from 'lucia/middleware';
-import { pg } from '@lucia-auth/adapter-postgresql';
 
 import client from '../Db/client';
 

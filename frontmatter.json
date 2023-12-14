@@ -1,123 +1,120 @@
 {
-  "$schema": "https://frontmatter.codes/frontmatter.schema.json",
-  "frontMatter.taxonomy.contentTypes": [
-    {
-      "name": "default",
-      "pageBundle": false,
-      "previewPath": null,
-      "fields": [
-        {
-          "title": "published",
-          "name": "published",
-          "type": "boolean",
-          "default": false
-        },
-        {
-          "title": "slug",
-          "name": "slug",
-          "type": "string",
-          "required": true
-        },
-        {
-          "title": "order",
-          "name": "order",
-          "type": "number",
-          "required": true
-        },
-        {
-          "title": "title",
-          "name": "title",
-          "type": "string",
-          "required": true
-        },
-        {
-          "title": "meta",
-          "name": "meta",
-          "type": "string"
-        },
-        {
-          "title": "description",
-          "name": "description",
-          "type": "string",
-          "required": true
-        },
-        {
-          "title": "date",
-          "name": "date",
-          "type": "datetime",
-          "default": "{{now}}",
-          "required": true
-        },
-        {
-          "title": "tags",
-          "name": "tags",
-          "type": "tags",
-          "required": true
-        },
-        {
-          "title": "team",
-          "name": "team",
-          "type": "list"
-        },
-        {
-          "title": "place",
-          "name": "place",
-          "type": "string"
-        },
-        {
-          "title": "github",
-          "name": "github",
-          "type": "string"
-        },
-        {
-          "title": "link",
-          "name": "link",
-          "type": "string"
-        },
-        {
-          "title": "vertical",
-          "name": "vertical",
-          "type": "string",
-          "required": true
-        },
-        {
-          "title": "horizontal",
-          "name": "horizontal",
-          "type": "string",
-          "required": true
-        },
-        {
-          "title": "media",
-          "name": "media",
-          "type": "list",
-          "required": true
-        },
-        {
-          "title": "lastmod",
-          "name": "lastmod",
-          "type": "datetime"
-        },
-        {
-          "title": "keywords",
-          "name": "keywords",
-          "type": "choice",
-          "choices": [
-            "Variable Font",
-            "Typeface"
-          ]
-        }
-      ]
-    }
-  ],
-  "frontMatter.content.pageFolders": [
-    {
-      "title": "Projects",
-      "path": "[[workspace]]/src/routes/projects/content"
-    }
-  ],
-  "frontMatter.taxonomy.dateFormat": "YYYY",
-  "frontMatter.content.draftField": {
-    "name": "published",
-    "type": "boolean"
-  }
+	"$schema": "https://frontmatter.codes/frontmatter.schema.json",
+	"frontMatter.taxonomy.contentTypes": [
+		{
+			"name": "default",
+			"pageBundle": false,
+			"previewPath": null,
+			"fields": [
+				{
+					"title": "published",
+					"name": "published",
+					"type": "boolean",
+					"default": false
+				},
+				{
+					"title": "slug",
+					"name": "slug",
+					"type": "string",
+					"required": true
+				},
+				{
+					"title": "order",
+					"name": "order",
+					"type": "number",
+					"required": true
+				},
+				{
+					"title": "title",
+					"name": "title",
+					"type": "string",
+					"required": true
+				},
+				{
+					"title": "meta",
+					"name": "meta",
+					"type": "string"
+				},
+				{
+					"title": "description",
+					"name": "description",
+					"type": "string",
+					"required": true
+				},
+				{
+					"title": "date",
+					"name": "date",
+					"type": "datetime",
+					"default": "{{now}}",
+					"required": true
+				},
+				{
+					"title": "tags",
+					"name": "tags",
+					"type": "tags",
+					"required": true
+				},
+				{
+					"title": "team",
+					"name": "team",
+					"type": "list"
+				},
+				{
+					"title": "place",
+					"name": "place",
+					"type": "string"
+				},
+				{
+					"title": "github",
+					"name": "github",
+					"type": "string"
+				},
+				{
+					"title": "link",
+					"name": "link",
+					"type": "string"
+				},
+				{
+					"title": "vertical",
+					"name": "vertical",
+					"type": "string",
+					"required": true
+				},
+				{
+					"title": "horizontal",
+					"name": "horizontal",
+					"type": "string",
+					"required": true
+				},
+				{
+					"title": "media",
+					"name": "media",
+					"type": "list",
+					"required": true
+				},
+				{
+					"title": "lastmod",
+					"name": "lastmod",
+					"type": "datetime"
+				},
+				{
+					"title": "keywords",
+					"name": "keywords",
+					"type": "choice",
+					"choices": ["Variable Font", "Typeface"]
+				}
+			]
+		}
+	],
+	"frontMatter.content.pageFolders": [
+		{
+			"title": "Projects",
+			"path": "[[workspace]]/src/routes/projects/content"
+		}
+	],
+	"frontMatter.taxonomy.dateFormat": "YYYY",
+	"frontMatter.content.draftField": {
+		"name": "published",
+		"type": "boolean"
+	}
 }

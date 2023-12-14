@@ -29,7 +29,7 @@
 	<svelte:element
 		this={as}
 		bind:this={element}
-		class="transition-[transform,opacity] transition-quart {intersecting
+		class="transition-quart transition-[transform,opacity] {intersecting
 			? 'translate-y-0 opacity-100'
 			: 'translate-y-12 opacity-0'} {c}"
 	>
