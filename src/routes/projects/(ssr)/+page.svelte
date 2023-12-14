@@ -16,14 +16,14 @@
 	import * as Gallery from '$primitives/Gallery';
 
 	import { Headline } from '$components/Headline';
+	import West from '$assets/Icons/24/west.svg?component';
+	import Close16 from '$assets/Icons/16/close.svg?component';
+	import East16 from '$assets/Icons/16/east.svg?component';
 	import { Media } from '$components/Media';
 	import { AnimatedEntry } from '$components/AnimatedEntry';
 	import { AccessibleIcon } from '$components/AccessibleIcon';
 
 	import East from '$assets/Icons/24/east.svg?component';
-	import West from '$assets/Icons/24/west.svg?component';
-	import Close16 from '$assets/Icons/16/close.svg?component';
-	import East16 from '$assets/Icons/16/east.svg?component';
 	import pmd from '$assets/projectsMediaData.json';
 
 	import type { ProjectMetaData, ProjectsMediaData } from '$types';
@@ -147,7 +147,7 @@
 			</Tags.Tag>
 		{/each}
 	</Tags.List>
-	<Headline containerClass="py-8 md:py-16 uppercase">
+	<Headline containerClass="py-8 md:py-16">
 		<span aria-hidden="true" class="select-none">::</span>
 		Projects
 	</Headline>
@@ -256,7 +256,7 @@
 {#if !$tags.size && experimental.length}
 	<Headline
 		as="h2"
-		containerClass="py-8 md:py-16 uppercase"
+		containerClass="py-8 md:py-16"
 		id="experimental"
 	>
 		<span aria-hidden="true" class="select-none">::</span>
