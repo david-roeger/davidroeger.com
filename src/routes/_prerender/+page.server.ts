@@ -32,5 +32,5 @@ export const load: PageServerLoad = async ({ url }) => {
 		};
 	}
 
-	throw error(500, "Couldn't load projects for prerendering");
+	error(500, "Couldn't load projects for prerendering");
 };

@@ -47,6 +47,6 @@ export const POST: RequestHandler = async ({ url, request }) => {
 		return json({ id: response.messageId });
 	} catch (e) {
 		logger.error(e);
-		throw error(500);
+		error(500);
 	}
 };

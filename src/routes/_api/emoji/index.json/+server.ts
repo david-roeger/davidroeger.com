@@ -27,10 +27,10 @@ export const GET: RequestHandler = async ({ fetch }) => {
 			return json(index.toJSON());
 		}
 
-		throw error(500);
+		error(500);
 	} catch (e) {
 		logger.error(e);
-		throw error(500);
+		error(500);
 	}
 };
 

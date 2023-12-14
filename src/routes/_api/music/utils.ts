@@ -33,11 +33,11 @@ export const getTop = async <T>(
 		if (items) {
 			return items as T;
 		}
-		throw error(500, 'Client Recieved no Items from server');
+		error(500, 'Client Recieved no Items from server');
 	}
 
 	const { error: errorFromBody } = body;
-	throw error(500, errorFromBody);
+	error(500, errorFromBody);
 };
 
 export const getTopTracks = async (

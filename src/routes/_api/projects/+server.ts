@@ -24,7 +24,7 @@ export const _handler = async ({ url }: { url: URL }) => {
 	const limit = Number(url.searchParams.get('limit') ?? Infinity);
 
 	if (Number.isNaN(limit)) {
-		throw error(400, 'limit is not valid');
+		error(400, 'limit is not valid');
 	}
 
 	for (const [, resolver] of Object.entries(

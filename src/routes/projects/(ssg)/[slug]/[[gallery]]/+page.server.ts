@@ -19,17 +19,18 @@ export const load: PageServerLoad = async ({ fetch, params }) => {
 	);
 
 	const res = await fetch(`/_api/projects/${slug}`);
+	console.log(`/_api/projects/${slug}`, res);
 	if (res.ok) {
 		const project = (await res.json()) as ProjectMetaData;
 		const media = project.media.length - 1 + 2; // add 2 for the vertical and horizontal images
 		if (gallery !== undefined) {
 			const index = parseInt(gallery);
 			if (isNaN(index) || index < 0 || index > media) {
-				throw redirect(303, `/projects/${slug}`);
+				redirect(303, `/projects/${slug}`);
 			}
 			return { project, gallery: index };
 		}
 		return { project };
 	}
-	throw error(404, `Project not found: ${slug} / ${gallery}`);
+	error(404, `Project not found: ${slug} / ${gallery}`);
 };

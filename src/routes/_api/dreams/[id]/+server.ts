@@ -13,7 +13,7 @@ export const GET: RequestHandler = async ({ url, params, locals }) => {
 	logger.page('_api/dreams/id: +server.ts // GET');
 
 	const session = await locals.auth.validate();
-	if (!session) throw error(401, 'Unauthorized');
+	if (!session) error(401, 'Unauthorized');
 
 	const id = params.id;
 	logger.page(`_api/dreams/[id]: +server.ts // GET // id: ${id}`);
@@ -25,7 +25,7 @@ export const GET: RequestHandler = async ({ url, params, locals }) => {
 
 	const dream = dreamResult.rows[0];
 
-	if (!dream) throw error(404);
+	if (!dream) error(404);
 
 	return json(dream as Dream);
 };

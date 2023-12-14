@@ -8,7 +8,7 @@ import type SMTPTransport from 'nodemailer/lib/smtp-transport';
 export const authorize = (url: URL) => {
 	const secret = url.searchParams.get('secret');
 	if (secret !== env.MAIL_SECRET) {
-		throw error(401);
+		error(401);
 	}
 };
 

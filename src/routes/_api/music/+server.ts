@@ -75,11 +75,11 @@ const getAccessToken = async ({
 			return access_token as string;
 		}
 
-		throw error(500, 'Client Recieved no Access Token from server');
+		error(500, 'Client Recieved no Access Token from server');
 	}
 
 	const { error: errorFromBody } = body;
-	throw error(500, errorFromBody);
+	error(500, errorFromBody);
 };
 
 const getCurrentTrack = async (
@@ -107,11 +107,11 @@ const getCurrentTrack = async (
 			return item as CurrentTrack;
 		}
 
-		throw error(500, 'Client Recieved no Item from server');
+		error(500, 'Client Recieved no Item from server');
 	}
 
 	const { error: errorFromBody } = body;
-	throw error(500, errorFromBody);
+	error(500, errorFromBody);
 };
 
 const getRecentTrack = async (accessToken: string): Promise<RecentTrack> => {
@@ -129,11 +129,11 @@ const getRecentTrack = async (accessToken: string): Promise<RecentTrack> => {
 		if (items && items.length) {
 			return items[0].track as RecentTrack;
 		}
-		throw error(500, 'Client Recieved no Items from server');
+		error(500, 'Client Recieved no Items from server');
 	}
 
 	const { error: errorFromBody } = body;
-	throw error(500, errorFromBody);
+	error(500, errorFromBody);
 };
 
 const getLastTrack = async (accessToken: string): Promise<LastTrack> => {
@@ -161,12 +161,12 @@ export const GET: RequestHandler = async ({ url }) => {
 
 	const parsedType = typeSchema.safeParse(type);
 	if (!parsedType.success) {
-		throw error(400);
+		error(400);
 	}
 
 	const parsedRange = rangeSchema.safeParse(range);
 	if (!parsedRange.success && type !== 'lastTrack') {
-		throw error(400);
+		error(400);
 	}
 
 	const accessToken = await getAccessToken({
@@ -175,7 +175,7 @@ export const GET: RequestHandler = async ({ url }) => {
 		refreshToken: env.SPOTIFY_REFRESH_TOKEN
 	});
 
-	if (!accessToken) throw error(500, "Couldn't load music data");
+	if (!accessToken) error(500, "Couldn't load music data");
 
 	try {
 		if (type === 'lastTrack') {
@@ -200,8 +200,8 @@ export const GET: RequestHandler = async ({ url }) => {
 		}
 	} catch (e) {
 		logger.error(e);
-		throw error(500, "Couldn't load music data");
+		error(500, "Couldn't load music data");
 	}
 
-	throw error(500, "Couldn't load music data");
+	error(500, "Couldn't load music data");
 };

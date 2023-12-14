@@ -13,7 +13,7 @@ export const load: PageLoad = async ({ fetch }) => {
 
 	const resumeResponse = await fetch('/_api/resume');
 	if (!resumeResponse.ok) {
-		throw error(500, "Couldn't load resume");
+		error(500, "Couldn't load resume");
 	}
 
 	const resume = (await resumeResponse.json()) as Resume;

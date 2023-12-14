@@ -40,7 +40,7 @@ export const GET: RequestHandler = async ({ params }) => {
 		}
 	}
 
-	throw error(404, `Project ${urlSlug} not found`);
+	error(404, `Project ${urlSlug} not found`);
 };
 
 export const prerender = 'auto';

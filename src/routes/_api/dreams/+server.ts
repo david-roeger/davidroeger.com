@@ -15,12 +15,11 @@ import { parseNumber } from '$utils/Url';
 import { logger } from '$utils/logger';
 import type { RequestHandler } from './$types';
 
-const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 export const GET: RequestHandler = async ({ url, locals }) => {
 	logger.page('_api/dreams: +server.ts // GET');
 
 	const session = await locals.auth.validate();
-	if (!session) throw error(401, 'Unauthorized');
+	if (!session) error(401, 'Unauthorized');
 
 	const size = parseNumber({
 		url,

@@ -26,7 +26,7 @@ export const GET: RequestHandler = async () => {
 		return json(data as EmojiData);
 	} catch (e) {
 		logger.error(e);
-		throw error(500);
+		return error(500);
 	}
 };
 

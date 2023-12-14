@@ -29,5 +29,5 @@ export const load: PageServerLoad = async ({ fetch }) => {
 		};
 	}
 
-	throw error(500, "Couldn't load projects");
+	error(500, "Couldn't load projects");
 };

@@ -8,5 +8,5 @@ export const load = async () => {
 	logger.page('experimental: +page.ts // load');
 	// ----------------------------------------------------------------
 
-	throw redirect(302, '/projects#experimental');
+	redirect(302, '/projects#experimental');
 };

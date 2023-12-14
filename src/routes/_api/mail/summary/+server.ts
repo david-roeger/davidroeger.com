@@ -27,7 +27,7 @@ export const POST: RequestHandler = async ({ url, request }) => {
 		!message ||
 		typeof message !== 'string'
 	) {
-		throw error(400);
+		error(400);
 	}
 
 	const html = `
@@ -61,6 +61,6 @@ export const POST: RequestHandler = async ({ url, request }) => {
 		return json({ id: response.messageId });
 	} catch (e) {
 		logger.error(e);
-		throw error(500);
+		error(500);
 	}
 };
