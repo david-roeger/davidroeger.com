@@ -7,7 +7,7 @@
 	import { createEventDispatcher, getContext, onMount, tick } from 'svelte';
 	import { cubicInOut } from 'svelte/easing';
 	import { tweened } from 'svelte/motion';
-	import type { Writable } from 'svelte/store';
+	import { derived, writable, type Writable } from 'svelte/store';
 	import type { ActiveMedia, MediaSize } from './types';
 	import { createNestedMediaArray, getTargetScale } from './utils';
 
@@ -19,6 +19,8 @@
 	import { Media } from '$components/Media';
 	import { fade } from 'svelte/transition';
 	import { Slide } from '$components/Slide';
+	import type { Readable } from 'nodemailer/lib/xoauth2';
+	import { AnimatedEntry } from '$components/AnimatedEntry';
 
 	export let mediaArray: MediaType[];
 	export let defaultIndex: number | undefined = undefined;
@@ -32,7 +34,6 @@
 
 	let innerWidth: number;
 	let innerHeight: number;
-	let sizes: MediaSize[] = [];
 
 	let enabled = true;
 
@@ -41,23 +42,14 @@
 	const { MD }: BreakpointContext = getContext('breakpoints');
 	$: nestedMediaArray = createNestedMediaArray($MD, mediaArray);
 
-	let activeMedia: ActiveMedia =
-		defaultIndex !== undefined
-			? {
-					index: defaultIndex,
-					media: mediaArray[defaultIndex],
-					width: 0,
-					height: 0,
-					x: 0,
-					y: 0,
-					scale: 1,
-					targetWidth: 0,
-					targetHeight: 0,
-					targetScale: 1,
-					targetX: 0,
-					targetY: 0
-			  }
-			: {
+	const index = writable<number | undefined>(defaultIndex);
+	const sizes = writable<MediaSize[]>([]);
+
+	const activeMedia = derived(
+		[index, sizes],
+		([$index, $sizes]) => {
+			if ($index === undefined) {
+				return {
 					index: undefined,
 					media: undefined,
 					width: 0,
@@ -70,12 +62,83 @@
 					targetScale: 1,
 					targetX: 0,
 					targetY: 0
-			  };
+				};
+			}
 
+			const media = mediaArray[$index];
+			const size = $sizes[$index];
+			if (!media || !size) {
+				return {
+					index: undefined,
+					media: undefined,
+					width: 0,
+					height: 0,
+					x: 0,
+					y: 0,
+					scale: 1,
+					targetWidth: 0,
+					targetHeight: 0,
+					targetScale: 1,
+					targetX: 0,
+					targetY: 0
+				};
+			}
+
+			return {
+				index: $index,
+				media,
+				...size
+			};
+		},
+		{
+			index: undefined,
+			media: undefined,
+			width: 0,
+			height: 0,
+			x: 0,
+			y: 0,
+			scale: 1,
+			targetWidth: 0,
+			targetHeight: 0,
+			targetScale: 1,
+			targetX: 0,
+			targetY: 0
+		}
+	);
+
+	$: console.log($activeMedia);
 	const instant = { duration: 0 };
 	const transition = { duration: 300 };
 
-	let DIRECTION: 1 | -1 = 1;
+	let DIRECTION = derived(
+		[index],
+		([$index]) => {
+			if ($index !== undefined) {
+				const activeIndex = $activeMedia.index;
+				if (activeIndex !== $index) {
+					const loopedForward =
+						activeIndex === mediaArray.length - 1 && $index === 0;
+					const loopedBackward =
+						activeIndex === 0 && $index === mediaArray.length - 1;
+
+					if (activeIndex === undefined) {
+						return 1 as const;
+					} else if (loopedForward) {
+						return 1 as const;
+					} else if (loopedBackward) {
+						return -1 as const;
+					} else if (activeIndex > $index) {
+						return -1 as const;
+					} else if (activeIndex < $index) {
+						return 1 as const;
+					}
+				}
+			}
+
+			return 1 as const;
+		},
+		1 as const
+	);
 
 	let scale = tweened(1, {
 		easing: cubicInOut,
@@ -92,32 +155,32 @@
 		...transition
 	});
 
-	let opacity = tweened(defaultIndex !== undefined ? 1 : 0, {
+	let opacity = tweened(index !== undefined ? 1 : 0, {
 		easing: cubicInOut,
 		...transition
 	});
 
 	let section: HTMLElement;
-	const setActiveMedia = (index: number) => {
-		const media = mediaArray[index];
-		const size = sizes[index];
 
-		if (!media || !size) return;
+	const dispatch = createEventDispatcher<{
+		mediaChange: { index: number | undefined };
+	}>();
 
-		activeMedia = {
-			index,
-			media,
-			...size
-		};
-	};
+	const dispatchDialog = createEventDispatcher<{
+		dialogChange: { index: number | undefined; open: boolean };
+	}>();
 
 	const handleDialogOpen = async () => {
-		if (!activeMedia || activeMedia.index === undefined) return;
+		enabled = true;
+		if (!$activeMedia || $activeMedia.index === undefined) return;
 		await updateSizes();
-		const size = sizes[activeMedia.index];
+		const size = $sizes[$activeMedia.index];
 		if (!size) return;
 
-		enabled = true;
+		dispatchDialog('dialogChange', {
+			index: $activeMedia.index,
+			open: true
+		});
 
 		// center element
 		requestAnimationFrame(() => {
@@ -134,13 +197,17 @@
 
 	async function handleDialogClose() {
 		enabled = false;
-		if (activeMedia.index === undefined) return;
-		const size = sizes[activeMedia.index];
+		if ($activeMedia.index === undefined) return;
+		const size = $sizes[$activeMedia.index];
 		if (!size) return;
-		const index = activeMedia.index;
 		const element = section.querySelector(
-			`button[data-galery-index="${index}"]`
+			`button[data-galery-index="${$activeMedia.index}"]`
 		) as HTMLElement;
+
+		dispatchDialog('dialogChange', {
+			index: $activeMedia.index,
+			open: false
+		});
 
 		requestAnimationFrame(async () => {
 			await Promise.all([
@@ -149,21 +216,6 @@
 				offsetY.set(size.y, transition),
 				opacity.set(0)
 			]);
-
-			activeMedia = {
-				index: undefined,
-				media: undefined,
-				width: 0,
-				height: 0,
-				x: 0,
-				y: 0,
-				scale: 1,
-				targetWidth: 0,
-				targetHeight: 0,
-				targetScale: 1,
-				targetX: 0,
-				targetY: 0
-			};
 
 			if ($setClose) $setClose();
 
@@ -184,6 +236,7 @@
 
 		const sizes: MediaSize[] = [];
 		const computedInnerWidth = innerWidth - BUTTONS_WIDTH;
+		console.log(computedInnerWidth);
 		sortedElements.forEach((element) => {
 			const { x, y, width, height } = element.getBoundingClientRect();
 			const targetScale = getTargetScale(
@@ -196,6 +249,14 @@
 			const invertedScale = 1 / targetScale;
 			const targetWidth = width * invertedScale;
 			const targetHeight = height * invertedScale;
+			console.log(
+				element.dataset.galeryIndex,
+				width,
+				height,
+				width / height,
+				targetWidth,
+				targetHeight
+			);
 
 			sizes.push({
 				width,
@@ -211,45 +272,35 @@
 				targetY: (innerHeight - targetHeight) / 2
 			});
 		});
+
 		return sizes;
+	};
+
+	const updateSizes = async () => {
+		if (!section) return;
+		const buttons = section.querySelectorAll('button[data-galery-index]');
+		$sizes = await calculateSizes(Array.from(buttons));
 	};
 
 	let mounted = false;
 
 	onMount(async () => {
+		console.log('mounted');
 		updateSizes();
 		// if is md we need to update the sizes after layout shift
 		MD.subscribe(async (v) => {
-			await tick();
-			updateSizes();
+			if (v) {
+				console.log('md', v);
+				await tick();
+				updateSizes();
+			}
 		});
 		mounted = true;
 	});
 
-	const updateSizes = async () => {
-		if (!section) return;
-		const buttons = section.querySelectorAll('button[data-galery-index]');
-		sizes = await calculateSizes(Array.from(buttons));
-		if (activeMedia.index !== undefined) {
-			activeMedia = {
-				...activeMedia,
-				...sizes[activeMedia.index]
-			};
-			offsetX.set(activeMedia.targetX, instant);
-			offsetY.set(activeMedia.targetY, instant);
-		}
-	};
-
-	$: offsetX.set(activeMedia.targetX, instant);
-	$: offsetY.set(activeMedia.targetY, instant);
-
-	const dispatch = createEventDispatcher<{
-		mediaChange: { index: number | undefined };
-	}>();
-
-	$: dispatch('mediaChange', {
-		index: activeMedia.index
-	});
+	$: offsetX.set($activeMedia.targetX, instant);
+	$: offsetY.set($activeMedia.targetY, instant);
+	$: console.log($offsetX);
 </script>
 
 <svelte:window
@@ -262,8 +313,8 @@
 <section bind:this={section}>
 	{#if mediaArray.length}
 		<Dialog.Root
-			class="flex p-1 mb-32 border-b border-mauve-6"
-			defaultOpen={defaultIndex !== undefined}
+			class="mb-32 flex border-b border-mauve-6 p-1"
+			defaultOpen={$index !== undefined}
 			bind:setClose
 			on:openChange={async (e) => {
 				if (e.detail.open) {
@@ -272,24 +323,26 @@
 			}}
 		>
 			{#each nestedMediaArray as nestedMedia}
-				<div class="flex flex-col flex-1">
+				<div class="flex flex-1 flex-col">
 					{#each nestedMedia as medium (medium.src)}
-						{@const index = mediaArray.indexOf(medium)}
-						<div class="flex m-1">
-							<Dialog.Trigger
-								tabindex={0}
-								title="Open Overlay"
-								data-galery-index={index}
-								class="focus:outline-none ring-mauve-6 focus:ring-2"
-								on:click={() => setActiveMedia(index)}
-							>
-								<Media
-									media={medium}
-									src="/assets/projects/{assetPath}/{medium.src}"
-									alt=""
-									class="block"
-								/>
-							</Dialog.Trigger>
+						{@const mediaIndex = mediaArray.indexOf(medium)}
+						<div class="m-1 flex">
+							<AnimatedEntry>
+								<Dialog.Trigger
+									tabindex={0}
+									title="Open Overlay"
+									data-galery-index={mediaIndex}
+									class="ring-mauve-6 focus:outline-none focus:ring-2"
+									on:click={() => ($index = mediaIndex)}
+								>
+									<Media
+										media={medium}
+										src="/assets/projects/{assetPath}/{medium.src}"
+										alt=""
+										class="block"
+									/>
+								</Dialog.Trigger>
+							</AnimatedEntry>
 						</div>
 					{/each}
 				</div>
@@ -300,7 +353,7 @@
 						e.stopImmediatePropagation();
 						await handleDialogClose();
 					}}
-					class="fixed top-0 w-full h-full bg-mauve-12/80 overscroll-contain"
+					class="fixed top-0 h-full w-full overscroll-contain bg-mauve-12/80"
 					style="opacity: {$opacity};"
 				/>
 				<Dialog.Content
@@ -315,57 +368,67 @@
 							await handleDialogClose();
 						} else if (e.key === 'ArrowRight') {
 							if (enabled) {
-								DIRECTION = 1;
 								e.stopImmediatePropagation();
-								const index = activeMedia.index || 0;
-								setActiveMedia(
-									index === mediaArray.length - 1
+
+								const activeIndex = $activeMedia.index || 0;
+								const nextIndex =
+									activeIndex === mediaArray.length - 1
 										? 0
-										: index + 1
-								);
+										: activeIndex + 1;
+
+								dispatch('mediaChange', {
+									index: nextIndex
+								});
+
+								$index = nextIndex;
 							}
 						} else if (e.key === 'ArrowLeft') {
 							if (enabled) {
-								DIRECTION = -1;
 								e.stopImmediatePropagation();
-								const index = activeMedia.index || 0;
 
-								setActiveMedia(
-									index === 0
+								const activeIndex = $activeMedia.index || 0;
+								const prevIndex =
+									activeIndex === 0
 										? mediaArray.length - 1
-										: index - 1
-								);
+										: activeIndex - 1;
+
+								dispatch('mediaChange', {
+									index: prevIndex
+								});
+
+								$index = prevIndex;
 							}
 						}
 					}}
-					class="fixed inset-0 pointer-events-none"
+					class="pointer-events-none fixed inset-0"
 				>
 					<Dialog.Title class="sr-only">{title}</Dialog.Title>
 					<Dialog.Description class="sr-only">
 						<p>{description}</p>
 					</Dialog.Description>
 					{#key mounted}
-						<div in:fade>
-							{#if activeMedia.media}
+						<div class="h-full w-full" in:fade>
+							{#if $activeMedia.media}
 								<Slide
-									key={activeMedia.index}
-									direction={DIRECTION}
+									class="h-full w-full"
+									key={$activeMedia.index}
+									direction={$DIRECTION}
 									on:introstart={() => (enabled = false)}
 									on:introend={() => (enabled = true)}
 								>
 									<div
-										style:width="{activeMedia.targetWidth}px"
-										style:height="{activeMedia.targetHeight}px"
+										style:width="{$activeMedia.targetWidth}px"
+										style:height="{$activeMedia.targetHeight}px"
 										style:transform="translateX({$offsetX}px)
 										translateY({$offsetY}px) scale({$scale})"
 										class="pointer-events-auto origin-top-left"
 									>
 										<Media
-											media={activeMedia.media}
-											src="/assets/projects/{assetPath}/{activeMedia
+											media={$activeMedia.media}
+											src="/assets/projects/{assetPath}/{$activeMedia
 												.media.src}"
 											alt=""
-											class="block w-full h-full border-mauve-6"
+											class="block h-full w-full border-mauve-6"
 										/>
 									</div>
 								</Slide>
@@ -374,20 +437,24 @@
 					{/key}
 
 					<div
-						class="absolute left-0 p-2 transform top-1/2 -translate-y-1/2"
+						class="absolute left-0 top-1/2 -translate-y-1/2 transform p-2"
 					>
 						<button
-							class="z-10 block p-1 text-xs bg-white border rounded-full pointer-events-auto cursor-w-resize touch-manipulation focus:outline-none ring-mauve-12 focus:ring-1"
+							class="pointer-events-auto z-10 block cursor-w-resize touch-manipulation rounded-full border bg-white p-1 text-xs ring-mauve-12 focus:outline-none focus:ring-1"
 							style="opacity: {$opacity};"
 							on:click={() => {
 								if (!enabled) return;
-								DIRECTION = -1;
-								const index = activeMedia.index || 0;
-								setActiveMedia(
-									index === 0
+								const activeIndex = $activeMedia.index || 0;
+								const prevIndex =
+									activeIndex === 0
 										? mediaArray.length - 1
-										: index - 1
-								);
+										: activeIndex - 1;
+
+								dispatch('mediaChange', {
+									index: prevIndex
+								});
+
+								$index = prevIndex;
 							}}
 						>
 							<AccessibleIcon label="Go to previous">
@@ -397,21 +464,24 @@
 					</div>
 
 					<div
-						class="absolute right-0 p-2 transform top-1/2 -translate-y-1/2"
+						class="absolute right-0 top-1/2 -translate-y-1/2 transform p-2"
 					>
 						<button
 							id="lightbox-next"
-							class="z-10 block p-1 text-xs bg-white border rounded-full pointer-events-auto cursor-e-resize touch-manipulation focus:outline-none ring-mauve-12 focus:ring-1"
+							class="pointer-events-auto z-10 block cursor-e-resize touch-manipulation rounded-full border bg-white p-1 text-xs ring-mauve-12 focus:outline-none focus:ring-1"
 							style="opacity: {$opacity};"
 							on:click={() => {
 								if (!enabled) return;
-								DIRECTION = 1;
-								const index = activeMedia.index || 0;
-								setActiveMedia(
-									index === mediaArray.length - 1
+								const activeIndex = $activeMedia.index || 0;
+								const nextIndex =
+									activeIndex === mediaArray.length - 1
 										? 0
-										: index + 1
-								);
+										: activeIndex + 1;
+								dispatch('mediaChange', {
+									index: nextIndex
+								});
+
+								$index = nextIndex;
 							}}
 						>
 							<AccessibleIcon label="Go to next">
@@ -425,7 +495,7 @@
 							e.stopImmediatePropagation();
 							await handleDialogClose();
 						}}
-						class="fixed bg-white/[.85] rounded-full top-0 right-0 m-2 p-1 border border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1"
+						class="fixed right-0 top-0 m-2 rounded-full border border-mauve-12 bg-white/[.85] p-1 ring-mauve-12 focus:outline-none focus:ring-1"
 						style="opacity: {$opacity};"
 					>
 						<AccessibleIcon label="Close Fullscreen">

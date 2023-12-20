@@ -254,11 +254,7 @@
 </Tags.Root>
 
 {#if !$tags.size && experimental.length}
-	<Headline
-		as="h2"
-		containerClass="py-8 md:py-16"
-		id="experimental"
-	>
+	<Headline as="h2" containerClass="py-8 md:py-16" id="experimental">
 		<span aria-hidden="true" class="select-none">::</span>
 		Experi&shy;mental
 	</Headline>

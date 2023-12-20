@@ -2,7 +2,8 @@ import type { Media } from '$types';
 
 export const createNestedMediaArray = (md: boolean, mediaArray: Media[]) => {
 	const array: Media[][] = [];
-	const cols = md ? 3 : 2;
+	// this causes issues with the lighbox cause we get incorrect sizes from getBoundingClientRect after the tick
+	const cols = /* md */ true ? 3 : 2;
 	for (let i = 0; i < cols; i++) {
 		array.push([]);
 	}

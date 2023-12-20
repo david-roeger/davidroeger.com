@@ -2,7 +2,7 @@
 	logger.page('projects/(ssg)/[slug]/[[gallery]]: +page.svelte');
 	// ----------------------------------------------------------------
 
-	import { goto } from '$app/navigation';
+	import { pushState } from '$app/navigation';
 
 	import { Head } from '$components/Head';
 	import { Headline } from '$components/Headline';
@@ -61,13 +61,13 @@
 <article class="mb-32">
 	{#if data.project.tags.length}
 		<div
-			class="flex items-center p-1 text-xs border-b text-mauve-11 border-mauve-6"
+			class="flex items-center border-b border-mauve-6 p-1 text-xs text-mauve-11"
 		>
 			<AccessibleIcon label="Tags"><TagIcon /></AccessibleIcon>
 			{#each data.project.tags as tag (tag)}
 				<a
 					href="/projects?tags={tag}"
-					class="m-1 hover:underline focus:underline decoration-from-font focus:outline-none"
+					class="m-1 decoration-from-font hover:underline focus:underline focus:outline-none"
 				>
 					{tag}
 				</a>
@@ -84,16 +84,16 @@
 		{#if data.project.meta}
 			<div class="border-b border-mauve-6">
 				<div
-					class="p-1 md:w-3/4 md:border-r flex-grow-1 border-mauve-6 bg-white/[.85] flex flex-wrap items-baseline"
+					class="flex-grow-1 flex flex-wrap items-baseline border-mauve-6 bg-white/[.85] p-1 md:w-3/4 md:border-r"
 				>
-					<p class="m-1 text">{data.project.meta}</p>
+					<p class="text m-1">{data.project.meta}</p>
 				</div>
 			</div>
 		{/if}
 		{#if (data.project.team && data.project.team.length > 0) || data.project.place}
 			<div class="border-b border-mauve-6">
 				<div
-					class="p-1 md:w-3/4 md:border-r flex-grow-1 border-mauve-6 bg-white/[.85]"
+					class="flex-grow-1 border-mauve-6 bg-white/[.85] p-1 md:w-3/4 md:border-r"
 				>
 					{#if data.project.team && data.project.team.length > 0}
 						<p class="m-1 text-xs text-mauve-11">
@@ -116,12 +116,12 @@
 		{#if data.project.github || data.project.link}
 			<div class="border-b border-mauve-6">
 				<div
-					class="p-1 md:w-3/4 md:border-r flex-grow-1 border-mauve-6 bg-white/[.85]"
+					class="flex-grow-1 border-mauve-6 bg-white/[.85] p-1 md:w-3/4 md:border-r"
 				>
 					{#if data.project.link}
 						<p class="m-1 text-xs text-mauve-11">
 							<a
-								class="flex items-center space-x-1 hover:underline focus:underline decoration-from-font focus:outline-none"
+								class="flex items-center space-x-1 decoration-from-font hover:underline focus:underline focus:outline-none"
 								href={data.project.link}
 								rel="noopener noreferrer"
 								target="_blank"
@@ -134,7 +134,7 @@
 					{#if data.project.github}
 						<p class="m-1 text-xs text-mauve-11">
 							<a
-								class="flex items-center space-x-1 hover:underline focus:underline decoration-from-font focus:outline-none"
+								class="flex items-center space-x-1 decoration-from-font hover:underline focus:underline focus:outline-none"
 								href={data.project.github}
 								rel="noopener noreferrer"
 								target="_blank"
@@ -149,7 +149,7 @@
 		{/if}
 		<AnimatedEntry class="flex">
 			<div
-				class="py-8 px-2 grow md:grow-0 md:w-3/4 md:border-r border-mauve-6 md:p-8 xl:p-16 bg-white/[.85]"
+				class="grow border-mauve-6 bg-white/[.85] px-2 py-8 md:w-3/4 md:grow-0 md:border-r md:p-8 xl:p-16"
 			>
 				<div class="readable markdown">
 					{@html data.project.html}
@@ -164,25 +164,25 @@
 			description={`Currently showing media ${
 				data.gallery !== undefined ? data.gallery + 1 : 0
 			} of ${mediaArray.length}`}
-			defaultIndex={data.gallery !== undefined ? data.gallery : undefined}
+			defaultIndex={data.gallery}
 			assetPath={data.project.slug}
 			on:mediaChange={(e) => {
 				const { index } = e.detail;
 				if (index === undefined) {
-					// this should be shallow routing
-					// https://github.com/sveltejs/kit/issues/2673
-					goto(`/projects/${data.project.slug}`, {
-						replaceState: false,
-						keepFocus: true,
-						noScroll: true
-					});
+					pushState(`/projects/${data.project.slug}`, {});
 					return;
 				}
-				goto(`/projects/${data.project.slug}/${index}`, {
-					replaceState: false,
-					keepFocus: true,
-					noScroll: true
-				});
+
+				pushState(`/projects/${data.project.slug}/${index}`, {});
+			}}
+			on:dialogChange={(e) => {
+				const { open, index } = e.detail;
+				if (!open || index === undefined) {
+					pushState(`/projects/${data.project.slug}`, {});
+					return;
+				}
+
+				pushState(`/projects/${data.project.slug}/${index}`, {});
 			}}
 		/>
 	</AnimatedEntry>
