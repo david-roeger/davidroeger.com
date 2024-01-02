@@ -167,7 +167,7 @@
 				>
 					<a
 						class="growing-underline focus:outline-none"
-						href="projects/{project.slug}"
+						href="/projects/{project.slug}"
 					>
 						{project.title}
 					</a>
@@ -238,7 +238,7 @@
 				<div class="bg-white md:flex md:flex-wrap md:justify-between">
 					<a
 						class="m-2 inline-flex items-center gap-2 border border-mauve-12 bg-white p-1 px-4 text-xs ring-mauve-12 transition-[gap,padding] hover:gap-4 hover:pr-2 focus:gap-4 focus:pr-2 focus:outline-none focus:ring-1 md:justify-between"
-						href="projects/{project.slug}"
+						href="/projects/{project.slug}"
 						title="Read more about the project {project.slug}"
 					>
 						Read More <AccessibleIcon
@@ -271,7 +271,7 @@
 				>
 					<a
 						class="group flex items-center justify-between bg-white pr-4 transition-[padding] hover:pr-2 focus:pr-2 focus:outline-none md:justify-between"
-						href="experimental/{experiment.slug}"
+						href="/experimental/{experiment.slug}"
 						title="Read more about the project {experiment.slug}"
 					>
 						<span class="flex">
