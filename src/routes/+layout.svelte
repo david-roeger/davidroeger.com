@@ -23,6 +23,7 @@
 
 	import type { LayoutData } from './$types';
 	import MiniPlayerProvider from '$provider/MiniPlayerProvider/MiniPlayerProvider.svelte';
+	import Realtime from '$slices/Realtime/Realtime.svelte';
 
 	export let data: LayoutData;
 
@@ -190,6 +191,7 @@
 
 <div class="contents font-sans">
 	<QueryClientProvider client={data.queryClient}>
+		<Realtime />
 		<NotificationProvider>
 			<MiniPlayerProvider>
 				<div
