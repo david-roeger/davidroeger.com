@@ -72,10 +72,11 @@ module.exports = {
 					'ui-sans-serif',
 					'system-ui',
 					'sans-serif'
-				]
+				],
+				shantell: ['ShantellSansVariable']
 			},
 			screens: {
-				600: '600px'
+				xs: '320px'
 			},
 			fontSize: {
 				'10xl': '10rem',
@@ -169,6 +170,43 @@ module.exports = {
 				}
 			});
 			addUtilities(iconColorUtilities);
+		}),
+		plugin(function ({ addUtilities, theme }) {
+			const fvsUtilities = {
+				[`.fvs`]: {
+					'--fvs-bnce': '0',
+					'--fvs-infm': '0',
+					'--fvs-spac': '0',
+					'--fvs-ital': '0',
+					'--fvs-wght': '400',
+					'font-variation-settings':
+						"'BNCE' var(--fvs-bnce), 'INFM' var(--fvs-infm), 'SPAC' var(--fvs-spac), 'ital' var(--fvs-ital), 'wght' var(--fvs-wght)"
+				}
+			};
+
+			for (let i = 0; i <= 100; i++) {
+				fvsUtilities[`.fvs-bnce-${i}`] = {
+					'--fvs-bnce': `${i}`
+				};
+				fvsUtilities[`.-fvs-bnce-${i}`] = {
+					'--fvs-bnce': `${-i}`
+				};
+				fvsUtilities[`.fvs-infm-${i}`] = {
+					'--fvs-infm': `${i}`
+				};
+
+				fvsUtilities[`.fvs-spac-${i}`] = {
+					'--fvs-spac': `${i / 100}`
+				};
+			}
+
+			for (let i = 300; i <= 800; i++) {
+				fvsUtilities[`.fvs-wght-${i}`] = {
+					'--fvs-wght': `${i}`
+				};
+			}
+
+			addUtilities(fvsUtilities);
 		}),
 		plugin(function ({ matchVariant }) {
 			matchVariant(

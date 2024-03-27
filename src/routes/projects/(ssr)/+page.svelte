@@ -147,8 +147,11 @@
 			</Tags.Tag>
 		{/each}
 	</Tags.List>
-	<Headline containerClass="py-8 md:py-16">
-		<span aria-hidden="true" class="select-none">::</span>
+	<Headline containerClass="py-8 md:py-16" class="block font-shantell gap-4 fvs fvs-wght-400 text-2xl sm:gap-4 break-all sm:text-4xl md:gap-4 md:text-6xl lg:gap-4 lg:text-8xl">
+		<span aria-hidden="true" class="select-none inline-flex">
+			<span class="fvs fvs-wght-400 fvs-bnce-100 inline-block">:</span>
+			<span class="fvs fvs-wght-400 fvs-bnce-100 inline-block">:</span>
+		</span>
 		Projects
 	</Headline>
 

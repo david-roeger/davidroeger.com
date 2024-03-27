@@ -7,9 +7,9 @@
 	let element: HTMLElement;
 	export let as = 'div';
 
-	let initial = true;
 	let intersecting = true;
 	let timeout: NodeJS.Timeout;
+
 </script>
 
 <IntersectionObserver

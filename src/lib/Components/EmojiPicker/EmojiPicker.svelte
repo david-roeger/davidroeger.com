@@ -379,7 +379,7 @@
 	<Popper.Root defaultOpen={false} bind:closePopper>
 		<Popper.Trigger
 			{disabled}
-			class="p-2 border border-mauve-12 bg-white focus:outline-none ring-mauve-12 focus:ring-1"
+			class="border border-mauve-12 bg-white p-2 ring-mauve-12 focus:outline-none focus:ring-1"
 		>
 			<span>
 				<VisuallyHidden.Root>
@@ -391,12 +391,12 @@
 		<Popper.Content
 			side="bottom"
 			align="start"
-			class="bg-white border border-mauve-12 focus:outline-none ring-mauve-12 focus:ring-1 scale-0 data-[state=open]:scale-100 transition-transform"
+			class="scale-0 border border-mauve-12 bg-white ring-mauve-12 transition-transform focus:outline-none focus:ring-1 data-[state=open]:scale-100"
 			on:keydown={handleKeyDown}
 		>
 			<div
 				bind:this={container}
-				class="relative w-[282px] max-h-[360px] overflow-auto"
+				class="relative max-h-[360px] w-[282px] overflow-auto"
 			>
 				<h2>
 					<VisuallyHidden.Root>Choose an emoji:</VisuallyHidden.Root>
@@ -404,7 +404,7 @@
 
 				{#if $dataQuery.data}
 					<label
-						class="z-10 pl-2 border-b border-mauve-12 ring-mauve-12 ring-inset focus-within:ring-1 top-0 bg-white/[.85] group flex items-center space-x-2"
+						class="group top-0 z-10 flex items-center space-x-2 border-b border-mauve-12 bg-white/[.85] pl-2 ring-inset ring-mauve-12 focus-within:ring-1"
 						class:sticky={$search !== ''}
 					>
 						<AccessibleIcon
@@ -418,7 +418,7 @@
 						</AccessibleIcon>
 						<input
 							id="search"
-							class="py-2 pr-4 bg-transparent rounded-none w-full focus:outline-none"
+							class="w-full rounded-none bg-transparent py-2 pr-4 focus:outline-none"
 							autocomplete="name"
 							enterkeyhint="search"
 							placeholder="Search"
@@ -455,7 +455,7 @@
 					{#if $search !== ''}
 						{#if $searchedQuery.data}
 							<div class="relative" data-state={0}>
-								<div class="w-full flex flex-wrap p-2 -m-0.5">
+								<div class="-m-0.5 flex w-full flex-wrap p-2">
 									{#each $searchedQuery.data as result, index (result.refIndex)}
 										<Button
 											on:click={() => {
@@ -471,7 +471,7 @@
 											data-emoji={$dataQuery.data.emojis[
 												result.item.id
 											].skins[0].native}
-											class="m-0.5 w-[34px] flex justify-center !p-1 rounded-full scroll-mt-[47px]"
+											class="m-0.5 flex w-[34px] scroll-mt-[47px] justify-center rounded-full !p-1"
 										>
 											{$dataQuery.data.emojis[
 												result.item.id
@@ -501,7 +501,7 @@
 									{category.id.charAt(0).toUpperCase() +
 										category.id.slice(1)}
 								</Headline>
-								<div class="w-full flex flex-wrap p-2 -m-0.5">
+								<div class="-m-0.5 flex w-full flex-wrap p-2">
 									{#each category.emojis as emoji, emojiIndex (emoji)}
 										<Button
 											form="custom"
@@ -518,7 +518,7 @@
 											data-emoji={$dataQuery.data.emojis[
 												emoji
 											].skins[0].native}
-											class="m-0.5 w-[34px] flex justify-center !p-1 rounded-full scroll-mt-[47px]"
+											class="m-0.5 flex w-[34px] scroll-mt-[47px] justify-center rounded-full !p-1"
 										>
 											{$dataQuery.data.emojis[emoji]
 												.skins[0].native}

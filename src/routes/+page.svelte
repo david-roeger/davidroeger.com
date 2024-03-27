@@ -9,6 +9,8 @@
 
 	import { page } from '$app/stores';
 
+	import * as Slider from '$primitives/Slider';
+
 	import { Head } from '$components/Head';
 	import { Logo } from '$components/Logo';
 	import { Displace } from '$components/Displace';
@@ -91,6 +93,14 @@
 		handleScroll();
 		handleResize();
 	});
+
+	let BNCE = 0;
+	let INFM = 0;
+	let SPAC = 0;
+	let ital = 0;
+	let wght = 400;
+
+	$: variation = `font-variation-settings: 'BNCE' ${BNCE}, 'INFM' ${INFM}, 'SPAC' ${SPAC}, 'ital' ${ital}, 'wght' ${wght};`;
 </script>
 
 <svelte:window
@@ -100,12 +110,12 @@
 
 <Head />
 
-<section class="mb-32">
+<section class="mb-32" style={variation}>
 	<HireMe title="← Hi, welcome to my site! This is me." />
 	<div class="relative">
 		<h1
 			aria-label="David Röger personal website"
-			class="grrrid relative border-b border-mauve-6 p-2 text-8xl md:text-9xl lg:text-10xl"
+			class="grrrid font-shantell relative border-b border-mauve-6 p-2 text-8xl md:text-9xl lg:text-10xl"
 		>
 			<span
 				bind:this={gradient}
@@ -180,10 +190,32 @@
 			<Displace class="grrrid-child grrrid-child-4" text="D" />
 			<Displace
 				aria-hidden="true"
-				class="grrrid-child grrrid-child-5 select-none"
+				class="grrrid-child grrrid-child-5 select-none fvs fvs-bnce-100"
 				text="::"
 				split={false}
 			/>
+			<!-- <span hidden
+				aria-hidden="true"
+				class="grrrid-child grrrid-child-5 relative flex select-none"
+			>
+				<span
+					class="absolute -z-10 block h-full w-full bg-cyan-5"
+				></span>
+
+				<span
+					class=" absolute -z-10 block h-3/4 w-full bg-plum-5"
+				></span>
+
+				<span
+					class=" absolute -z-10 block h-1/2 w-full bg-grass-5"
+				></span>
+				<span
+					class=" absolute -z-10 block h-1/4 w-full bg-red-5"
+				></span>
+
+				<span class="fvs fvs-bnce-100">:</span>
+				<span class="fvs fvs-bnce-100">:</span>
+			</span> -->
 			<Displace class="grrrid-child grrrid-child-6" text="R" />
 			<Displace class="grrrid-child grrrid-child-7" text="O" />
 			<Displace class="grrrid-child grrrid-child-8" text="E" />
@@ -209,13 +241,120 @@
 			</span>
 		</h1>
 	</div>
-	<div class="p-2">
-		<div class="flex flex-col gap-2 border border-mauve-6">
+	<div>
+		<p>BNCE {BNCE}</p>
+		<Slider.Root
+			on:valueChange={(e) => {
+				BNCE = e.detail.values[0];
+			}}
+			class="flex w-full max-w-[384px] items-center py-4"
+			min={-100}
+			max={100}
+			step={1}
+			label="Bounce"
+		>
+			<Slider.Track
+				class="h-2 rounded-full border border-mauve-12 bg-white"
+			>
+				<Slider.Range class="h-full rounded-full bg-blue-6" />
+			</Slider.Track>
+			<Slider.Thumb
+				defaultValue={0}
+				class="h-6 w-6 touch-none rounded-full border border-mauve-12 bg-white ring-mauve-12 focus:outline-none focus:ring-1"
+			/>
+		</Slider.Root>
+		<p>INFM {INFM}</p>
+		<Slider.Root
+			on:valueChange={(e) => {
+				INFM = e.detail.values[0];
+			}}
+			class="flex w-full max-w-[384px] items-center py-4"
+			min={0}
+			max={100}
+			step={1}
+			label="Informality"
+		>
+			<Slider.Track
+				class="h-2 rounded-full border border-mauve-12 bg-white"
+			>
+				<Slider.Range class="h-full rounded-full bg-blue-6" />
+			</Slider.Track>
+			<Slider.Thumb
+				defaultValue={0}
+				class="h-6 w-6 touch-none rounded-full border border-mauve-12 bg-white ring-mauve-12 focus:outline-none focus:ring-1"
+			/>
+		</Slider.Root>
+		<p>SPAC {SPAC}</p>
+		<Slider.Root
+			on:valueChange={(e) => {
+				SPAC = e.detail.values[0];
+			}}
+			class="flex w-full max-w-[384px] items-center py-4"
+			min={0}
+			max={100}
+			step={1}
+			label="Space"
+		>
+			<Slider.Track
+				class="h-2 rounded-full border border-mauve-12 bg-white"
+			>
+				<Slider.Range class="h-full rounded-full bg-blue-6" />
+			</Slider.Track>
+			<Slider.Thumb
+				defaultValue={0}
+				class="h-6 w-6 touch-none rounded-full border border-mauve-12 bg-white ring-mauve-12 focus:outline-none focus:ring-1"
+			/>
+		</Slider.Root>
+		<p>ital {ital}</p>
+		<Slider.Root
+			on:valueChange={(e) => {
+				ital = e.detail.values[0];
+			}}
+			class="flex w-full max-w-[384px] items-center py-4"
+			min={0}
+			max={1}
+			step={0.01}
+			label="Italic"
+		>
+			<Slider.Track
+				class="h-2 rounded-full border border-mauve-12 bg-white"
+			>
+				<Slider.Range class="h-full rounded-full bg-blue-6" />
+			</Slider.Track>
+			<Slider.Thumb
+				defaultValue={0}
+				class="h-6 w-6 touch-none rounded-full border border-mauve-12 bg-white ring-mauve-12 focus:outline-none focus:ring-1"
+			/>
+		</Slider.Root>
+		<p>wght {wght}</p>
+		<Slider.Root
+			on:valueChange={(e) => {
+				wght = e.detail.values[0];
+			}}
+			class="flex w-full max-w-[384px] items-center py-4"
+			min={300}
+			max={800}
+			step={1}
+			label="Weight"
+		>
+			<Slider.Track
+				class="h-2 rounded-full border border-mauve-12 bg-white"
+			>
+				<Slider.Range class="h-full rounded-full bg-blue-6" />
+			</Slider.Track>
+			<Slider.Thumb
+				defaultValue={400}
+				class="h-6 w-6 touch-none rounded-full border border-mauve-12 bg-white ring-mauve-12 focus:outline-none focus:ring-1"
+			/>
+		</Slider.Root>
+	</div>
+	<div class="w p-2">
+		<div class="flex flex-col gap-2 border border-mauve-6 font-shantell fvs fvs-wght-400 fvs-bnce-0 fvs-infm-100">
 			<AnimatedEntry>
 				<a
 					href="/projects"
 					aria-label="Projects"
-					class="group/cube-selector flex items-center justify-start gap-8 border-b border-mauve-6 bg-white/[.85] p-2 text-2xl sm:gap-10 sm:py-1 sm:text-4xl md:gap-11 md:py-0 md:text-6xl lg:gap-20 lg:text-8xl"
+					class="group/cube-selector items-justify flex justify-start gap-8 border-y border-mauve-6 bg-white/[.85] p-2 text-2xl sm:gap-10 sm:py-1 sm:text-4xl md:gap-11 md:py-0 md:text-6xl lg:gap-20 lg:text-8xl"
 				>
 					<Displace class="break-all" text="PROJECTS" />
 

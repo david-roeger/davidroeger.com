@@ -3,6 +3,7 @@
 	// ----------------------------------------------------------------
 
 	import '../app.css';
+	import '../fonts.css';
 
 	import { QueryClientProvider } from '@tanstack/svelte-query';
 	import { SvelteQueryDevtools } from '@tanstack/svelte-query-devtools';
@@ -187,35 +188,37 @@
 	]}
 />
 
-<QueryClientProvider client={data.queryClient}>
-	<NotificationProvider>
-		<MiniPlayerProvider>
-			<div
-				class="bg-blue relative flex min-h-full flex-col text-mauve-12"
-				data-sveltekit-preload-data
-			>
-				<a
-					href="#content"
-					class="absolute -top-full left-2 z-50 border bg-white px-4 py-2 ring-mauve-12 focus:top-2 focus:outline-none focus:ring-1"
+<div class="contents font-sans">
+	<QueryClientProvider client={data.queryClient}>
+		<NotificationProvider>
+			<MiniPlayerProvider>
+				<div
+					class="bg-blue relative flex min-h-full flex-col text-mauve-12"
+					data-sveltekit-preload-data
 				>
-					Skip to content
-				</a>
-				<Header class="z-40" />
+					<a
+						href="#content"
+						class="absolute -top-full left-2 z-50 border bg-white px-4 py-2 ring-mauve-12 focus:top-2 focus:outline-none focus:ring-1"
+					>
+						Skip to content
+					</a>
+					<Header class="z-40" />
 
-				<main
-					id="content"
-					class="z-10 mb-auto flex flex-col border-mauve-6 xl:max-w-7xl xl:border-r"
-				>
-					<BreakpointProvider>
-						<slot />
-					</BreakpointProvider>
-				</main>
+					<main
+						id="content"
+						class="z-10 mb-auto flex flex-col border-mauve-6 xl:max-w-7xl xl:border-r"
+					>
+						<BreakpointProvider>
+							<slot />
+						</BreakpointProvider>
+					</main>
 
-				<Footer class="z-20" />
-			</div>
+					<Footer class="z-20" />
+				</div>
 
-			<div id="portal" style="position: absolute; z-index: 9999" />
-		</MiniPlayerProvider>
-	</NotificationProvider>
-	<SvelteQueryDevtools buttonPosition="bottom-right" />
-</QueryClientProvider>
+				<div id="portal" style="position: absolute; z-index: 9999" />
+			</MiniPlayerProvider>
+		</NotificationProvider>
+		<SvelteQueryDevtools buttonPosition="bottom-right" />
+	</QueryClientProvider>
+</div>
